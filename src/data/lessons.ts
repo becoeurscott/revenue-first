@@ -1,9 +1,10 @@
 import { clippingLessons } from './lessons.clipping'
 import { gbpLessons } from './lessons.gbp'
 import { generalLessons } from './lessons.general'
+import { mentorLessons } from './lessons.mentors'
 import type { Lesson, LessonCategory, PathId } from './types'
 
-export const lessons: Lesson[] = [...clippingLessons, ...gbpLessons, ...generalLessons]
+export const lessons: Lesson[] = [...clippingLessons, ...gbpLessons, ...generalLessons, ...mentorLessons]
 
 export const lessonCategories: LessonCategory[] = [
   'Mindset',
@@ -17,6 +18,7 @@ export const lessonCategories: LessonCategory[] = [
   'Clipping',
   'Google Business',
   'Productivity',
+  'Choosing Mentors',
 ]
 
 export function getLesson(id: string | undefined): Lesson | undefined {

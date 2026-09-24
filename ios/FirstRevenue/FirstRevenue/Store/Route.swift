@@ -24,6 +24,7 @@ enum Route: Hashable {
     case subscription
     case help
     case search
+    case mentorCheck
 
     /// Parses the web-style links stored in mock data (e.g. notification links).
     init?(link: String) {
@@ -56,6 +57,7 @@ enum Route: Hashable {
         case ("subscription", _): self = .subscription
         case ("help", _): self = .help
         case ("search", _): self = .search
+        case ("mentor-check", _): self = .mentorCheck
         default: return nil
         }
     }

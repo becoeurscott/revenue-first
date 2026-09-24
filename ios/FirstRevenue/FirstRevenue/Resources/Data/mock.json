@@ -4162,6 +4162,78 @@
     "res-revision-policy"
    ],
    "instructor": "Marcus Reed"
+  },
+  {
+   "id": "men-01",
+   "title": "Fake Gurus: The 7 Red Flags",
+   "category": "Choosing Mentors",
+   "path": "all",
+   "duration": "10:12",
+   "minutes": 10,
+   "hue": 352,
+   "summary": "Most \"make money online\" content is sold by people whose only income is selling it. Learn the seven signs that someone is selling a dream instead of teaching a skill — in any field.",
+   "learn": [
+    "Why lifestyle proof (cars, cash, travel) says nothing about the skill",
+    "How urgency, hidden prices and \"free calls\" are built to rush your decision",
+    "The debt trap: why nobody honest asks you to borrow to \"invest in yourself\""
+   ],
+   "takeaways": [
+    "Count the red flags before you count the testimonials",
+    "Never decide on a call — ask for the price and the refund policy in writing",
+    "If they tell you to use a credit card, the answer is no"
+   ],
+   "resourceIds": [
+    "res-mentor-checklist"
+   ],
+   "instructor": "Priya Nair"
+  },
+  {
+   "id": "men-02",
+   "title": "What a Real Mentor Looks Like",
+   "category": "Choosing Mentors",
+   "path": "all",
+   "duration": "8:05",
+   "minutes": 8,
+   "hue": 152,
+   "summary": "Good mentors exist in every field, and many of them teach for free. Here is how to recognise someone who still does the work, shows verifiable results and is honest about what it takes.",
+   "learn": [
+    "Practitioners vs. course sellers: how to tell them apart in five minutes",
+    "What verifiable proof looks like: names, links, numbers you can check",
+    "Why the best teachers tell you who should not buy from them"
+   ],
+   "takeaways": [
+    "Follow people who still do the job today, not people who used to",
+    "Apply someone's free content for a week before you pay them anything",
+    "Pick one mentor per skill and ignore the rest for 30 days"
+   ],
+   "resourceIds": [
+    "res-mentor-checklist"
+   ],
+   "instructor": "Maya Thompson"
+  },
+  {
+   "id": "men-03",
+   "title": "Before You Pay for Any Course: The 10-Minute Check",
+   "category": "Choosing Mentors",
+   "path": "all",
+   "duration": "7:40",
+   "minutes": 8,
+   "hue": 38,
+   "summary": "A simple routine to run before you spend a single dollar on a course, coaching program or \"mastermind\". Ten minutes of research can save you months of money and motivation.",
+   "learn": [
+    "The three searches to run: name + \"refund\", + \"scam\", + \"review\"",
+    "How to ask a past student for an honest opinion",
+    "How to decide if you even need a paid course right now"
+   ],
+   "takeaways": [
+    "Run the Mentor Check in the app before every purchase",
+    "Your first revenue does not require a paid course — your 30-day plan is enough",
+    "Wait 48 hours before buying anything over $100"
+   ],
+   "resourceIds": [
+    "res-mentor-checklist"
+   ],
+   "instructor": "Marcus Reed"
   }
  ],
  "lessonCategories": [
@@ -4175,7 +4247,8 @@
   "Retention",
   "Clipping",
   "Google Business",
-  "Productivity"
+  "Productivity",
+  "Choosing Mentors"
  ],
  "resources": [
   {
@@ -5040,6 +5113,42 @@
      ]
     }
    ]
+  },
+  {
+   "id": "res-mentor-checklist",
+   "title": "Mentor Check Checklist",
+   "type": "Checklist",
+   "path": "all",
+   "description": "Run this before you pay for any course, coaching program or \"mastermind\" — in any field. If you tick fewer than 7, keep your money.",
+   "minutes": 10,
+   "link": "/mentor-check",
+   "sections": [
+    {
+     "heading": "Proof",
+     "body": [
+      "They still practice the skill they teach today",
+      "I found case studies with real names or links I can check",
+      "Their proof is about clients and results, not cars or cash"
+     ]
+    },
+    {
+     "heading": "The offer",
+     "body": [
+      "The price is written on the page",
+      "There is a clear, written refund policy",
+      "No countdown timer or \"only 3 spots left\" pressure",
+      "It fits my budget without a loan or credit card"
+     ]
+    },
+    {
+     "heading": "Independent research",
+     "body": [
+      "I searched their name + \"refund\", + \"scam\" and + \"review\"",
+      "I asked at least one past student how it went",
+      "I applied their free content for a week before deciding"
+     ]
+    }
+   ]
   }
  ],
  "prospects": [
@@ -5053,19 +5162,19 @@
    "handle": "@thegrowthdesk",
    "about": "Weekly interview podcast about marketing and small-team growth. Publishes 60–80 minute episodes but almost never posts short clips.",
    "status": "Won",
-   "lastContact": "2026-09-17T21:00:00.000Z",
-   "followUp": "2026-09-21T14:00:00.000Z",
+   "lastContact": "2026-09-23T21:00:00.000Z",
+   "followUp": "2026-09-27T14:00:00.000Z",
    "value": 150,
    "notes": [
     {
      "id": "p-01-n1",
      "text": "Loved the free sample clip from episode 112. Wants bold captions and a hook in the first 2 seconds.",
-     "date": "2026-09-14T23:00:00.000Z"
+     "date": "2026-09-20T23:00:00.000Z"
     },
     {
      "id": "p-01-n2",
      "text": "Paid the $150 starter pack. Mentioned a monthly retainer if the first five clips perform.",
-     "date": "2026-09-16T17:00:00.000Z"
+     "date": "2026-09-22T17:00:00.000Z"
     }
    ],
    "history": [
@@ -5073,25 +5182,25 @@
      "id": "p-01-e1",
      "kind": "message",
      "text": "Sent first DM with a free 30-second sample clip cut from episode 112.",
-     "date": "2026-09-12T15:00:00.000Z"
+     "date": "2026-09-18T15:00:00.000Z"
     },
     {
      "id": "p-01-e2",
      "kind": "reply",
      "text": "\"This is actually great. How much for a handful of these every week?\"",
-     "date": "2026-09-13T19:00:00.000Z"
+     "date": "2026-09-19T19:00:00.000Z"
     },
     {
      "id": "p-01-e3",
      "kind": "status",
      "text": "Agreed on the 5-clip starter pack for $150. Marked as Won.",
-     "date": "2026-09-15T16:00:00.000Z"
+     "date": "2026-09-21T16:00:00.000Z"
     },
     {
      "id": "p-01-e4",
      "kind": "message",
      "text": "Delivered the first 5 clips and pitched the $250 monthly retainer.",
-     "date": "2026-09-17T21:00:00.000Z"
+     "date": "2026-09-23T21:00:00.000Z"
     }
    ]
   },
@@ -5105,14 +5214,14 @@
    "handle": "@foundermodedaily",
    "about": "Daily 20-minute breakdowns of startup news and founder interviews. Her Shorts tab was last updated four months ago.",
    "status": "Negotiating",
-   "lastContact": "2026-09-17T18:00:00.000Z",
-   "followUp": "2026-09-19T14:00:00.000Z",
+   "lastContact": "2026-09-23T18:00:00.000Z",
+   "followUp": "2026-09-25T14:00:00.000Z",
    "value": 250,
    "notes": [
     {
      "id": "p-02-n1",
      "text": "Asked whether 10 clips could be done for $200 instead of $250. Offer: keep $250 but add one extra revision round.",
-     "date": "2026-09-17T18:00:00.000Z"
+     "date": "2026-09-23T18:00:00.000Z"
     }
    ],
    "history": [
@@ -5120,25 +5229,25 @@
      "id": "p-02-e1",
      "kind": "message",
      "text": "Sent DM pointing out three moments from her latest interview that would work as Shorts.",
-     "date": "2026-09-13T14:00:00.000Z"
+     "date": "2026-09-19T14:00:00.000Z"
     },
     {
      "id": "p-02-e2",
      "kind": "reply",
      "text": "\"I keep meaning to do Shorts and never have time. What would 10 a month look like?\"",
-     "date": "2026-09-14T22:00:00.000Z"
+     "date": "2026-09-20T22:00:00.000Z"
     },
     {
      "id": "p-02-e3",
      "kind": "message",
      "text": "Sent the 10-clip pack offer at $250 with a 5-day turnaround.",
-     "date": "2026-09-15T15:00:00.000Z"
+     "date": "2026-09-21T15:00:00.000Z"
     },
     {
      "id": "p-02-e4",
      "kind": "status",
      "text": "She countered at $200. Moved to Negotiating.",
-     "date": "2026-09-17T18:00:00.000Z"
+     "date": "2026-09-23T18:00:00.000Z"
     }
    ]
   },
@@ -5152,14 +5261,14 @@
    "handle": "@liftheavythinkclearly",
    "about": "Strength coach who records long conversations about training and mental health. Posts full episodes on YouTube with no chapters or clips.",
    "status": "Interested",
-   "lastContact": "2026-09-16T20:00:00.000Z",
-   "followUp": "2026-09-20T14:00:00.000Z",
+   "lastContact": "2026-09-22T20:00:00.000Z",
+   "followUp": "2026-09-26T14:00:00.000Z",
    "value": 200,
    "notes": [
     {
      "id": "p-03-n1",
      "text": "Wants to see two sample clips before deciding. Prefers a clean look with no emojis in captions.",
-     "date": "2026-09-16T20:00:00.000Z"
+     "date": "2026-09-22T20:00:00.000Z"
     }
    ],
    "history": [
@@ -5167,19 +5276,19 @@
      "id": "p-03-e1",
      "kind": "message",
      "text": "Sent intro email with a link to the Growth Desk sample clip.",
-     "date": "2026-09-14T14:00:00.000Z"
+     "date": "2026-09-20T14:00:00.000Z"
     },
     {
      "id": "p-03-e2",
      "kind": "reply",
      "text": "\"Interesting. Can you show me what this would look like with one of my episodes?\"",
-     "date": "2026-09-16T00:00:00.000Z"
+     "date": "2026-09-22T00:00:00.000Z"
     },
     {
      "id": "p-03-e3",
      "kind": "status",
      "text": "Promised two sample clips from episode 58. Moved to Interested.",
-     "date": "2026-09-16T20:00:00.000Z"
+     "date": "2026-09-22T20:00:00.000Z"
     }
    ]
   },
@@ -5193,7 +5302,7 @@
    "handle": "@calmmoneywithelena",
    "about": "Personal finance channel for people in their twenties. Long, calm explainer videos that are full of quotable one-liners.",
    "status": "Replied",
-   "lastContact": "2026-09-18T00:40:33.650Z",
+   "lastContact": "2026-09-23T21:50:15.231Z",
    "followUp": null,
    "value": 180,
    "notes": [],
@@ -5202,13 +5311,13 @@
      "id": "p-04-e1",
      "kind": "message",
      "text": "Sent DM complimenting her index fund video and offering a free sample clip.",
-     "date": "2026-09-15T16:00:00.000Z"
+     "date": "2026-09-21T16:00:00.000Z"
     },
     {
      "id": "p-04-e2",
      "kind": "reply",
      "text": "\"Thanks! Send me more info on how this works and what it costs.\"",
-     "date": "2026-09-18T00:40:33.650Z"
+     "date": "2026-09-23T21:50:15.231Z"
     }
    ]
   },
@@ -5222,14 +5331,14 @@
    "handle": "@shipitweekly",
    "about": "Live-coding sessions and indie developer interviews, usually over an hour long. Shorts are auto-generated and get very few views.",
    "status": "Contacted",
-   "lastContact": "2026-09-16T15:00:00.000Z",
+   "lastContact": "2026-09-22T15:00:00.000Z",
    "followUp": null,
    "value": 300,
    "notes": [
     {
      "id": "p-05-n1",
      "text": "Bigger channel. Lead with the retention angle, not the price.",
-     "date": "2026-09-16T15:00:00.000Z"
+     "date": "2026-09-22T15:00:00.000Z"
     }
    ],
    "history": [
@@ -5237,7 +5346,7 @@
      "id": "p-05-e1",
      "kind": "message",
      "text": "Sent email with two timestamped clip ideas from his latest live stream.",
-     "date": "2026-09-16T15:00:00.000Z"
+     "date": "2026-09-22T15:00:00.000Z"
     }
    ]
   },
@@ -5251,7 +5360,7 @@
    "handle": "@slowhomestudio",
    "about": "Interior design and slow-living room makeovers. Beautiful 25-minute videos with no vertical versions.",
    "status": "Contacted",
-   "lastContact": "2026-09-15T19:00:00.000Z",
+   "lastContact": "2026-09-21T19:00:00.000Z",
    "followUp": null,
    "value": 150,
    "notes": [],
@@ -5260,13 +5369,13 @@
      "id": "p-06-e1",
      "kind": "message",
      "text": "Sent Instagram DM suggesting before/after reveal clips from her makeover series.",
-     "date": "2026-09-13T17:00:00.000Z"
+     "date": "2026-09-19T17:00:00.000Z"
     },
     {
      "id": "p-06-e2",
      "kind": "followup",
      "text": "Sent a short follow-up with one specific timestamp idea.",
-     "date": "2026-09-15T19:00:00.000Z"
+     "date": "2026-09-21T19:00:00.000Z"
     }
    ]
   },
@@ -5280,7 +5389,7 @@
    "handle": "@typlaysranked",
    "about": "Streams ranked matches five nights a week. Great reactions on stream, but nothing gets posted to TikTok or Shorts.",
    "status": "Contacted",
-   "lastContact": "2026-09-17T01:00:00.000Z",
+   "lastContact": "2026-09-23T01:00:00.000Z",
    "followUp": null,
    "value": 120,
    "notes": [],
@@ -5289,7 +5398,7 @@
      "id": "p-07-e1",
      "kind": "message",
      "text": "Sent DM offering to clip the best three moments from last night’s stream for free.",
-     "date": "2026-09-17T01:00:00.000Z"
+     "date": "2026-09-23T01:00:00.000Z"
     }
    ]
   },
@@ -5303,14 +5412,14 @@
    "handle": "sofia@careerpivotshow.example",
    "about": "Career coach who hosts a weekly LinkedIn Live about changing industries. Replays sit untouched after the live ends.",
    "status": "Contacted",
-   "lastContact": "2026-09-17T14:00:00.000Z",
+   "lastContact": "2026-09-23T14:00:00.000Z",
    "followUp": null,
    "value": 220,
    "notes": [
     {
      "id": "p-08-n1",
      "text": "Her audience is on LinkedIn, so pitch square clips with burned-in captions.",
-     "date": "2026-09-17T14:00:00.000Z"
+     "date": "2026-09-23T14:00:00.000Z"
     }
    ],
    "history": [
@@ -5318,7 +5427,7 @@
      "id": "p-08-e1",
      "kind": "message",
      "text": "Sent email offering to turn her last live session into 5 captioned LinkedIn clips.",
-     "date": "2026-09-17T14:00:00.000Z"
+     "date": "2026-09-23T14:00:00.000Z"
     }
    ]
   },
@@ -5332,7 +5441,7 @@
    "handle": "@trailanderror",
    "about": "Backpacking trip films and gear reviews. Each video has two or three stunning moments that never leave the long-form cut.",
    "status": "Contacted",
-   "lastContact": "2026-09-14T15:00:00.000Z",
+   "lastContact": "2026-09-20T15:00:00.000Z",
    "followUp": null,
    "value": 200,
    "notes": [],
@@ -5341,13 +5450,13 @@
      "id": "p-09-e1",
      "kind": "message",
      "text": "Sent DM with a clip idea from his Dolomites trip video.",
-     "date": "2026-09-12T20:00:00.000Z"
+     "date": "2026-09-18T20:00:00.000Z"
     },
     {
      "id": "p-09-e2",
      "kind": "followup",
      "text": "Followed up with a 20-second rough cut attached.",
-     "date": "2026-09-14T15:00:00.000Z"
+     "date": "2026-09-20T15:00:00.000Z"
     }
    ]
   },
@@ -5361,7 +5470,7 @@
    "handle": "@bootstrappedandbusy",
    "about": "Solo podcast for parents building side businesses. Records audio only, so clips would need audiograms or simple b-roll.",
    "status": "Contacted",
-   "lastContact": "2026-09-17T23:00:00.000Z",
+   "lastContact": "2026-09-23T23:00:00.000Z",
    "followUp": null,
    "value": 150,
    "notes": [],
@@ -5370,7 +5479,7 @@
      "id": "p-10-e1",
      "kind": "message",
      "text": "Sent DM offering a free audiogram clip from her episode on pricing.",
-     "date": "2026-09-17T23:00:00.000Z"
+     "date": "2026-09-23T23:00:00.000Z"
     }
    ]
   },
@@ -5384,7 +5493,7 @@
    "handle": "@deepworkdiaries",
    "about": "Productivity vlogs and long study-with-me sessions. Talks to camera for the first ten minutes of every video.",
    "status": "Contacted",
-   "lastContact": "2026-09-15T14:00:00.000Z",
+   "lastContact": "2026-09-21T14:00:00.000Z",
    "followUp": null,
    "value": 150,
    "notes": [],
@@ -5393,7 +5502,7 @@
      "id": "p-11-e1",
      "kind": "message",
      "text": "Sent DM suggesting his intro monologues as standalone Shorts.",
-     "date": "2026-09-15T14:00:00.000Z"
+     "date": "2026-09-21T14:00:00.000Z"
     }
    ]
   },
@@ -5407,7 +5516,7 @@
    "handle": "@mindfulmorningsrenee",
    "about": "Wellness coach who hosts 45-minute Instagram Lives every Sunday. Her Reels are mostly static quote cards.",
    "status": "Contacted",
-   "lastContact": "2026-09-16T13:00:00.000Z",
+   "lastContact": "2026-09-22T13:00:00.000Z",
    "followUp": null,
    "value": 250,
    "notes": [],
@@ -5416,7 +5525,7 @@
      "id": "p-12-e1",
      "kind": "message",
      "text": "Sent DM offering to turn last Sunday’s Live into three Reels.",
-     "date": "2026-09-16T13:00:00.000Z"
+     "date": "2026-09-22T13:00:00.000Z"
     }
    ]
   },
@@ -5430,7 +5539,7 @@
    "handle": "@pintsandpixels",
    "about": "Retro gaming streams with a chatty community. Small but loyal audience and no presence on short-form platforms.",
    "status": "Contacted",
-   "lastContact": "2026-09-18T02:00:00.000Z",
+   "lastContact": "2026-09-24T02:00:00.000Z",
    "followUp": null,
    "value": 100,
    "notes": [],
@@ -5439,7 +5548,7 @@
      "id": "p-13-e1",
      "kind": "message",
      "text": "Sent DM with a starter offer: 5 clips from this week’s streams.",
-     "date": "2026-09-18T02:00:00.000Z"
+     "date": "2026-09-24T02:00:00.000Z"
     }
    ]
   },
@@ -5501,14 +5610,14 @@
    "handle": "@alphasaleslab",
    "about": "Sales training channel with weekly role-play breakdowns. Already posts Shorts regularly.",
    "status": "Lost",
-   "lastContact": "2026-09-16T14:00:00.000Z",
+   "lastContact": "2026-09-22T14:00:00.000Z",
    "followUp": null,
    "value": 200,
    "notes": [
     {
      "id": "p-17-n1",
      "text": "Announced on his community tab that he hired a full-time editor. Not a fit right now.",
-     "date": "2026-09-16T14:00:00.000Z"
+     "date": "2026-09-22T14:00:00.000Z"
     }
    ],
    "history": [
@@ -5516,19 +5625,19 @@
      "id": "p-17-e1",
      "kind": "message",
      "text": "Sent DM with two clip ideas from his cold-call breakdown.",
-     "date": "2026-09-12T14:00:00.000Z"
+     "date": "2026-09-18T14:00:00.000Z"
     },
     {
      "id": "p-17-e2",
      "kind": "followup",
      "text": "Followed up once with a shorter message.",
-     "date": "2026-09-14T14:00:00.000Z"
+     "date": "2026-09-20T14:00:00.000Z"
     },
     {
      "id": "p-17-e3",
      "kind": "status",
      "text": "He announced an in-house editor. Marked as Lost.",
-     "date": "2026-09-16T14:00:00.000Z"
+     "date": "2026-09-22T14:00:00.000Z"
     }
    ]
   },
@@ -5542,7 +5651,7 @@
    "handle": "@parisonaplate",
    "about": "Food and travel creator with long YouTube vlogs. Rarely checks DMs from accounts she does not follow.",
    "status": "Lost",
-   "lastContact": "2026-09-15T17:00:00.000Z",
+   "lastContact": "2026-09-21T17:00:00.000Z",
    "followUp": null,
    "value": 150,
    "notes": [],
@@ -5551,19 +5660,19 @@
      "id": "p-18-e1",
      "kind": "message",
      "text": "Sent Instagram DM with a free clip offer.",
-     "date": "2026-09-12T17:00:00.000Z"
+     "date": "2026-09-18T17:00:00.000Z"
     },
     {
      "id": "p-18-e2",
      "kind": "followup",
      "text": "Sent a second follow-up by email.",
-     "date": "2026-09-15T17:00:00.000Z"
+     "date": "2026-09-21T17:00:00.000Z"
     },
     {
      "id": "p-18-e3",
      "kind": "status",
      "text": "No response after two follow-ups. Marked as Lost for now.",
-     "date": "2026-09-17T13:00:00.000Z"
+     "date": "2026-09-23T13:00:00.000Z"
     }
    ]
   },
@@ -5606,14 +5715,14 @@
    "handle": "darius@northstarfitness.example",
    "about": "Independent gym with group classes. Holiday hours are wrong and none of the class types are listed as services.",
    "status": "Contacted",
-   "lastContact": "2026-09-16T16:00:00.000Z",
-   "followUp": "2026-09-20T14:00:00.000Z",
+   "lastContact": "2026-09-22T16:00:00.000Z",
+   "followUp": "2026-09-26T14:00:00.000Z",
    "value": 250,
    "notes": [
     {
      "id": "g-02-n1",
      "text": "Best reached by email before 10am. The gym is slammed in the evenings.",
-     "date": "2026-09-16T16:00:00.000Z"
+     "date": "2026-09-22T16:00:00.000Z"
     }
    ],
    "history": [
@@ -5621,7 +5730,7 @@
      "id": "g-02-e1",
      "kind": "message",
      "text": "Emailed a one-page audit showing 4 quick fixes for the profile.",
-     "date": "2026-09-16T16:00:00.000Z"
+     "date": "2026-09-22T16:00:00.000Z"
     }
    ],
    "gbp": {
@@ -5822,7 +5931,7 @@
    "service": "5-clip starter pack",
    "amount": 150,
    "status": "Collected",
-   "date": "2026-09-16T17:00:00.000Z"
+   "date": "2026-09-22T17:00:00.000Z"
   },
   {
    "id": "d-02",
@@ -5832,7 +5941,7 @@
    "service": "Monthly clipping retainer",
    "amount": 250,
    "status": "Booked",
-   "date": "2026-09-17T21:00:00.000Z"
+   "date": "2026-09-23T21:00:00.000Z"
   },
   {
    "id": "d-03",
@@ -5842,7 +5951,7 @@
    "service": "10-clip monthly pack",
    "amount": 250,
    "status": "Potential",
-   "date": "2026-09-17T18:00:00.000Z"
+   "date": "2026-09-23T18:00:00.000Z"
   },
   {
    "id": "d-04",
@@ -5852,7 +5961,7 @@
    "service": "8-clip podcast pack",
    "amount": 200,
    "status": "Potential",
-   "date": "2026-09-16T20:00:00.000Z"
+   "date": "2026-09-22T20:00:00.000Z"
   },
   {
    "id": "d-05",
@@ -5862,7 +5971,7 @@
    "service": "6-clip starter pack",
    "amount": 180,
    "status": "Potential",
-   "date": "2026-09-17T18:00:00.000Z"
+   "date": "2026-09-23T18:00:00.000Z"
   },
   {
    "id": "d-06",
@@ -5872,7 +5981,7 @@
    "service": "12-clip live stream pack",
    "amount": 300,
    "status": "Potential",
-   "date": "2026-09-16T15:00:00.000Z"
+   "date": "2026-09-22T15:00:00.000Z"
   },
   {
    "id": "d-07",
@@ -5882,7 +5991,7 @@
    "service": "5-clip starter pack",
    "amount": 150,
    "status": "Potential",
-   "date": "2026-09-15T19:00:00.000Z"
+   "date": "2026-09-21T19:00:00.000Z"
   },
   {
    "id": "d-08",
@@ -5892,7 +6001,7 @@
    "service": "Weekly stream highlights",
    "amount": 120,
    "status": "Potential",
-   "date": "2026-09-17T01:00:00.000Z"
+   "date": "2026-09-23T01:00:00.000Z"
   },
   {
    "id": "d-09",
@@ -5902,7 +6011,7 @@
    "service": "LinkedIn Live clip pack",
    "amount": 220,
    "status": "Potential",
-   "date": "2026-09-17T14:00:00.000Z"
+   "date": "2026-09-23T14:00:00.000Z"
   },
   {
    "id": "d-10",
@@ -5912,7 +6021,7 @@
    "service": "8-clip trip film pack",
    "amount": 200,
    "status": "Potential",
-   "date": "2026-09-14T15:00:00.000Z"
+   "date": "2026-09-20T15:00:00.000Z"
   },
   {
    "id": "d-11",
@@ -5922,7 +6031,7 @@
    "service": "5-clip audiogram pack",
    "amount": 150,
    "status": "Potential",
-   "date": "2026-09-17T23:00:00.000Z"
+   "date": "2026-09-23T23:00:00.000Z"
   }
  ],
  "templates": [
@@ -6160,7 +6269,7 @@
    "icon": "target",
    "title": "Today's mission is waiting",
    "body": "Day 7: find 10 creators who publish long-form content. About 35 minutes.",
-   "date": "2026-09-18T19:40:33.649Z",
+   "date": "2026-09-24T16:50:15.231Z",
    "read": false,
    "link": "/plan/day/7"
   },
@@ -6169,7 +6278,7 @@
    "icon": "flame.fill",
    "title": "Your streak is alive",
    "body": "That's a 6-day streak. Complete today's mission to make it 7 and unlock the 7-Day Streak badge.",
-   "date": "2026-09-18T17:40:33.650Z",
+   "date": "2026-09-24T14:50:15.231Z",
    "read": false,
    "link": "/streak"
   },
@@ -6178,7 +6287,7 @@
    "icon": "bubble.left.and.bubble.right.fill",
    "title": "Elena Voss replied",
    "body": "\"Thanks! Send me more info on how this works and what it costs.\" Reply while it is fresh.",
-   "date": "2026-09-18T00:40:33.650Z",
+   "date": "2026-09-23T21:50:15.231Z",
    "read": false,
    "link": "/prospects/p-04"
   },
@@ -6187,7 +6296,7 @@
    "icon": "square.and.pencil",
    "title": "Your weekly check-in is ready",
    "body": "Week 1 is nearly done. Take 3 minutes to review what worked and what to change.",
-   "date": "2026-09-17T18:40:33.650Z",
+   "date": "2026-09-23T15:50:15.231Z",
    "read": false,
    "link": "/check-in"
   },
@@ -6196,7 +6305,7 @@
    "icon": "sparkles",
    "title": "Coach replied to your question",
    "body": "Your answer on pricing a 50K-follower creator is ready, with a starter pack you can send today.",
-   "date": "2026-09-17T16:46:33.650Z",
+   "date": "2026-09-23T13:56:15.231Z",
    "read": true,
    "link": "/coach"
   },
@@ -6205,7 +6314,7 @@
    "icon": "person.2.fill",
    "title": "Priya Raman countered at $200",
    "body": "Founder Mode Daily wants the 10-clip pack for $200 instead of $250. Decide how to respond.",
-   "date": "2026-09-17T12:40:33.650Z",
+   "date": "2026-09-23T09:50:15.231Z",
    "read": true,
    "link": "/prospects/p-02"
   },
@@ -6214,7 +6323,7 @@
    "icon": "medal.fill",
    "title": "You reached your first milestone",
    "body": "First Client and $100 Club unlocked. You are $350 away from your $500 goal.",
-   "date": "2026-09-16T17:05:00.000Z",
+   "date": "2026-09-22T17:05:00.000Z",
    "read": true,
    "link": "/achievements"
   },
@@ -6223,7 +6332,7 @@
    "icon": "dollarsign.circle.fill",
    "title": "Jordan Williams paid $150",
    "body": "Your first payment is in. The Growth Desk Podcast starter pack is marked as collected.",
-   "date": "2026-09-16T17:00:00.000Z",
+   "date": "2026-09-22T17:00:00.000Z",
    "read": true,
    "link": "/revenue"
   },
@@ -6232,7 +6341,7 @@
    "icon": "graduationcap.fill",
    "title": "You unlocked a new lesson",
    "body": "\"A Portfolio That Wins Without Clients\" is now available. 10 minutes.",
-   "date": "2026-09-15T13:00:00.000Z",
+   "date": "2026-09-21T13:00:00.000Z",
    "read": true,
    "link": "/lessons/clip-06"
   },
@@ -6241,7 +6350,7 @@
    "icon": "alarm.fill",
    "title": "Follow up with Marcus Bell",
    "body": "He asked to see sample clips from his own episodes. Send two and check in.",
-   "date": "2026-09-14T14:00:00.000Z",
+   "date": "2026-09-20T14:00:00.000Z",
    "read": true,
    "link": "/prospects/p-03"
   },
@@ -6250,7 +6359,7 @@
    "icon": "list.clipboard.fill",
    "title": "10 Prospects unlocked",
    "body": "Your list hit 10 potential clients. Next step: contact the first five.",
-   "date": "2026-09-13T23:00:00.000Z",
+   "date": "2026-09-19T23:00:00.000Z",
    "read": true,
    "link": "/achievements"
   },
@@ -6259,7 +6368,7 @@
    "icon": "hand.wave.fill",
    "title": "Welcome to FirstRevenue, Alex",
    "body": "Your 30-day Short-Form Clipping program starts now. Day 1 takes about 25 minutes.",
-   "date": "2026-09-12T14:00:00.000Z",
+   "date": "2026-09-18T14:00:00.000Z",
    "read": true,
    "link": "/plan/day/1"
   }
@@ -6723,346 +6832,346 @@
    {
     "id": "c-01",
     "title": "Pricing a 50K-follower creator",
-    "date": "2026-09-17T16:46:33.650Z",
+    "date": "2026-09-23T13:56:15.232Z",
     "messages": [
      {
       "id": "c-01-m1",
       "from": "user",
       "text": "I found a creator with 50K followers. What should I charge?",
-      "date": "2026-09-17T16:40:33.650Z"
+      "date": "2026-09-23T13:50:15.232Z"
      },
      {
       "id": "c-01-m2",
       "from": "coach",
       "text": "Start by understanding what they're asking for… then quote a pack, not an hourly rate. For a creator around 50K, a starter pack works best:\n\n1. 5 clips with captions and a strong hook: $150–$250.\n2. Two rounds of revisions included.\n3. Delivery in 5 to 7 days.\n\nYou already sold this pack to Jordan for $150, so quote $180 this time.\n\nNext step: send one clear price today, not a menu.",
-      "date": "2026-09-17T16:42:33.650Z"
+      "date": "2026-09-23T13:52:15.232Z"
      },
      {
       "id": "c-01-m3",
       "from": "user",
       "text": "What if she says that is too expensive?",
-      "date": "2026-09-17T16:44:33.650Z"
+      "date": "2026-09-23T13:54:15.232Z"
      },
      {
       "id": "c-01-m4",
       "from": "coach",
       "text": "Do not drop the price. Shrink the scope: \"Totally fair. Want to start with 3 clips for $110 and see how they perform?\" That keeps your rate intact and gives her an easy yes.\n\nNext step: save that line in your templates so it is ready when you need it.",
-      "date": "2026-09-17T16:46:33.650Z"
+      "date": "2026-09-23T13:56:15.232Z"
      }
     ]
    },
    {
     "id": "c-02",
     "title": "Should I make free samples for Marcus?",
-    "date": "2026-09-17T01:20:00.000Z",
+    "date": "2026-09-23T01:20:00.000Z",
     "messages": [
      {
       "id": "c-02-m1",
       "from": "user",
       "text": "Marcus Bell wants two sample clips from his own episodes before deciding. Am I working for free?",
-      "date": "2026-09-17T01:10:00.000Z"
+      "date": "2026-09-23T01:10:00.000Z"
      },
      {
       "id": "c-02-m2",
       "from": "coach",
       "text": "A little, and it is worth it here. He replied, he asked for something specific, and he has 31K listeners. That is a warm lead, not a time-waster.\n\nSet a limit: two clips, 30 seconds each, from episode 58, within 48 hours. Watermark them lightly.\n\nNext step: block 60 minutes tomorrow and cut both clips.",
-      "date": "2026-09-17T01:12:00.000Z"
+      "date": "2026-09-23T01:12:00.000Z"
      },
      {
       "id": "c-02-m3",
       "from": "user",
       "text": "He said he wants a clean look with no emojis in the captions.",
-      "date": "2026-09-17T01:14:00.000Z"
+      "date": "2026-09-23T01:14:00.000Z"
      },
      {
       "id": "c-02-m4",
       "from": "coach",
       "text": "Good, that is a buying signal. People only give style notes when they picture using the work. Follow it exactly: simple white captions, no emojis, no flashy zooms.\n\nWhen you send them, add one line: \"If you like these, I can do 8 from your back catalog for $200.\"",
-      "date": "2026-09-17T01:16:00.000Z"
+      "date": "2026-09-23T01:16:00.000Z"
      },
      {
       "id": "c-02-m5",
       "from": "user",
       "text": "Got it. Cutting them tomorrow morning.",
-      "date": "2026-09-17T01:18:00.000Z"
+      "date": "2026-09-23T01:18:00.000Z"
      },
      {
       "id": "c-02-m6",
       "from": "coach",
       "text": "Perfect. Send them before noon and set a follow-up for two days later. Tell me how he reacts.",
-      "date": "2026-09-17T01:20:00.000Z"
+      "date": "2026-09-23T01:20:00.000Z"
      }
     ]
    },
    {
     "id": "c-03",
     "title": "I got paid. What now?",
-    "date": "2026-09-16T17:36:00.000Z",
+    "date": "2026-09-22T17:36:00.000Z",
     "messages": [
      {
       "id": "c-03-m1",
       "from": "user",
       "text": "Jordan just paid the $150!! What do I do now?",
-      "date": "2026-09-16T17:30:00.000Z"
+      "date": "2026-09-22T17:30:00.000Z"
      },
      {
       "id": "c-03-m2",
       "from": "coach",
       "text": "Congratulations, Alex. That is your first money online, and it is real.\n\nNow protect it:\n\n1. Confirm in writing: 5 clips, bold captions, hook in the first 2 seconds, delivery date.\n2. Deliver one day early.\n3. Log the payment in Revenue so your goal tracker updates.\n\nNext step: send Jordan the confirmation message in the next 10 minutes.",
-      "date": "2026-09-16T17:32:00.000Z"
+      "date": "2026-09-22T17:32:00.000Z"
      },
      {
       "id": "c-03-m3",
       "from": "user",
       "text": "He mentioned a monthly retainer if the clips perform. When do I bring it up?",
-      "date": "2026-09-16T17:34:00.000Z"
+      "date": "2026-09-22T17:34:00.000Z"
      },
      {
       "id": "c-03-m4",
       "from": "coach",
       "text": "Right after delivery, while he is happy. Share one early result, then offer: \"Want me to do this monthly? 10 clips for $250, delivered weekly.\"\n\nDo not pitch it before you deliver. Earn it first.",
-      "date": "2026-09-16T17:36:00.000Z"
+      "date": "2026-09-22T17:36:00.000Z"
      }
     ]
    },
    {
     "id": "c-04",
     "title": "Brandon hired an in-house editor",
-    "date": "2026-09-16T14:36:00.000Z",
+    "date": "2026-09-22T14:36:00.000Z",
     "messages": [
      {
       "id": "c-04-m1",
       "from": "user",
       "text": "Brandon Pierce from Alpha Sales Lab just announced he hired a full-time editor. I followed up twice for nothing.",
-      "date": "2026-09-16T14:30:00.000Z"
+      "date": "2026-09-22T14:30:00.000Z"
      },
      {
       "id": "c-04-m2",
       "from": "coach",
       "text": "Not for nothing. You learned that channels already posting Shorts regularly are weak prospects, because the need is already covered.\n\nMark him Lost, and send one kind line: \"Congrats on the hire. If your editor ever needs overflow help, I am around.\"\n\nNext step: add two new prospects with empty Shorts tabs to replace him.",
-      "date": "2026-09-16T14:32:00.000Z"
+      "date": "2026-09-22T14:32:00.000Z"
      },
      {
       "id": "c-04-m3",
       "from": "user",
       "text": "It still feels bad.",
-      "date": "2026-09-16T14:34:00.000Z"
+      "date": "2026-09-22T14:34:00.000Z"
      },
      {
       "id": "c-04-m4",
       "from": "coach",
       "text": "It should, a little. It means you care. But look at your numbers: 18 prospects, 3 replies and a client who said yes, all in under a week. That is a strong start. One no does not change the math.\n\nGo add those two prospects, then close the app for today.",
-      "date": "2026-09-16T14:36:00.000Z"
+      "date": "2026-09-22T14:36:00.000Z"
      }
     ]
    },
    {
     "id": "c-05",
     "title": "Asking Jordan for payment",
-    "date": "2026-09-15T15:21:00.000Z",
+    "date": "2026-09-21T15:21:00.000Z",
     "messages": [
      {
       "id": "c-05-m1",
       "from": "user",
       "text": "Jordan agreed to the 5-clip pack for $150. How do I ask for the money without making it weird?",
-      "date": "2026-09-15T15:15:00.000Z"
+      "date": "2026-09-21T15:15:00.000Z"
      },
      {
       "id": "c-05-m2",
       "from": "coach",
       "text": "It is only weird if you make it vague. Be plain:\n\n\"Great, excited to start. Here is the payment link for $150. As soon as it is through I will begin, and you will have all 5 clips within 5 days.\"\n\nFor projects under $200, ask for 100% upfront.\n\nNext step: send that message with the link within the hour, while he is still excited.",
-      "date": "2026-09-15T15:17:00.000Z"
+      "date": "2026-09-21T15:17:00.000Z"
      },
      {
       "id": "c-05-m3",
       "from": "user",
       "text": "Should I send a contract?",
-      "date": "2026-09-15T15:19:00.000Z"
+      "date": "2026-09-21T15:19:00.000Z"
      },
      {
       "id": "c-05-m4",
       "from": "coach",
       "text": "Not for $150. A clear message he replies \"agreed\" to is enough: scope, price, deadline, two rounds of revisions. Save contracts for retainers and projects over $500.",
-      "date": "2026-09-15T15:21:00.000Z"
+      "date": "2026-09-21T15:21:00.000Z"
      }
     ]
    },
    {
     "id": "c-06",
     "title": "Fitting this around classes",
-    "date": "2026-09-15T02:15:00.000Z",
+    "date": "2026-09-21T02:15:00.000Z",
     "messages": [
      {
       "id": "c-06-m1",
       "from": "user",
       "text": "I have classes until 5 most days and I am falling behind on missions. How do I fit this in?",
-      "date": "2026-09-15T02:05:00.000Z"
+      "date": "2026-09-21T02:05:00.000Z"
      },
      {
       "id": "c-06-m2",
       "from": "coach",
       "text": "You need a fixed slot, not more time. Forty-five minutes a day is enough.\n\n1. Pick one slot you can protect. For you, maybe 7:30 to 8:15 pm.\n2. First 25 minutes: outreach and replies. Last 20: the lesson or editing.\n3. On heavy days, do the 10-minute version: two messages, streak saved.\n\nNext step: put the slot in your calendar now.",
-      "date": "2026-09-15T02:07:00.000Z"
+      "date": "2026-09-21T02:07:00.000Z"
      },
      {
       "id": "c-06-m3",
       "from": "user",
       "text": "What if I miss a day?",
-      "date": "2026-09-15T02:09:00.000Z"
+      "date": "2026-09-21T02:09:00.000Z"
      },
      {
       "id": "c-06-m4",
       "from": "coach",
       "text": "Then you miss a day. Do not try to do two missions to catch up. Just do today's. Consistency beats intensity in this program.",
-      "date": "2026-09-15T02:11:00.000Z"
+      "date": "2026-09-21T02:11:00.000Z"
      },
      {
       "id": "c-06-m5",
       "from": "user",
       "text": "OK. 7:30 pm it is.",
-      "date": "2026-09-15T02:13:00.000Z"
+      "date": "2026-09-21T02:13:00.000Z"
      },
      {
       "id": "c-06-m6",
       "from": "coach",
       "text": "Locked in. See you at 7:30.",
-      "date": "2026-09-15T02:15:00.000Z"
+      "date": "2026-09-21T02:15:00.000Z"
      }
     ]
    },
    {
     "id": "c-07",
     "title": "Most people are not replying",
-    "date": "2026-09-14T14:26:00.000Z",
+    "date": "2026-09-20T14:26:00.000Z",
     "messages": [
      {
       "id": "c-07-m1",
       "from": "user",
       "text": "I have messaged 12 creators and only 1 replied. Is my message bad?",
-      "date": "2026-09-14T14:20:00.000Z"
+      "date": "2026-09-20T14:20:00.000Z"
      },
      {
       "id": "c-07-m2",
       "from": "coach",
       "text": "One out of 12 is about 8%, which is normal for cold outreach, and that one reply is a warm one. Your message is not the problem. Volume and follow-ups are.\n\nTo push it higher:\n\n1. Follow up on day 3 with a short bump.\n2. Try the business email for anyone who has not opened your DM.\n3. Attach a sample clip to every first message.\n\nNext step: send the day-3 bump to everyone you contacted three or more days ago.",
-      "date": "2026-09-14T14:22:00.000Z"
+      "date": "2026-09-20T14:22:00.000Z"
      },
      {
       "id": "c-07-m3",
       "from": "user",
       "text": "What should the bump say?",
-      "date": "2026-09-14T14:24:00.000Z"
+      "date": "2026-09-20T14:24:00.000Z"
      },
      {
       "id": "c-07-m4",
       "from": "coach",
       "text": "\"Hey, did you get a chance to see the clip idea I sent? Happy to cut a free sample from your latest video if useful.\" Under 30 words, no apology, one clear offer.",
-      "date": "2026-09-14T14:26:00.000Z"
+      "date": "2026-09-20T14:26:00.000Z"
      }
     ]
    },
    {
     "id": "c-08",
     "title": "Jordan asked how much",
-    "date": "2026-09-13T20:20:00.000Z",
+    "date": "2026-09-19T20:20:00.000Z",
     "messages": [
      {
       "id": "c-08-m1",
       "from": "user",
       "text": "Jordan Williams replied! He said: \"This is actually great. How much for a handful of these every week?\" What do I say?",
-      "date": "2026-09-13T20:10:00.000Z"
+      "date": "2026-09-19T20:10:00.000Z"
      },
      {
       "id": "c-08-m2",
       "from": "coach",
       "text": "That is a buying question. Do not answer with a weekly rate yet. Start small so it is easy to say yes:\n\n\"Glad you like it! Easiest way to start is a 5-clip starter pack for $150, delivered in 5 days. If you like the results we can set up a weekly rhythm.\"\n\nNext step: send that reply within the hour.",
-      "date": "2026-09-13T20:12:00.000Z"
+      "date": "2026-09-19T20:12:00.000Z"
      },
      {
       "id": "c-08-m3",
       "from": "user",
       "text": "Is $150 too low? He has a decent audience.",
-      "date": "2026-09-13T20:14:00.000Z"
+      "date": "2026-09-19T20:14:00.000Z"
      },
      {
       "id": "c-08-m4",
       "from": "coach",
       "text": "For your first client, no. The goal of client one is proof: a result and a testimonial. You raise the price with client two. The retainer is where Jordan becomes really valuable.",
-      "date": "2026-09-13T20:16:00.000Z"
+      "date": "2026-09-19T20:16:00.000Z"
      },
      {
       "id": "c-08-m5",
       "from": "user",
       "text": "Sent it.",
-      "date": "2026-09-13T20:18:00.000Z"
+      "date": "2026-09-19T20:18:00.000Z"
      },
      {
       "id": "c-08-m6",
       "from": "coach",
       "text": "Nice work. Now set a follow-up for two days and keep prospecting while you wait.",
-      "date": "2026-09-13T20:20:00.000Z"
+      "date": "2026-09-19T20:20:00.000Z"
      }
     ]
    },
    {
     "id": "c-09",
     "title": "Portfolio with zero clients",
-    "date": "2026-09-13T13:51:00.000Z",
+    "date": "2026-09-19T13:51:00.000Z",
     "messages": [
      {
       "id": "c-09-m1",
       "from": "user",
       "text": "Everyone says to show a portfolio, but I have no clients. What do I show?",
-      "date": "2026-09-13T13:45:00.000Z"
+      "date": "2026-09-19T13:45:00.000Z"
      },
      {
       "id": "c-09-m2",
       "from": "coach",
       "text": "You show samples, not clients.\n\n1. Pick 3 creators from your prospect list.\n2. Cut one 25-second clip from each: strong hook, bold captions.\n3. Put them in one shared folder.\n\nEach sample is also the gift you send that creator. The clip you made from Growth Desk episode 112 already counts as number one.\n\nNext step: cut sample number two today.",
-      "date": "2026-09-13T13:47:00.000Z"
+      "date": "2026-09-19T13:47:00.000Z"
      },
      {
       "id": "c-09-m3",
       "from": "user",
       "text": "How polished do they need to be?",
-      "date": "2026-09-13T13:49:00.000Z"
+      "date": "2026-09-19T13:49:00.000Z"
      },
      {
       "id": "c-09-m4",
       "from": "coach",
       "text": "Good enough that you would not scroll past it. Clear audio, readable captions, a hook in the first 2 seconds. Cap yourself at 45 minutes per clip. Done beats perfect.",
-      "date": "2026-09-13T13:51:00.000Z"
+      "date": "2026-09-19T13:51:00.000Z"
      }
     ]
    },
    {
     "id": "c-10",
     "title": "Nervous about the first message",
-    "date": "2026-09-12T15:04:00.000Z",
+    "date": "2026-09-18T15:04:00.000Z",
     "messages": [
      {
       "id": "c-10-m1",
       "from": "user",
       "text": "I am honestly nervous to message real creators. What if they think I am a scammer?",
-      "date": "2026-09-12T14:58:00.000Z"
+      "date": "2026-09-18T14:58:00.000Z"
      },
      {
       "id": "c-10-m2",
       "from": "coach",
       "text": "Scammers send vague mass messages and ask for money. You will send one specific compliment and a free sample. That is the opposite.\n\nShrink the task. Not \"get a client\". Just \"send one message\".\n\nNext step: pick the least scary creator on your list and send them one DM in the next 10 minutes.",
-      "date": "2026-09-12T15:00:00.000Z"
+      "date": "2026-09-18T15:00:00.000Z"
      },
      {
       "id": "c-10-m3",
       "from": "user",
       "text": "OK, I sent one to The Growth Desk Podcast with a sample from episode 112.",
-      "date": "2026-09-12T15:02:00.000Z"
+      "date": "2026-09-18T15:02:00.000Z"
      },
      {
       "id": "c-10-m4",
       "from": "coach",
       "text": "That is the hardest message you will ever send, and it is done. Whatever he answers, you are now someone who does outreach.\n\nSend two more tomorrow. Momentum is everything in week one.",
-      "date": "2026-09-12T15:04:00.000Z"
+      "date": "2026-09-18T15:04:00.000Z"
      }
     ]
    }
@@ -7589,6 +7698,287 @@
    "Building your 30-day plan"
   ]
  },
+ "mentorCheck": {
+  "redFlags": [
+   {
+    "title": "They sell the lifestyle, not the skill",
+    "detail": "Rented cars, cash on tables and beach laptops prove nothing about what they can teach you."
+   },
+   {
+    "title": "Their only business is teaching business",
+    "detail": "If the course about making money is how they make money, they have never done what they teach."
+   },
+   {
+    "title": "Guaranteed or fast income",
+    "detail": "\"$10K in 30 days\" is a marketing line, not a plan. Real outcomes come with ranges and effort."
+   },
+   {
+    "title": "Artificial urgency",
+    "detail": "Countdown timers, \"3 spots left\" and \"price doubles tonight\" exist to stop you from thinking."
+   },
+   {
+    "title": "Price hidden behind a call",
+    "detail": "A \"free strategy call\" that turns into a high-pressure pitch is a sales funnel, not mentoring."
+   },
+   {
+    "title": "Pushes you into debt",
+    "detail": "Anyone who tells you to use a credit card or a loan to \"invest in yourself\" is protecting their revenue, not yours."
+   },
+   {
+    "title": "Criticism = \"broke mindset\"",
+    "detail": "Real experts answer hard questions. Fake ones attack the person asking and delete the comment."
+   }
+  ],
+  "greenFlags": [
+   {
+    "title": "Still does the work",
+    "detail": "They practice the skill today and can show recent, specific examples."
+   },
+   {
+    "title": "Results you can verify",
+    "detail": "Case studies with real names, links and numbers you can check yourself."
+   },
+   {
+    "title": "Generous free content",
+    "detail": "You can apply what they share for free today, without buying anything."
+   },
+   {
+    "title": "Honest about who it is not for",
+    "detail": "They talk about effort, failure rates and the people who should not buy."
+   },
+   {
+    "title": "Clear price and refund policy",
+    "detail": "You can see what you pay, what you get and how to get your money back."
+   }
+  ],
+  "questions": [
+   {
+    "id": "proof",
+    "question": "How do they prove they are good at what they teach?",
+    "why": "Proof should be about the skill and the clients, not about their bank account or lifestyle.",
+    "options": [
+     {
+      "label": "Case studies with real clients, names and links",
+      "risk": 0
+     },
+     {
+      "label": "Screenshots of their own income",
+      "risk": 1
+     },
+     {
+      "label": "Cars, watches, travel and lifestyle content",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "practice",
+    "question": "Do they still do the thing they teach?",
+    "why": "Someone who only sells courses about the skill may be out of date, or may never have done it at all.",
+    "options": [
+     {
+      "label": "Yes, they practice it today",
+      "risk": 0
+     },
+     {
+      "label": "They used to, now they mostly teach",
+      "risk": 1
+     },
+     {
+      "label": "Their only business is selling courses about making money",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "free",
+    "question": "What do they share for free?",
+    "why": "Good mentors give away real value. Pure teasers are ads, not teaching.",
+    "options": [
+     {
+      "label": "Detailed content I can apply today",
+      "risk": 0
+     },
+     {
+      "label": "Teasers that always end with \"the rest is in my course\"",
+      "risk": 1
+     },
+     {
+      "label": "Almost nothing — everything leads to a sales call",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "promise",
+    "question": "What do they promise?",
+    "why": "Nobody can guarantee income. Big fast promises are the most common sign of a scam.",
+    "options": [
+     {
+      "label": "Realistic ranges and the effort it takes",
+      "risk": 0
+     },
+     {
+      "label": "Fast results \"if you follow the system\"",
+      "risk": 1
+     },
+     {
+      "label": "Guaranteed income or a specific amount in a few weeks",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "pressure",
+    "question": "How are they selling it?",
+    "why": "Urgency and hidden prices are designed to make you decide before you think.",
+    "options": [
+     {
+      "label": "Price on the page and time to decide",
+      "risk": 0
+     },
+     {
+      "label": "Price only revealed on a call",
+      "risk": 1
+     },
+     {
+      "label": "Countdown timers, \"only 3 spots left\", pressure to decide now",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "budget",
+    "question": "How does the price compare to your budget?",
+    "why": "Your first revenue should never start with debt. Free and cheap resources are enough to earn your first money.",
+    "options": [
+     {
+      "label": "Affordable — I can pay without stress",
+      "risk": 0
+     },
+     {
+      "label": "A stretch, I would have to cut other things",
+      "risk": 1
+     },
+     {
+      "label": "They suggest a loan or credit card to \"invest in yourself\"",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "honesty",
+    "question": "How do they talk about risk and failure?",
+    "why": "Real mentors tell you who should not buy. \"Anyone can do it\" ignores how hard the work is.",
+    "options": [
+     {
+      "label": "Openly — they share failures and who it is not for",
+      "risk": 0
+     },
+     {
+      "label": "They rarely mention it",
+      "risk": 1
+     },
+     {
+      "label": "\"Anyone can do it, there is no risk\"",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "reviews",
+    "question": "What do independent reviews say?",
+    "why": "Testimonials on their own site are chosen by them. Search \"[name] + refund\", \"+ scam\" and \"+ review\" on Reddit and YouTube.",
+    "options": [
+     {
+      "label": "Independent reviews, mostly positive and specific",
+      "risk": 0
+     },
+     {
+      "label": "I only found testimonials on their own site",
+      "risk": 1
+     },
+     {
+      "label": "Complaints about refunds, deleted comments or lawsuits",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "refund",
+    "question": "What is the refund policy?",
+    "why": "Confident sellers make refunds simple. Missing or impossible conditions mean your money is gone once you pay.",
+    "options": [
+     {
+      "label": "Clear, written and easy to use",
+      "risk": 0
+     },
+     {
+      "label": "Vague or hard to find",
+      "risk": 1
+     },
+     {
+      "label": "No refunds, or conditions nobody can meet",
+      "risk": 2
+     }
+    ]
+   },
+   {
+    "id": "questions",
+    "question": "How do they react to questions or criticism?",
+    "why": "Experts welcome hard questions. Attacking or blocking critics is how fake gurus protect their image.",
+    "options": [
+     {
+      "label": "They answer directly and clearly",
+      "risk": 0
+     },
+     {
+      "label": "They ignore them",
+      "risk": 1
+     },
+     {
+      "label": "They mock people, say \"broke mindset\" or delete comments",
+      "risk": 2
+     }
+    ]
+   }
+  ],
+  "verdicts": [
+   {
+    "id": "trust",
+    "maxScore": 25,
+    "title": "Looks trustworthy",
+    "summary": "Most signs are healthy. This person seems to teach a real skill honestly — still verify before you pay.",
+    "next": [
+     "Apply their free content for one week first",
+     "Ask one past student directly how it went for them",
+     "Only buy if it solves the exact problem you have right now"
+    ]
+   },
+   {
+    "id": "caution",
+    "maxScore": 55,
+    "title": "Proceed with caution",
+    "summary": "Some warning signs. Do not pay yet — get answers to the flagged points first.",
+    "next": [
+     "Search their name with \"refund\", \"scam\" and \"review\"",
+     "Ask them in writing about each flagged point below",
+     "Compare with free resources already in your library"
+    ]
+   },
+   {
+    "id": "avoid",
+    "maxScore": 100,
+    "title": "High risk — walk away",
+    "summary": "Too many red flags. This looks like a guru selling the dream, not a mentor teaching a skill.",
+    "next": [
+     "Do not pay, and do not book their \"free call\"",
+     "Unfollow them so the pressure stops",
+     "Put that money and time into your 30-day plan instead"
+    ]
+   }
+  ]
+ },
  "user": {
   "name": "Alex Carter",
   "email": "alex.carter@firstrevenue.demo",
@@ -7604,7 +7994,7 @@
   "goal": "$500",
   "goalAmount": 500,
   "confidence": "Neutral",
-  "joined": "2026-09-12T13:00:00.000Z"
+  "joined": "2026-09-18T13:00:00.000Z"
  },
  "answers": {
   "name": "Alex",
@@ -7623,5 +8013,5 @@
   "learning": "A combination",
   "commitment": "I'm committed"
  },
- "exportedAt": "2026-09-18T20:40:33.715Z"
+ "exportedAt": "2026-09-24T17:50:15.288Z"
 }

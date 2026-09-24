@@ -127,6 +127,7 @@ struct RouteView: View {
         case .subscription: SubscriptionView()
         case .help: HelpView()
         case .search: SearchView()
+        case .mentorCheck: MentorCheckView()
         }
     }
 }

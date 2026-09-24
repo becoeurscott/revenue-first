@@ -7,8 +7,8 @@ const out = new URL('../ios/FirstRevenue/FirstRevenue/Resources/Data/', import.m
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'error' })
 const load = (p) => server.ssrLoadModule(p)
 
-const [paths, missions, lessons, resources, prospects, revenue, messages, pricing, notifications, achievements, coach, help, subscription, onboarding, users] = await Promise.all(
-  ['paths', 'missions', 'lessons', 'resources', 'prospects', 'revenue', 'messages', 'pricing', 'notifications', 'achievements', 'coach', 'help', 'subscription', 'onboarding', 'users'].map((m) => load(`/src/data/${m}.ts`)),
+const [paths, missions, lessons, resources, prospects, revenue, messages, pricing, notifications, achievements, coach, help, subscription, onboarding, users, mentors] = await Promise.all(
+  ['paths', 'missions', 'lessons', 'resources', 'prospects', 'revenue', 'messages', 'pricing', 'notifications', 'achievements', 'coach', 'help', 'subscription', 'onboarding', 'users', 'mentors'].map((m) => load(`/src/data/${m}.ts`)),
 )
 
 // The native app uses SF Symbols, never emoji. Every `emoji` field becomes an `icon` (SF Symbol name).
@@ -64,6 +64,7 @@ const data = nativeify({
   help: { faqs: help.faqs, topics: help.helpTopics, problemCategories: help.problemCategories },
   subscription: { plans: subscription.plans, benefits: subscription.premiumBenefits },
   onboarding: { steps: onboarding.onboardingSteps, analysisSteps: onboarding.analysisSteps },
+  mentorCheck: { redFlags: mentors.mentorRedFlags, greenFlags: mentors.mentorGreenFlags, questions: mentors.mentorQuestions, verdicts: mentors.mentorVerdicts },
   user: users.mockUser,
   answers: users.mockAnswers,
 })

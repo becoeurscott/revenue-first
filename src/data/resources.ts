@@ -889,4 +889,41 @@ export const resources: Resource[] = [
       },
     ],
   },
+  {
+    id: 'res-mentor-checklist',
+    title: 'Mentor Check Checklist',
+    type: 'Checklist',
+    path: 'all',
+    description:
+      'Run this before you pay for any course, coaching program or "mastermind" — in any field. If you tick fewer than 7, keep your money.',
+    minutes: 10,
+    link: '/mentor-check',
+    sections: [
+      {
+        heading: 'Proof',
+        body: [
+          'They still practice the skill they teach today',
+          'I found case studies with real names or links I can check',
+          'Their proof is about clients and results, not cars or cash',
+        ],
+      },
+      {
+        heading: 'The offer',
+        body: [
+          'The price is written on the page',
+          'There is a clear, written refund policy',
+          'No countdown timer or "only 3 spots left" pressure',
+          'It fits my budget without a loan or credit card',
+        ],
+      },
+      {
+        heading: 'Independent research',
+        body: [
+          'I searched their name + "refund", + "scam" and + "review"',
+          'I asked at least one past student how it went',
+          'I applied their free content for a week before deciding',
+        ],
+      },
+    ],
+  },
 ]

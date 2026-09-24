@@ -20,6 +20,7 @@ struct MockDataBundle: Decodable {
     let help: HelpData
     let subscription: SubscriptionData
     let onboarding: OnboardingData
+    let mentorCheck: MentorCheckData
     let user: UserProfile
     let answers: OnboardingAnswers
 }

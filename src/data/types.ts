@@ -121,6 +121,7 @@ export type LessonCategory =
   | 'Clipping'
   | 'Google Business'
   | 'Productivity'
+  | 'Choosing Mentors'
 
 export interface Lesson {
   id: string
@@ -287,6 +288,36 @@ export interface WeeklyCheckin {
   replies: number
   madeMoney: boolean
   improve: string
+}
+
+/** 0 = healthy sign, 1 = caution, 2 = red flag */
+export type MentorRisk = 0 | 1 | 2
+
+export interface MentorOption {
+  label: string
+  risk: MentorRisk
+}
+
+export interface MentorQuestion {
+  id: string
+  question: string
+  /** shown in the result when the answer is a caution or red flag */
+  why: string
+  options: MentorOption[]
+}
+
+export interface MentorFlag {
+  title: string
+  detail: string
+}
+
+export interface MentorVerdict {
+  id: 'trust' | 'caution' | 'avoid'
+  /** applies when the risk score (0–100) is at or below this value */
+  maxScore: number
+  title: string
+  summary: string
+  next: string[]
 }
 
 export interface FaqItem {

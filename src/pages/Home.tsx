@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowRight, Bell, CheckCircle2, Clock, Crown, FolderOpen, Lock, MessageSquareText, Search, Sparkles, Tag, Wallet, Zap } from 'lucide-react'
+import { ArrowRight, Bell, CheckCircle2, Clock, Crown, FolderOpen, Lock, MessageSquareText, Search, ShieldCheck, Sparkles, Tag, Wallet, Zap } from 'lucide-react'
 import { LessonCard } from '@/components/domain/LessonCard'
 import { Page } from '@/components/layout/Page'
 import { Mascot } from '@/components/mascot/Mascot'
@@ -234,6 +234,18 @@ export default function Home() {
           ) : (
             <Card className="text-sm leading-relaxed text-muted">Your wins will show up here. The first one is a single mission away.</Card>
           )}
+        </section>
+
+        <section>
+          <SectionHeader title="Protect Your Money" to="/lessons" action="Lessons" />
+          <LinkCard to="/mentor-check" className="flex items-center gap-4">
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-lg bg-success/12 text-success"><ShieldCheck className="size-7" aria-hidden /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-base font-bold">Mentor Check</span>
+              <span className="block text-[13px] text-muted">About to pay for a course or coach? Spot fake gurus in 2 minutes.</span>
+            </span>
+            <ArrowRight className="size-5 shrink-0 text-faint" aria-hidden />
+          </LinkCard>
         </section>
 
         <section>

@@ -39,6 +39,7 @@ struct HomeView: View {
                 } trailing: {
                     milestone(stats)
                     recentWins(stats)
+                    mentorCheck
                     coachTip(program)
                 }
             }
@@ -210,6 +211,26 @@ struct HomeView: View {
                 }
                 .card(padding: 0)
             }
+        }
+    }
+
+    private var mentorCheck: some View {
+        VStack(alignment: .leading, spacing: Space.s) {
+            SectionHeader(title: "Protect Your Money", action: "Lessons") { store.push(.lessons) }
+            Button { store.push(.mentorCheck) } label: {
+                HStack(spacing: Space.l) {
+                    SymbolTile(icon: "checkmark.shield.fill", tint: Theme.success, size: 56)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Mentor Check").font(.body.weight(.bold)).foregroundStyle(Theme.ink)
+                        Text("About to pay for a course or coach? Spot fake gurus in 2 minutes.").font(.footnote).foregroundStyle(Theme.muted)
+                            .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 0)
+                    Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.faint)
+                }
+                .card()
+            }
+            .buttonStyle(.pressable)
         }
     }
 

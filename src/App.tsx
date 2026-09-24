@@ -44,6 +44,7 @@ const Settings = lazy(() => import('@/pages/Settings'))
 const Subscription = lazy(() => import('@/pages/Subscription'))
 const Help = lazy(() => import('@/pages/Help'))
 const Search = lazy(() => import('@/pages/Search'))
+const MentorCheck = lazy(() => import('@/pages/MentorCheck'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 function RequireAuth() {
@@ -114,6 +115,7 @@ export default function App() {
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/help" element={<Help />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/mentor-check" element={<MentorCheck />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
