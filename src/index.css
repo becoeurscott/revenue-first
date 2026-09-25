@@ -230,3 +230,23 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Touch devices: live backdrop blur and pulsing blurred glows are repainted every scroll frame and make phones feel sluggish. */
+@media (hover: none) and (pointer: coarse) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .animate-pulse-glow {
+    animation: none;
+    opacity: 0.7;
+  }
+  /* Without blur, translucent bars let content show through — make them opaque. */
+  .backdrop-blur-xl.sticky,
+  .backdrop-blur-xl.fixed {
+    background-color: var(--color-bg);
+  }
+  .backdrop-blur-xl.fixed.bg-bg-raised\/90 {
+    background-color: var(--color-bg-raised);
+  }
+}

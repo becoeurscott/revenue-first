@@ -39,6 +39,7 @@ export function Mascot({ mood = 'happy', size = 160, interactive = true, say, ta
     if (!interactive) return
     let frame = 0
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
         const el = root.current
