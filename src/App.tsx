@@ -1,51 +1,59 @@
-import { Suspense, lazy, useEffect } from 'react'
+import { Suspense, lazy, useEffect, type ComponentType } from 'react'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { MascotLoader } from '@/components/mascot/MascotLoader'
 import { ToastViewport } from '@/components/ui/Toast'
 import { useApp } from '@/store/useApp'
 
+// Every page is its own chunk; `page` also records the loader so all chunks can be prefetched once the app is idle.
+const loaders: Array<() => Promise<unknown>> = []
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function page<T extends ComponentType<any>>(load: () => Promise<{ default: T }>) {
+  loaders.push(load)
+  return lazy(load)
+}
+
 // Entry
-const Splash = lazy(() => import('@/pages/auth/Splash'))
-const Welcome = lazy(() => import('@/pages/auth/Welcome'))
-const Login = lazy(() => import('@/pages/auth/Login'))
-const Signup = lazy(() => import('@/pages/auth/Signup'))
-const ForgotPassword = lazy(() => import('@/pages/auth/ForgotPassword'))
-const Onboarding = lazy(() => import('@/pages/onboarding/Onboarding'))
-const Results = lazy(() => import('@/pages/onboarding/Results'))
+const Splash = page(() => import('@/pages/auth/Splash'))
+const Welcome = page(() => import('@/pages/auth/Welcome'))
+const Login = page(() => import('@/pages/auth/Login'))
+const Signup = page(() => import('@/pages/auth/Signup'))
+const ForgotPassword = page(() => import('@/pages/auth/ForgotPassword'))
+const Onboarding = page(() => import('@/pages/onboarding/Onboarding'))
+const Results = page(() => import('@/pages/onboarding/Results'))
 // Core loop
-const Home = lazy(() => import('@/pages/Home'))
-const Plan = lazy(() => import('@/pages/Plan'))
-const DayDetail = lazy(() => import('@/pages/DayDetail'))
-const Mission = lazy(() => import('@/pages/Mission'))
-const Lessons = lazy(() => import('@/pages/Lessons'))
-const LessonDetail = lazy(() => import('@/pages/LessonDetail'))
+const Home = page(() => import('@/pages/Home'))
+const Plan = page(() => import('@/pages/Plan'))
+const DayDetail = page(() => import('@/pages/DayDetail'))
+const Mission = page(() => import('@/pages/Mission'))
+const Lessons = page(() => import('@/pages/Lessons'))
+const LessonDetail = page(() => import('@/pages/LessonDetail'))
 // Sell
-const Coach = lazy(() => import('@/pages/Coach'))
-const OutreachHub = lazy(() => import('@/pages/OutreachHub'))
-const ProspectDetail = lazy(() => import('@/pages/ProspectDetail'))
-const OutreachGenerate = lazy(() => import('@/pages/OutreachGenerate'))
-const Pricing = lazy(() => import('@/pages/Pricing'))
-const Revenue = lazy(() => import('@/pages/Revenue'))
+const Coach = page(() => import('@/pages/Coach'))
+const OutreachHub = page(() => import('@/pages/OutreachHub'))
+const ProspectDetail = page(() => import('@/pages/ProspectDetail'))
+const OutreachGenerate = page(() => import('@/pages/OutreachGenerate'))
+const Pricing = page(() => import('@/pages/Pricing'))
+const Revenue = page(() => import('@/pages/Revenue'))
 // Track
-const Paths = lazy(() => import('@/pages/Paths'))
-const PathDetail = lazy(() => import('@/pages/PathDetail'))
-const Progress = lazy(() => import('@/pages/Progress'))
-const Streak = lazy(() => import('@/pages/Streak'))
-const Achievements = lazy(() => import('@/pages/Achievements'))
-const CheckIn = lazy(() => import('@/pages/CheckIn'))
-const Complete = lazy(() => import('@/pages/Complete'))
+const Paths = page(() => import('@/pages/Paths'))
+const PathDetail = page(() => import('@/pages/PathDetail'))
+const Progress = page(() => import('@/pages/Progress'))
+const Streak = page(() => import('@/pages/Streak'))
+const Achievements = page(() => import('@/pages/Achievements'))
+const CheckIn = page(() => import('@/pages/CheckIn'))
+const Complete = page(() => import('@/pages/Complete'))
 // Library & account
-const Resources = lazy(() => import('@/pages/Resources'))
-const ResourceDetail = lazy(() => import('@/pages/ResourceDetail'))
-const Notifications = lazy(() => import('@/pages/Notifications'))
-const Profile = lazy(() => import('@/pages/Profile'))
-const Settings = lazy(() => import('@/pages/Settings'))
-const Subscription = lazy(() => import('@/pages/Subscription'))
-const Help = lazy(() => import('@/pages/Help'))
-const Search = lazy(() => import('@/pages/Search'))
-const MentorCheck = lazy(() => import('@/pages/MentorCheck'))
-const NotFound = lazy(() => import('@/pages/NotFound'))
+const Resources = page(() => import('@/pages/Resources'))
+const ResourceDetail = page(() => import('@/pages/ResourceDetail'))
+const Notifications = page(() => import('@/pages/Notifications'))
+const Profile = page(() => import('@/pages/Profile'))
+const Settings = page(() => import('@/pages/Settings'))
+const Subscription = page(() => import('@/pages/Subscription'))
+const Help = page(() => import('@/pages/Help'))
+const Search = page(() => import('@/pages/Search'))
+const MentorCheck = page(() => import('@/pages/MentorCheck'))
+const NotFound = page(() => import('@/pages/NotFound'))
 
 function RequireAuth() {
   const authed = useApp((s) => s.authed)
@@ -65,6 +73,11 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme
   }, [theme])
+
+  useEffect(() => {
+    const id = window.setTimeout(() => loaders.forEach((load) => void load()), 600)
+    return () => window.clearTimeout(id)
+  }, [])
 
   return (
     <BrowserRouter>

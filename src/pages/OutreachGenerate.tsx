@@ -74,7 +74,7 @@ function Generator() {
         }),
       )
       setPhase('done')
-    }, 1100)
+    }, 600)
   }
 
   const openSave = () => {

@@ -24,7 +24,7 @@ export default function Login() {
       const first = useApp.getState().user.name.split(' ')[0]
       toast.success(`Welcome back, ${first}`)
       navigate('/home', { replace: true })
-    }, 900)
+    }, 350)
   }
 
   const submit = (e: FormEvent) => {

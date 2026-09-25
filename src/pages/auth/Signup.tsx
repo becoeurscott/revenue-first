@@ -23,7 +23,7 @@ export default function Signup() {
     setTimeout(() => {
       signup(name, email)
       navigate('/onboarding', { replace: true })
-    }, 900)
+    }, 350)
   }
 
   const submit = (e: FormEvent) => {

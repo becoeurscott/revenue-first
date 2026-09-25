@@ -23,7 +23,7 @@ export default function ForgotPassword() {
     setTimeout(() => {
       setLoading(false)
       setSent(true)
-    }, 1000)
+    }, 400)
   }
 
   if (sent) {

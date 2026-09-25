@@ -12,7 +12,7 @@ export default function Splash() {
 
   useEffect(() => {
     const start = performance.now()
-    const DURATION = 2400
+    const DURATION = authed ? 500 : 1200
     let frame = 0
     const tick = (now: number) => {
       const p = Math.min((now - start) / DURATION, 1)

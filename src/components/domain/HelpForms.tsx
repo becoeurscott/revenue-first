@@ -39,7 +39,7 @@ export function ContactForm() {
     window.setTimeout(() => {
       setLoading(false)
       setTicket(ticketNumber())
-    }, 1000)
+    }, 400)
   }
 
   if (ticket) {
@@ -118,7 +118,7 @@ export function ReportForm() {
     window.setTimeout(() => {
       setLoading(false)
       setTicket(ticketNumber())
-    }, 1000)
+    }, 400)
   }
 
   if (ticket) {

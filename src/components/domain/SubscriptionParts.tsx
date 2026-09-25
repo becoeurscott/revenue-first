@@ -39,7 +39,7 @@ export function RestoreButton() {
         window.setTimeout(() => {
           setLoading(false)
           toast.info('No previous purchase found on this account (demo)')
-        }, 1000)
+        }, 500)
       }}
     >
       Restore Purchase

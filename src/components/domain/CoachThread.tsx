@@ -33,7 +33,7 @@ export function CoachThread({ conversation }: { conversation: CoachConversation 
   useEffect(() => {
     if (!awaiting) return
     setFailed(false)
-    const delay = 1200 + Math.random() * 800
+    const delay = 600 + Math.random() * 400
     const timer = window.setTimeout(() => {
       if (useApp.getState().settings.offline) setFailed(true)
       else addChatMessage(id, 'coach', replyText(matchReply(last.text), pathId))

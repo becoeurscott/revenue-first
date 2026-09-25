@@ -51,7 +51,7 @@ export function useMockCheckout(onDone?: () => void) {
       subscribe(plan)
       setLoading(false)
       onDone?.()
-    }, 1400)
+    }, 600)
   }
   return { loading, start }
 }

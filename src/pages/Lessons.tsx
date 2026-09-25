@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { LessonCard } from '@/components/domain/LessonCard'
+import { useFakeLoad } from '@/components/domain/useFakeLoad'
 import { Page } from '@/components/layout/Page'
 import { Button } from '@/components/ui/Button'
 import { FilterChips, Tabs } from '@/components/ui/Chips'
@@ -23,12 +24,7 @@ export default function Lessons() {
   const [view, setView] = useState<View>('All')
   const [category, setCategory] = useState('All')
   const [query, setQuery] = useState('')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 450)
-    return () => clearTimeout(t)
-  }, [])
+  const loading = useFakeLoad(450)
 
   const all = useMemo(() => lessonsForPath(pathId), [pathId])
   const categories = useMemo(() => ['All', ...lessonCategories.filter((c) => all.some((l) => l.category === c))], [all])

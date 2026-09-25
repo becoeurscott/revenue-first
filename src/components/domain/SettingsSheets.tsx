@@ -70,7 +70,7 @@ export function PasswordSheet({ open, onClose }: SheetState) {
     window.setTimeout(() => {
       toast.success('Password updated (demo)')
       onClose()
-    }, 700)
+    }, 350)
   }
 
   return (
