@@ -18,6 +18,7 @@ export interface OnboardingAnswers {
   budget: string
   comfort: string
   interest: string
+  niche: string
   goal: string
   blocker: string
   learning: string
@@ -288,6 +289,20 @@ export interface WeeklyCheckin {
   replies: number
   madeMoney: boolean
   improve: string
+}
+
+/** AI-generated niche playbook (see api/playbook.ts for the schema Claude fills). */
+export interface Playbook {
+  niche: string
+  fit: string
+  summary: string
+  idealClients: string[]
+  offers: { name: string; description: string; priceRange: string; whyItSells: string }[]
+  whereToFind: { channel: string; how: string }[]
+  outreachTemplates: { title: string; stage: 'First touch' | 'Follow-up' | 'Closing'; body: string }[]
+  objections: { objection: string; reply: string }[]
+  pitfalls: string[]
+  dailyTips: string[]
 }
 
 /** 0 = healthy sign, 1 = caution, 2 = red flag */

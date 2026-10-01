@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowRight, Bell, CheckCircle2, Clock, Crown, FolderOpen, Lock, MessageSquareText, Search, ShieldCheck, Sparkles, Tag, Wallet, Zap } from 'lucide-react'
+import { ArrowRight, Bell, CheckCircle2, Clock, Crown, FolderOpen, Lock, MessageSquareText, Search, ShieldCheck, Sparkles, Tag, Target, Wallet, Zap } from 'lucide-react'
 import { LessonCard } from '@/components/domain/LessonCard'
 import { Page } from '@/components/layout/Page'
 import { Mascot } from '@/components/mascot/Mascot'
@@ -90,6 +90,8 @@ export default function Home() {
   const user = useApp((s) => s.user)
   const prospects = useApp((s) => s.prospects)
   const deals = useApp((s) => s.deals)
+  const playbook = useApp((s) => s.playbook)
+  const niche = useApp((s) => s.answers.niche ?? '')
   const { today, todayDone, progress, path, pathId, totalDays } = useProgram()
   const stats = useStats()
   const unread = useUnreadCount()
@@ -166,6 +168,15 @@ export default function Home() {
           </Link>
         ))}
       </nav>
+
+      <LinkCard to="/playbook" className="mt-4 flex items-center gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-500/15 text-brand-300"><Target className="size-5" aria-hidden /></span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-bold">{playbook ? `Your ${playbook.niche} playbook` : niche ? `Build your ${niche} playbook` : 'Get a playbook for your niche'}</span>
+          <span className="block text-[13px] text-muted">{playbook ? (playbook.dailyTips[progress.currentDay - 1] ?? playbook.summary) : 'What to sell, what to charge and who to message — tailored by AI.'}</span>
+        </span>
+        <ArrowRight className="size-5 shrink-0 text-faint" aria-hidden />
+      </LinkCard>
 
       <div className="mt-8 grid gap-x-6 gap-y-8 lg:grid-cols-2">
         {lesson && (

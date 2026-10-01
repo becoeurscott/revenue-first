@@ -53,6 +53,7 @@ const Subscription = page(() => import('@/pages/Subscription'))
 const Help = page(() => import('@/pages/Help'))
 const Search = page(() => import('@/pages/Search'))
 const MentorCheck = page(() => import('@/pages/MentorCheck'))
+const Playbook = page(() => import('@/pages/Playbook'))
 const NotFound = page(() => import('@/pages/NotFound'))
 
 function RequireAuth() {
@@ -129,6 +130,7 @@ export default function App() {
               <Route path="/help" element={<Help />} />
               <Route path="/search" element={<Search />} />
               <Route path="/mentor-check" element={<MentorCheck />} />
+              <Route path="/playbook" element={<Playbook />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, CalendarCheck, Compass, FolderOpen, Home, PlayCircle, Settings, ShieldCheck, Sparkles, Trophy, User, Users, Wallet } from 'lucide-react'
+import { BarChart3, BookOpen, CalendarCheck, Compass, FolderOpen, Home, PlayCircle, Settings, ShieldCheck, Sparkles, Target, Trophy, User, Users, Wallet } from 'lucide-react'
 
 export const mobileNav = [
   { to: '/home', label: 'Home', icon: Home },
@@ -12,6 +12,7 @@ export const sidebarNav = [
   { to: '/home', label: 'Home', icon: Home },
   { to: '/plan', label: 'Plan', icon: CalendarCheck },
   { to: '/paths', label: 'Paths', icon: Compass },
+  { to: '/playbook', label: 'Playbook', icon: Target },
   { to: '/coach', label: 'Coach', icon: Sparkles },
   { to: '/prospects', label: 'Prospects', icon: Users },
   { to: '/revenue', label: 'Revenue', icon: Wallet },

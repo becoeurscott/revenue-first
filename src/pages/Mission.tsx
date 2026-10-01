@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
-import { Check, FileText, Minus, NotebookPen, SkipForward, Undo2, X } from 'lucide-react'
+import { Check, FileText, Lightbulb, Minus, NotebookPen, SkipForward, Undo2, X } from 'lucide-react'
 import { MissionComplete } from '@/components/domain/MissionComplete'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -69,6 +69,7 @@ export default function Mission() {
   const { day } = useParams()
   const { plan, progress } = useProgram()
   const tasks = useApp((s) => s.tasks)
+  const playbook = useApp((s) => s.playbook)
   const notes = useApp((s) => s.taskNotes)
   const setTask = useApp((s) => s.setTask)
   const setTaskNote = useApp((s) => s.setTaskNote)
@@ -83,6 +84,7 @@ export default function Mission() {
   const d = plan.find((p) => p.day === Number(day))
   if (!d || d.day > progress.currentDay) return <Navigate to="/plan" replace />
 
+  const nicheTip = playbook?.dailyTips[d.day - 1]
   const alreadyDone = progress.completedDays.includes(d.day)
   const readOnly = alreadyDone && !celebrate
   const done = d.tasks.filter((t) => tasks[t.id] === 'done').length
@@ -117,6 +119,12 @@ export default function Mission() {
         <main className="pb-40">
           <h1 className="mt-2 text-[28px] leading-tight font-extrabold tracking-tight">{d.theme}</h1>
           <p className="mt-2 text-[15px] leading-relaxed text-muted">{d.missionTitle}</p>
+          {nicheTip && (
+            <p className="mt-4 flex gap-2.5 rounded-lg border border-brand-500/30 bg-brand-500/10 px-4 py-3 text-sm leading-relaxed text-ink-soft">
+              <Lightbulb className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden />
+              <span><span className="font-semibold text-brand-300">For {playbook?.niche}: </span>{nicheTip}</span>
+            </p>
+          )}
           {readOnly && <p className="mt-4 rounded-lg border border-success/25 bg-success/[0.06] px-4 py-3 text-sm font-medium text-success">You completed this mission. Here's what you did.</p>}
 
           <ol className="stagger mt-6 space-y-3">

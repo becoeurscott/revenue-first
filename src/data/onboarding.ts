@@ -121,6 +121,15 @@ export const onboardingSteps: OnboardingStep[] = [
     ],
   },
   {
+    key: 'niche',
+    emoji: '🧭',
+    title: 'Which niche excites you most?',
+    subtitle: 'A topic or industry you know or like. Your coach builds your playbook around it.',
+    kind: 'text',
+    placeholder: 'e.g. fitness, real estate, gaming, restaurants',
+    mascotLine: 'Specific beats general. Every time.',
+  },
+  {
     key: 'goal',
     emoji: '🎯',
     title: 'What is your first income goal?',

@@ -50,7 +50,7 @@ export default function Onboarding() {
 
   const step = onboardingSteps[index]
   const total = onboardingSteps.length
-  const value = answers[step.key]
+  const value = answers[step.key] ?? ''
   const valid = Array.isArray(value) ? value.length > 0 : value.trim().length >= (step.kind === 'text' ? 2 : 1)
 
   const next = () => {

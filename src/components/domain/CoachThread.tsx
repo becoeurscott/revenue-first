@@ -3,6 +3,7 @@ import { ChatBubble, ErrorBubble, TypingIndicator } from '@/components/domain/Ch
 import { CoachComposer } from '@/components/domain/CoachComposer'
 import { coachReplies, fallbackReply } from '@/data/coach'
 import type { CoachConversation, CoachReply, PathId } from '@/data/types'
+import { AiRequestError, askCoach } from '@/lib/ai'
 import { formatDate } from '@/lib/date'
 import { useApp } from '@/store/useApp'
 
@@ -33,13 +34,30 @@ export function CoachThread({ conversation }: { conversation: CoachConversation 
   useEffect(() => {
     if (!awaiting) return
     setFailed(false)
-    const delay = 600 + Math.random() * 400
-    const timer = window.setTimeout(() => {
-      if (useApp.getState().settings.offline) setFailed(true)
-      else addChatMessage(id, 'coach', replyText(matchReply(last.text), pathId))
-    }, delay)
-    return () => window.clearTimeout(timer)
+    let cancelled = false
+    const canned = () => addChatMessage(id, 'coach', replyText(matchReply(last.text), pathId))
+    const state = useApp.getState()
+    if (state.settings.offline) {
+      const timer = window.setTimeout(() => setFailed(true), 600)
+      return () => window.clearTimeout(timer)
+    }
+    // Without a niche (or before Claude is connected) the built-in answers keep the coach useful.
+    if (!state.answers.niche?.trim()) {
+      const timer = window.setTimeout(canned, 600 + Math.random() * 400)
+      return () => window.clearTimeout(timer)
+    }
+    askCoach(state, messages)
+      .then((reply) => !cancelled && addChatMessage(id, 'coach', reply))
+      .catch((error: unknown) => {
+        if (cancelled) return
+        if (error instanceof AiRequestError && error.kind === 'not_configured') canned()
+        else setFailed(true)
+      })
+    return () => {
+      cancelled = true
+    }
     // `attempt` re-runs the request on Retry.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [awaiting, last?.id, last?.text, attempt, id, pathId, addChatMessage])
 
   // Keep the newest message in view (after the shell's scroll-to-top on navigation).

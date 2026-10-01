@@ -16,6 +16,7 @@ import type {
   OnboardingAnswers,
   OutreachTemplate,
   PathId,
+  Playbook,
   Prospect,
   ProspectStatus,
   UserProfile,
@@ -75,6 +76,7 @@ interface Snapshot {
   checkins: WeeklyCheckin[]
   recentSearches: string[]
   settings: Settings
+  playbook: Playbook | null
 }
 
 interface Actions {
@@ -117,6 +119,9 @@ interface Actions {
   saveTemplate: (title: string, body: string) => void
   deleteTemplate: (id: string) => void
   addCheckin: (c: Omit<WeeklyCheckin, 'id' | 'date'>) => void
+
+  setNiche: (niche: string) => void
+  setPlaybook: (playbook: Playbook | null) => void
 
   addRecentSearch: (q: string) => void
   clearRecentSearches: () => void
@@ -174,6 +179,7 @@ function freshSnapshot(): Snapshot {
     customTemplates: [],
     checkins: [],
     recentSearches: [],
+    playbook: null,
     settings: { ...defaultSettings },
   }
 }
@@ -213,6 +219,7 @@ function demoSnapshot(): Snapshot {
     notifications: seedNotifications.map((n) => ({ ...n })),
     conversations: seedConversations.map((c) => structuredClone(c)),
     recentSearches: ['outreach template', 'pricing', 'follow-up'],
+    playbook: null,
   }
 }
 
@@ -467,6 +474,9 @@ export const useApp = create<AppState>()(
 
       addCheckin: (c) => set((s) => ({ checkins: [{ ...c, id: uid('w'), date: nowIso() }, ...s.checkins], xp: s.xp + 50 })),
 
+      setNiche: (niche) => set((s) => ({ answers: { ...s.answers, niche }, playbook: null })),
+      setPlaybook: (playbook) => set({ playbook }),
+
       addRecentSearch: (q) => set((s) => ({ recentSearches: [q, ...s.recentSearches.filter((x) => x.toLowerCase() !== q.toLowerCase())].slice(0, 6) })),
       clearRecentSearches: () => set({ recentSearches: [] }),
 
@@ -506,6 +516,15 @@ export const useApp = create<AppState>()(
 
       resetDemo: () => set(demoSnapshot()),
     }),
-    { name: 'firstrevenue:v1', version: 1 },
+    {
+      name: 'firstrevenue:v1',
+      version: 2,
+      // v2 added the niche answer and the AI playbook.
+      migrate: (persisted, version) => {
+        const state = persisted as Partial<Snapshot>
+        if (version < 2 && state.answers) state.answers = { ...state.answers, niche: state.answers.niche ?? '' }
+        return { ...state, playbook: state.playbook ?? null } as AppState
+      },
+    },
   ),
 )
