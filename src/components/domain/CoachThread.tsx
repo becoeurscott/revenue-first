@@ -5,6 +5,7 @@ import { coachReplies, fallbackReply } from '@/data/coach'
 import type { CoachConversation, CoachReply, PathId } from '@/data/types'
 import { AiRequestError, askCoach } from '@/lib/ai'
 import { formatDate } from '@/lib/date'
+import { posthogLog } from '@/lib/posthog'
 import { useApp } from '@/store/useApp'
 
 /** First canned reply (in order) with any keyword contained in the message. */
@@ -38,20 +39,32 @@ export function CoachThread({ conversation }: { conversation: CoachConversation 
     const canned = () => addChatMessage(id, 'coach', replyText(matchReply(last.text), pathId))
     const state = useApp.getState()
     if (state.settings.offline) {
+      posthogLog.warn('coach_response_unavailable', { reason: 'offline_mode' })
       const timer = window.setTimeout(() => setFailed(true), 600)
       return () => window.clearTimeout(timer)
     }
     // Without a niche (or before Claude is connected) the built-in answers keep the coach useful.
     if (!state.answers.niche?.trim()) {
+      posthogLog.info('coach_response_fallback_used', { reason: 'missing_niche' })
       const timer = window.setTimeout(canned, 600 + Math.random() * 400)
       return () => window.clearTimeout(timer)
     }
-    askCoach(state, messages)
-      .then((reply) => !cancelled && addChatMessage(id, 'coach', reply))
+    posthogLog.info('coach_response_requested', { message_count: messages.length, request_attempt: attempt + 1 })
+    askCoach(state, id, messages)
+      .then((reply) => {
+        if (cancelled) return
+        posthogLog.info('coach_response_received', { request_attempt: attempt + 1 })
+        addChatMessage(id, 'coach', reply)
+      })
       .catch((error: unknown) => {
         if (cancelled) return
-        if (error instanceof AiRequestError && error.kind === 'not_configured') canned()
-        else setFailed(true)
+        if (error instanceof AiRequestError && error.kind === 'not_configured') {
+          posthogLog.warn('coach_response_fallback_used', { reason: error.kind })
+          canned()
+        } else {
+          posthogLog.warn('coach_response_unavailable', { reason: error instanceof AiRequestError ? error.kind : 'unknown' })
+          setFailed(true)
+        }
       })
     return () => {
       cancelled = true

@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom
 import { AppShell } from '@/components/layout/AppShell'
 import { MascotLoader } from '@/components/mascot/MascotLoader'
 import { ToastViewport } from '@/components/ui/Toast'
+import { posthog } from '@/lib/posthog'
 import { useApp } from '@/store/useApp'
 
 // Every page is its own chunk; `page` also records the loader so all chunks can be prefetched once the app is idle.
@@ -71,6 +72,19 @@ function RequireSignedIn() {
 
 export default function App() {
   const theme = useApp((s) => s.settings.theme)
+  const authed = useApp((s) => s.authed)
+  const user = useApp((s) => s.user)
+
+  useEffect(() => {
+    if (!authed || !user.joined) return
+
+    posthog.identify(`profile:${user.joined}`, {
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    })
+  }, [authed, user.joined])
+
   useEffect(() => {
     document.documentElement.dataset.theme = theme
   }, [theme])

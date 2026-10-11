@@ -16,6 +16,7 @@ import { toast } from '@/components/ui/Toast'
 import type { ProspectStatus } from '@/data/types'
 import { cn, money } from '@/lib/cn'
 import { formatDate, timeAgo } from '@/lib/date'
+import { posthog } from '@/lib/posthog'
 import { useApp } from '@/store/useApp'
 
 type Overlay = null | 'note' | 'followup' | 'status' | 'won' | 'lost' | 'more' | 'remove'
@@ -80,6 +81,7 @@ export default function ProspectDetail() {
     if (status === 'Won') return setOverlay('won')
     if (status === 'Lost') return setOverlay('lost')
     setProspectStatus(prospect.id, status)
+    posthog.capture('prospect_status_updated', { from_status: prospect.status, to_status: status })
     toast.success(`${first} marked as ${status}`)
   }
   const saveNote = () => {
@@ -91,6 +93,7 @@ export default function ProspectDetail() {
   }
   const scheduleFollowUp = (days: number | null) => {
     setFollowUp(prospect.id, days)
+    posthog.capture('prospect_follow_up_scheduled', { action: days === null ? 'cleared' : 'scheduled', days_until_follow_up: days })
     close()
     toast.success(days === null ? 'Follow-up cleared' : `Follow-up set for ${days === 1 ? 'tomorrow' : `${days} days from now`}`)
   }
@@ -233,6 +236,7 @@ export default function ProspectDetail() {
         onClose={close}
         onConfirm={() => {
           setProspectStatus(prospect.id, 'Won')
+          posthog.capture('prospect_status_updated', { from_status: prospect.status, to_status: 'Won' })
           setCelebrate(true)
           toast.success('Client won! Deal added to revenue')
         }}
@@ -246,6 +250,7 @@ export default function ProspectDetail() {
         onClose={close}
         onConfirm={() => {
           setProspectStatus(prospect.id, 'Lost')
+          posthog.capture('prospect_status_updated', { from_status: prospect.status, to_status: 'Lost' })
           toast.info(`${first} marked as Lost. On to the next one.`)
         }}
         title="Mark as lost?"

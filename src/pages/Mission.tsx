@@ -12,6 +12,7 @@ import { getLesson } from '@/data/lessons'
 import { resources } from '@/data/resources'
 import type { MissionTask } from '@/data/types'
 import { cn } from '@/lib/cn'
+import { posthog } from '@/lib/posthog'
 import { useProgram } from '@/store/selectors'
 import { useApp, type TaskState } from '@/store/useApp'
 
@@ -94,7 +95,19 @@ export default function Mission() {
 
   const finish = () => {
     completeMission(d.day)
+    posthog.capture('mission_completed', {
+      day: d.day,
+      task_count: d.tasks.length,
+      completed_task_count: done,
+      skipped_task_count: skipped,
+    })
     setCelebrate(true)
+  }
+
+  const toggleTask = (task: MissionTask) => {
+    const isCompleting = tasks[task.id] !== 'done'
+    setTask(task.id, isCompleting ? 'done' : null)
+    if (isCompleting) posthog.capture('mission_task_completed', { day: d.day, task_id: task.id })
   }
 
   if (celebrate) return <MissionComplete plan={d} streak={streak} lesson={getLesson(d.lessonId)} />
@@ -136,7 +149,7 @@ export default function Mission() {
                 state={tasks[t.id]}
                 note={notes[t.id]}
                 readOnly={readOnly}
-                onToggle={() => setTask(t.id, tasks[t.id] === 'done' ? null : 'done')}
+                onToggle={() => toggleTask(t)}
                 onSkip={() => setTask(t.id, tasks[t.id] === 'skipped' ? null : 'skipped')}
                 onNote={() => { setDraft(notes[t.id] ?? ''); setNoteFor(t) }}
               />

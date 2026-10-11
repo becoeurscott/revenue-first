@@ -7,6 +7,7 @@ import { Button, IconButton } from '@/components/ui/Button'
 import { TextArea } from '@/components/ui/Inputs'
 import { toast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
+import { posthog } from '@/lib/posthog'
 import { useProgram, useStats } from '@/store/selectors'
 import { useApp } from '@/store/useApp'
 
@@ -87,6 +88,12 @@ export default function CheckIn() {
       replies: answers.replies,
       madeMoney: answers.madeMoney,
       improve: answers.improve.trim(),
+    })
+    posthog.capture('check_in_saved', {
+      week,
+      prospects_contacted: answers.prospects,
+      replies_received: answers.replies,
+      made_money: answers.madeMoney,
     })
     toast.success('Check-in saved · +50 XP')
     navigate('/plan')

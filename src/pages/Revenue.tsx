@@ -18,6 +18,7 @@ import { toast } from '@/components/ui/Toast'
 import type { DealStatus } from '@/data/types'
 import { money } from '@/lib/cn'
 import { timeAgo } from '@/lib/date'
+import { posthog } from '@/lib/posthog'
 import { useStats } from '@/store/selectors'
 import { useApp } from '@/store/useApp'
 
@@ -58,6 +59,11 @@ export default function Revenue() {
   const move = (status: DealStatus) => {
     if (!active) return
     setDealStatus(active.id, status)
+    posthog.capture('revenue_deal_status_updated', {
+      from_status: active.status,
+      to_status: status,
+      deal_amount: active.amount,
+    })
     setOpenId(null)
     if (status === 'Collected') {
       setCelebrate(true)

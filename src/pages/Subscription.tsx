@@ -14,6 +14,7 @@ import { toast } from '@/components/ui/Toast'
 import { plans } from '@/data/subscription'
 import type { Plan } from '@/data/types'
 import { formatDate } from '@/lib/date'
+import { posthog } from '@/lib/posthog'
 import { useApp } from '@/store/useApp'
 
 /** Plan picker + primary CTA with simulated checkout (respects the offline demo switch). */
@@ -29,6 +30,7 @@ function Checkout({ cta }: { cta: string }) {
       toast.error("You're offline. Try again when you're connected.")
       return
     }
+    posthog.capture('premium_checkout_started', { plan_id: plan, source: 'subscription' })
     start(plan)
   }
 
@@ -130,6 +132,7 @@ function ManageView() {
             disabled={draft === current.id}
             onClick={() => {
               subscribe(draft)
+              posthog.capture('subscription_plan_changed', { from_plan_id: current.id, to_plan_id: draft })
               setSwitching(false)
               toast.success(`Switched to the ${plans.find((p) => p.id === draft)?.name ?? ''} plan`)
             }}
@@ -146,6 +149,7 @@ function ManageView() {
         onClose={() => setCancelling(false)}
         onConfirm={() => {
           setStatus('expired')
+          posthog.capture('subscription_cancelled', { plan_id: current.id })
           toast.info('Subscription cancelled. You can renew any time.')
         }}
         title="Cancel Premium?"

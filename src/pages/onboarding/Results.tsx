@@ -14,6 +14,7 @@ import { analysisSteps, recommendPath } from '@/data/onboarding'
 import { pathList, paths } from '@/data/paths'
 import type { PathId, Plan } from '@/data/types'
 import { cn, hueGradient } from '@/lib/cn'
+import { posthog } from '@/lib/posthog'
 import { useApp } from '@/store/useApp'
 
 const STEP_MS = 850
@@ -67,6 +68,10 @@ export default function Results() {
 
   const finish = () => {
     completeOnboarding(chosen)
+    posthog.capture('onboarding_completed', {
+      path_id: chosen,
+      premium_access: premium,
+    })
     navigate('/home', { replace: true })
   }
   const checkout = useMockCheckout(() => {
@@ -201,7 +206,7 @@ export default function Results() {
         description="Your full 30-day program, AI Coach, lessons and every tool."
         footer={
           <>
-            <Button size="lg" full loading={checkout.loading} onClick={() => checkout.start(plan)} icon={<Crown className="size-4.5" aria-hidden />}>
+            <Button size="lg" full loading={checkout.loading} onClick={() => { posthog.capture('premium_checkout_started', { plan_id: plan, source: 'onboarding' }); checkout.start(plan) }} icon={<Crown className="size-4.5" aria-hidden />}>
               Start Premium
             </Button>
             <Button variant="ghost" full className="mt-1" disabled={checkout.loading} onClick={finish}>

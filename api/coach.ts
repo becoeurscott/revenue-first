@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { METHODOLOGY, MODEL, clip, describeUser, getClient, json, readUser, sameOrigin } from './_lib/shared.js'
+import { METHODOLOGY, MODEL, clip, describeUser, flushPostHog, getClient, trackGeneration, json, readAiObservability, readUser, sameOrigin } from './_lib/shared.js'
 
 const MAX_TURNS = 20
 
@@ -14,8 +14,9 @@ export async function POST(req: Request): Promise<Response> {
   const client = getClient()
   if (!client) return json({ error: 'ai_not_configured' }, 503)
 
-  const body = (await req.json().catch(() => null)) as { user?: unknown; playbookSummary?: unknown; messages?: unknown } | null
+  const body = (await req.json().catch(() => null)) as { user?: unknown; playbookSummary?: unknown; messages?: unknown; ai?: unknown } | null
   const user = readUser(body?.user)
+  const ai = readAiObservability(body?.ai)
   const raw = Array.isArray(body?.messages) ? body.messages.slice(-MAX_TURNS) : []
   const messages: Anthropic.Beta.BetaMessageParam[] = raw
     .map((m: { from?: unknown; text?: unknown }) => ({
@@ -25,10 +26,11 @@ export async function POST(req: Request): Promise<Response> {
     .filter((m) => m.content.trim())
   // The API needs the conversation to start and end on a user turn.
   while (messages.length && messages[0].role !== 'user') messages.shift()
-  if (!user || !messages.length || messages[messages.length - 1].role !== 'user') return json({ error: 'bad_request' }, 400)
+  if (!user || !ai || !messages.length || messages[messages.length - 1].role !== 'user') return json({ error: 'bad_request' }, 400)
 
   const context = [describeUser(user), body?.playbookSummary ? `\nTheir niche playbook summary: ${clip(body.playbookSummary, 600)}` : ''].join('')
 
+  const startedAt = Date.now()
   try {
     let response = await client.beta.messages.create({
       model: MODEL,
@@ -59,6 +61,7 @@ export async function POST(req: Request): Promise<Response> {
         messages: [...messages, { role: 'assistant', content: response.content }],
       })
     }
+    trackGeneration(ai, 'coach', response, startedAt)
     if (response.stop_reason === 'refusal') return json({ error: 'refused' }, 422)
     const text = response.content
       .filter((b): b is Anthropic.Beta.BetaTextBlock => b.type === 'text')
@@ -71,5 +74,7 @@ export async function POST(req: Request): Promise<Response> {
     if (error instanceof Anthropic.RateLimitError) return json({ error: 'busy' }, 429)
     if (error instanceof Anthropic.APIError) return json({ error: 'upstream', status: error.status }, 502)
     throw error
+  } finally {
+    await flushPostHog()
   }
 }

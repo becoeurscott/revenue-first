@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { z } from 'zod'
-import { METHODOLOGY, MODEL, clip, describeUser, getClient, json, readUser, sameOrigin } from './_lib/shared.js'
+import { METHODOLOGY, MODEL, clip, describeUser, flushPostHog, getClient, trackGeneration, json, readAiObservability, readUser, sameOrigin } from './_lib/shared.js'
 
 const PlaybookSchema = z.object({
   niche: z.string().describe('The niche, cleaned up, e.g. "Fitness YouTubers"'),
@@ -33,9 +33,10 @@ export async function POST(req: Request): Promise<Response> {
   const client = getClient()
   if (!client) return json({ error: 'ai_not_configured' }, 503)
 
-  const body = (await req.json().catch(() => null)) as { user?: unknown; plan?: unknown } | null
+  const body = (await req.json().catch(() => null)) as { user?: unknown; plan?: unknown; ai?: unknown } | null
   const user = readUser(body?.user)
-  if (!user) return json({ error: 'bad_request' }, 400)
+  const ai = readAiObservability(body?.ai)
+  if (!user || !ai) return json({ error: 'bad_request' }, 400)
   const plan: PlanDay[] = Array.isArray(body?.plan)
     ? body.plan.slice(0, 30).map((d: Record<string, unknown>, i: number) => ({ day: Number(d.day) || i + 1, theme: clip(d.theme, 80), mission: clip(d.mission, 160) }))
     : []
@@ -49,6 +50,7 @@ export async function POST(req: Request): Promise<Response> {
     ...plan.map((d) => `Day ${d.day} — ${d.theme}: ${d.mission}`),
   ].join('\n')
 
+  const startedAt = Date.now()
   try {
     const response = await client.beta.messages.parse({
       model: MODEL,
@@ -59,6 +61,7 @@ export async function POST(req: Request): Promise<Response> {
       system: [{ type: 'text', text: METHODOLOGY, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: request }],
     })
+    trackGeneration(ai, 'playbook', response, startedAt)
     if (response.stop_reason === 'refusal') return json({ error: 'refused' }, 422)
     if (!response.parsed_output) return json({ error: 'bad_output' }, 502)
     return json({ playbook: response.parsed_output })
@@ -66,5 +69,7 @@ export async function POST(req: Request): Promise<Response> {
     if (error instanceof Anthropic.RateLimitError) return json({ error: 'busy' }, 429)
     if (error instanceof Anthropic.APIError) return json({ error: 'upstream', status: error.status }, 502)
     throw error
+  } finally {
+    await flushPostHog()
   }
 }

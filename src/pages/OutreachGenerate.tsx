@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/Skeleton'
 import { toast } from '@/components/ui/Toast'
 import { generateOutreach, generatorOptions } from '@/data/messages'
 import { cn } from '@/lib/cn'
+import { posthog } from '@/lib/posthog'
 import { useApp } from '@/store/useApp'
 
 const SOMEONE_NEW = 'Someone new'
@@ -74,6 +75,14 @@ function Generator() {
         }),
       )
       setPhase('done')
+      posthog.capture('outreach_message_generated', {
+        path_id: pathId,
+        service,
+        tone,
+        goal,
+        prospect_selected: Boolean(prospect),
+        variant: nextVariant + 1,
+      })
     }, 600)
   }
 
@@ -84,12 +93,14 @@ function Generator() {
   const confirmSave = () => {
     if (!title.trim()) return
     saveTemplate(title.trim(), message)
+    posthog.capture('outreach_template_saved', { path_id: pathId })
     setSaveOpen(false)
     toast.success('Saved to your templates')
   }
   const markSent = () => {
     if (!prospect) return
     logOutreach(prospect.id, message)
+    posthog.capture('outreach_message_sent', { path_id: pathId, service, tone, goal })
     setSent(true)
     toast.success(`Logged as sent to ${prospect.name.split(' ')[0]}`)
   }

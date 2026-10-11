@@ -13,6 +13,14 @@ export class AiRequestError extends Error {
   }
 }
 
+function observabilityContext(s: AppState, sessionId: string) {
+  return {
+    distinctId: `profile:${s.user.joined}`,
+    sessionId,
+    traceId: crypto.randomUUID(),
+  }
+}
+
 function userContext(s: AppState) {
   return {
     path: s.pathId,
@@ -52,15 +60,24 @@ async function post<T>(path: string, body: unknown, timeoutMs: number): Promise<
 
 export async function generatePlaybook(s: AppState): Promise<Playbook> {
   const plan = plans[s.pathId].map((d) => ({ day: d.day, theme: d.theme, mission: d.missionTitle }))
-  const data = await post<{ playbook?: Playbook }>('/api/playbook', { user: userContext(s), plan }, 180_000)
+  const data = await post<{ playbook?: Playbook }>(
+    '/api/playbook',
+    { user: userContext(s), plan, ai: observabilityContext(s, `playbook:${crypto.randomUUID()}`) },
+    180_000,
+  )
   if (!data.playbook) throw new AiRequestError('failed')
   return data.playbook
 }
 
-export async function askCoach(s: AppState, messages: ChatMessage[]): Promise<string> {
+export async function askCoach(s: AppState, conversationId: string, messages: ChatMessage[]): Promise<string> {
   const data = await post<{ reply?: string }>(
     '/api/coach',
-    { user: userContext(s), playbookSummary: s.playbook?.summary, messages: messages.map((m) => ({ from: m.from, text: m.text })) },
+    {
+      user: userContext(s),
+      playbookSummary: s.playbook?.summary,
+      messages: messages.map((m) => ({ from: m.from, text: m.text })),
+      ai: observabilityContext(s, `coach:${conversationId}`),
+    },
     90_000,
   )
   if (!data.reply) throw new AiRequestError('failed')

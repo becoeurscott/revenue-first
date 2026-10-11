@@ -11,6 +11,7 @@ import { ConfirmDialog } from '@/components/ui/Sheet'
 import { StatCard } from '@/components/ui/StatCard'
 import { plans } from '@/data/subscription'
 import { money } from '@/lib/cn'
+import { posthog } from '@/lib/posthog'
 import { useProgram, useStats, useUnreadCount } from '@/store/selectors'
 import { useApp } from '@/store/useApp'
 
@@ -129,6 +130,7 @@ export default function Profile() {
         open={overlay === 'logout'}
         onClose={close}
         onConfirm={() => {
+          posthog.reset()
           logout()
           navigate('/welcome')
         }}

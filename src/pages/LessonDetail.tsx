@@ -14,6 +14,7 @@ import { VideoPlayerMock } from '@/components/ui/VideoPlayerMock'
 import { getLesson, lessonsForPath } from '@/data/lessons'
 import { resources } from '@/data/resources'
 import { isLessonLocked, lessonDay } from '@/lib/lessons'
+import { posthog } from '@/lib/posthog'
 import { useProgram } from '@/store/selectors'
 import { useApp } from '@/store/useApp'
 
@@ -56,6 +57,11 @@ export default function LessonDetail() {
 
   const markComplete = () => {
     completeLesson(lesson.id)
+    posthog.capture('lesson_completed', {
+      lesson_id: lesson.id,
+      lesson_category: lesson.category,
+      path_id: pathId,
+    })
     toast.success('Lesson complete · +25 XP')
   }
 

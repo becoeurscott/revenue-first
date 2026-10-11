@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { PostHog } from 'posthog-node'
 
 export const MODEL = 'claude-opus-5-5'
 
@@ -29,11 +30,51 @@ Rules:
 - Write for a beginner: short sentences, no jargon without a one-line explanation.`
 
 let client: Anthropic | null = null
-/** Null when no credential is configured, so endpoints can return 503 and the app falls back. */
+let posthog: PostHog | null | undefined
+
+/** Null when no Claude credential is configured, so endpoints can return 503 and the app falls back. */
 export function getClient(): Anthropic | null {
   if (!process.env.ANTHROPIC_API_KEY) return null
   client ??= new Anthropic()
   return client
+}
+
+function getPostHog(): PostHog | null {
+  if (posthog !== undefined) return posthog
+  const apiKey = process.env.VITE_POSTHOG_KEY
+  const host = process.env.VITE_POSTHOG_HOST
+  // Analytics is optional: without it the AI endpoints must keep working.
+  posthog = apiKey && host ? new PostHog(apiKey, { host, flushAt: 1, flushInterval: 0 }) : null
+  return posthog
+}
+
+/** Records one Claude call in PostHog LLM analytics (model, tokens, latency) — never the user's text. */
+export function trackGeneration(
+  ai: AiObservabilityContext,
+  feature: 'coach' | 'playbook',
+  response: { model: string; stop_reason: string | null; usage: { input_tokens: number; output_tokens: number; cache_read_input_tokens?: number | null } },
+  startedAt: number,
+) {
+  getPostHog()?.capture({
+    distinctId: ai.distinctId,
+    event: '$ai_generation',
+    properties: {
+      $ai_trace_id: ai.traceId,
+      $ai_session_id: ai.sessionId,
+      $ai_provider: 'anthropic',
+      $ai_model: response.model,
+      $ai_input_tokens: response.usage.input_tokens,
+      $ai_output_tokens: response.usage.output_tokens,
+      $ai_cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
+      $ai_latency: (Date.now() - startedAt) / 1000,
+      $ai_stop_reason: response.stop_reason,
+      feature,
+    },
+  })
+}
+
+export async function flushPostHog(): Promise<void> {
+  await getPostHog()?.flush()
 }
 
 export const json = (body: unknown, status = 200) =>
@@ -52,6 +93,22 @@ export function sameOrigin(req: Request): boolean {
 }
 
 export const clip = (value: unknown, max: number) => String(value ?? '').slice(0, max)
+
+export interface AiObservabilityContext {
+  distinctId: string
+  sessionId: string
+  traceId: string
+}
+
+const validAiId = (value: unknown): value is string =>
+  typeof value === 'string' && value.length > 0 && value.length <= 200 && /^[A-Za-z0-9_~.@()!'|:-]+$/.test(value)
+
+export function readAiObservability(raw: unknown): AiObservabilityContext | null {
+  if (!raw || typeof raw !== 'object') return null
+  const context = raw as Record<string, unknown>
+  if (!validAiId(context.distinctId) || !validAiId(context.sessionId) || !validAiId(context.traceId)) return null
+  return { distinctId: context.distinctId, sessionId: context.sessionId, traceId: context.traceId }
+}
 
 export interface UserContext {
   path: 'clipping' | 'gbp'
