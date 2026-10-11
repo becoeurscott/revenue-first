@@ -31,6 +31,8 @@ struct Subscription: Codable, Hashable {
 /// Everything that is persisted. Mirrors the web store's snapshot so both prototypes behave the same.
 struct Snapshot: Codable {
     var authed = false
+    /// The signed-in Vaulten account; nil for the offline demo.
+    var account: AuthUser?
     var onboarded = false
     var user: UserProfile
     var answers = OnboardingAnswers()
@@ -108,6 +110,17 @@ final class AppStore {
             s = saved
         } else {
             s = AppStore.fresh()
+        }
+        // A real account without a stored session can't call the API — send it back to sign-in.
+        if s.authed, s.account != nil, Keychain.load() == nil { s.authed = false }
+        NotificationCenter.default.addObserver(forName: VaultenAPI.sessionEndedNotification, object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self, self.s.account != nil else { return }
+                self.s.authed = false
+                self.paths = [:]
+                self.cover = nil
+                self.showToast("Your session ended. Please sign in again.", .info)
+            }
         }
     }
 
@@ -200,21 +213,35 @@ final class AppStore {
 
     // MARK: Auth
 
-    func login() {
-        if s.onboarded && !s.user.name.isEmpty { s.authed = true } else { s = AppStore.demo() }
+    /// Offline demo: Alex Carter on Day 7, no account.
+    func startDemo() {
+        s = AppStore.demo()
         tab = .home; paths = [:]
     }
 
-    func signup(name: String, email: String) {
-        var snap = AppStore.fresh()
-        snap.authed = true
-        snap.user.name = name
-        snap.user.email = email
-        snap.answers.name = name.split(separator: " ").first.map(String.init) ?? ""
-        s = snap
+    /// A real Vaulten session was created. The same account resumes its local progress;
+    /// a different account starts fresh (the server is the source of truth for identity).
+    func signedIn(_ user: AuthUser) {
+        let name = [user.firstName, user.lastName].compactMap { $0 }.joined(separator: " ")
+        if s.account?.id == user.id {
+            s.account = user
+            s.authed = true
+        } else {
+            var snap = AppStore.fresh()
+            snap.authed = true
+            snap.account = user
+            snap.user.name = name
+            snap.user.email = user.email
+            snap.answers.name = user.firstName ?? ""
+            s = snap
+        }
+        tab = .home; paths = [:]
     }
 
-    func logout() { s.authed = false; paths = [:]; cover = nil }
+    func logout() {
+        if s.account != nil { Task { await AuthAPI.logout() } }
+        s.authed = false; paths = [:]; cover = nil
+    }
 
     func completeOnboarding(path: PathID) {
         let a = s.answers
