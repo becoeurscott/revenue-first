@@ -4,6 +4,8 @@ import SwiftUI
 struct FirstRevenueApp: App {
     @State private var store = AppStore()
 
+    init() { Monitoring.start() }
+
     var body: some Scene {
         WindowGroup {
             RootView()

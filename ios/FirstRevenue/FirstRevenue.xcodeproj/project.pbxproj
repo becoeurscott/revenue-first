@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F1A000000000000000000021 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = F1A000000000000000000025 /* Sentry */; };
+		F1A000000000000000000022 /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = F1A000000000000000000026 /* PostHog */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F1A000000000000000000001 /* FirstRevenue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstRevenue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -19,6 +24,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1A000000000000000000021 /* Sentry in Frameworks */,
+				F1A000000000000000000022 /* PostHog in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +67,10 @@
 				F1A000000000000000000002 /* FirstRevenue */,
 			);
 			name = FirstRevenue;
+			packageProductDependencies = (
+				F1A000000000000000000025 /* Sentry */,
+				F1A000000000000000000026 /* PostHog */,
+			);
 			productName = FirstRevenue;
 			productReference = F1A000000000000000000001 /* FirstRevenue.app */;
 			productType = "com.apple.product-type.application";
@@ -88,6 +99,10 @@
 			);
 			mainGroup = F1A000000000000000000004;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F1A000000000000000000023 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				F1A000000000000000000024 /* XCRemoteSwiftPackageReference "posthog-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1A000000000000000000005 /* Products */;
 			projectDirPath = "";
@@ -241,6 +256,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F1A000000000000000000023 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.30.1;
+			};
+		};
+		F1A000000000000000000024 /* XCRemoteSwiftPackageReference "posthog-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PostHog/posthog-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.92.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F1A000000000000000000025 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A000000000000000000023 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+		F1A000000000000000000026 /* PostHog */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A000000000000000000024 /* XCRemoteSwiftPackageReference "posthog-ios" */;
+			productName = PostHog;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F1A000000000000000000009 /* Project object */;
 }

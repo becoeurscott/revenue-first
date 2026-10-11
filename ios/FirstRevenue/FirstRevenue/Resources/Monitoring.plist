@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Public client identifiers only. Leave a value empty to turn that SDK off.
+     SentryDSN: sentry.io > Project settings > Client Keys (DSN).
+     PostHogAPIKey: PostHog > Project settings > Project API key (starts with phc_).
+     Never put the Sentry auth token or a PostHog phs_/phx_ key here: those go to the backend. -->
+<plist version="1.0">
+<dict>
+	<key>SentryDSN</key>
+	<string></string>
+	<key>PostHogAPIKey</key>
+	<string></string>
+	<key>PostHogHost</key>
+	<string>https://us.i.posthog.com</string>
+</dict>
+</plist>

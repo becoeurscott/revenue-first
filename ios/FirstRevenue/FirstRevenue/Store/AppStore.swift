@@ -217,6 +217,7 @@ final class AppStore {
     func startDemo() {
         s = AppStore.demo()
         tab = .home; paths = [:]
+        Monitoring.track("demo_started")
     }
 
     /// A real Vaulten session was created. The same account resumes its local progress;
@@ -236,10 +237,14 @@ final class AppStore {
             s = snap
         }
         tab = .home; paths = [:]
+        Monitoring.identify(userId: user.id, path: s.onboarded ? s.pathId.rawValue : nil)
+        Monitoring.track("signed_in")
     }
 
     func logout() {
         if s.account != nil { Task { await AuthAPI.logout() } }
+        Monitoring.track("signed_out")
+        Monitoring.reset()
         s.authed = false; paths = [:]; cover = nil
     }
 
@@ -258,18 +263,23 @@ final class AppStore {
         s.user.confidence = a.comfort
         notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked. It takes about 20 minutes — start while the motivation is fresh.", "/plan/day/1")
         tab = .home; paths = [:]
+        Monitoring.track("onboarding_completed", ["path": path.rawValue, "experience": a.experience, "time_per_day": a.time, "learning_style": a.learning, "goal": a.goal])
     }
 
     // MARK: Subscription
 
     func subscribe(_ plan: String) {
         s.subscription = Subscription(status: .active, plan: plan, renews: Date.daysFromNow(plan == "yearly" ? 365 : 30))
+        Monitoring.track("subscription_started", ["plan": plan])
     }
     func setSubscription(_ status: SubscriptionStatus) { s.subscription.status = status }
 
     // MARK: Missions
 
-    func setTask(_ id: String, _ state: TaskState?) { s.tasks[id] = state }
+    func setTask(_ id: String, _ state: TaskState?) {
+        s.tasks[id] = state
+        if let state { Monitoring.track("mission_task_\(state.rawValue)", ["task_id": id, "path": s.pathId.rawValue]) }
+    }
     func setTaskNote(_ id: String, _ note: String) { s.taskNotes[id] = note.isEmpty ? nil : note }
 
     func completeMission(day: Int) {
@@ -278,6 +288,7 @@ final class AppStore {
         let plan = MockData.day(s.pathId, day)
         p.completedDays = (p.completedDays + [day]).sorted()
         s.progress[s.pathId] = p
+        Monitoring.track("mission_completed", ["day": day, "path": s.pathId.rawValue])
         s.xp += plan?.xp ?? 100
         s.streak += 1
         s.longestStreak = max(s.longestStreak, s.streak)
@@ -310,6 +321,7 @@ final class AppStore {
         guard !s.completedLessons.contains(id) else { return }
         s.completedLessons.append(id)
         s.xp += 25
+        Monitoring.track("lesson_completed", ["lesson_id": id])
     }
     func toggleSavedLesson(_ id: String) { s.savedLessons.toggle(id) }
     func touchLesson(_ id: String) { s.recentLessons = Array(([id] + s.recentLessons.filter { $0 != id }).prefix(8)) }
@@ -327,6 +339,7 @@ final class AppStore {
         let id = UID.make("p")
         let p = Prospect(id: id, path: path, name: name, business: business, platform: platform, audience: audience, handle: handle, about: about, status: status, lastContact: nil, followUp: nil, value: value, notes: [], history: [event("status", "Added to your prospect list")], gbp: gbp)
         s.prospects.insert(p, at: 0)
+        Monitoring.track("prospect_added", ["path": path.rawValue, "platform": platform])
         return id
     }
 
@@ -334,6 +347,7 @@ final class AppStore {
         guard let i = s.prospects.firstIndex(where: { $0.id == id }), s.prospects[i].status != status else { return }
         let prospect = s.prospects[i]
         s.prospects[i].status = status
+        Monitoring.track("prospect_status_updated", ["from": prospect.status.rawValue, "to": status.rawValue])
         if status != .new { s.prospects[i].lastContact = Date() }
         s.prospects[i].history.insert(event("status", "Marked as \(status.rawValue)"), at: 0)
 
@@ -372,6 +386,7 @@ final class AppStore {
         if s.prospects[i].status == .new { s.prospects[i].status = .contacted }
         s.prospects[i].lastContact = Date()
         s.prospects[i].history.insert(event("message", text), at: 0)
+        Monitoring.track("outreach_logged", ["path": s.prospects[i].path.rawValue])
     }
 
     func removeProspect(_ id: String) {
@@ -383,12 +398,14 @@ final class AppStore {
 
     func addDeal(client: String, service: String, amount: Int, status: DealStatus) {
         s.deals.insert(Deal(id: UID.make("d"), prospectId: nil, path: s.pathId, client: client, service: service, amount: amount, status: status, date: Date()), at: 0)
+        Monitoring.track("deal_added", ["status": status.rawValue, "amount": amount])
     }
 
     func setDealStatus(_ id: String, _ status: DealStatus) {
         guard let i = s.deals.firstIndex(where: { $0.id == id }) else { return }
         s.deals[i].status = status
         s.deals[i].date = Date()
+        Monitoring.track("deal_status_updated", ["to": status.rawValue, "amount": s.deals[i].amount, "first_revenue": status == .collected && !s.deals.contains { $0.id != id && $0.status == .collected }])
         if status == .collected {
             notify("dollarsign.circle.fill", "\(s.deals[i].client) paid $\(s.deals[i].amount)", "Money in the bank. Your revenue tracker is updated.", "/revenue")
         }
@@ -430,6 +447,7 @@ final class AppStore {
     func deleteTemplate(_ id: String) { s.customTemplates.removeAll { $0.id == id } }
 
     func addCheckin(week: Int, accomplished: String, difficult: String, prospects: Int, replies: Int, madeMoney: Bool, improve: String) {
+        Monitoring.track("check_in_saved", ["week": week, "made_money": madeMoney, "prospects": prospects, "replies": replies])
         s.checkins.insert(WeeklyCheckin(id: UID.make("w"), week: week, date: Date(), accomplished: accomplished, difficult: difficult, prospects: prospects, replies: replies, madeMoney: madeMoney, improve: improve), at: 0)
         s.xp += 50
     }
@@ -444,6 +462,7 @@ final class AppStore {
 
     func switchPath(_ path: PathID) {
         guard s.pathId != path else { return }
+        Monitoring.track("path_switched", ["from": s.pathId.rawValue, "to": path.rawValue])
         s.pathId = path
         notify("safari.fill", "Path switched", "Your plan, lessons and resources now follow your new path. Progress on the old path is saved.", "/plan")
     }
