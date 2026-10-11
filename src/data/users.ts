@@ -4,7 +4,7 @@ import type { OnboardingAnswers, UserProfile } from './types'
 /** The fictitious demo user used throughout the prototype. */
 export const mockUser: UserProfile = {
   name: 'Alex Carter',
-  email: 'alex.carter@firstrevenue.demo',
+  email: 'alex.carter@vaulten.demo',
   age: 24,
   role: 'Student',
   skills: ['Video editing', 'Social media'],

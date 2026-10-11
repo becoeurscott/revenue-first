@@ -89,7 +89,7 @@ struct AccountEditProfileSheet: View {
     @State private var errors: [String: String] = [:]
 
     var body: some View {
-        AccountSheetScaffold(title: "Edit profile", description: "This is how you appear across FirstRevenue.", detents: [.large]) {
+        AccountSheetScaffold(title: "Edit profile", description: "This is how you appear across Vaulten.", detents: [.large]) {
             VStack(spacing: Space.l) {
                 FRTextField(label: "Name", text: $name, placeholder: "Your name", systemImage: "person", error: errors["name"], contentType: .name)
                 FRTextField(label: "Email", text: $email, placeholder: "you@example.com", systemImage: "envelope", error: errors["email"], keyboard: .emailAddress, contentType: .emailAddress)
@@ -134,7 +134,7 @@ enum AccountLegalDoc: String, Identifiable {
     var id: String { rawValue }
 
     var title: String { self == .privacy ? "Privacy policy" : "Terms of service" }
-    var summary: String { self == .privacy ? "The short version: your data never leaves this device." : "Plain-language terms for the FirstRevenue prototype." }
+    var summary: String { self == .privacy ? "The short version: your data never leaves this device." : "Plain-language terms for Vaulten." }
     var sections: [(String, String)] {
         switch self {
         case .privacy:
@@ -143,7 +143,7 @@ enum AccountLegalDoc: String, Identifiable {
              ("Who we share it with", "Nobody. There are no analytics, no ad trackers and no third-party SDKs in this build."),
              ("Your choices", "You can export a copy of your data as JSON or wipe it at any time from Settings → Privacy → Your data.")]
         case .terms:
-            [("A prototype, not a product", "FirstRevenue is a demonstration. Every person, business, message and payment you see is fictitious. Checkout is simulated and no payment is ever taken."),
+            [("A prototype, not a product", "Vaulten is a demonstration. Every person, business, message and payment you see is fictitious. Checkout is simulated and no payment is ever taken."),
              ("No income guarantee", "The program teaches a process for finding your first clients. Results depend on your effort, your market and your follow-through. We do not promise earnings."),
              ("Use it responsibly", "When you contact real people, be honest about who you are, respect opt-outs and follow the rules of the platform you are using. No spam."),
              ("Subscriptions", "In a live version Premium would renew automatically until cancelled, and you would keep access until the end of the paid period. In this prototype plans only change local state.")]

@@ -81,7 +81,7 @@ private struct SubHero: View {
             } else {
                 Text("Premium").font(.system(size: 36, weight: .heavy)).foregroundStyle(Theme.textGradient)
             }
-            Text(expired ? "Your progress, prospects and revenue are safe. Renew to pick up exactly where you left off." : "Unlock your complete FirstRevenue journey.")
+            Text(expired ? "Your progress, prospects and revenue are safe. Renew to pick up exactly where you left off." : "Unlock your complete Vaulten journey.")
                 .font(.callout).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 340)
         }
         .frame(maxWidth: .infinity)

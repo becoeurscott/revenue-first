@@ -74,7 +74,7 @@ struct CompleteView: View {
 
     private var shareText: String {
         let r = results
-        return "I just finished the FirstRevenue 30-day \(store.program.path.name) program: \(r.missions) missions, \(r.contacted) prospects contacted, \(r.clients) \(r.clients == 1 ? "client" : "clients") and \(money(r.revenue)) earned."
+        return "I just finished the Vaulten 30-day \(store.program.path.name) program: \(r.missions) missions, \(r.contacted) prospects contacted, \(r.clients) \(r.clients == 1 ? "client" : "clients") and \(money(r.revenue)) earned."
     }
 
     private var stats: some View {

@@ -5,7 +5,7 @@ enum MascotMood: CaseIterable { case happy, thinking, excited, wink, sad, sleepy
 private let ink = Color(red: 0.18, green: 0.06, blue: 0.40)
 private let limb = Color(red: 0.49, green: 0.23, blue: 0.93)
 
-/// Penny — FirstRevenue's brain mascot, drawn natively in SwiftUI.
+/// Penny — Vaulten's brain mascot, drawn natively in SwiftUI.
 /// Pupils follow touches (and the iPad pointer), she blinks on her own,
 /// floats, and jumps with a new line + haptic when tapped.
 struct MascotView: View {
@@ -67,7 +67,7 @@ struct MascotView: View {
             if case .active(let p) = phase { lookToward(p) } else { withAnimation(.snappy) { look = .zero } }
         }
         .accessibilityElement()
-        .accessibilityLabel("Penny, your FirstRevenue mascot")
+        .accessibilityLabel("Penny, your Vaulten mascot")
         .accessibilityValue(bubble ?? "")
         .accessibilityHint(interactive ? "Double tap to say hi" : "")
         .accessibilityAddTraits(interactive ? .isButton : [])

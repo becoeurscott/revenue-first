@@ -38,7 +38,7 @@ export const faqs: FaqItem[] = [
     a: 'No. Both paths are designed to start at $0. Clipping works with free editors such as CapCut, and Google Business Profile audits only need a browser and our checklist. Paid tools are optional, and we only suggest them after your first client has paid.',
   },
   {
-    q: 'Does FirstRevenue guarantee I will make money?',
+    q: 'Does Vaulten guarantee I will make money?',
     a: 'No, and you should be careful with anyone who does. We give you a proven daily process, scripts and coaching. Your results depend on how many people you contact and how consistently you follow up. Most beginners need 30 to 50 outreach messages to land a first client.',
   },
 ]

@@ -37,7 +37,7 @@ struct SettingsView: View {
                     }
                     prototypeGroup
                 }
-                Text("FirstRevenue 0.9 (prototype) · All data is fictitious")
+                Text("Vaulten \(VaultenConfig.appVersion)")
                     .font(.caption).foregroundStyle(Theme.faint)
                     .frame(maxWidth: .infinity)
             }
@@ -85,7 +85,7 @@ struct SettingsView: View {
             ListRow(icon: "hand.raised", title: "Privacy policy") { sheet = .privacy }
             ListRow(icon: "doc.text", title: "Terms of service") { sheet = .terms }
             ListRow(icon: "externaldrive", title: "Your data", detail: "Stored on this device · Export anytime") { sheet = .data }
-            ShareLink(item: SettingsExport.json(store.s), subject: Text("My FirstRevenue data"), preview: SharePreview("FirstRevenue data export", image: Image(systemName: "doc.text"))) {
+            ShareLink(item: SettingsExport.json(store.s), subject: Text("My Vaulten data"), preview: SharePreview("Vaulten data export", image: Image(systemName: "doc.text"))) {
                 ListRow(icon: "square.and.arrow.up", title: "Export my data", detail: "JSON · profile, progress, prospects, deals", showChevron: false, action: nil) { EmptyView() }
             }
             .buttonStyle(.pressable)
@@ -308,7 +308,7 @@ private struct SettingsDataSheet: View {
     @Environment(AppStore.self) private var store
 
     var body: some View {
-        AccountSheetScaffold(title: "Your data", description: "What FirstRevenue stores, and where.", detents: [.medium, .large]) {
+        AccountSheetScaffold(title: "Your data", description: "What Vaulten stores, and where.", detents: [.medium, .large]) {
             VStack(alignment: .leading, spacing: Space.m) {
                 Text("Everything in this prototype is **fictitious**. The prospects, clients, messages and payments are made-up examples.")
                 Text("Anything you add is stored **locally on this device**. Nothing is sent to a server, and nobody else can see it.")
@@ -322,7 +322,7 @@ private struct SettingsDataSheet: View {
             Text("The export is a JSON file with your profile, progress, prospects, deals and settings.")
                 .font(.footnote).foregroundStyle(Theme.faint)
         } footer: {
-            ShareLink(item: SettingsExport.json(store.s), subject: Text("My FirstRevenue data"), preview: SharePreview("FirstRevenue data export", image: Image(systemName: "doc.text"))) {
+            ShareLink(item: SettingsExport.json(store.s), subject: Text("My Vaulten data"), preview: SharePreview("Vaulten data export", image: Image(systemName: "doc.text"))) {
                 Label("Export my data", systemImage: "square.and.arrow.up")
             }
             .buttonStyle(.fr(.primary, size: .lg, full: true))
@@ -355,7 +355,7 @@ private struct SettingsDevice: Identifiable, Hashable {
 private struct SettingsSessionsSheet: View {
     @Environment(AppStore.self) private var store
     @State private var sessions: [SettingsDevice] = [
-        SettingsDevice(id: "s-1", name: "This iPhone", detail: "FirstRevenue app · Active now", icon: "iphone", current: true),
+        SettingsDevice(id: "s-1", name: "This iPhone", detail: "Vaulten app · Active now", icon: "iphone", current: true),
         SettingsDevice(id: "s-2", name: "MacBook Air", detail: "Austin, TX · 2 hours ago", icon: "laptopcomputer", current: false),
         SettingsDevice(id: "s-3", name: "iPad Air", detail: "Austin, TX · 5 days ago", icon: "ipad", current: false),
     ]

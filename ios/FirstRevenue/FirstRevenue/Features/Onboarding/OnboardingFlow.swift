@@ -257,7 +257,7 @@ private struct AnalysisView: View {
             ProgressRing(value: Double(step) / Double(labels.count), size: 230, lineWidth: 6, label: "Building your plan") {
                 MascotView(mood: step >= labels.count ? .excited : .thinking, size: 150, interactive: false)
             }
-            Text("Building your FirstRevenue plan…").font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).multilineTextAlignment(.center).padding(.top, Space.xxl)
+            Text("Building your Vaulten plan…").font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).multilineTextAlignment(.center).padding(.top, Space.xxl)
             VStack(alignment: .leading, spacing: 14) {
                 ForEach(Array(labels.enumerated()), id: \.offset) { i, label in
                     HStack(spacing: 12) {

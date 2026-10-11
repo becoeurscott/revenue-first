@@ -38,7 +38,7 @@ private struct EmailBody: Encodable { let email: String }
 private struct ResetBody: Encodable { let email, code, newPassword: String }
 
 enum AuthAPI {
-    private static var deviceLabel: String { "FirstRevenue iOS" }
+    private static var deviceLabel: String { "Vaulten iOS" }
 
     static func register(name: String, email: String, password: String) async throws -> RegisteredAccount {
         let parts = name.split(separator: " ", maxSplits: 1).map(String.init)

@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// FirstRevenue design tokens. Dark-first; light values back the Appearance setting.
+// Vaulten design tokens. Dark-first; light values back the Appearance setting.
 // Views never hard-code colors or spacing: use `Theme` and the modifiers below.
 
 private extension UIColor {

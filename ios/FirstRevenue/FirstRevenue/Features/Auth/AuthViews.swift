@@ -26,14 +26,14 @@ struct SplashView: View {
                     .scaleEffect(appeared ? 1 : 0.7).opacity(appeared ? 1 : 0)
                 HStack(spacing: 12) {
                     LogoMark(size: 44)
-                    (Text("First").foregroundStyle(Theme.ink) + Text("Revenue").foregroundStyle(Theme.textGradient))
+                    (Text("Vault").foregroundStyle(Theme.ink) + Text("en").foregroundStyle(Theme.textGradient))
                         .font(.system(size: 32, weight: .heavy))
                 }
                 .padding(.top, 32)
                 .opacity(appeared ? 1 : 0).offset(y: appeared ? 0 : 12)
                 Text("Your first client starts here.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 10)
                     .opacity(appeared ? 1 : 0)
-                ProgressBar(value: progress, height: 4, label: "Loading FirstRevenue").frame(width: 160).padding(.top, 40).opacity(appeared ? 1 : 0)
+                ProgressBar(value: progress, height: 4, label: "Loading Vaulten").frame(width: 160).padding(.top, 40).opacity(appeared ? 1 : 0)
             }
         }
         .onAppear {
@@ -130,7 +130,7 @@ struct WelcomeView: View {
         AuthScaffold {
             HStack(spacing: 10) {
                 LogoMark(size: 36)
-                (Text("First").foregroundStyle(Theme.ink) + Text("Revenue").foregroundStyle(Theme.textGradient)).font(.title3.weight(.heavy))
+                (Text("Vault").foregroundStyle(Theme.ink) + Text("en").foregroundStyle(Theme.textGradient)).font(.title3.weight(.heavy))
             }
             .padding(.top, Space.s)
             VStack(spacing: 0) {

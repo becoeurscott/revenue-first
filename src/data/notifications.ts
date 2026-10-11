@@ -105,7 +105,7 @@ export const seedNotifications: AppNotification[] = [
   {
     id: 'n-12',
     emoji: '👋',
-    title: 'Welcome to FirstRevenue, Alex',
+    title: 'Welcome to Vaulten, Alex',
     body: 'Your 30-day Short-Form Clipping program starts now. Day 1 takes about 25 minutes.',
     date: daysAgo(6, 9),
     read: true,

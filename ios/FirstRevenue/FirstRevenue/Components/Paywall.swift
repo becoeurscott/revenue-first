@@ -55,7 +55,7 @@ struct PaywallSheet: View {
                 MascotView(mood: .love, size: 104).padding(.top, Space.l)
                 VStack(spacing: 6) {
                     Text("Unlock with Premium").font(.title2).foregroundStyle(Theme.ink)
-                    Text("\(feature.prefix(1).uppercased() + feature.dropFirst()) is part of your complete FirstRevenue journey.").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+                    Text("\(feature.prefix(1).uppercased() + feature.dropFirst()) is part of your complete Vaulten journey.").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
                 }
                 PlanPicker(selection: $plan).padding(.top, 6)
                 VStack(alignment: .leading, spacing: 10) {
