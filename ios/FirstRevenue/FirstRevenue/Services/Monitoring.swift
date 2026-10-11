@@ -12,11 +12,14 @@ enum Monitoring {
         let config = Bundle.main.url(forResource: "Monitoring", withExtension: "plist")
             .flatMap { NSDictionary(contentsOf: $0) as? [String: Any] } ?? [:]
         let value = { (key: String) in (config[key] as? String)?.trimmingCharacters(in: .whitespaces) ?? "" }
+        // Set MONITORING_DEBUG=1 in the scheme's environment to see SDK logs in the console.
+        let debugLogs = ProcessInfo.processInfo.environment["MONITORING_DEBUG"] == "1"
 
         let dsn = value("SentryDSN")
         if !dsn.isEmpty {
             SentrySDK.start { options in
                 options.dsn = dsn
+                options.debug = debugLogs
                 options.sendDefaultPii = false
                 options.tracesSampleRate = 0.2
                 #if DEBUG
@@ -33,6 +36,7 @@ enum Monitoring {
             let posthog = PostHogConfig(apiKey: key, host: host.isEmpty ? "https://us.i.posthog.com" : host)
             posthog.captureApplicationLifecycleEvents = true
             posthog.captureScreenViews = false
+            posthog.debug = debugLogs
             PostHogSDK.shared.setup(posthog)
             analyticsOn = true
         }
