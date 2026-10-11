@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>PostHogAPIKey</key>
-	<string></string>
+	<string>phc_yzJDo7JQojnuMoEJm6zsWLN7mz3Z4nYMMGWXYXMkdjoY</string>
 	<key>PostHogHost</key>
 	<string>https://us.i.posthog.com</string>
 	<key>SentryDSN</key>
