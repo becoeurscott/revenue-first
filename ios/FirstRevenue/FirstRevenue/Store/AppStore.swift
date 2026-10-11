@@ -222,11 +222,12 @@ final class AppStore {
 
     /// A real Vaulten session was created. The same account resumes its local progress;
     /// a different account starts fresh (the server is the source of truth for identity).
-    func signedIn(_ user: AuthUser) {
+    func signedIn(_ user: AuthUser, enrollment: Enrollment? = nil) {
         let name = [user.firstName, user.lastName].compactMap { $0 }.joined(separator: " ")
         if s.account?.id == user.id {
             s.account = user
             s.authed = true
+            if let enrollment, let path = enrollment.path, !s.onboarded { applyEnrollment(path, day: enrollment.currentDay) }
         } else {
             var snap = AppStore.fresh()
             snap.authed = true
@@ -235,10 +236,20 @@ final class AppStore {
             snap.user.email = user.email
             snap.answers.name = user.firstName ?? ""
             s = snap
+            // Already enrolled on the server (e.g. a new phone): skip onboarding, resume the path.
+            if let enrollment, let path = enrollment.path { applyEnrollment(path, day: enrollment.currentDay) }
         }
         tab = .home; paths = [:]
         Monitoring.identify(userId: user.id, path: s.onboarded ? s.pathId.rawValue : nil)
         Monitoring.track("signed_in")
+    }
+
+    private func applyEnrollment(_ path: PathID, day: Int) {
+        s.onboarded = true
+        s.pathId = path
+        var p = s.progress[path] ?? .init()
+        p.currentDay = max(p.currentDay, day)
+        s.progress[path] = p
     }
 
     func logout() {

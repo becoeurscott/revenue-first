@@ -228,7 +228,8 @@ struct LoginView: View {
             defer { loading = false }
             do {
                 let user = try await AuthAPI.login(email: email, password: password)
-                store.signedIn(user)
+                let enrollment = try? await PathsAPI.myEnrollment()
+                store.signedIn(user, enrollment: enrollment ?? nil)
                 store.showToast("Welcome back\(user.firstName.map { ", \($0)" } ?? "")")
             } catch APIError.problem(let p) where p.code == "EMAIL_NOT_VERIFIED" {
                 let code = try? await AuthAPI.resendCode(email: email)
@@ -427,8 +428,9 @@ struct VerifyEmailView: View {
             defer { loading = false }
             do {
                 let user = try await AuthAPI.verifyEmail(email: email, code: code)
+                let enrollment = try? await PathsAPI.myEnrollment()
                 Haptics.notify(.success)
-                store.signedIn(user)
+                store.signedIn(user, enrollment: enrollment ?? nil)
             } catch {
                 Haptics.notify(.error)
                 withAnimation { self.error = AuthErrorCopy.message(error) }
