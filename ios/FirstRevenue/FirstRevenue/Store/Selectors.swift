@@ -55,6 +55,12 @@ extension AppStore {
         )
     }
 
+    /// Why a future day is still hidden.
+    func lockReason(_ day: Int) -> String {
+        let p = s.progress[s.pathId] ?? PathProgress()
+        return p.completedDays.contains(day - 1) ? "Unlocks tomorrow" : "Finish Day \(day - 1) to unlock"
+    }
+
     func dayStatus(_ day: Int) -> DayStatus {
         let p = s.progress[s.pathId] ?? PathProgress()
         if p.completedDays.contains(day) { return .completed }

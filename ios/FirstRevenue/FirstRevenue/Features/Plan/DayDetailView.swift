@@ -6,7 +6,15 @@ struct DayDetailView: View {
     @Environment(AppStore.self) private var store
 
     var body: some View {
-        if let plan = MockData.day(store.s.pathId, day) {
+        if let plan = MockData.day(store.s.pathId, day), store.dayStatus(day) == .locked {
+            Screen(title: "Day \(day)") {
+                EmptyStateView(title: "Day \(day) is locked", message: "\(store.lockReason(day)). One step at a time — that's how first revenue happens.", mood: .thinking) {
+                    Button("Go to Today's Mission") { store.popToRoot(); store.tab = .plan }
+                        .buttonStyle(.fr(.primary))
+                }
+            }
+            .accessibilityLabel("Day \(plan.day) is locked")
+        } else if let plan = MockData.day(store.s.pathId, day) {
             DayDetailContent(plan: plan)
         } else {
             Screen(title: "Day not found") {

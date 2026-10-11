@@ -141,18 +141,30 @@ private struct PlanDayRow: View {
     @Environment(AppStore.self) private var store
 
     static func anchor(_ day: Int) -> String { "plan-day-\(day)" }
+    private var lockReason: String { store.lockReason(plan.day) }
+    /// The first days are always readable as a preview; later locked days stay blurred.
+    static let previewDays = 6
+    private var hidden: Bool { plan.day > Self.previewDays }
 
     private var active: Bool { status == .today || status == .inProgress }
 
     var body: some View {
         HStack(alignment: .top, spacing: Space.l) {
             rail
-            Button { Haptics.tap(); store.push(.day(plan.day)) } label: { card }
+            Button {
+                if status == .locked {
+                    Haptics.notify(.warning)
+                    store.showToast(lockReason, .info)
+                } else {
+                    Haptics.tap()
+                    store.push(.day(plan.day))
+                }
+            } label: { card }
                 .buttonStyle(.pressable)
                 .padding(.bottom, Space.m)
-                .accessibilityLabel("Day \(plan.day): \(plan.theme), \(statusText)")
-                .accessibilityHint("Opens the day")
-                .contextMenu { menu }
+                .accessibilityLabel(status == .locked && hidden ? "Day \(plan.day), locked" : "Day \(plan.day): \(plan.theme), \(statusText)")
+                .accessibilityHint(status == .locked ? "Finish the previous day to unlock it" : "Opens the day")
+                .contextMenu { if status != .locked { menu } }
         }
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -171,7 +183,41 @@ private struct PlanDayRow: View {
         .frame(width: 44)
     }
 
-    private var card: some View {
+    @ViewBuilder private var card: some View {
+        if status == .locked { lockedCard } else { openCard }
+    }
+
+    /// Future days stay hidden: the content is blurred so the whole program isn't visible in advance.
+    private var lockedCard: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: Space.s) {
+                Text("DAY \(plan.day)").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.faint)
+                Spacer(minLength: 4)
+                Image(systemName: "lock.fill").font(.caption).foregroundStyle(Theme.faint)
+            }
+            VStack(alignment: .leading, spacing: 6) {
+                Text(plan.theme).font(.headline).foregroundStyle(Theme.ink).lineLimit(1)
+                Text("\(plan.minutes) min · \(plan.difficulty) · +\(plan.xp) XP").font(.caption).foregroundStyle(Theme.faint)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .blur(radius: hidden ? 7 : 0)
+            .opacity(hidden ? 1 : 0.6)
+            .accessibilityHidden(hidden)
+            .overlay(alignment: .leading) {
+                if hidden {
+                    Label(lockReason, systemImage: "lock.fill")
+                        .font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
+                        .lineLimit(1).fixedSize()
+                }
+            }
+            if !hidden {
+                Label(lockReason, systemImage: "lock.fill").font(.caption.weight(.semibold)).foregroundStyle(Theme.faint)
+            }
+        }
+        .card(.locked, padding: Space.l)
+    }
+
+    private var openCard: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: Space.s) {
                 Text("DAY \(plan.day)").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.faint)
@@ -192,7 +238,6 @@ private struct PlanDayRow: View {
                 .font(.caption).monospacedDigit().foregroundStyle(Theme.faint)
         }
         .card(active ? .selected : .plain, padding: Space.l)
-        .opacity(status == .locked ? 0.6 : 1)
     }
 
     @ViewBuilder private var badge: some View {
