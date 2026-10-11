@@ -55,7 +55,7 @@ struct PaywallSheet: View {
                 MascotView(mood: .love, size: 104).padding(.top, Space.l)
                 VStack(spacing: 6) {
                     Text("Unlock with Premium").font(.title2).foregroundStyle(Theme.ink)
-                    Text("\(feature) is part of your complete FirstRevenue journey.").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+                    Text("\(feature.prefix(1).uppercased() + feature.dropFirst()) is part of your complete FirstRevenue journey.").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
                 }
                 PlanPicker(selection: $plan).padding(.top, 6)
                 VStack(alignment: .leading, spacing: 10) {
@@ -116,4 +116,46 @@ struct PremiumGate<Content: View>: View {
     var body: some View {
         if store.isPremium { content } else if let message { LockedView(feature: feature, message: message) } else { LockedView(feature: feature) }
     }
+}
+
+/// Free plan (paywall skipped): the screen stays visible but blurred and inert, with an upgrade card on top.
+/// Pass `nil` to leave a screen open on the free plan.
+struct PremiumLock: ViewModifier {
+    let feature: String?
+    @Environment(AppStore.self) private var store
+
+    func body(content: Content) -> some View {
+        if let feature, !store.isPremium {
+            content
+                .blur(radius: 14)
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+                .overlay { upsell(feature) }
+        } else {
+            content
+        }
+    }
+
+    private func upsell(_ feature: String) -> some View {
+        VStack(spacing: Space.m) {
+            Image(systemName: "lock.fill").font(.system(size: 22, weight: .semibold)).foregroundStyle(.white)
+                .frame(width: 56, height: 56).background(Circle().fill(Theme.brandGradient)).shadow(color: Theme.brand600.opacity(0.5), radius: 14)
+            Text("Unlock \(feature)").font(.title3.weight(.bold)).foregroundStyle(Theme.ink).multilineTextAlignment(.center)
+            Text("Your free plan includes Day 1. Upgrade to unlock the full 30-day program, the AI Coach and every tool.")
+                .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 300)
+            Button { Haptics.tap(); store.paywallFeature = feature } label: { Label("Upgrade to Premium", systemImage: "crown.fill") }
+                .buttonStyle(.fr(.primary, size: .lg)).padding(.top, 4)
+            Button { store.tab = .plan; store.popToRoot(.plan); store.cover = .mission(1) } label: { Text("Continue Day 1") }
+                .font(.subheadline.weight(.semibold)).foregroundStyle(Theme.brand300).frame(minHeight: 44)
+        }
+        .padding(Space.xl)
+        .background(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).fill(Theme.bgRaised.opacity(0.92)))
+        .overlay(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).strokeBorder(Theme.brand500.opacity(0.35)))
+        .padding(Space.xl)
+        .frame(maxWidth: 460)
+    }
+}
+
+extension View {
+    func premiumLocked(_ feature: String?) -> some View { modifier(PremiumLock(feature: feature)) }
 }

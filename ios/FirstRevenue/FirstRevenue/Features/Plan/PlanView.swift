@@ -144,7 +144,7 @@ private struct PlanDayRow: View {
     private var lockReason: String { store.lockReason(plan.day) }
     /// The first days are always readable as a preview; later locked days stay blurred.
     static let previewDays = 6
-    private var hidden: Bool { plan.day > Self.previewDays }
+    private var hidden: Bool { plan.day > Self.previewDays || store.isDayPremiumLocked(plan.day) }
 
     private var active: Bool { status == .today || status == .inProgress }
 
@@ -152,7 +152,10 @@ private struct PlanDayRow: View {
         HStack(alignment: .top, spacing: Space.l) {
             rail
             Button {
-                if status == .locked {
+                if store.isDayPremiumLocked(plan.day) {
+                    Haptics.tap()
+                    store.paywallFeature = "the full 30-day plan"
+                } else if status == .locked {
                     Haptics.notify(.warning)
                     store.showToast(lockReason, .info)
                 } else {

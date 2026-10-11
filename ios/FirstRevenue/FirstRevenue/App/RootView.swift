@@ -40,22 +40,22 @@ struct MainTabView: View {
         TabView(selection: $store.tab) {
             Tab("Home", systemImage: "house.fill", value: AppTab.home) { stack(.home) { HomeView() } }
             Tab("Plan", systemImage: "calendar.badge.checkmark", value: AppTab.plan) { stack(.plan) { PlanView() } }
-            Tab("Coach", systemImage: "sparkles", value: AppTab.coach) { stack(.coach) { CoachView() } }
-            Tab("Progress", systemImage: "chart.bar.fill", value: AppTab.progress) { stack(.progress) { ProgressScreen() } }
+            Tab("Coach", systemImage: "sparkles", value: AppTab.coach) { stack(.coach) { CoachView().premiumLocked("the AI Coach") } }
+            Tab("Progress", systemImage: "chart.bar.fill", value: AppTab.progress) { stack(.progress) { ProgressScreen().premiumLocked("your progress") } }
             Tab("Profile", systemImage: "person.fill", value: AppTab.profile) { stack(.profile) { ProfileView() } }
                 .badge(store.unreadCount)
             // iPad/Mac sidebar also lists the rest of the product (desktop-style navigation).
             // Only added at regular width, so the iPhone tab bar keeps exactly 5 tabs (no "More").
             if hSize == .regular {
             TabSection("Grow") {
-                sidebarTab("Paths", "map.fill", .paths) { PathsView() }
-                sidebarTab("Prospects", "person.2.fill", .prospects) { OutreachHubView(initialTab: .prospects) }
-                sidebarTab("Revenue", "dollarsign.circle.fill", .revenue) { RevenueView() }
+                sidebarTab("Paths", "map.fill", .paths) { PathsView().premiumLocked("paths") }
+                sidebarTab("Prospects", "person.2.fill", .prospects) { OutreachHubView(initialTab: .prospects).premiumLocked("prospects & outreach") }
+                sidebarTab("Revenue", "dollarsign.circle.fill", .revenue) { RevenueView().premiumLocked("revenue tracking") }
             }
             TabSection("Learn") {
-                sidebarTab("Lessons", "play.rectangle.fill", .lessons) { LessonsView() }
-                sidebarTab("Resources", "folder.fill", .resources) { ResourcesView() }
-                sidebarTab("Achievements", "trophy.fill", .achievements) { AchievementsView() }
+                sidebarTab("Lessons", "play.rectangle.fill", .lessons) { LessonsView().premiumLocked("all lessons") }
+                sidebarTab("Resources", "folder.fill", .resources) { ResourcesView().premiumLocked("the resource library") }
+                sidebarTab("Achievements", "trophy.fill", .achievements) { AchievementsView().premiumLocked("achievements") }
             }
             }
         }
@@ -64,7 +64,7 @@ struct MainTabView: View {
         .fullScreenCover(item: $store.cover) { cover in
             Group {
                 switch cover {
-                case .mission(let day): MissionView(day: day)
+                case .mission(let day): MissionView(day: day).premiumLocked(store.isDayPremiumLocked(day) ? "the full 30-day plan" : nil)
                 case .checkIn: CheckInView()
                 case .complete: CompleteView()
                 }
@@ -105,7 +105,29 @@ struct OfflineBanner: View {
 /// Maps every pushable route to its screen.
 struct RouteView: View {
     let route: Route
-    var body: some View {
+    @Environment(AppStore.self) private var store
+
+    var body: some View { screen.premiumLocked(lockedFeature) }
+
+    /// On the free plan only Day 1, its lesson, and account screens stay open.
+    private var lockedFeature: String? {
+        switch route {
+        case .day, .notifications, .settings, .subscription, .help: nil
+        case .lesson(let id): MockData.day(store.s.pathId, 1)?.lessonId == id ? nil : "all lessons"
+        case .lessons: "all lessons"
+        case .coachConversation: "the AI Coach"
+        case .outreach, .prospect, .generate: "prospects & outreach"
+        case .pricing: "the pricing assistant"
+        case .revenue: "revenue tracking"
+        case .paths, .path: "paths"
+        case .streak, .achievements: "your progress"
+        case .resources, .resource: "the resource library"
+        case .search: "search"
+        case .mentorCheck: "Mentor Check"
+        }
+    }
+
+    @ViewBuilder private var screen: some View {
         switch route {
         case .day(let d): DayDetailView(day: d)
         case .lessons: LessonsView()

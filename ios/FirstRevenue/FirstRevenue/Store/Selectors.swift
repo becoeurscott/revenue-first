@@ -55,8 +55,12 @@ extension AppStore {
         )
     }
 
+    /// Free plan (paywall skipped): only Day 1 is open.
+    func isDayPremiumLocked(_ day: Int) -> Bool { !isPremium && day > 1 }
+
     /// Why a future day is still hidden.
     func lockReason(_ day: Int) -> String {
+        if isDayPremiumLocked(day) { return "Unlock with Premium" }
         let p = s.progress[s.pathId] ?? PathProgress()
         return p.completedDays.contains(day - 1) ? "Unlocks tomorrow" : "Finish Day \(day - 1) to unlock"
     }
@@ -64,7 +68,7 @@ extension AppStore {
     func dayStatus(_ day: Int) -> DayStatus {
         let p = s.progress[s.pathId] ?? PathProgress()
         if p.completedDays.contains(day) { return .completed }
-        if day > p.currentDay { return .locked }
+        if day > p.currentDay || isDayPremiumLocked(day) { return .locked }
         let started = MockData.day(s.pathId, day)?.tasks.contains { s.tasks[$0.id] != nil } ?? false
         return started ? .inProgress : .today
     }

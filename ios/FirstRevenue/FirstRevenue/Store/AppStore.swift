@@ -309,6 +309,7 @@ final class AppStore {
     }
 
     func advanceDay() {
+        guard isPremium else { paywallFeature = "the full 30-day plan"; return }
         var p = s.progress[s.pathId] ?? .init()
         guard p.completedDays.contains(p.currentDay), p.currentDay < MockData.totalDays else { return }
         p.currentDay += 1

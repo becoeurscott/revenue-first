@@ -9,8 +9,13 @@ struct DayDetailView: View {
         if let plan = MockData.day(store.s.pathId, day), store.dayStatus(day) == .locked {
             Screen(title: "Day \(day)") {
                 EmptyStateView(title: "Day \(day) is locked", message: "\(store.lockReason(day)). One step at a time — that's how first revenue happens.", mood: .thinking) {
-                    Button("Go to Today's Mission") { store.popToRoot(); store.tab = .plan }
-                        .buttonStyle(.fr(.primary))
+                    if store.isDayPremiumLocked(day) {
+                        Button { store.paywallFeature = "the full 30-day plan" } label: { Label("Upgrade to Premium", systemImage: "crown.fill") }
+                            .buttonStyle(.fr(.primary))
+                    } else {
+                        Button("Go to Today's Mission") { store.popToRoot(); store.tab = .plan }
+                            .buttonStyle(.fr(.primary))
+                    }
                 }
             }
             .accessibilityLabel("Day \(plan.day) is locked")
