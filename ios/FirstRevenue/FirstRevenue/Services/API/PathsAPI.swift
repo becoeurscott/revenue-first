@@ -8,12 +8,7 @@ struct Enrollment: Decodable {
     /// Calendar date (YYYY-MM-DD) the user enrolled; the current mission day counts from it.
     let startedOn: String
 
-    var path: PathID? {
-        let slug = pathSlug.lowercased()
-        if slug.contains("gbp") || slug.contains("google") { return .gbp }
-        if slug.contains("clip") { return .clipping }
-        return nil
-    }
+    var path: PathID? { PathID(slug: pathSlug) }
 
     /// Day N = days since enrollment + 1, capped at 30, in the user's time zone (same rule as the backend).
     var currentDay: Int {

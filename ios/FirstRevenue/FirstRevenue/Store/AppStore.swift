@@ -244,6 +244,12 @@ final class AppStore {
         Monitoring.track("signed_in")
     }
 
+    /// End of the API onboarding: the account is enrolled server-side (or, on the free plan, locally).
+    func completeServerOnboarding(path: PathID, day: Int) {
+        completeOnboarding(path: path)
+        applyEnrollment(path, day: day)
+    }
+
     private func applyEnrollment(_ path: PathID, day: Int) {
         s.onboarded = true
         s.pathId = path

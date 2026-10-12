@@ -15,7 +15,11 @@ struct RootView: View {
             } else if !store.s.authed {
                 AuthFlow().transition(.opacity)
             } else if !store.s.onboarded {
-                OnboardingFlow().transition(.move(edge: .trailing).combined(with: .opacity))
+                Group {
+                    // Real accounts answer the backend questionnaire; the offline demo keeps the local one.
+                    if store.s.account != nil { ServerOnboardingFlow() } else { OnboardingFlow() }
+                }
+                .transition(.move(edge: .trailing).combined(with: .opacity))
             } else {
                 MainTabView().transition(.opacity)
             }
