@@ -21,13 +21,13 @@ struct CompleteView: View {
         let real = store.program.finished
         let base = [CompleteResult(icon: "target", value: real ? st.missions : 30, label: "Missions completed"),
                     CompleteResult(icon: "play.rectangle.fill", value: real ? st.lessons : 28, label: "Lessons watched")]
-        guard store.journey.sellsServices else {
-            return base + [
-                CompleteResult(icon: "play.rectangle.on.rectangle.fill", value: real ? st.videosPublished : 8, label: "Videos published"),
-                CompleteResult(icon: "person.3.fill", value: real ? st.value(.subscribers) : 140, label: "Subscribers"),
-                CompleteResult(icon: "clock.fill", value: real ? st.value(.watchTime) : 960, label: "Minutes watched"),
-                CompleteResult(icon: "dollarsign.circle.fill", value: real ? st.channelIncome : 35, label: "Channel income", isMoney: true),
-            ]
+        if let w = store.journey.workspace {
+            let shown = ([w.doneMetric] + w.headline + w.logMetrics.prefix(1) + [w.incomeMetric]).uniqued().prefix(4)
+            let samples = [8, 140, 960, 35]
+            return base + shown.enumerated().map { i, m in
+                let def = Journeys.metric(m)
+                return CompleteResult(icon: def.icon, value: real ? st.value(m) : samples[i], label: def.label, isMoney: def.format == .money)
+            }
         }
         return base + [
             CompleteResult(icon: "paperplane.fill", value: real ? st.contacted : 87, label: "Prospects contacted"),

@@ -96,8 +96,9 @@ struct HomeView: View {
         let catalog: [String: (String, String, Route)] = [
             "prospects": ("Prospects", "person.2", .outreach(.prospects)), "pricing": ("Pricing", "tag", .pricing),
             "revenue": ("Revenue", "dollarsign.circle", .revenue), "resources": ("Resources", "folder", .resources),
-            "content": ("Content", "play.rectangle", .channel(.content)), "analytics": ("Analytics", "chart.line.uptrend.xyaxis", .channel(.analytics)),
-            "monetization": ("Monetize", "dollarsign.circle", .channel(.monetization)),
+            "content": (store.journey.workspace?.tab(.content) ?? "Content", store.journey.workspace?.icon ?? "play.rectangle", .channel(.content)),
+            "analytics": (store.journey.workspace?.tab(.analytics) ?? "Analytics", "chart.line.uptrend.xyaxis", .channel(.analytics)),
+            "monetization": (store.journey.workspace?.tab(.monetization) ?? "Monetize", "dollarsign.circle", .channel(.monetization)),
         ]
         let actions = store.journey.quickActions.compactMap { catalog[$0] }
         return HStack(spacing: 10) {
@@ -136,7 +137,7 @@ struct HomeView: View {
         let pct = min(100, Int(Double(current) / Double(target) * 100))
         let services = store.journey.sellsServices
         return VStack(alignment: .leading, spacing: Space.s) {
-            SectionHeader(title: "Current Goal", action: services ? "Revenue" : "Channel") { store.push(services ? .revenue : .channel(goal.metric == .channelIncome ? .monetization : .content)) }
+            SectionHeader(title: "Current Goal", action: services ? "Revenue" : store.journey.workspace?.navLabel) { store.push(services ? .revenue : (store.route(for: goal.metric) ?? .channel(.content))) }
             VStack(alignment: .leading, spacing: Space.m) {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -155,9 +156,10 @@ struct HomeView: View {
     }
 
     private func goalNote(_ stats: Stats) -> String {
-        guard store.journey.sellsServices else {
-            return stats.videosPublished == 0 ? "Your first video is the hardest one. Today's mission gets you closer."
-                : "\(stats.videosPublished) published, \(stats.uploadsThisWeek) this week. Next: \(store.journey.primaryAction.lowercased())."
+        if let w = store.journey.workspace {
+            let done = stats.value(w.doneMetric)
+            return done == 0 ? "Your first \(w.itemNoun) is the hardest one. Today's mission gets you closer."
+                : "\(done) \(w.stage(w.doneStage).label.lowercased()) so far, \(Journeys.metric(w.weeklyMetric).label.lowercased()): \(stats.display(w.weeklyMetric)). Next: \(store.journey.primaryAction.lowercased())."
         }
         return stats.booked > 0 ? "\(money(stats.booked)) more is booked and \(money(stats.potential)) is in your pipeline."
             : stats.potential > 0 ? "\(money(stats.potential)) in your pipeline. Keep following up."
@@ -214,10 +216,13 @@ struct HomeView: View {
         if store.journey.sellsServices {
             if let c = store.s.deals.first(where: { $0.path == store.s.pathId && $0.status == .collected }) { wins.append(("dollarsign.circle.fill", "\(c.client) paid you \(money(c.amount))", Theme.success)) }
             if let w = store.s.prospects.first(where: { $0.path == store.s.pathId && $0.status == .won }) { wins.append(("trophy.fill", "You won \(w.business) as a client", Theme.warning)) }
-        } else {
-            if stats.channelIncome > 0 { wins.append(("dollarsign.circle.fill", "Your channel earned \(money(stats.channelIncome))", Theme.success)) }
-            if stats.videosPublished > 0 { wins.append(("play.rectangle.fill", "\(stats.videosPublished) video\(stats.videosPublished > 1 ? "s" : "") published", Theme.warning)) }
-            if let subs = stats.subscribers, subs > 0 { wins.append(("person.3.fill", "\(Int(subs).formatted()) subscribers", Theme.info)) }
+        } else if let w = store.journey.workspace {
+            if stats.value(w.incomeMetric) > 0 { wins.append(("dollarsign.circle.fill", "You've earned \(stats.display(w.incomeMetric))", Theme.success)) }
+            let done = stats.value(w.doneMetric)
+            if done > 0 { wins.append((w.icon, "\(done) \(done == 1 ? w.itemNoun : w.itemNounPlural) \(w.stage(w.doneStage).label.lowercased())", Theme.warning)) }
+            for m in w.headline where m != w.doneMetric && m != w.incomeMetric && stats.value(m) > 0 {
+                wins.append((Journeys.metric(m).icon, "\(stats.display(m)) \(Journeys.metric(m).label.lowercased())", Theme.info))
+            }
         }
         if stats.replies > 0 { wins.append(("bubble.left.and.bubble.right.fill", "\(stats.replies) prospect\(stats.replies > 1 ? "s" : "") replied to your outreach", Theme.info)) }
         if stats.daysCompleted > 0 { wins.append(("checkmark.seal.fill", "\(stats.daysCompleted) mission\(stats.daysCompleted > 1 ? "s" : "") completed on this journey", Theme.brand300)) }

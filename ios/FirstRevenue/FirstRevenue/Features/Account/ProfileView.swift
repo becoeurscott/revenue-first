@@ -94,8 +94,8 @@ struct ProfileView: View {
         let stats = store.stats
         return HStack(spacing: Space.m) {
             StatCard(icon: "flame.fill", value: "\(stats.streak)", label: "Day streak") { store.push(.streak) }
-            ForEach(store.journey.sellsServices ? [StatMetric.prospects, .revenue] : [.videosPublished, .subscribers], id: \.self) { m in
-                StatCard(icon: Journeys.metric(m).icon, value: stats.display(m), label: Journeys.metric(m).label, accent: m == .revenue || m == .videosPublished) {
+            ForEach(store.journey.workspace?.headline ?? [StatMetric.prospects, .revenue], id: \.self) { m in
+                StatCard(icon: Journeys.metric(m).icon, value: stats.display(m), label: Journeys.metric(m).label, accent: m == .revenue || m == store.journey.workspace?.headline.first) {
                     if let route = store.route(for: m) { store.push(route) }
                 }
             }
@@ -122,8 +122,8 @@ struct ProfileView: View {
             ListRow(icon: "trophy", title: "Achievements") { store.push(.achievements) }
             if store.journey.sellsServices {
                 ListRow(icon: "dollarsign.circle", title: "Revenue", detail: "\(money(stats.revenue)) collected") { store.push(.revenue) }
-            } else {
-                ListRow(icon: "play.rectangle.on.rectangle", title: "Channel", detail: "\(stats.videosPublished) published · \(money(stats.channelIncome)) earned") { store.push(.channel(.content)) }
+            } else if let w = store.journey.workspace {
+                ListRow(icon: w.icon, title: w.navLabel, detail: "\(stats.value(w.doneMetric)) \(w.stage(w.doneStage).label.lowercased()) · \(stats.display(w.incomeMetric)) earned") { store.push(.channel(.content)) }
             }
             ListRow(icon: "play.rectangle", title: "Lessons", detail: "\(stats.lessons) completed") { store.push(.lessons) }
             ListRow(icon: "folder", title: "Resources", detail: "\(store.s.savedResources.count) saved") { store.push(.resources) }

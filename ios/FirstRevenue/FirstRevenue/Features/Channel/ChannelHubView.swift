@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Owned-channel workspace: the content board (idea → published), YouTube Studio numbers,
-/// and stage-appropriate monetization. Replaces prospects/pricing/revenue for channel journeys.
+/// The workspace of a non-service journey: a board that moves items to "done" (videos to published,
+/// products to launched), the numbers the user copies from their dashboard, and income by growth stage.
+/// Every label and stage comes from the journey's `Workspace` config.
 struct ChannelHubView: View {
     let initialTab: ChannelTab
     @Environment(AppStore.self) private var store
@@ -9,74 +10,78 @@ struct ChannelHubView: View {
     @State private var didSetTab = false
 
     var body: some View {
-        Screen(title: "Your Channel", subtitle: store.niche.map { "\($0.normalizedLabel) · \(store.journey.primaryAction)" }) {
-            VStack(alignment: .leading, spacing: Space.l) {
-                SegmentedTabs(options: ChannelTab.allCases, selection: $tab, title: { $0.rawValue })
-                switch tab {
-                case .content: ChannelContentTab()
-                case .analytics: ChannelAnalyticsTab()
-                case .monetization: ChannelMonetizationTab()
+        if let w = store.journey.workspace {
+            Screen(title: w.title, subtitle: store.niche.map { "\($0.normalizedLabel) · \(store.journey.primaryAction)" }) {
+                VStack(alignment: .leading, spacing: Space.l) {
+                    SegmentedTabs(options: ChannelTab.allCases, selection: $tab, title: { w.tab($0) })
+                    switch tab {
+                    case .content: WorkspaceBoardTab(w: w)
+                    case .analytics: WorkspaceNumbersTab(w: w)
+                    case .monetization: WorkspaceIncomeTab(w: w)
+                    }
                 }
             }
+            .onAppear { if !didSetTab { tab = initialTab; didSetTab = true } }
         }
-        .onAppear { if !didSetTab { tab = initialTab; didSetTab = true } }
     }
 }
 
-// MARK: - Content board
+// MARK: - Board
 
-private struct ChannelContentTab: View {
+private struct WorkspaceBoardTab: View {
+    let w: Workspace
     @Environment(AppStore.self) private var store
     @State private var filter = "All"
     @State private var adding = false
     @State private var editing: ContentItem?
-    @State private var publishing: ContentItem?
+    @State private var finishing: ContentItem?
 
     private var items: [ContentItem] { store.enrollment?.contentItems ?? [] }
-    private var shown: [ContentItem] { filter == "All" ? items : items.filter { Journeys.stage($0.stage).label == filter } }
+    private var shown: [ContentItem] { filter == "All" ? items : items.filter { w.stage($0.stage).label == filter } }
 
     var body: some View {
         let stats = store.stats
         VStack(alignment: .leading, spacing: Space.l) {
             LazyVGrid(columns: [GridItem(.flexible(), spacing: Space.m), GridItem(.flexible(), spacing: Space.m)], spacing: Space.m) {
-                StatCard(icon: "play.rectangle.fill", value: "\(stats.videosPublished)", label: "Videos published", accent: true)
-                StatCard(icon: "calendar.badge.clock", value: "\(stats.uploadsThisWeek)", label: "Uploads this week")
+                StatCard(icon: Journeys.metric(w.doneMetric).icon, value: stats.display(w.doneMetric), label: Journeys.metric(w.doneMetric).label, accent: true)
+                StatCard(icon: Journeys.metric(w.weeklyMetric).icon, value: stats.display(w.weeklyMetric), label: Journeys.metric(w.weeklyMetric).label)
             }
-            Button { adding = true } label: { Label("Add a Video Idea", systemImage: "plus") }
+            Button { adding = true } label: { Label(w.addLabel, systemImage: "plus") }
                 .buttonStyle(.fr(.primary, size: .lg, full: true))
-            FilterChips(options: ["All"] + ContentStage.allCases.map { Journeys.stage($0).label }, selection: $filter) { opt in
-                opt == "All" ? items.count : items.filter { Journeys.stage($0.stage).label == opt }.count
+            FilterChips(options: ["All"] + w.stages.map(\.label), selection: $filter) { opt in
+                opt == "All" ? items.count : items.filter { w.stage($0.stage).label == opt }.count
             }
             if shown.isEmpty {
-                EmptyStateView(title: items.isEmpty ? "No video ideas yet" : "Nothing at this stage",
-                               message: items.isEmpty ? "Add the first idea \(store.niche?.audience ?? "your viewers") would search for. Twenty ideas is a content plan." : "Move an idea forward and it shows up here.") {
+                EmptyStateView(title: items.isEmpty ? w.emptyTitle : "Nothing at this stage",
+                               message: items.isEmpty ? "Add the first idea \(store.niche?.audience ?? "people in your niche") would love. A handful of ideas is plenty to start." : "Move an idea forward and it shows up here.") {
                     if items.isEmpty { Button("Add an Idea") { adding = true }.buttonStyle(.fr(.primary)) }
                 }
             } else {
                 ForEach(Array(shown.enumerated()), id: \.element.id) { i, item in
-                    ChannelContentRow(item: item, onAdvance: { advance(item) }, onEdit: { editing = item })
+                    WorkspaceItemRow(w: w, item: item, onAdvance: { advance(item) }, onEdit: { editing = item })
                         .fadeUp(i)
                 }
             }
         }
-        .sheet(isPresented: $adding) { ChannelContentSheet(item: nil) }
-        .sheet(item: $editing) { ChannelContentSheet(item: $0) }
-        .confirmationDialog("Mark as published?", isPresented: Binding(get: { publishing != nil }, set: { if !$0 { publishing = nil } }), titleVisibility: .visible, presenting: publishing) { item in
-            Button("It's live on YouTube") { store.advanceContent(item.id); Haptics.notify(.success); store.showToast("Published. Check its numbers in 48 hours.") }
+        .sheet(isPresented: $adding) { WorkspaceItemSheet(w: w, item: nil) }
+        .sheet(item: $editing) { WorkspaceItemSheet(w: w, item: $0) }
+        .confirmationDialog(w.doneTitle, isPresented: Binding(get: { finishing != nil }, set: { if !$0 { finishing = nil } }), titleVisibility: .visible, presenting: finishing) { item in
+            Button(w.doneConfirm) { store.advanceContent(item.id); Haptics.notify(.success); store.showToast(w.doneToast) }
         } message: { item in
-            Text("“\(item.title)” counts toward your publishing goal and weekly uploads.")
+            Text("“\(item.title)” counts toward your goal and your weekly progress.")
         }
     }
 
     private func advance(_ item: ContentItem) {
-        guard let next = item.stage.next else { return }
-        if next == .published { publishing = item; return }
+        guard let next = w.next(after: item.stage) else { return }
+        if next == w.doneStage { finishing = item; return }
         Haptics.tap()
         withAnimation(.snappy) { store.advanceContent(item.id) }
     }
 }
 
-private struct ChannelContentRow: View {
+private struct WorkspaceItemRow: View {
+    let w: Workspace
     let item: ContentItem
     let onAdvance: () -> Void
     let onEdit: () -> Void
@@ -84,17 +89,18 @@ private struct ChannelContentRow: View {
     @State private var confirmDelete = false
 
     var body: some View {
-        let info = Journeys.stage(item.stage)
+        let info = w.stage(item.stage)
+        let done = item.stage == w.doneStage
         HStack(alignment: .top, spacing: Space.m) {
-            SymbolTile(icon: info.icon, tint: item.stage == .published ? Theme.success : Theme.brand300, size: 40)
+            SymbolTile(icon: info.icon, tint: done ? Theme.success : Theme.brand300, size: 40)
             VStack(alignment: .leading, spacing: 6) {
                 Text(item.title).font(.body.weight(.semibold)).foregroundStyle(Theme.ink).fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 6) {
-                    Badge(info.label, tone: item.stage == .published ? .success : .brand)
-                    Badge(item.format)
-                    Text(item.publishedAt.map { "Published \($0.timeAgo)" } ?? "Added \(item.createdAt.timeAgo)").font(.caption).foregroundStyle(Theme.faint)
+                    Badge(info.label, tone: done ? .success : .brand)
+                    if !item.format.isEmpty { Badge(item.format) }
+                    Text(item.publishedAt.map { "\(w.stage(w.doneStage).label) \($0.timeAgo)" } ?? "Added \(item.createdAt.timeAgo)").font(.caption).foregroundStyle(Theme.faint)
                 }
-                if item.stage != .published {
+                if !done {
                     Button(action: onAdvance) {
                         Label(info.nextAction, systemImage: "arrow.right").labelStyle(TrailingIconLabel()).font(.footnote.weight(.semibold))
                     }
@@ -111,58 +117,64 @@ private struct ChannelContentRow: View {
             Button { onEdit() } label: { Label("Edit", systemImage: "pencil") }
             Button(role: .destructive) { confirmDelete = true } label: { Label("Delete", systemImage: "trash") }
         }
-        .alert("Delete this video?", isPresented: $confirmDelete) {
-            Button("Delete", role: .destructive) { store.deleteContent(item.id); store.showToast("Video removed") }
+        .alert("Delete this \(w.itemNoun)?", isPresented: $confirmDelete) {
+            Button("Delete", role: .destructive) { store.deleteContent(item.id); store.showToast("Removed") }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text(item.stage == .published ? "It will no longer count toward your published videos." : "The idea and its notes will be removed.")
+            Text(done ? "It will no longer count toward your \(Journeys.metric(w.doneMetric).label.lowercased())." : "The idea and its notes will be removed.")
         }
         .accessibilityAction(named: "Edit", onEdit)
     }
 }
 
-private struct ChannelContentSheet: View {
+private struct WorkspaceItemSheet: View {
+    let w: Workspace
     let item: ContentItem?
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
-    @State private var format = "Long-form"
+    @State private var format = ""
     @State private var notes = ""
     @State private var link = ""
     @State private var touched = false
 
-    private static let formats = ["Long-form", "Short"]
-    private var titleError: String? { touched && title.trimmingCharacters(in: .whitespaces).count < 3 ? "Give the idea a working title" : nil }
+    private var titleError: String? { touched && title.trimmingCharacters(in: .whitespaces).count < 3 ? "Give it a working title" : nil }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Space.l) {
                     if item == nil, let niche = store.niche {
-                        Text("Start from a question \(niche.audience) actually search for, like “\(niche.exampleTerms.first ?? niche.normalizedLabel)”.")
+                        Text("Start from something \(niche.audience) already ask about, like “\(niche.exampleTerms.first ?? niche.normalizedLabel)”.")
                             .font(.subheadline).foregroundStyle(Theme.muted)
                     }
-                    FRTextField(label: "Working title", text: $title, placeholder: "e.g. 5 mistakes every beginner makes", systemImage: "lightbulb", error: titleError)
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Format").font(.footnote.weight(.medium)).foregroundStyle(Theme.muted)
-                        SegmentedTabs(options: Self.formats, selection: $format)
+                    FRTextField(label: "Working title", text: $title, placeholder: w.titlePlaceholder, systemImage: "lightbulb", error: titleError)
+                    if !w.formats.isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Format").font(.footnote.weight(.medium)).foregroundStyle(Theme.muted)
+                            if w.formats.count <= 3 {
+                                SegmentedTabs(options: w.formats, selection: $format)
+                            } else {
+                                SelectRow(label: "", selection: $format, options: w.formats)
+                            }
+                        }
                     }
                     if item != nil {
                         FRTextArea(label: "Notes", text: $notes)
-                        FRTextField(label: "Video link", text: $link, placeholder: "https://youtube.com/…", systemImage: "link", keyboard: .URL)
+                        FRTextField(label: "Link", text: $link, placeholder: "https://…", systemImage: "link", keyboard: .URL)
                     }
                     Button(item == nil ? "Add Idea" : "Save Changes", action: save).buttonStyle(.fr(.primary, size: .lg, full: true))
                 }
                 .padding(Space.xl).frame(maxWidth: 620).frame(maxWidth: .infinity)
             }
-            .navigationTitle(item == nil ? "New video idea" : "Edit video")
+            .navigationTitle(item == nil ? w.newItemTitle : "Edit \(w.itemNoun)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
             .outreachSheetChrome()
         }
         .onAppear {
             guard let item else {
-                if store.enrollment?.answers.answer("videoFormat") == "shorts" { format = "Short" }
+                format = store.defaultFormat
                 return
             }
             title = item.title; format = item.format; notes = item.notes; link = item.link
@@ -184,9 +196,10 @@ private struct ChannelContentSheet: View {
     }
 }
 
-// MARK: - Analytics
+// MARK: - Numbers
 
-private struct ChannelAnalyticsTab: View {
+private struct WorkspaceNumbersTab: View {
+    let w: Workspace
     @Environment(AppStore.self) private var store
     @State private var logging = false
 
@@ -199,31 +212,29 @@ private struct ChannelAnalyticsTab: View {
         VStack(alignment: .leading, spacing: Space.l) {
             LazyVGrid(columns: [GridItem(.flexible(), spacing: Space.m), GridItem(.flexible(), spacing: Space.m)], spacing: Space.m) {
                 ForEach(store.journey.metrics, id: \.self) { m in
-                    StatCard(icon: Journeys.metric(m).icon, value: stats.display(m), label: Journeys.metric(m).label, accent: m == .videosPublished)
+                    StatCard(icon: Journeys.metric(m).icon, value: stats.display(m), label: Journeys.metric(m).label, accent: m == w.doneMetric)
                 }
             }
-            Button { logging = true } label: { Label("Log Numbers from YouTube Studio", systemImage: "square.and.pencil") }
+            Button { logging = true } label: { Label("Log Numbers from \(w.logSource.prefix(1).uppercased() + w.logSource.dropFirst())", systemImage: "square.and.pencil") }
                 .buttonStyle(.fr(.primary, size: .lg, full: true))
             VStack(alignment: .leading, spacing: Space.s) {
                 SectionHeader(title: "What to look at")
                 VStack(alignment: .leading, spacing: 10) {
-                    guide("cursorarrow.click.2", "Click-through rate", "Low means the title and thumbnail aren't earning the click. Change one of them, not both.")
-                    guide("clock.fill", "Watch time", "Grows when the first 30 seconds deliver what the title promised.")
-                    guide("arrow.triangle.2.circlepath", "Returning viewers", "Your clearest sign of an audience. Series and a steady schedule raise it.")
+                    ForEach(w.guide, id: \.title) { g in guide(g) }
                 }
                 .card()
             }
             VStack(alignment: .leading, spacing: Space.s) {
                 SectionHeader(title: "History")
                 if history.isEmpty {
-                    EmptyStateView(title: "No numbers logged yet", message: "After your first upload, copy subscribers, watch time, click-through rate and returning viewers from YouTube Studio once a week.", mood: .thinking, compact: true)
+                    EmptyStateView(title: "No numbers logged yet", message: "Once a week, copy your totals from \(w.logSource). It takes a minute and shows you what's working.", mood: .thinking, compact: true)
                 } else {
                     VStack(spacing: 0) {
                         ForEach(Array(history.prefix(12).enumerated()), id: \.element.id) { i, e in
                             HStack {
                                 Label(Journeys.metric(e.key).label, systemImage: Journeys.metric(e.key).icon).font(.subheadline).foregroundStyle(Theme.inkSoft)
                                 Spacer()
-                                Text(value(e)).font(.subheadline.weight(.semibold)).monospacedDigit().foregroundStyle(Theme.ink)
+                                Text(Stats(logged: [e.key: e.value]).display(e.key)).font(.subheadline.weight(.semibold)).monospacedDigit().foregroundStyle(Theme.ink)
                                 Text(e.date.shortDate).font(.caption).foregroundStyle(Theme.faint).frame(width: 52, alignment: .trailing)
                             }
                             .padding(.horizontal, Space.l).padding(.vertical, 12)
@@ -234,60 +245,49 @@ private struct ChannelAnalyticsTab: View {
                 }
             }
         }
-        .sheet(isPresented: $logging) { ChannelStatsSheet() }
+        .sheet(isPresented: $logging) { WorkspaceNumbersSheet(w: w) }
     }
 
-    private func value(_ e: MetricEvent) -> String {
-        var s = Stats()
-        switch e.key {
-        case .watchTime: s.watchTime = e.value
-        case .subscribers: s.subscribers = e.value
-        case .clickThroughRate: s.clickThroughRate = e.value
-        case .returningViewers: s.returningViewers = e.value
-        default: break
-        }
-        return s.display(e.key)
-    }
-
-    private func guide(_ icon: String, _ title: String, _ body: String) -> some View {
+    private func guide(_ g: Workspace.Guide) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon).foregroundStyle(Theme.brand300).frame(width: 22)
+            Image(systemName: g.icon).foregroundStyle(Theme.brand300).frame(width: 22)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
-                Text(body).font(.footnote).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
+                Text(g.title).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
+                Text(g.body).font(.footnote).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
             }
         }
         .accessibilityElement(children: .combine)
     }
 }
 
-private struct ChannelStatsSheet: View {
+private struct WorkspaceNumbersSheet: View {
+    let w: Workspace
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
-    @State private var subscribers = ""
-    @State private var watchTime = ""
-    @State private var ctr = ""
-    @State private var returning = ""
+    @State private var values: [StatMetric: String] = [:]
     @State private var touched = false
 
-    private func number(_ s: String) -> Double? { Double(s.replacingOccurrences(of: ",", with: ".").filter { $0.isNumber || $0 == "." }) }
+    private func number(_ s: String?) -> Double? { s.flatMap { Double($0.replacingOccurrences(of: ",", with: ".").filter { $0.isNumber || $0 == "." }) } }
+    private var parsed: [StatMetric: Double] { values.compactMapValues(number) }
     private var percentError: String? {
         guard touched else { return nil }
-        return [ctr, returning].compactMap(number).contains { $0 > 100 } ? "Percentages go from 0 to 100" : nil
+        return parsed.contains { Journeys.metric($0.key).format == .percent && $0.value > 100 } ? "Percentages go from 0 to 100" : nil
     }
-    private var hasValue: Bool { [subscribers, watchTime, ctr, returning].contains { number($0) != nil } }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Space.l) {
-                    Text("Open YouTube Studio > Analytics, pick the last 28 days, and copy what you see. Leave anything you can't find empty.")
-                        .font(.subheadline).foregroundStyle(Theme.muted)
-                    FRTextField(label: "Subscribers (total)", text: $subscribers, placeholder: "127", systemImage: "person.3", keyboard: .numberPad)
-                    FRTextField(label: "Watch time (minutes)", text: $watchTime, placeholder: "84", systemImage: "clock", keyboard: .numberPad)
-                    FRTextField(label: "Impressions click-through rate (%)", text: $ctr, placeholder: "4.2", systemImage: "cursorarrow.click.2", error: percentError, keyboard: .decimalPad)
-                    FRTextField(label: "Returning viewers (%)", text: $returning, placeholder: "18", systemImage: "arrow.triangle.2.circlepath", keyboard: .decimalPad)
-                    Button("Save Numbers", action: save).buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(!hasValue)
+                    Text(w.logHint).font(.subheadline).foregroundStyle(Theme.muted)
+                    ForEach(w.logMetrics, id: \.self) { m in
+                        let def = Journeys.metric(m)
+                        FRTextField(label: def.label + (def.format == .percent ? " (%)" : def.format == .minutes ? " (minutes)" : ""),
+                                    text: Binding(get: { values[m] ?? "" }, set: { values[m] = $0 }),
+                                    placeholder: "0", systemImage: def.icon,
+                                    error: def.format == .percent ? percentError : nil,
+                                    keyboard: def.format == .percent ? .decimalPad : .numberPad)
+                    }
+                    Button("Save Numbers", action: save).buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(parsed.isEmpty)
                 }
                 .padding(Space.xl).frame(maxWidth: 620).frame(maxWidth: .infinity)
             }
@@ -300,23 +300,24 @@ private struct ChannelStatsSheet: View {
 
     private func save() {
         touched = true
-        guard hasValue, percentError == nil else { Haptics.notify(.error); return }
-        store.logChannelStats(subscribers: number(subscribers), watchTime: number(watchTime), clickThroughRate: number(ctr), returningViewers: number(returning))
+        guard !parsed.isEmpty, percentError == nil else { Haptics.notify(.error); return }
+        store.logNumbers(parsed)
         store.showToast("Numbers saved")
         dismiss()
     }
 }
 
-// MARK: - Monetization
+// MARK: - Income and growth stages
 
-private struct ChannelMonetizationTab: View {
+private struct WorkspaceIncomeTab: View {
+    let w: Workspace
     @Environment(AppStore.self) private var store
     @State private var expanded: String?
-    @State private var loggingIncome = false
+    @State private var logging = false
 
     private var stages: [MonetizationStageInfo] { store.journey.monetizationStages.compactMap(Journeys.monetization) }
     private var current: String { store.enrollment?.monetizationStage ?? "" }
-    private var income: [MetricEvent] { (store.enrollment?.metricEvents ?? []).filter { $0.key == .channelIncome }.sorted { $0.date > $1.date } }
+    private var income: [MetricEvent] { (store.enrollment?.metricEvents ?? []).filter { $0.key == w.incomeMetric }.sorted { $0.date > $1.date } }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.l) {
@@ -332,17 +333,17 @@ private struct ChannelMonetizationTab: View {
                 }
                 .card(.hero)
             }
-            SectionHeader(title: "Your monetization stage")
-            ForEach(Array(stages.enumerated()), id: \.element.id) { i, stage in
-                stageCard(stage, index: i + 1)
-            }
             VStack(alignment: .leading, spacing: Space.s) {
-                SectionHeader(title: "Channel income", action: "Log income") { loggingIncome = true }
+                SectionHeader(title: w.incomeTitle, action: "Log") { logging = true }
                 VStack(alignment: .leading, spacing: Space.m) {
-                    Text(money(store.stats.channelIncome)).font(.number(30)).foregroundStyle(Theme.ink)
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(store.stats.display(w.incomeMetric)).font(.number(30)).foregroundStyle(Theme.ink)
+                        if let sales = w.salesMetric {
+                            Text("from \(store.stats.display(sales)) \(store.stats.value(sales) == 1 ? "sale" : "sales")").font(.footnote).foregroundStyle(Theme.muted)
+                        }
+                    }
                     if income.isEmpty {
-                        Text("Log every dollar from affiliates, sponsors, products or ads. The first one usually comes from an affiliate link, not ads.")
-                            .font(.footnote).foregroundStyle(Theme.muted)
+                        Text(w.incomeHint).font(.footnote).foregroundStyle(Theme.muted)
                     } else {
                         ForEach(income.prefix(6)) { e in
                             HStack {
@@ -353,12 +354,16 @@ private struct ChannelMonetizationTab: View {
                             }
                         }
                     }
-                    Button { loggingIncome = true } label: { Label("Log Income", systemImage: "plus") }.buttonStyle(.fr(.secondary, full: true))
+                    Button { logging = true } label: { Label(w.salesMetric == nil ? "Log Income" : "Log a Sale", systemImage: "plus") }.buttonStyle(.fr(.secondary, full: true))
                 }
                 .card()
             }
+            SectionHeader(title: w.stagesTitle)
+            ForEach(Array(stages.enumerated()), id: \.element.id) { i, stage in
+                stageCard(stage, index: i + 1)
+            }
         }
-        .sheet(isPresented: $loggingIncome) { ChannelIncomeSheet() }
+        .sheet(isPresented: $logging) { WorkspaceIncomeSheet(w: w) }
     }
 
     private func stageCard(_ stage: MonetizationStageInfo, index: Int) -> some View {
@@ -399,38 +404,44 @@ private struct ChannelMonetizationTab: View {
     }
 }
 
-private struct ChannelIncomeSheet: View {
+private struct WorkspaceIncomeSheet: View {
+    let w: Workspace
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var amount = ""
-    @State private var source = "Affiliate link"
+    @State private var sales = "1"
+    @State private var source = ""
     @State private var touched = false
 
-    private static let sources = ["Affiliate link", "Sponsorship", "Digital product", "Ad revenue", "Other"]
     private var value: Int { Int(amount.filter(\.isNumber)) ?? 0 }
+    private var salesValue: Int { Int(sales.filter(\.isNumber)) ?? 0 }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Space.l) {
-                    Text("Log money once it has actually been paid out to you.").font(.subheadline).foregroundStyle(Theme.muted)
+                    Text("Log money once it has actually been paid to you.").font(.subheadline).foregroundStyle(Theme.muted)
                     FRTextField(label: "Amount ($)", text: $amount, placeholder: "25", systemImage: "dollarsign", error: touched && value <= 0 ? "Enter an amount above $0" : nil, keyboard: .numberPad)
-                    SelectRow(label: "Source", selection: $source, options: Self.sources)
-                    Button("Save Income", action: save).buttonStyle(.fr(.primary, size: .lg, full: true))
+                    if w.salesMetric != nil {
+                        FRTextField(label: "Number of sales", text: $sales, placeholder: "1", systemImage: "cart", error: touched && salesValue <= 0 ? "At least one sale" : nil, keyboard: .numberPad)
+                    }
+                    SelectRow(label: "Where from", selection: $source, options: w.incomeSources)
+                    Button(w.salesMetric == nil ? "Save Income" : "Save Sale", action: save).buttonStyle(.fr(.primary, size: .lg, full: true))
                 }
                 .padding(Space.xl).frame(maxWidth: 620).frame(maxWidth: .infinity)
             }
-            .navigationTitle("Log income")
+            .navigationTitle(w.salesMetric == nil ? "Log income" : "Log a sale")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
             .outreachSheetChrome([.medium, .large])
         }
+        .onAppear { if source.isEmpty { source = w.incomeSources.first ?? "" } }
     }
 
     private func save() {
         touched = true
-        guard value > 0 else { Haptics.notify(.error); return }
-        store.logChannelIncome(amount: value, source: source)
+        guard value > 0, w.salesMetric == nil || salesValue > 0 else { Haptics.notify(.error); return }
+        store.logIncome(amount: value, source: source, sales: w.salesMetric == nil ? nil : salesValue)
         store.showToast("\(money(value)) logged")
         dismiss()
     }

@@ -56,8 +56,8 @@ struct MainTabView: View {
                     sidebarTab("Prospects", "person.2.fill", .prospects) { OutreachHubView(initialTab: .prospects).premiumLocked("prospects & outreach") }
                     sidebarTab("Revenue", "dollarsign.circle.fill", .revenue) { RevenueView().premiumLocked("revenue tracking") }
                 }
-                if store.journey.has("channel") {
-                    sidebarTab("Channel", "play.rectangle.fill", .channel) { ChannelHubView(initialTab: .content).premiumLocked("your channel tools") }
+                if let w = store.journey.workspace {
+                    sidebarTab(w.navLabel, w.icon, .channel) { ChannelHubView(initialTab: .content).premiumLocked("your \(w.navLabel.lowercased()) tools") }
                 }
             }
             TabSection("Learn") {
@@ -129,7 +129,7 @@ struct RouteView: View {
         case .outreach, .prospect, .generate, .pricing, .revenue:
             store.journey.sellsServices ? nil : "Prospects, outreach, pricing and client revenue belong to service journeys. \(store.journey.shortLabel) tracks your content and audience instead."
         case .channel:
-            store.journey.has("channel") ? nil : "The channel board, analytics and monetization belong to the own-channel journey."
+            store.journey.workspace != nil ? nil : "This workspace belongs to the own-channel and digital products journeys."
         default: nil
         }
     }

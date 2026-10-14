@@ -8,9 +8,7 @@ struct CheckInStepContent: View {
     @Binding var answers: CheckInAnswers
 
     private var quickPicks: [String] {
-        answers.services
-            ? ["Send more outreach", "Write better openers", "Follow up faster", "Be more consistent", "Price with confidence"]
-            : ["Publish on schedule", "Stronger hooks", "Better thumbnails", "Batch my scripts", "Reply to every comment"]
+        answers.workspace?.checkin.quickPicks ?? ["Send more outreach", "Write better openers", "Follow up faster", "Be more consistent", "Price with confidence"]
     }
 
     var body: some View {
@@ -44,7 +42,7 @@ struct CheckInStepContent: View {
         case .prospects:
             CheckInCounter(value: $answers.prospects, label: "Prospects contacted")
         case .published:
-            CheckInCounter(value: $answers.published, label: "Videos published")
+            CheckInCounter(value: $answers.published, label: answers.workspace?.checkin.label ?? "This week")
         case .replies:
             VStack(spacing: Space.xl) {
                 CheckInCounter(value: $answers.replies, label: "Replies received")
@@ -189,23 +187,23 @@ struct CheckInSummaryData {
         let rate = a.prospects > 0 ? Int((Double(a.replies) / Double(a.prospects) * 100).rounded()) : 0
         self.rate = rate
 
-        guard a.services else {
+        if let w = a.workspace {
+            let label = w.checkin.label.lowercased()
             var wins = [sentence(a.accomplished)]
-            if a.published > 0 { wins.append("\(a.published) \(a.published == 1 ? "video" : "videos") published this week — most channels stall before their first") }
-            if stats.videosPublished > a.published { wins.append("\(stats.videosPublished) videos published in total") }
-            if a.madeMoney { wins.append(stats.channelIncome > 0 ? "Your channel has earned \(money(stats.channelIncome)) so far" : "Your channel made money this week") }
+            if a.published > 0 { wins.append("\(w.checkin.label): \(a.published) — most people never get this far") }
+            if stats.value(w.doneMetric) > 0 { wins.append("\(stats.display(w.doneMetric)) \(Journeys.metric(w.doneMetric).label.lowercased()) in total") }
+            if a.madeMoney { wins.append(stats.value(w.incomeMetric) > 0 ? "You've earned \(stats.display(w.incomeMetric)) so far" : "You made money this week") }
             if stats.streak >= 3 { wins.append("\(stats.streak)-day streak and counting") }
 
             var challenges = [sentence(a.difficult)]
-            if a.published == 0 { challenges.append("Nothing published this week — an unpublished video teaches you nothing about your audience") }
-            if stats.clickThroughRate == nil && stats.videosPublished > 0 { challenges.append("No YouTube Studio numbers logged yet, so it's hard to see what's working") }
-            if !a.madeMoney { challenges.append("No channel income yet — expected this early; audience comes first") }
+            if a.published == 0 { challenges.append("No \(label) yet this week — progress shows up once something is live") }
+            if w.logMetrics.allSatisfy({ stats.logged[$0] == nil }) && stats.value(w.doneMetric) > 0 { challenges.append("No numbers logged from \(w.logSource) yet, so it's hard to see what's working") }
+            if !a.madeMoney { challenges.append("No income yet — expected this early, and fixable") }
 
             var focus: [String] = []
-            if a.published == 0 { focus.append("Publish one video this week, even a short one") }
-            else if a.published < 2 { focus.append("Batch two scripts in one sitting so next week has two uploads") }
-            else { focus.append("Change one thing in your packaging and compare click-through rate") }
-            if stats.videosPublished > 0 { focus.append("Log your numbers from YouTube Studio every week") }
+            if a.published == 0 { focus.append("Ship one small thing this week, even if it isn't perfect") }
+            else { focus.append("Change one thing and compare your numbers next week") }
+            if stats.value(w.doneMetric) > 0 { focus.append("Log your numbers from \(w.logSource) every week") }
             focus.append("Your own focus: \(sentence(a.improve))")
             self.wins = wins
             self.challenges = challenges
@@ -295,9 +293,11 @@ struct CheckInSummaryView: View {
                 tile("\(answers.replies)", "Replies")
                 tile("\(s.rate)%", "Reply rate")
             } else {
-                tile("\(answers.published)", "Published")
-                tile("\(stats.videosPublished)", "Total videos")
-                tile(stats.display(.subscribers), "Subscribers")
+                if let w = answers.workspace {
+                    tile("\(answers.published)", "This week")
+                    tile(stats.display(w.doneMetric), Journeys.metric(w.doneMetric).label)
+                    tile(stats.display(w.headline.last ?? w.incomeMetric), Journeys.metric(w.headline.last ?? w.incomeMetric).label)
+                }
             }
         }
     }

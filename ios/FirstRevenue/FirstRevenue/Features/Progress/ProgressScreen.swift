@@ -48,7 +48,7 @@ struct ProgressScreen: View {
                 StatCard(icon: "play.rectangle.fill", value: "\(stats.lessons)", label: "Lessons watched") { store.push(.lessons) }
                 ForEach(store.journey.metrics.filter { $0 != .prospects }, id: \.self) { m in
                     let def = Journeys.metric(m)
-                    let accent = m == .revenue || m == .videosPublished
+                    let accent = m == .revenue || m == store.journey.workspace?.doneMetric
                     if let route = store.route(for: m) {
                         StatCard(icon: def.icon, value: stats.display(m), label: def.label, accent: accent) { store.push(route) }
                     } else {
@@ -174,14 +174,10 @@ private struct ProgressMilestonesCard: View {
             ProgressMilestone(title: "First Mission", icon: "flag.fill", current: stats.missions, target: 1, hint: "Complete your first daily mission"),
             ProgressMilestone(title: "3-Day Streak", icon: "flame.fill", current: max(stats.streak, min(stats.longestStreak, 3)), target: 3, hint: "Show up three days in a row"),
         ]
-        guard store.journey.sellsServices else {
-            return start + [
-                ProgressMilestone(title: "First Video", icon: "play.rectangle.fill", current: stats.videosPublished, target: 1, hint: "Publish your first video"),
-                ProgressMilestone(title: "3 Uploads in a Week", icon: "calendar.badge.clock", current: stats.uploadsThisWeek, target: 3, hint: "Publish three videos within seven days"),
-                ProgressMilestone(title: "5 Videos", icon: "square.stack.fill", current: stats.videosPublished, target: 5, hint: "Publish five videos"),
-                ProgressMilestone(title: "First 100 Subscribers", icon: "person.3.fill", current: stats.value(.subscribers), target: 100, hint: "Log 100 subscribers from YouTube Studio"),
-                ProgressMilestone(title: "First Channel Income", icon: "dollarsign.circle.fill", current: stats.channelIncome, target: 1, isMoney: true, hint: "Log your first affiliate, sponsor or product income"),
-            ]
+        if let w = store.journey.workspace {
+            return start + w.milestones.map {
+                ProgressMilestone(title: $0.title, icon: $0.icon, current: stats.value($0.metric), target: $0.target, isMoney: $0.money == true, hint: Journeys.metric($0.metric).hint)
+            }
         }
         return start + [
             ProgressMilestone(title: "First Prospect", icon: "magnifyingglass", current: stats.prospects, target: 1, hint: "Add one potential client"),

@@ -160,9 +160,7 @@ private struct AchievementDetailSheet: View {
         case .revenue: store.push(.revenue)
         case .lessons: store.push(.lessons)
         case .streak: store.push(.streak)
-        case .videosPublished, .uploadsThisWeek: store.push(.channel(.content))
-        case .watchTime, .subscribers, .clickThroughRate, .returningViewers: store.push(.channel(.analytics))
-        case .channelIncome: store.push(.channel(.monetization))
+        default: if let route = store.route(for: achievement.metric) { store.push(route) }
         }
     }
 
@@ -179,7 +177,9 @@ private struct AchievementDetailSheet: View {
         case .lessons: AchievementHint(cta: "Browse lessons", tip: "Watch lessons from the library to the end.", icon: "play.rectangle.fill")
         case .videosPublished: AchievementHint(cta: "Open content board", tip: "Move an idea all the way to Published.", icon: "play.rectangle.fill")
         case .uploadsThisWeek: AchievementHint(cta: "Open content board", tip: "Publish on your weekly schedule. Batching scripts makes it easier.", icon: "calendar.badge.clock")
-        case .watchTime, .subscribers, .clickThroughRate, .returningViewers: AchievementHint(cta: "Log my numbers", tip: "Copy your latest numbers from YouTube Studio once a week.", icon: "chart.line.uptrend.xyaxis")
+        case .productsLaunched: AchievementHint(cta: "Open your products", tip: "Move a product idea all the way to Launched.", icon: "checkmark.seal.fill")
+        case .salesCount, .salesThisWeek, .productRevenue: AchievementHint(cta: "Log a sale", tip: "Log each sale from your store once it's paid out.", icon: "cart.fill")
+        case .watchTime, .subscribers, .clickThroughRate, .returningViewers, .pageVisits, .emailSubscribers: AchievementHint(cta: "Log my numbers", tip: "Copy your latest totals from your dashboard once a week.", icon: "chart.line.uptrend.xyaxis")
         case .channelIncome: AchievementHint(cta: "Open monetization", tip: "Log income from affiliates, sponsors, products or ads once it is paid out.", icon: "dollarsign.circle.fill")
         }
     }

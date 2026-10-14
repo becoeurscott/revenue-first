@@ -378,31 +378,35 @@ final class AppStore {
         Monitoring.track("niche_updated", ["journey": current.journeyId.rawValue, "source": next.source.rawValue])
     }
 
-    // MARK: Channel (owned-channel journeys)
+    // MARK: Workspace (own channel, digital products…)
 
     @discardableResult
     func addContent(title: String, format: String) -> String {
         let id = UID.make("v")
-        updateEnrollment { $0.contentItems.insert(ContentItem(id: id, title: title, format: format, stage: .idea, notes: "", link: "", createdAt: Date(), publishedAt: nil), at: 0) }
-        Monitoring.track("content_idea_added", ["format": format])
+        let first = journey.workspace?.stages.first?.stage ?? "idea"
+        updateEnrollment { $0.contentItems.insert(ContentItem(id: id, title: title, format: format, stage: first, notes: "", link: "", createdAt: Date(), publishedAt: nil), at: 0) }
+        Monitoring.track("content_idea_added", ["format": format, "journey": journey.id.rawValue])
         return id
     }
 
+    /// Moves a board item to its next stage. Reaching the workspace's "done" stage (published, launched…)
+    /// logs the done metric, which feeds goals, streak-free progress and achievements.
     func advanceContent(_ id: String) {
-        guard let item = enrollment?.contentItems.first(where: { $0.id == id }), let next = item.stage.next else { return }
+        guard let w = journey.workspace, let item = enrollment?.contentItems.first(where: { $0.id == id }), let next = w.next(after: item.stage) else { return }
+        let done = next == w.doneStage
         updateEnrollment { e in
             guard let i = e.contentItems.firstIndex(where: { $0.id == id }) else { return }
             e.contentItems[i].stage = next
-            if next == .published {
+            if done {
                 e.contentItems[i].publishedAt = Date()
-                e.metricEvents.append(MetricEvent(id: UID.make("me"), key: .videosPublished, value: 1, date: Date(), refId: id))
+                e.metricEvents.append(MetricEvent(id: UID.make("me"), key: w.doneMetric, value: 1, date: Date(), refId: id))
             }
         }
-        Monitoring.track("content_stage_advanced", ["to": next.rawValue])
-        if next == .published {
+        Monitoring.track("content_stage_advanced", ["to": next, "journey": journey.id.rawValue])
+        if done {
             s.xp += 40
-            let count = stats.videosPublished
-            notify("play.rectangle.fill", count == 1 ? "Your first video is live" : "Video \(count) is live", "“\(item.title)” is published. Check its click-through rate and retention in 48 hours.", "/channel/analytics")
+            let count = stats.value(w.doneMetric)
+            notify(w.icon, count == 1 ? w.doneNoticeFirst : w.fill(w.doneNotice, n: count), "“\(item.title)” is live. Log its numbers in a couple of days to see how it's doing.", "/channel/analytics")
         }
     }
 
@@ -423,20 +427,24 @@ final class AppStore {
         }
     }
 
-    /// Logs a YouTube Studio snapshot. Only the values the user filled in are recorded.
-    func logChannelStats(subscribers: Double?, watchTime: Double?, clickThroughRate: Double?, returningViewers: Double?) {
-        let values: [(StatMetric, Double?)] = [(.subscribers, subscribers), (.watchTime, watchTime), (.clickThroughRate, clickThroughRate), (.returningViewers, returningViewers)]
-        let events = values.compactMap { key, value in value.map { MetricEvent(id: UID.make("me"), key: key, value: $0, date: Date()) } }
+    /// Logs a snapshot copied from YouTube Studio, a store dashboard… Only filled-in values are recorded.
+    func logNumbers(_ values: [StatMetric: Double]) {
+        let events = values.map { MetricEvent(id: UID.make("me"), key: $0.key, value: $0.value, date: Date()) }
         guard !events.isEmpty else { return }
         updateEnrollment { $0.metricEvents.append(contentsOf: events) }
-        Monitoring.track("channel_stats_logged", ["fields": events.map(\.key.rawValue)])
+        Monitoring.track("numbers_logged", ["fields": events.map(\.key.rawValue), "journey": journey.id.rawValue])
     }
 
-    func logChannelIncome(amount: Int, source: String) {
-        let first = stats.channelIncome == 0
-        updateEnrollment { $0.metricEvents.append(MetricEvent(id: UID.make("me"), key: .channelIncome, value: Double(amount), date: Date(), note: source)) }
-        Monitoring.track("channel_income_logged", ["source": source, "amount": amount, "first_revenue": first])
-        if first { notify("dollarsign.circle.fill", "Your channel earned its first \(money(amount))", "From \(source.lowercased()). That's the hardest dollar — the next ones come faster.", "/channel/monetization") }
+    /// Logs money from the workspace's income source; for products, also the number of sales.
+    func logIncome(amount: Int, source: String, sales: Int? = nil) {
+        guard let w = journey.workspace else { return }
+        let first = stats.value(w.incomeMetric) == 0
+        updateEnrollment { e in
+            e.metricEvents.append(MetricEvent(id: UID.make("me"), key: w.incomeMetric, value: Double(amount), date: Date(), note: source))
+            if let metric = w.salesMetric, let sales, sales > 0 { e.metricEvents.append(MetricEvent(id: UID.make("me"), key: metric, value: Double(sales), date: Date(), note: source)) }
+        }
+        Monitoring.track("income_logged", ["source": source, "amount": amount, "first_revenue": first, "journey": journey.id.rawValue])
+        if first { notify("dollarsign.circle.fill", "You earned your first \(money(amount))", "From \(source). That's the hardest dollar — the next ones come faster.", "/channel/monetization") }
     }
 
     func setMonetizationStage(_ id: String) {
@@ -629,7 +637,7 @@ final class AppStore {
     func addCheckin(week: Int, accomplished: String, difficult: String, prospects: Int, replies: Int, published: Int? = nil, madeMoney: Bool, improve: String) {
         Monitoring.track("check_in_saved", ["week": week, "made_money": madeMoney, "prospects": prospects, "replies": replies, "published": published ?? 0, "journey": journey.id.rawValue])
         s.checkins.insert(WeeklyCheckin(id: UID.make("w"), week: week, date: Date(), accomplished: accomplished, difficult: difficult, prospects: prospects, replies: replies, madeMoney: madeMoney, improve: improve,
-                                        journeyId: journey.id.rawValue, metrics: published.map { ["uploadsThisWeek": $0] }), at: 0)
+                                        journeyId: journey.id.rawValue, metrics: published.map { [(journey.workspace?.weeklyMetric ?? .uploadsThisWeek).rawValue: $0] }), at: 0)
         s.xp += 50
     }
 
@@ -691,28 +699,29 @@ final class AppStore {
             return
         }
 
-        // Own channel: three published videos, two in progress, and a week of YouTube Studio numbers.
+        // Workspace journeys: items across the board (three done), and a week of logged numbers.
+        guard let w = journey.workspace else { return }
         let topic = niche?.normalizedLabel.lowercased() ?? "your topic"
-        let format = enrollment?.answers.answer("videoFormat") == "shorts" ? "Short" : "Long-form"
-        let items: [(String, ContentStage, Int)] = [
-            ("5 beginner mistakes in \(topic)", .published, 6),
-            ("\(topic.prefix(1).uppercased() + topic.dropFirst()) for complete beginners", .published, 4),
-            ("What I wish I knew about \(topic)", .published, 1),
-            ("Your top \(topic) questions, answered", .edited, 0),
-            ("The \(topic) tools I actually use", .idea, 0),
-        ]
+        let Topic = topic.prefix(1).uppercased() + topic.dropFirst()
+        let format = defaultFormat
+        let stageFor: [String] = [w.doneStage, w.doneStage, w.doneStage, w.stages[max(w.stages.count - 2, 0)].stage, w.stages[0].stage]
+        let daysAgo = [6, 4, 1, 0, 0]
         updateEnrollment { e in
-            for (title, stage, daysAgo) in items {
+            for (i, template) in w.sampleTitles.prefix(5).enumerated() {
                 let id = UID.make("v")
-                let published = stage == .published ? Date.daysAgo(daysAgo) : nil
-                e.contentItems.append(ContentItem(id: id, title: title, format: format, stage: stage, notes: "", link: "", createdAt: Date.daysAgo(daysAgo + 2), publishedAt: published))
-                if let published { e.metricEvents.append(MetricEvent(id: UID.make("me"), key: .videosPublished, value: 1, date: published, refId: id)) }
+                let title = template.replacingOccurrences(of: "{topic}", with: topic).replacingOccurrences(of: "{Topic}", with: Topic)
+                let done = stageFor[i] == w.doneStage
+                let when = Date.daysAgo(daysAgo[i])
+                e.contentItems.append(ContentItem(id: id, title: title, format: format, stage: stageFor[i], notes: "", link: "", createdAt: Date.daysAgo(daysAgo[i] + 2), publishedAt: done ? when : nil))
+                if done { e.metricEvents.append(MetricEvent(id: UID.make("me"), key: w.doneMetric, value: 1, date: when, refId: id)) }
             }
-            let studio: [(StatMetric, Double, Int)] = [(.subscribers, 18, 5), (.watchTime, 140, 5), (.subscribers, 42, 1), (.watchTime, 310, 1), (.clickThroughRate, 4.1, 1), (.returningViewers, 12, 1)]
-            e.metricEvents += studio.map { MetricEvent(id: UID.make("me"), key: $0.0, value: $0.1, date: Date.daysAgo($0.2)) }
+            e.metricEvents += w.sampleNumbers.map { MetricEvent(id: UID.make("me"), key: $0.metric, value: $0.value, date: Date.daysAgo($0.daysAgo)) }
+            if let sales = w.salesMetric {
+                e.metricEvents += [(2, 12.0, 3), (1, 12.0, 1)].map { qty, price, ago in MetricEvent(id: UID.make("me"), key: sales, value: Double(qty), date: Date.daysAgo(ago), note: w.incomeSources.first) }
+                e.metricEvents += [(24.0, 3), (12.0, 1)].map { amount, ago in MetricEvent(id: UID.make("me"), key: w.incomeMetric, value: amount, date: Date.daysAgo(ago), note: w.incomeSources.first) }
+            }
         }
-        notify("play.rectangle.fill", "Video 3 is live", "“What I wish I knew about \(topic)” is published. Check its click-through rate in 48 hours.", "/channel/analytics")
-        notify("person.3.fill", "42 subscribers", "You've more than doubled since last week. Keep your upload schedule.", "/channel/analytics")
+        notify(w.icon, w.fill(w.doneNotice, n: 3), "Your latest \(w.itemNoun) is live. Log its numbers in a couple of days.", "/channel/analytics")
     }
 
     private func event(_ kind: String, _ text: String) -> ContactEvent { ContactEvent(id: UID.make("e"), kind: kind, text: text, date: Date()) }

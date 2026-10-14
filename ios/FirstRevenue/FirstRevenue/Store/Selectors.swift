@@ -20,9 +20,9 @@ struct Stats {
     var missions = 0, daysCompleted = 0, lessons = 0, streak = 0, longestStreak = 0
     var prospects = 0, contacted = 0, replies = 0, clients = 0
     var revenue = 0, booked = 0, potential = 0, conversion = 0
-    var videosPublished = 0, uploadsThisWeek = 0, channelIncome = 0
-    /// Latest YouTube Studio values the user logged (nil = never logged).
-    var watchTime: Double?, subscribers: Double?, clickThroughRate: Double?, returningViewers: Double?
+    /// Journey metrics computed from logged events (totals, weekly totals, or the latest logged value).
+    /// A "latest" metric that was never logged is absent, so it can show "—" instead of 0.
+    var logged: [StatMetric: Double] = [:]
     var xp = 0, level = 1
     var levelProgress = 0.0
 
@@ -37,32 +37,40 @@ struct Stats {
         case .clients: clients
         case .revenue: revenue
         case .daysCompleted: daysCompleted
-        case .videosPublished: videosPublished
-        case .uploadsThisWeek: uploadsThisWeek
-        case .channelIncome: channelIncome
-        case .watchTime: Int((watchTime ?? 0).rounded())
-        case .subscribers: Int((subscribers ?? 0).rounded())
-        case .clickThroughRate: Int((clickThroughRate ?? 0).rounded())
-        case .returningViewers: Int((returningViewers ?? 0).rounded())
+        default: Int((logged[m] ?? 0).rounded())
         }
     }
 
-    /// Display string in the metric's own format ("—" for Studio values never logged).
+    /// Display string in the metric's own format ("—" for values the user has never logged).
     func display(_ m: StatMetric) -> String {
-        let latest: Double? = switch m {
-        case .watchTime: watchTime
-        case .subscribers: subscribers
-        case .clickThroughRate: clickThroughRate
-        case .returningViewers: returningViewers
-        default: Double(value(m))
-        }
-        guard let v = latest else { return "—" }
-        switch Journeys.metric(m).format {
+        let def = Journeys.metric(m)
+        let raw: Double? = def.kind == .latest ? logged[m] : (def.kind == .derived ? Double(value(m)) : logged[m] ?? 0)
+        guard let v = raw else { return "—" }
+        switch def.format {
         case .money: return money(Int(v.rounded()))
         case .percent: return v.formatted(.number.precision(.fractionLength(0...1))) + "%"
         case .minutes: return v >= 120 ? (v / 60).formatted(.number.precision(.fractionLength(0...1))) + " h" : "\(Int(v.rounded())) min"
         case .number: return Int(v.rounded()).formatted()
         }
+    }
+
+    /// Computes every event-based metric from a journey's log.
+    static func logged(from events: [MetricEvent]) -> [StatMetric: Double] {
+        var out: [StatMetric: Double] = [:]
+        for (metric, def) in Journeys.catalog.metrics {
+            switch def.kind {
+            case .count, .sum:
+                out[metric] = events.filter { $0.key == metric }.reduce(0) { $0 + $1.value }
+            case .latest:
+                if let v = events.last(where: { $0.key == metric })?.value { out[metric] = v }
+            case .weekly:
+                guard let of = def.of else { continue }
+                out[metric] = events.filter { $0.key == of && $0.date > Date.daysAgo(7) }.reduce(0) { $0 + $1.value }
+            case .derived:
+                continue
+            }
+        }
+        return out
     }
 }
 
@@ -84,6 +92,15 @@ extension AppStore {
     }
 
     var achievements: [Achievement] { MockData.achievements(for: journey) }
+
+    /// The board format the user chose in onboarding (Shorts, Printable…), or the workspace's first format.
+    var defaultFormat: String {
+        let picked: [String: String] = ["shorts": "Short", "long": "Long-form", "template": "Template", "guide": "Guide", "printable": "Printable", "course": "Mini-course"]
+        let a = enrollment?.answers
+        let formats = journey.workspace?.formats ?? []
+        let choice = picked[a?.answer("videoFormat") ?? ""] ?? picked[a?.answer("productType") ?? ""]
+        return choice.flatMap { formats.contains($0) ? $0 : nil } ?? formats.first ?? ""
+    }
 
     /// Coach chats belong to the journey they were started in.
     var coachConversations: [CoachConversation] {
@@ -143,16 +160,7 @@ extension AppStore {
         st.booked = sum(.booked)
         st.potential = sum(.potential)
         st.conversion = st.contacted > 0 ? Int((Double(st.clients) / Double(st.contacted) * 100).rounded()) : 0
-        let events = enrollment?.metricEvents ?? []
-        func latest(_ key: StatMetric) -> Double? { events.last { $0.key == key }?.value }
-        let published = events.filter { $0.key == .videosPublished }
-        st.videosPublished = Int(published.reduce(0) { $0 + $1.value })
-        st.uploadsThisWeek = Int(published.filter { $0.date > Date.daysAgo(7) }.reduce(0) { $0 + $1.value })
-        st.channelIncome = Int(events.filter { $0.key == .channelIncome }.reduce(0) { $0 + $1.value })
-        st.watchTime = latest(.watchTime)
-        st.subscribers = latest(.subscribers)
-        st.clickThroughRate = latest(.clickThroughRate)
-        st.returningViewers = latest(.returningViewers)
+        st.logged = Stats.logged(from: enrollment?.metricEvents ?? [])
         st.xp = s.xp
         st.level = s.xp / 400 + 1
         st.levelProgress = Double(s.xp % 400) / 400

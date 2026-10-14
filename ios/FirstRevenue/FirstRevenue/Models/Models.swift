@@ -9,8 +9,9 @@ import Foundation
 enum PathID: String, Codable, CaseIterable, Identifiable, Hashable {
     case clipping, gbp
     case youtubeOwned = "youtube_owned"
+    case digitalProducts = "digital_products"
     var id: String { rawValue }
-    var isService: Bool { self != .youtubeOwned }
+    var isService: Bool { self == .clipping || self == .gbp }
 }
 
 struct PathWeek: Codable, Hashable { let week: Int; let title: String; let focus: [String] }
@@ -181,6 +182,7 @@ struct AppNotification: Codable, Identifiable, Hashable {
 enum StatMetric: String, Codable, Hashable, CodingKeyRepresentable {
     case missions, lessons, streak, prospects, contacted, replies, clients, revenue, daysCompleted
     case videosPublished, uploadsThisWeek, watchTime, subscribers, clickThroughRate, returningViewers, channelIncome
+    case productsLaunched, salesCount, salesThisWeek, productRevenue, pageVisits, emailSubscribers
 }
 
 struct Achievement: Codable, Identifiable, Hashable {

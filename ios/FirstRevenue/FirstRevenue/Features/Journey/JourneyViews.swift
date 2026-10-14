@@ -85,14 +85,16 @@ extension AppStore {
     /// Where a metric is worked on, for tappable stat cards.
     func route(for metric: StatMetric) -> Route? {
         switch metric {
-        case .prospects, .contacted, .replies, .clients: .outreach(.prospects)
-        case .revenue: .revenue
-        case .lessons: .lessons
-        case .streak: .streak
-        case .videosPublished, .uploadsThisWeek: .channel(.content)
-        case .watchTime, .subscribers, .clickThroughRate, .returningViewers: .channel(.analytics)
-        case .channelIncome: .channel(.monetization)
-        case .missions, .daysCompleted: nil
+        case .prospects, .contacted, .replies, .clients: return .outreach(.prospects)
+        case .revenue: return .revenue
+        case .lessons: return .lessons
+        case .streak: return .streak
+        case .missions, .daysCompleted: return nil
+        default:
+            guard let w = journey.workspace else { return nil }
+            if metric == w.doneMetric || metric == w.weeklyMetric && Journeys.metric(metric).of == w.doneMetric { return .channel(.content) }
+            if metric == w.incomeMetric || metric == w.salesMetric || Journeys.metric(metric).of == w.salesMetric { return .channel(.monetization) }
+            return .channel(.analytics)
         }
     }
 }

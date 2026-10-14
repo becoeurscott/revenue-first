@@ -1,0 +1,3009 @@
+{
+  "path": {
+    "id": "digital_products",
+    "slug": "digital-products",
+    "name": "Your First Digital Product",
+    "tagline": "Make one small digital product that solves a real problem and put it in front of buyers.",
+    "icon": "doc.richtext.fill",
+    "hue": 150,
+    "description": "You pick one problem your audience will pay to solve, check that people already look for help with it, and build a small first version with free tools. Over 30 days you put it on a simple sales page, set an honest beginner price, start a small email list and share helpful content that points to it. Sales usually start slowly, so the goal is a launched product, real feedback and at least one genuine first sale attempt.",
+    "difficulty": "Beginner",
+    "objective": "Validate one problem, create a small version 1 of a digital product, publish its sales page, make a first sale attempt by Day 14 and finish with real numbers and a plan for the next 30 days.",
+    "service": "Your own digital product",
+    "typicalPrice": "Small products usually sell for $5–$30 to start",
+    "skills": [
+      "Problem research",
+      "Product outlining",
+      "Simple design",
+      "Sales page writing",
+      "Pricing",
+      "Email and content marketing"
+    ],
+    "firstTasks": [
+      "Write down who you help and the one problem your product will solve",
+      "Collect 15 real questions your audience asks online",
+      "Outline a small product you can finish in about a week",
+      "Publish your sales page and make your first sale attempt by Day 14"
+    ],
+    "workflow": [
+      "Pick one specific problem your audience already asks about",
+      "Check what already sells for that problem and at what price",
+      "Outline a small product that solves one part of it well",
+      "Build version 1 with free tools and only licensed fonts and images",
+      "Put it on one selling platform with a clear sales page and fair price",
+      "Share helpful content and emails that point to the product",
+      "Read your visits and sales, ask buyers for feedback, then improve"
+    ],
+    "weeks": [
+      {
+        "week": 1,
+        "title": "Foundations",
+        "focus": [
+          "Problem and audience",
+          "Validation",
+          "Format and outline"
+        ]
+      },
+      {
+        "week": 2,
+        "title": "Build & List",
+        "focus": [
+          "Version 1",
+          "Platform and price",
+          "Sales page and first sale attempt"
+        ]
+      },
+      {
+        "week": 3,
+        "title": "Launch & Audience",
+        "focus": [
+          "Lead magnet and email",
+          "Launch content",
+          "Buyer feedback"
+        ]
+      },
+      {
+        "week": 4,
+        "title": "Improve & Grow",
+        "focus": [
+          "Numbers and fixes",
+          "Bundles and upsells",
+          "Next 30-day plan"
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "Canva",
+        "purpose": "Design printables, templates, covers and preview images",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "Google Docs",
+        "purpose": "Write guides and ebooks, then export them as PDF",
+        "cost": "Free"
+      },
+      {
+        "name": "Google Slides",
+        "purpose": "Lay out workbooks and slides for a mini-course",
+        "cost": "Free"
+      },
+      {
+        "name": "Notion",
+        "purpose": "Build and share Notion templates and keep your plan in one place",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "Google Forms",
+        "purpose": "Run a short survey and collect buyer feedback",
+        "cost": "Free"
+      },
+      {
+        "name": "Selling platform",
+        "purpose": "Pick one, such as Gumroad, Etsy, Payhip, Stan or Ko-fi, to host your product page",
+        "cost": "Free to start, fees per sale"
+      }
+    ]
+  },
+  "lessonCategories": [
+    "Product Strategy",
+    "Validation",
+    "Creation",
+    "Licensing",
+    "Selling Platforms",
+    "Pricing",
+    "Sales Page",
+    "Email List",
+    "Marketing & Launch",
+    "Feedback",
+    "Analytics & Growth",
+    "Mindset"
+  ],
+  "plan": [
+    {
+      "day": 1,
+      "week": 1,
+      "theme": "Choose Your Problem",
+      "missionTitle": "Decide who you help and which problem your product will solve.",
+      "goal": "Write a one-sentence product promise and your 30-day goal.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-01",
+      "tasks": [
+        {
+          "id": "dp-01-t1",
+          "title": "Watch the Day 1 lesson",
+          "description": "See how small digital products work: one audience, one painful problem, one simple fix people can download today."
+        },
+        {
+          "id": "dp-01-t2",
+          "title": "Name your audience",
+          "description": "Write who you want to help in plain words. Be specific enough that one person could read it and think \"that is me\"."
+        },
+        {
+          "id": "dp-01-t3",
+          "title": "List five problems",
+          "description": "Write five problems that audience has that a guide, template, checklist or printable could help with."
+        },
+        {
+          "id": "dp-01-t4",
+          "title": "Write your product promise",
+          "description": "Use this shape: \"I help [audience] [get result] without [frustration].\" Keep it to one sentence."
+        },
+        {
+          "id": "dp-01-t5",
+          "title": "Set your 30-day goal",
+          "description": "Choose a goal you control, such as \"publish my sales page and make one sale attempt\". Sales numbers are not fully in your control yet."
+        }
+      ],
+      "nicheHint": "Start from this draft: I help {audience} with {problem}. Then circle the one problem in your list that {audience} would most want solved this week.",
+      "stageHints": {
+        "idea": "Pick the audience you understand best, ideally one you belong to or used to belong to.",
+        "started": "Look at what you already made and write the promise it was really trying to keep.",
+        "some_traction": "Write the promise around the problem your first buyers bought for, not the one you guessed.",
+        "already_earning": "Write down which product sells most and the problem it solves; this month builds on that."
+      }
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "theme": "Listen to Your Audience",
+      "missionTitle": "Find the exact words your audience uses when they ask for help.",
+      "goal": "Collect 15 real questions about your problem.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-02",
+      "tasks": [
+        {
+          "id": "dp-02-t1",
+          "title": "Watch the Day 2 lesson",
+          "description": "Learn where buyers describe their problems in public and how to read those places without joining the noise."
+        },
+        {
+          "id": "dp-02-t2",
+          "title": "Search Reddit and forums",
+          "description": "Search your topic plus words like \"help\", \"how do I\" or \"struggling\". Copy questions word for word.",
+          "resourceId": "res-dp-validation-worksheet"
+        },
+        {
+          "id": "dp-02-t3",
+          "title": "Read Pinterest and YouTube comments",
+          "description": "Open popular pins and videos on your topic and note questions people ask in the comments."
+        },
+        {
+          "id": "dp-02-t4",
+          "title": "Group the questions",
+          "description": "Sort your 15 questions into three or four groups. The biggest group is your strongest signal.",
+          "resourceId": "res-dp-validation-worksheet"
+        }
+      ],
+      "nicheHint": "Search for {terms} and note how {audience} describe {problem} in their own words. Their phrasing will become your product title later.",
+      "stageHints": {
+        "idea": "Collect questions with an open mind; your first idea may change, and that is fine.",
+        "started": "Check whether the questions match what you already made, and note any gaps.",
+        "some_traction": "Look for questions your buyers asked you directly; they are the most valuable.",
+        "already_earning": "Look for new questions near your best seller; they may point to your next product."
+      }
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "theme": "Check What Sells",
+      "missionTitle": "See what already sells for your problem and at what price.",
+      "goal": "Fill in a list of 10 similar products with their format and price.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-03",
+      "tasks": [
+        {
+          "id": "dp-03-t1",
+          "title": "Watch the Day 3 lesson",
+          "description": "Competition is a good sign: it shows people already pay for help with this problem. Learn what to look for."
+        },
+        {
+          "id": "dp-03-t2",
+          "title": "Search one or two marketplaces",
+          "description": "Search your topic on marketplaces such as Etsy or Gumroad's Discover page. Note 10 products that solve a similar problem.",
+          "resourceId": "res-dp-validation-worksheet"
+        },
+        {
+          "id": "dp-03-t3",
+          "title": "Record format and price",
+          "description": "For each product write the format, the price and roughly how many reviews it has."
+        },
+        {
+          "id": "dp-03-t4",
+          "title": "Read the reviews",
+          "description": "Read the 2 and 3 star reviews. Write down what buyers wished was included or done better."
+        },
+        {
+          "id": "dp-03-t5",
+          "title": "Find your angle",
+          "description": "Write one sentence on how your version could be clearer, more specific or easier to use. Never copy another product."
+        }
+      ],
+      "nicheHint": "Search for {terms} on one marketplace and note what similar products for {audience} cost. Look for a gap, such as a narrower audience or a simpler format.",
+      "stageHints": {
+        "idea": "Treat this as research only; you are learning the market, not choosing a winner yet.",
+        "started": "Compare your existing product with the top three and note one clear difference.",
+        "some_traction": "Check whether your price sits far above or below similar products, and note why.",
+        "already_earning": "Look for problems close to your best seller that nobody serves well yet."
+      }
+    },
+    {
+      "day": 4,
+      "week": 1,
+      "theme": "Run a Tiny Survey",
+      "missionTitle": "Ask real people which version of your idea they want most.",
+      "goal": "Get at least five answers to a short survey or poll.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-04",
+      "tasks": [
+        {
+          "id": "dp-04-t1",
+          "title": "Watch the Day 4 lesson",
+          "description": "A short survey turns guesses into evidence. Learn how to ask questions that get honest answers."
+        },
+        {
+          "id": "dp-04-t2",
+          "title": "Write three questions",
+          "description": "Ask what they struggle with, what they have tried and what would help most. Keep it under two minutes.",
+          "resourceId": "res-dp-validation-worksheet"
+        },
+        {
+          "id": "dp-04-t3",
+          "title": "Build it in Google Forms",
+          "description": "Make a free form, or use a poll feature on a platform where you already have followers."
+        },
+        {
+          "id": "dp-04-t4",
+          "title": "Share it respectfully",
+          "description": "Send it to friends who fit your audience, or post it where surveys are allowed. Read each group's rules first."
+        },
+        {
+          "id": "dp-04-t5",
+          "title": "Note the patterns",
+          "description": "After a day or two, write the top two answers in your worksheet.",
+          "resourceId": "res-dp-validation-worksheet"
+        }
+      ],
+      "nicheHint": "Ask {audience} which part of {problem} takes the most time or causes the most stress. Their top answer is a strong candidate for your product.",
+      "stageHints": {
+        "idea": "Five honest answers are enough to start; you are looking for patterns, not proof.",
+        "started": "Ask people who saw your earlier attempt what would have made it worth paying for.",
+        "some_traction": "Survey your buyers or followers about the next problem they want solved.",
+        "already_earning": "Ask your customers what they would buy next and at what price would feel fair."
+      }
+    },
+    {
+      "day": 5,
+      "week": 1,
+      "theme": "Pick Your Format",
+      "missionTitle": "Choose one small product format that fits your time and skills.",
+      "goal": "Choose a format and a working title.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-05",
+      "tasks": [
+        {
+          "id": "dp-05-t1",
+          "title": "Watch the Day 5 lesson",
+          "description": "Compare common beginner formats, such as printables, templates, short guides and preset packs, by effort and fit."
+        },
+        {
+          "id": "dp-05-t2",
+          "title": "List three formats",
+          "description": "Write three formats that could solve your problem, such as a checklist, a Notion or Canva template, a printable planner or a short guide."
+        },
+        {
+          "id": "dp-05-t3",
+          "title": "Score them",
+          "description": "Score each from 1 to 5 on time to make, fit with your skills and how quickly it helps the buyer."
+        },
+        {
+          "id": "dp-05-t4",
+          "title": "Pick one",
+          "description": "Choose the highest score. Small and finished beats big and unfinished."
+        },
+        {
+          "id": "dp-05-t5",
+          "title": "Write a working title",
+          "description": "Name the result, not the format, for example \"The 15-Minute Weekly Budget Template\"."
+        }
+      ],
+      "nicheHint": "Pick the format that solves {problem} fastest for {audience}. A one-page tool they can use today often beats a long ebook.",
+      "stageHints": {
+        "idea": "Choose something you could finish in five working sessions.",
+        "started": "If your first product was too big, choose a smaller format that solves one part of it.",
+        "some_traction": "Pick a format your buyers already said they like using.",
+        "already_earning": "Choose a format that pairs with your best seller so it can become a bundle later."
+      }
+    },
+    {
+      "day": 6,
+      "week": 1,
+      "theme": "Outline It",
+      "missionTitle": "Turn your idea into a clear outline before you design anything.",
+      "goal": "Finish a one-page outline of your product.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-06",
+      "tasks": [
+        {
+          "id": "dp-06-t1",
+          "title": "Watch the Day 6 lesson",
+          "description": "Learn to outline backwards from the result: start with what the buyer can do at the end, then list the steps."
+        },
+        {
+          "id": "dp-06-t2",
+          "title": "Write the end result",
+          "description": "Describe what the buyer will have or be able to do after using your product.",
+          "resourceId": "res-dp-outline-template"
+        },
+        {
+          "id": "dp-06-t3",
+          "title": "List the sections",
+          "description": "Write five to eight sections or pages that get them there, in order.",
+          "resourceId": "res-dp-outline-template"
+        },
+        {
+          "id": "dp-06-t4",
+          "title": "Cut ruthlessly",
+          "description": "Remove anything that is nice to know but not needed for the result."
+        },
+        {
+          "id": "dp-06-t5",
+          "title": "Note what is included",
+          "description": "Write a plain list of files, pages and formats the buyer will get. You will reuse it on your sales page."
+        }
+      ],
+      "nicheHint": "Outline the steps {audience} need to go from stuck to done with {problem}. Use the questions you collected as section headings.",
+      "stageHints": {
+        "idea": "Keep version 1 small; you can always add a second edition later.",
+        "started": "Outline the existing product again and mark what to cut, fix or finish.",
+        "some_traction": "Rebuild the outline around what buyers said they used most.",
+        "already_earning": "Outline a companion product that starts where your best seller ends."
+      }
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "theme": "Play Fair With Assets",
+      "missionTitle": "Learn what you can legally use and collect your fonts and images.",
+      "goal": "Finish the licensing checklist and gather your assets.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-07",
+      "tasks": [
+        {
+          "id": "dp-07-t1",
+          "title": "Watch the Day 7 lesson",
+          "description": "Fonts, images and templates all come with licenses. Learn the basics so your product is safe to sell."
+        },
+        {
+          "id": "dp-07-t2",
+          "title": "Go through the checklist",
+          "description": "Read each item and tick what applies to your product.",
+          "resourceId": "res-dp-licensing-checklist"
+        },
+        {
+          "id": "dp-07-t3",
+          "title": "Collect licensed assets",
+          "description": "Use your own photos or fonts and images whose license allows commercial use in products for sale. Save the license notes."
+        },
+        {
+          "id": "dp-07-t4",
+          "title": "Skip PLR and copies",
+          "description": "Do not resell other people's material or bought PLR content as your own work. Write everything in your own words."
+        },
+        {
+          "id": "dp-07-t5",
+          "title": "Review your week",
+          "description": "Look at your outline, survey answers and price notes. Write one sentence on what you learned this week."
+        }
+      ],
+      "nicheHint": "If your topic for {audience} touches health, money or legal questions, plan an educational framing and a clear disclaimer now so it is built in from the start.",
+      "stageHints": {
+        "idea": "Starting clean is easy: use your own words and properly licensed assets from day one.",
+        "started": "Check the fonts and images in what you already made and replace anything you cannot confirm.",
+        "some_traction": "Audit your listed product for licensing before more people buy it.",
+        "already_earning": "Do a full licensing check across your products and keep the notes in one folder."
+      }
+    },
+    {
+      "day": 8,
+      "week": 2,
+      "theme": "Build Version 1",
+      "missionTitle": "Create the core content of your product.",
+      "goal": "Finish the first full draft of the content.",
+      "minutes": 60,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-08",
+      "tasks": [
+        {
+          "id": "dp-08-t1",
+          "title": "Watch the Day 8 lesson",
+          "description": "Version 1 is about finished, not perfect. Learn how to draft fast with free tools and fix things later."
+        },
+        {
+          "id": "dp-08-t2",
+          "title": "Set up your file",
+          "description": "Open Canva, Google Docs, Slides or Notion, whichever fits your format, and paste your outline in.",
+          "resourceId": "res-dp-outline-template"
+        },
+        {
+          "id": "dp-08-t3",
+          "title": "Draft every section",
+          "description": "Fill each section with plain, direct steps. Use short sentences and examples."
+        },
+        {
+          "id": "dp-08-t4",
+          "title": "Mark gaps, keep moving",
+          "description": "When you get stuck, write [fix later] and move on to the next section."
+        },
+        {
+          "id": "dp-08-t5",
+          "title": "Time-box it",
+          "description": "Stop when your session ends, even if it is rough. You will polish tomorrow."
+        }
+      ],
+      "nicheHint": "Write each section as if you are helping one person from {audience} with {problem} right next to you. Plain words beat clever ones.",
+      "stageHints": {
+        "idea": "Aim for a complete rough draft, not a beautiful one.",
+        "started": "Reuse what you already made and fill only the gaps your outline shows.",
+        "some_traction": "Fix the parts buyers struggled with first, then draft anything new.",
+        "already_earning": "Draft the companion product using the same structure as your best seller."
+      }
+    },
+    {
+      "day": 9,
+      "week": 2,
+      "theme": "Design and Export",
+      "missionTitle": "Make your product look clean and export the final files.",
+      "goal": "Have a finished version 1 file ready to deliver.",
+      "minutes": 60,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-09",
+      "tasks": [
+        {
+          "id": "dp-09-t1",
+          "title": "Watch the Day 9 lesson",
+          "description": "Simple design rules that make any product feel trustworthy: one or two fonts, plenty of space and clear headings."
+        },
+        {
+          "id": "dp-09-t2",
+          "title": "Apply a simple style",
+          "description": "Choose one heading font, one body font and two colors. Only use fonts and images you are licensed to use.",
+          "resourceId": "res-dp-licensing-checklist"
+        },
+        {
+          "id": "dp-09-t3",
+          "title": "Fill the [fix later] gaps",
+          "description": "Go back through the draft and finish every marked gap."
+        },
+        {
+          "id": "dp-09-t4",
+          "title": "Export and test",
+          "description": "Export as PDF or share link. Open it on your phone and computer to check that it works and reads well."
+        },
+        {
+          "id": "dp-09-t5",
+          "title": "Ask one person to try it",
+          "description": "Send it to a friend who fits your audience and ask whether anything is confusing."
+        }
+      ],
+      "nicheHint": "Make sure someone from {audience} could open the file and start solving {problem} within five minutes. If not, add a short \"start here\" page.",
+      "stageHints": {
+        "idea": "Finishing this file is a big step; most people never get here.",
+        "started": "Give your existing product a clean refresh rather than starting over.",
+        "some_traction": "Polish what buyers see first: the cover, the start page and the first section.",
+        "already_earning": "Use the same style as your other products so they look like a set."
+      }
+    },
+    {
+      "day": 10,
+      "week": 2,
+      "theme": "Pick Your Platform",
+      "missionTitle": "Choose one selling platform and set up your shop.",
+      "goal": "Create your account and an empty product draft.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-10",
+      "tasks": [
+        {
+          "id": "dp-10-t1",
+          "title": "Watch the Day 10 lesson",
+          "description": "Compare common platforms such as Gumroad, Etsy, Payhip, Stan and Ko-fi on fees, audience and setup time. Then pick one."
+        },
+        {
+          "id": "dp-10-t2",
+          "title": "Compare two or three",
+          "description": "Read each platform's current fees and rules for digital products. Write them in a short table."
+        },
+        {
+          "id": "dp-10-t3",
+          "title": "Pick one",
+          "description": "Choose the one that fits your format and audience. You can always add another later."
+        },
+        {
+          "id": "dp-10-t4",
+          "title": "Set up your shop",
+          "description": "Create your account, add your name, a short bio and a profile picture. Follow the platform's setup steps for payouts."
+        },
+        {
+          "id": "dp-10-t5",
+          "title": "Start a product draft",
+          "description": "Add a product draft with your working title. Leave it unpublished for now."
+        }
+      ],
+      "nicheHint": "Think about where {audience} already shop. If they browse marketplaces, a marketplace may help; if you will send them yourself, a simple storefront may be enough.",
+      "stageHints": {
+        "idea": "Pick the platform with the simplest setup; speed matters more than features right now.",
+        "started": "If your current platform works, keep it and focus on the product page instead.",
+        "some_traction": "Stay where your sales are happening and improve the page before switching.",
+        "already_earning": "Only add a second platform if your buyers clearly shop there."
+      }
+    },
+    {
+      "day": 11,
+      "week": 2,
+      "theme": "Set Your Price",
+      "missionTitle": "Choose a beginner price you can explain.",
+      "goal": "Write your price and the reason for it.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-11",
+      "tasks": [
+        {
+          "id": "dp-11-t1",
+          "title": "Watch the Day 11 lesson",
+          "description": "Pricing is a starting point you can change. Learn a simple way to set a fair beginner price."
+        },
+        {
+          "id": "dp-11-t2",
+          "title": "Look at your research",
+          "description": "Use the prices you noted on Day 3 to find the usual range for similar products.",
+          "resourceId": "res-dp-pricing-worksheet"
+        },
+        {
+          "id": "dp-11-t3",
+          "title": "Fill the pricing worksheet",
+          "description": "Consider the result it gives, how much time it saves and how complete it is.",
+          "resourceId": "res-dp-pricing-worksheet"
+        },
+        {
+          "id": "dp-11-t4",
+          "title": "Pick one number",
+          "description": "Choose a price inside the range. Avoid pricing far below everyone else just because you are new."
+        },
+        {
+          "id": "dp-11-t5",
+          "title": "Write your reasoning",
+          "description": "Write one sentence on why this price is fair. You will revisit it after the first sales."
+        }
+      ],
+      "nicheHint": "Ask what solving {problem} is worth to {audience} in time or stress saved. Price for that, within the range similar products already sell for.",
+      "stageHints": {
+        "idea": "Pick a simple starting price inside the usual range and commit to it for now.",
+        "started": "If your old price got no sales, check the page and the traffic before cutting the price.",
+        "some_traction": "Consider a small price increase if buyers say it was easily worth it.",
+        "already_earning": "Test a slightly higher price on your next product rather than discounting the current one."
+      }
+    },
+    {
+      "day": 12,
+      "week": 2,
+      "theme": "Write Your Sales Page",
+      "missionTitle": "Write a simple sales page that explains your product clearly.",
+      "goal": "Have a full sales page draft with preview images.",
+      "minutes": 50,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-12",
+      "tasks": [
+        {
+          "id": "dp-12-t1",
+          "title": "Watch the Day 12 lesson",
+          "description": "A good sales page answers six questions: what it does, who it is for, what is inside, what it costs, what it looks like and what if."
+        },
+        {
+          "id": "dp-12-t2",
+          "title": "Write the promise and who it is for",
+          "description": "Use the sales page template for the headline, the short intro and a \"this is for you if\" list.",
+          "resourceId": "res-dp-sales-page-template"
+        },
+        {
+          "id": "dp-12-t3",
+          "title": "List what is included",
+          "description": "Use your Day 6 list. Be clear about format, page count and what the buyer will not get."
+        },
+        {
+          "id": "dp-12-t4",
+          "title": "Make three preview images",
+          "description": "Create preview images in Canva that show real pages of the product, not just the cover."
+        },
+        {
+          "id": "dp-12-t5",
+          "title": "Add a short FAQ",
+          "description": "Answer three questions, such as how delivery works, what devices it works on and your refund policy.",
+          "resourceId": "res-dp-sales-page-template"
+        }
+      ],
+      "nicheHint": "Use the exact words {audience} used for {problem} on Day 2 in your headline. People buy when they recognize their own situation.",
+      "stageHints": {
+        "idea": "Write it plainly; clear beats clever on a first sales page.",
+        "started": "Rewrite your existing page with the template and compare the two versions.",
+        "some_traction": "Add any buyer feedback you have and tighten the headline.",
+        "already_earning": "Reuse what works on your best seller's page and adapt it here."
+      }
+    },
+    {
+      "day": 13,
+      "week": 2,
+      "theme": "Publish It",
+      "missionTitle": "Publish your product page and test the full buying flow.",
+      "goal": "Your product is live and the purchase flow works.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "dpl-13",
+      "tasks": [
+        {
+          "id": "dp-13-t1",
+          "title": "Watch the Day 13 lesson",
+          "description": "Before you share anything, test the full buying flow so your first buyer has a smooth experience."
+        },
+        {
+          "id": "dp-13-t2",
+          "title": "Run the launch checklist",
+          "description": "Check title, price, files, preview images, description and refund policy.",
+          "resourceId": "res-dp-launch-checklist"
+        },
+        {
+          "id": "dp-13-t3",
+          "title": "Publish the product",
+          "description": "Switch the product from draft to live on your platform."
+        },
+        {
+          "id": "dp-13-t4",
+          "title": "Test the flow",
+          "description": "Use the platform's preview or test option, or buy it yourself if needed, to confirm the file arrives correctly."
+        },
+        {
+          "id": "dp-13-t5",
+          "title": "Save your link",
+          "description": "Save the product link somewhere you can copy it quickly. You will share it tomorrow."
+        }
+      ],
+      "nicheHint": "Read your live page as if you are someone from {audience} who has never heard of you. Is it clear within ten seconds how it helps with {problem}?",
+      "stageHints": {
+        "idea": "Pressing publish is the hardest part; a live page is worth more than a perfect draft.",
+        "started": "Relaunch your existing product with the new page and fresh preview images.",
+        "some_traction": "Publish the updated version and let past buyers know about the update.",
+        "already_earning": "Publish the new product and link to it from your best seller's page."
+      }
+    },
+    {
+      "day": 14,
+      "week": 2,
+      "theme": "First Sale Attempt",
+      "missionTitle": "Share your product with people who already know you.",
+      "goal": "Make your first sale attempt with at least five people.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "dpl-14",
+      "tasks": [
+        {
+          "id": "dp-14-t1",
+          "title": "Watch the Day 14 lesson",
+          "description": "Your first sales usually come from people who already know or trust you. Learn how to share without being pushy."
+        },
+        {
+          "id": "dp-14-t2",
+          "title": "List ten people",
+          "description": "Write ten people or one small community who fit your audience or know someone who does."
+        },
+        {
+          "id": "dp-14-t3",
+          "title": "Write a short honest message",
+          "description": "Say what you made, who it is for, the price and that feedback is welcome. Keep it to a few lines."
+        },
+        {
+          "id": "dp-14-t4",
+          "title": "Share it",
+          "description": "Send it personally to people you know, or post once in a community where sharing your work is allowed. Follow its rules."
+        },
+        {
+          "id": "dp-14-t5",
+          "title": "Note every response",
+          "description": "Write down who replied, any questions and any purchases. Questions are useful even without a sale."
+        }
+      ],
+      "nicheHint": "Tell people you made something to help {audience} with {problem}. Ask them to pass it on to someone who fits, rather than asking them to buy.",
+      "stageHints": {
+        "idea": "A first sale attempt is a win even if nobody buys yet; you learn what people ask.",
+        "started": "Share the improved version with people who saw the first one and tell them what changed.",
+        "some_traction": "Thank your past buyers and ask whether they know someone who would find it useful.",
+        "already_earning": "Tell your existing customers about the new product with a short, honest message."
+      }
+    },
+    {
+      "day": 15,
+      "week": 3,
+      "theme": "Make a Lead Magnet",
+      "missionTitle": "Create a free resource that helps people and leads to your product.",
+      "goal": "Finish a small free lead magnet.",
+      "minutes": 45,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-15",
+      "tasks": [
+        {
+          "id": "dp-15-t1",
+          "title": "Watch the Day 15 lesson",
+          "description": "A lead magnet is a small free resource that solves a tiny piece of the problem and lets people join your email list."
+        },
+        {
+          "id": "dp-15-t2",
+          "title": "Pick an idea",
+          "description": "Choose one idea from the lead magnet list that solves one small part of your problem.",
+          "resourceId": "res-dp-lead-magnet-ideas"
+        },
+        {
+          "id": "dp-15-t3",
+          "title": "Build it fast",
+          "description": "Make it in one sitting with the same tools and style as your product."
+        },
+        {
+          "id": "dp-15-t4",
+          "title": "Point to the product",
+          "description": "Add a short final page that explains how your paid product helps with the rest of the problem."
+        },
+        {
+          "id": "dp-15-t5",
+          "title": "Keep it genuinely useful",
+          "description": "Make sure the freebie helps on its own. Nobody likes a free resource that is only an advert."
+        }
+      ],
+      "nicheHint": "Create a one-page freebie that solves the first small step of {problem} for {audience}, such as a checklist or quick-start sheet.",
+      "stageHints": {
+        "idea": "Keep it small; a single useful page is enough.",
+        "started": "Turn one section of your existing product into a free sample.",
+        "some_traction": "Make the freebie about the question new buyers ask most often.",
+        "already_earning": "Use a lead magnet to grow the list that will hear about all your products."
+      }
+    },
+    {
+      "day": 16,
+      "week": 3,
+      "theme": "Start Your Email List",
+      "missionTitle": "Set up a free email signup and a short welcome email.",
+      "goal": "Your signup form works and sends a welcome email.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-16",
+      "tasks": [
+        {
+          "id": "dp-16-t1",
+          "title": "Watch the Day 16 lesson",
+          "description": "Email lets you reach interested people directly. Learn how to set up a simple list for free."
+        },
+        {
+          "id": "dp-16-t2",
+          "title": "Choose a free tool",
+          "description": "Use your selling platform's built-in email feature if it has one, or the free plan of an email tool."
+        },
+        {
+          "id": "dp-16-t3",
+          "title": "Create a signup form",
+          "description": "Make a form that delivers your lead magnet. Only ask for a first name and email."
+        },
+        {
+          "id": "dp-16-t4",
+          "title": "Write the welcome email",
+          "description": "Use the welcome sequence script. Deliver the freebie, say who you are and what to expect.",
+          "resourceId": "res-dp-welcome-sequence"
+        },
+        {
+          "id": "dp-16-t5",
+          "title": "Test it",
+          "description": "Sign up with your own email to check the freebie arrives. Follow the tool's rules on consent and unsubscribe links."
+        }
+      ],
+      "nicheHint": "Write your welcome email to someone from {audience} who just downloaded help with {problem}. Tell them what kind of emails they will get.",
+      "stageHints": {
+        "idea": "A list of even a few people is a real start.",
+        "started": "Invite anyone who showed interest earlier to join, with their permission.",
+        "some_traction": "Ask past buyers if they want to join for updates and new resources.",
+        "already_earning": "Connect your list to every product page so new buyers can opt in."
+      }
+    },
+    {
+      "day": 17,
+      "week": 3,
+      "theme": "Plan Launch Content",
+      "missionTitle": "Plan helpful posts that point people to your product.",
+      "goal": "Have six post ideas planned for this week.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-17",
+      "tasks": [
+        {
+          "id": "dp-17-t1",
+          "title": "Watch the Day 17 lesson",
+          "description": "Content that teaches something useful earns attention without ads. Learn how to link it to your product naturally."
+        },
+        {
+          "id": "dp-17-t2",
+          "title": "Pick one or two channels",
+          "description": "Choose where your audience spends time, such as Pinterest, short videos or a social platform you already use."
+        },
+        {
+          "id": "dp-17-t3",
+          "title": "Write six post ideas",
+          "description": "Use the launch post ideas list to plan six helpful posts that each solve a small problem.",
+          "resourceId": "res-dp-launch-post-ideas"
+        },
+        {
+          "id": "dp-17-t4",
+          "title": "Add a soft call to action",
+          "description": "End each post with one line that points to your freebie or product."
+        },
+        {
+          "id": "dp-17-t5",
+          "title": "Schedule your week",
+          "description": "Put each post on a day in your calendar for the next week."
+        }
+      ],
+      "nicheHint": "Turn each of the Day 2 questions from {audience} into a post. Each one should help with a small part of {problem} on its own.",
+      "stageHints": {
+        "idea": "Start with one channel; spreading thin across five rarely works.",
+        "started": "Reuse the channel where you already have a few followers.",
+        "some_traction": "Plan posts around results your buyers told you about.",
+        "already_earning": "Plan content that introduces the new product to your current audience."
+      }
+    },
+    {
+      "day": 18,
+      "week": 3,
+      "theme": "Launch Day",
+      "missionTitle": "Publish your first launch content and share your product.",
+      "goal": "Publish two posts that point to your product or freebie.",
+      "minutes": 50,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "dpl-18",
+      "tasks": [
+        {
+          "id": "dp-18-t1",
+          "title": "Watch the Day 18 lesson",
+          "description": "Launch day is just the day you start sharing consistently. Learn how to make it calm and repeatable."
+        },
+        {
+          "id": "dp-18-t2",
+          "title": "Publish two posts",
+          "description": "Publish the first two posts from your plan, each with your link or freebie.",
+          "resourceId": "res-dp-launch-post-ideas"
+        },
+        {
+          "id": "dp-18-t3",
+          "title": "Update your profiles",
+          "description": "Add your product or freebie link to your bio on the channels you use."
+        },
+        {
+          "id": "dp-18-t4",
+          "title": "Reply to every comment",
+          "description": "Answer questions quickly and helpfully. Do not argue or pressure anyone."
+        },
+        {
+          "id": "dp-18-t5",
+          "title": "Write down what happened",
+          "description": "Note views, clicks and any signups or sales. Small numbers are normal at this stage."
+        }
+      ],
+      "nicheHint": "Open your posts with the problem {audience} have, not with your product. Show one quick tip for {problem}, then mention what you made.",
+      "stageHints": {
+        "idea": "Publishing at all is the win today; reach grows with consistency.",
+        "started": "Publish posts that show what changed in the improved version.",
+        "some_traction": "Share a short buyer result, with permission, alongside a helpful tip.",
+        "already_earning": "Announce the new product to your audience and list on the same day."
+      }
+    },
+    {
+      "day": 19,
+      "week": 3,
+      "theme": "Pins and Short Videos",
+      "missionTitle": "Create visual content that can keep bringing visitors.",
+      "goal": "Publish three pins or short videos.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-19",
+      "tasks": [
+        {
+          "id": "dp-19-t1",
+          "title": "Watch the Day 19 lesson",
+          "description": "Pinterest pins and short videos can send visitors for a long time. Learn simple formats that work for digital products."
+        },
+        {
+          "id": "dp-19-t2",
+          "title": "Make three visuals",
+          "description": "In Canva, create three pins or record three short videos showing a real page or tip from your product."
+        },
+        {
+          "id": "dp-19-t3",
+          "title": "Write searchable titles",
+          "description": "Use the words your audience searches for in titles and descriptions."
+        },
+        {
+          "id": "dp-19-t4",
+          "title": "Link correctly",
+          "description": "Point each one to your product page or freebie signup."
+        },
+        {
+          "id": "dp-19-t5",
+          "title": "Publish and note",
+          "description": "Publish all three and write down where you posted them."
+        }
+      ],
+      "nicheHint": "Use {terms} in your titles and descriptions so {audience} can find your pins or videos when they search for help with {problem}.",
+      "stageHints": {
+        "idea": "Copy a simple format you like and make it your own.",
+        "started": "Make visuals from pages people already liked in your product.",
+        "some_traction": "Turn your most clicked post into a pin or short video.",
+        "already_earning": "Create a set of visuals for each product so they support each other."
+      }
+    },
+    {
+      "day": 20,
+      "week": 3,
+      "theme": "Share in a Community",
+      "missionTitle": "Help in one online community and share only where it is allowed.",
+      "goal": "Make three helpful replies in one community.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-20",
+      "tasks": [
+        {
+          "id": "dp-20-t1",
+          "title": "Watch the Day 20 lesson",
+          "description": "Communities reward people who help first. Learn how to take part without spamming."
+        },
+        {
+          "id": "dp-20-t2",
+          "title": "Read the rules",
+          "description": "Pick one community where your audience gathers and read its rules about self-promotion."
+        },
+        {
+          "id": "dp-20-t3",
+          "title": "Answer three questions",
+          "description": "Give complete, helpful answers that do not need your product to be useful."
+        },
+        {
+          "id": "dp-20-t4",
+          "title": "Share only if allowed",
+          "description": "If the rules allow it, mention your product or freebie once where it is relevant. If not, link only from your profile."
+        },
+        {
+          "id": "dp-20-t5",
+          "title": "Note the questions",
+          "description": "Add any new questions you saw to your idea list."
+        }
+      ],
+      "nicheHint": "Answer questions from {audience} about {problem} fully. A genuinely helpful answer makes people curious about what else you have made.",
+      "stageHints": {
+        "idea": "Show up as a helper first; trust comes before sales.",
+        "started": "Join a community you have not tried yet and listen before posting.",
+        "some_traction": "Keep helping in the community where your buyers came from.",
+        "already_earning": "Help regularly in one community instead of posting once in many."
+      }
+    },
+    {
+      "day": 21,
+      "week": 3,
+      "theme": "Collect Feedback",
+      "missionTitle": "Ask buyers and testers what worked and what did not.",
+      "goal": "Get feedback from at least three people.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 150,
+      "lessonId": "dpl-21",
+      "tasks": [
+        {
+          "id": "dp-21-t1",
+          "title": "Watch the Day 21 lesson",
+          "description": "Feedback tells you what to fix and what to say on your sales page. Learn how to ask so people actually reply."
+        },
+        {
+          "id": "dp-21-t2",
+          "title": "Pick who to ask",
+          "description": "List your buyers, testers and anyone who downloaded the freebie."
+        },
+        {
+          "id": "dp-21-t3",
+          "title": "Send the request",
+          "description": "Use the feedback request script and ask two or three short questions.",
+          "resourceId": "res-dp-feedback-request"
+        },
+        {
+          "id": "dp-21-t4",
+          "title": "Group the answers",
+          "description": "Sort what you hear into \"keep\", \"fix\" and \"add later\"."
+        },
+        {
+          "id": "dp-21-t5",
+          "title": "Review your week",
+          "description": "Write one sentence on what surprised you most this week."
+        }
+      ],
+      "nicheHint": "Ask {audience} which part of the product helped most with {problem} and where they got stuck.",
+      "stageHints": {
+        "idea": "If you have no buyers yet, ask your testers and freebie readers.",
+        "started": "Ask the people who looked but did not buy what held them back.",
+        "some_traction": "Ask buyers what result they got and whether you can quote them.",
+        "already_earning": "Ask your best customers what they would want next."
+      }
+    },
+    {
+      "day": 22,
+      "week": 4,
+      "theme": "Improve Version 1",
+      "missionTitle": "Fix the most important issues buyers or testers found.",
+      "goal": "Publish version 1.1 of your product.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-22",
+      "tasks": [
+        {
+          "id": "dp-22-t1",
+          "title": "Watch the Day 22 lesson",
+          "description": "Small improvements based on real feedback beat big redesigns. Learn how to choose what to fix first."
+        },
+        {
+          "id": "dp-22-t2",
+          "title": "Pick the top three fixes",
+          "description": "Choose the three \"fix\" items that would help the most people."
+        },
+        {
+          "id": "dp-22-t3",
+          "title": "Make the changes",
+          "description": "Update the file in the same tool you made it in."
+        },
+        {
+          "id": "dp-22-t4",
+          "title": "Upload the new version",
+          "description": "Replace the file on your platform and check the download works."
+        },
+        {
+          "id": "dp-22-t5",
+          "title": "Tell past buyers",
+          "description": "Let earlier buyers know there is an updated version they can download."
+        }
+      ],
+      "nicheHint": "Fix whatever stopped {audience} from making progress on {problem}. Clarity fixes usually matter more than design fixes.",
+      "stageHints": {
+        "idea": "If nobody has used it yet, improve the start page and the first section.",
+        "started": "Fix what testers found confusing, then reshare the improved version.",
+        "some_traction": "Fix what buyers mentioned more than once.",
+        "already_earning": "Apply the same fixes across your other products if they share the issue."
+      }
+    },
+    {
+      "day": 23,
+      "week": 4,
+      "theme": "Add Testimonials",
+      "missionTitle": "Ask for testimonials and add social proof to your page.",
+      "goal": "Add at least one real testimonial or buyer note to your page.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-23",
+      "tasks": [
+        {
+          "id": "dp-23-t1",
+          "title": "Watch the Day 23 lesson",
+          "description": "Real words from real buyers help new visitors trust you. Learn how to ask honestly and use them fairly."
+        },
+        {
+          "id": "dp-23-t2",
+          "title": "Ask for permission",
+          "description": "Ask happy buyers or testers if you can quote them, using the script.",
+          "resourceId": "res-dp-feedback-request"
+        },
+        {
+          "id": "dp-23-t3",
+          "title": "Keep it real",
+          "description": "Only use real words from real people, with permission. Never write or edit reviews to make them sound better."
+        },
+        {
+          "id": "dp-23-t4",
+          "title": "Add them to your page",
+          "description": "Place one or two short testimonials near the price or the FAQ.",
+          "resourceId": "res-dp-sales-page-template"
+        },
+        {
+          "id": "dp-23-t5",
+          "title": "Thank everyone",
+          "description": "Thank each person who replied, whether or not they gave a quote."
+        }
+      ],
+      "nicheHint": "A short quote from someone in {audience} about how the product helped with {problem} is more convincing than anything you write yourself.",
+      "stageHints": {
+        "idea": "If you have no testimonials yet, add a short note on who tested it and what you changed.",
+        "started": "Ask your testers for a one-line quote about the improved version.",
+        "some_traction": "Pick the testimonial that names a specific result and put it near the top.",
+        "already_earning": "Collect testimonials into one file so you can reuse them across pages."
+      }
+    },
+    {
+      "day": 24,
+      "week": 4,
+      "theme": "Read Your Numbers",
+      "missionTitle": "Look at your visits, conversion rate and sales.",
+      "goal": "Write down your three key numbers.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-24",
+      "tasks": [
+        {
+          "id": "dp-24-t1",
+          "title": "Watch the Day 24 lesson",
+          "description": "Three numbers tell you most of what you need: page visits, conversion rate and sales. Learn what each one means."
+        },
+        {
+          "id": "dp-24-t2",
+          "title": "Find your page visits",
+          "description": "Open your platform's analytics and note visits to your product page since launch."
+        },
+        {
+          "id": "dp-24-t3",
+          "title": "Count your sales",
+          "description": "Note how many sales you have. Zero is a real number and still useful."
+        },
+        {
+          "id": "dp-24-t4",
+          "title": "Work out your conversion rate",
+          "description": "Divide sales by visits. With few visits, treat it as a rough signal, not a verdict."
+        },
+        {
+          "id": "dp-24-t5",
+          "title": "Name the bottleneck",
+          "description": "If visits are low, the issue is traffic. If visits are fine but sales are low, look at the page and the offer."
+        }
+      ],
+      "nicheHint": "Compare where your visitors came from. The channel that sends the most interested {audience} deserves more of your time next month.",
+      "stageHints": {
+        "idea": "Low numbers are normal this early; you are building a baseline.",
+        "started": "Compare these numbers with what happened before this month's changes.",
+        "some_traction": "Look at which channel brought buyers, not just visitors.",
+        "already_earning": "Compare conversion rates across your products to see which pages need work."
+      }
+    },
+    {
+      "day": 25,
+      "week": 4,
+      "theme": "Fix the Weakest Step",
+      "missionTitle": "Make one change to fix your biggest bottleneck.",
+      "goal": "Make one focused change and note the date.",
+      "minutes": 40,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-25",
+      "tasks": [
+        {
+          "id": "dp-25-t1",
+          "title": "Watch the Day 25 lesson",
+          "description": "Change one thing at a time so you can tell what worked. Learn which changes to try for traffic and for conversion."
+        },
+        {
+          "id": "dp-25-t2",
+          "title": "Choose one change",
+          "description": "For low traffic, plan more posts on your best channel. For low conversion, improve the headline, previews or FAQ.",
+          "resourceId": "res-dp-sales-page-template"
+        },
+        {
+          "id": "dp-25-t3",
+          "title": "Make the change",
+          "description": "Do it today and keep everything else the same."
+        },
+        {
+          "id": "dp-25-t4",
+          "title": "Log the date",
+          "description": "Write the date and what you changed so you can compare numbers later."
+        },
+        {
+          "id": "dp-25-t5",
+          "title": "Set a check-in",
+          "description": "Put a reminder in one week to look at the numbers again."
+        }
+      ],
+      "nicheHint": "If the page is the issue, check whether a visitor from {audience} can see within seconds that it solves {problem}.",
+      "stageHints": {
+        "idea": "If you have very few visits, focus on traffic before changing the page.",
+        "started": "Try a clearer headline in the words your audience used.",
+        "some_traction": "Try better preview images that show the inside of the product.",
+        "already_earning": "Test one change on your best seller's page, where you get enough visits to learn."
+      }
+    },
+    {
+      "day": 26,
+      "week": 4,
+      "theme": "Bundles and Upsells",
+      "missionTitle": "Plan a simple bundle or upsell for buyers who want more.",
+      "goal": "Write down one bundle or upsell idea with a price.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-26",
+      "tasks": [
+        {
+          "id": "dp-26-t1",
+          "title": "Watch the Day 26 lesson",
+          "description": "An upsell or bundle gives buyers who want more a clear next step. Learn simple options that fit small products."
+        },
+        {
+          "id": "dp-26-t2",
+          "title": "Look at buyer questions",
+          "description": "Note what buyers asked for after using the product."
+        },
+        {
+          "id": "dp-26-t3",
+          "title": "Pick one idea",
+          "description": "Choose one: a bigger version, a companion template, a bundle of related items or a printed-ready extra."
+        },
+        {
+          "id": "dp-26-t4",
+          "title": "Price it",
+          "description": "Use the pricing worksheet to price it fairly against the main product.",
+          "resourceId": "res-dp-pricing-worksheet"
+        },
+        {
+          "id": "dp-26-t5",
+          "title": "Sketch an outline",
+          "description": "Write a short outline. You do not need to build it this month.",
+          "resourceId": "res-dp-outline-template"
+        }
+      ],
+      "nicheHint": "Think about the next problem {audience} hit after solving {problem}. That is often your best upsell or companion product.",
+      "stageHints": {
+        "idea": "Just write the idea down; focus on your first product for now.",
+        "started": "Plan a small add-on that fixes what testers said was missing.",
+        "some_traction": "Plan a companion product your buyers asked for and note its price.",
+        "already_earning": "Group your existing products into a bundle with a clear combined price."
+      }
+    },
+    {
+      "day": 27,
+      "week": 4,
+      "theme": "Email Your List",
+      "missionTitle": "Send a helpful email to your list that mentions your product.",
+      "goal": "Send one helpful email.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-27",
+      "tasks": [
+        {
+          "id": "dp-27-t1",
+          "title": "Watch the Day 27 lesson",
+          "description": "The best product emails teach something first. Learn a simple structure you can reuse every week."
+        },
+        {
+          "id": "dp-27-t2",
+          "title": "Pick one tip",
+          "description": "Choose one useful tip from your product or posts."
+        },
+        {
+          "id": "dp-27-t3",
+          "title": "Write the email",
+          "description": "Share the tip, a short story or example, and one line about the product.",
+          "resourceId": "res-dp-welcome-sequence"
+        },
+        {
+          "id": "dp-27-t4",
+          "title": "Send it",
+          "description": "Send it to your list, even if it is small."
+        },
+        {
+          "id": "dp-27-t5",
+          "title": "Note the results",
+          "description": "Write down opens, clicks and replies."
+        }
+      ],
+      "nicheHint": "Send {audience} one quick tip for {problem} they can use today, then mention how the product helps with the rest.",
+      "stageHints": {
+        "idea": "A short email to a handful of people still counts.",
+        "started": "Tell your list about the improved version and why you changed it.",
+        "some_traction": "Share a buyer result, with permission, as the story in your email.",
+        "already_earning": "Plan a regular email rhythm that rotates between tips and products."
+      }
+    },
+    {
+      "day": 28,
+      "week": 4,
+      "theme": "Build a Routine",
+      "missionTitle": "Batch your content so sharing your product does not take over your week.",
+      "goal": "Plan and prepare next week's content.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-28",
+      "tasks": [
+        {
+          "id": "dp-28-t1",
+          "title": "Watch the Day 28 lesson",
+          "description": "A simple weekly routine keeps your product visible without burning you out. Learn how to batch."
+        },
+        {
+          "id": "dp-28-t2",
+          "title": "Pick a rhythm",
+          "description": "Choose a number of posts and one email per week you can keep up."
+        },
+        {
+          "id": "dp-28-t3",
+          "title": "Batch next week",
+          "description": "Create next week's posts in one session.",
+          "resourceId": "res-dp-launch-post-ideas"
+        },
+        {
+          "id": "dp-28-t4",
+          "title": "Reuse what worked",
+          "description": "Repeat the topic or format that got the most clicks, with a new angle."
+        },
+        {
+          "id": "dp-28-t5",
+          "title": "Schedule it",
+          "description": "Use free scheduling where available, or set reminders."
+        }
+      ],
+      "nicheHint": "Plan four posts for {audience} that each solve a small piece of {problem}. Reuse the formats that already got clicks.",
+      "stageHints": {
+        "idea": "Pick a rhythm that feels almost too easy; consistency matters more.",
+        "started": "Reuse your best posts from launch week in a new format.",
+        "some_traction": "Double down on the channel that brought buyers.",
+        "already_earning": "Batch content for all your products in one weekly session."
+      }
+    },
+    {
+      "day": 29,
+      "week": 4,
+      "theme": "Steady Your Mindset",
+      "missionTitle": "Deal with doubts, slow sales and tricky buyer situations.",
+      "goal": "Write your plan for slow weeks and refund requests.",
+      "minutes": 25,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "dpl-29",
+      "tasks": [
+        {
+          "id": "dp-29-t1",
+          "title": "Watch the Day 29 lesson",
+          "description": "Slow sales, self-doubt and refund requests are normal. Learn calm, practical ways to handle each one."
+        },
+        {
+          "id": "dp-29-t2",
+          "title": "Write your refund policy",
+          "description": "Decide your policy, make sure it follows your platform's rules and add it to your page."
+        },
+        {
+          "id": "dp-29-t3",
+          "title": "Plan for slow weeks",
+          "description": "Write three things you will do in a week with no sales, such as post, email and improve the page."
+        },
+        {
+          "id": "dp-29-t4",
+          "title": "List your wins",
+          "description": "Write everything you have finished this month. Most people never publish a product."
+        },
+        {
+          "id": "dp-29-t5",
+          "title": "Handle doubts with facts",
+          "description": "When you feel like a fraud, reread the feedback and questions you collected."
+        }
+      ],
+      "nicheHint": "Remember that {audience} need practical help with {problem}, not perfection. Being a few steps ahead is enough to help.",
+      "stageHints": {
+        "idea": "Finishing and publishing is already a real result; be proud of it.",
+        "started": "Write down what you would do differently from your first attempt.",
+        "some_traction": "Note which actions led to sales so you can repeat them in slow weeks.",
+        "already_earning": "Write a plan for steady weeks and launch weeks so you do not burn out."
+      }
+    },
+    {
+      "day": 30,
+      "week": 4,
+      "theme": "Day 30 Review",
+      "missionTitle": "Review your month and plan the next 30 days.",
+      "goal": "Write your next 30-day plan.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 300,
+      "lessonId": "dpl-30",
+      "tasks": [
+        {
+          "id": "dp-30-t1",
+          "title": "Watch the Day 30 lesson",
+          "description": "Look back at your month with honest numbers and turn what you learned into a focused next plan."
+        },
+        {
+          "id": "dp-30-t2",
+          "title": "Write your numbers",
+          "description": "Note visits, conversion rate, sales, revenue and email subscribers."
+        },
+        {
+          "id": "dp-30-t3",
+          "title": "Write three lessons",
+          "description": "What worked, what did not and what you would change."
+        },
+        {
+          "id": "dp-30-t4",
+          "title": "Pick one focus",
+          "description": "Choose one focus for the next 30 days, such as more traffic, a better page or a second product."
+        },
+        {
+          "id": "dp-30-t5",
+          "title": "Plan the next month",
+          "description": "Write weekly goals for the next 30 days, using the launch checklist for anything new.",
+          "resourceId": "res-dp-launch-checklist"
+        }
+      ],
+      "nicheHint": "Decide whether next month is about reaching more {audience}, improving how you solve {problem}, or adding a second product they asked for.",
+      "stageHints": {
+        "idea": "Plan to keep sharing your product for another 30 days; most products need time.",
+        "started": "Plan to focus on the bottleneck your numbers showed.",
+        "some_traction": "Plan to grow what already brings sales before adding something new.",
+        "already_earning": "Plan your next product or bundle and keep improving your best seller."
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "id": "dpl-01",
+      "title": "How Small Digital Products Sell",
+      "category": "Product Strategy",
+      "path": "digital_products",
+      "duration": "8:20",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "A plain-English look at how small digital products work: one audience, one problem and one simple fix they can use today. You finish with your product promise and a 30-day goal.",
+      "learn": [
+        "Why a specific problem sells better than a broad topic",
+        "How to write a one-sentence product promise",
+        "Why goals you control matter in month one"
+      ],
+      "takeaways": [
+        "Name one audience you understand",
+        "Write your promise as: I help [audience] with [problem]",
+        "Set a goal you control, like publishing your page"
+      ],
+      "resourceIds": [],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-02",
+      "title": "Where Buyers Ask for Help",
+      "category": "Validation",
+      "path": "digital_products",
+      "duration": "9:10",
+      "minutes": 9,
+      "hue": 150,
+      "summary": "Learn where people describe their problems in public, such as Reddit, Pinterest, Etsy reviews and YouTube comments, and how to collect their exact words.",
+      "learn": [
+        "Where to look for real questions",
+        "How to search with problem words",
+        "How to group questions into themes"
+      ],
+      "takeaways": [
+        "Copy questions word for word",
+        "Look for repeated questions",
+        "The biggest group is your strongest signal"
+      ],
+      "resourceIds": [
+        "res-dp-validation-worksheet"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-03",
+      "title": "Reading the Market",
+      "category": "Validation",
+      "path": "digital_products",
+      "duration": "9:40",
+      "minutes": 9,
+      "hue": 150,
+      "summary": "Competition shows that people already pay for help with a problem. Learn how to study similar products, prices and reviews to find an honest angle of your own.",
+      "learn": [
+        "What competition tells you",
+        "How to read 2 and 3 star reviews",
+        "How to find a gap without copying"
+      ],
+      "takeaways": [
+        "Note format, price and reviews",
+        "Missing pieces in reviews are opportunities",
+        "Never copy someone else's product"
+      ],
+      "resourceIds": [
+        "res-dp-validation-worksheet"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-04",
+      "title": "Ask Before You Build",
+      "category": "Validation",
+      "path": "digital_products",
+      "duration": "7:30",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "A tiny survey turns guesses into evidence. Learn how to write three short questions and share them without spamming anyone.",
+      "learn": [
+        "How to write unbiased questions",
+        "Where to share a survey respectfully",
+        "How to read the answers"
+      ],
+      "takeaways": [
+        "Keep the survey under two minutes",
+        "Follow each community's rules",
+        "Look for patterns, not proof"
+      ],
+      "resourceIds": [
+        "res-dp-validation-worksheet"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-05",
+      "title": "Choosing a Beginner Format",
+      "category": "Product Strategy",
+      "path": "digital_products",
+      "duration": "8:50",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Compare printables, templates, short guides, preset packs and mini-courses by effort, fit and how quickly they help a buyer.",
+      "learn": [
+        "Common beginner formats",
+        "How to score formats against your time and skills",
+        "Why small and finished wins"
+      ],
+      "takeaways": [
+        "Score three formats",
+        "Pick the one you can finish in about a week",
+        "Name the result, not the format"
+      ],
+      "resourceIds": [],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-06",
+      "title": "Outline Backwards From the Result",
+      "category": "Creation",
+      "path": "digital_products",
+      "duration": "7:50",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "Start with what the buyer can do at the end, then list the steps that get them there. Cut everything that is not needed.",
+      "learn": [
+        "How to define the end result",
+        "How to turn questions into sections",
+        "What to cut from version 1"
+      ],
+      "takeaways": [
+        "Write the end result first",
+        "Keep five to eight sections",
+        "List exactly what is included"
+      ],
+      "resourceIds": [
+        "res-dp-outline-template"
+      ],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-07",
+      "title": "Licensing and Copyright Basics",
+      "category": "Licensing",
+      "path": "digital_products",
+      "duration": "8:30",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Learn the basics of fonts, images, templates and PLR so your product is yours and safe to sell. Includes a note on disclaimers for health, finance and legal topics.",
+      "learn": [
+        "What commercial use licenses allow",
+        "Why reselling PLR or copied material is a problem",
+        "When to add an educational disclaimer"
+      ],
+      "takeaways": [
+        "Use your own words and licensed assets",
+        "Keep notes on every license",
+        "Add disclaimers for sensitive topics"
+      ],
+      "resourceIds": [
+        "res-dp-licensing-checklist"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-08",
+      "title": "Drafting Version 1 Fast",
+      "category": "Creation",
+      "path": "digital_products",
+      "duration": "9:20",
+      "minutes": 9,
+      "hue": 150,
+      "summary": "Version 1 is about finished, not perfect. Learn how to draft quickly in free tools and mark gaps instead of stopping.",
+      "learn": [
+        "How to draft in time-boxed sessions",
+        "How to handle being stuck",
+        "Which free tool fits which format"
+      ],
+      "takeaways": [
+        "Draft every section roughly",
+        "Mark gaps with [fix later]",
+        "Stop when the session ends"
+      ],
+      "resourceIds": [
+        "res-dp-outline-template"
+      ],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-09",
+      "title": "Simple Design That Builds Trust",
+      "category": "Creation",
+      "path": "digital_products",
+      "duration": "10:15",
+      "minutes": 10,
+      "hue": 150,
+      "summary": "Clean design makes a product feel trustworthy. Learn to use one or two fonts, two colors, space and clear headings, then export and test.",
+      "learn": [
+        "Basic layout rules",
+        "How to export and test on a phone",
+        "Why a start-here page helps"
+      ],
+      "takeaways": [
+        "Keep fonts and colors few",
+        "Test the file on two devices",
+        "Only use licensed assets"
+      ],
+      "resourceIds": [
+        "res-dp-licensing-checklist"
+      ],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-10",
+      "title": "Choosing a Selling Platform",
+      "category": "Selling Platforms",
+      "path": "digital_products",
+      "duration": "8:40",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Compare common platforms such as Gumroad, Etsy, Payhip, Stan and Ko-fi on fees, built-in audience and setup. There is no single best choice, so pick one that fits.",
+      "learn": [
+        "How platform fees work",
+        "Marketplace versus storefront",
+        "What to set up first"
+      ],
+      "takeaways": [
+        "Read current fees and rules yourself",
+        "Pick one platform to start",
+        "You can add another later"
+      ],
+      "resourceIds": [],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-11",
+      "title": "Setting a Beginner Price",
+      "category": "Pricing",
+      "path": "digital_products",
+      "duration": "8:10",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Learn a simple way to set a fair beginner price using market ranges, the value of the result and how complete the product is.",
+      "learn": [
+        "How to find the usual range",
+        "Why underpricing hurts",
+        "When to revisit your price"
+      ],
+      "takeaways": [
+        "Price inside the market range",
+        "Write down your reasoning",
+        "Change one thing at a time later"
+      ],
+      "resourceIds": [
+        "res-dp-pricing-worksheet"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-12",
+      "title": "Writing a Simple Sales Page",
+      "category": "Sales Page",
+      "path": "digital_products",
+      "duration": "11:05",
+      "minutes": 11,
+      "hue": 150,
+      "summary": "A good sales page answers what it does, who it is for, what is inside, what it costs, what it looks like and what if. Learn to write each part plainly and honestly.",
+      "learn": [
+        "The six parts of a sales page",
+        "How to make preview images",
+        "How to write an honest FAQ"
+      ],
+      "takeaways": [
+        "Use your audience's words in the headline",
+        "Be clear about what is included",
+        "Show real pages in previews"
+      ],
+      "resourceIds": [
+        "res-dp-sales-page-template"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-13",
+      "title": "Publishing and Testing",
+      "category": "Sales Page",
+      "path": "digital_products",
+      "duration": "7:10",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "Before you share, check every part of the page and test the buying flow so your first buyer has a smooth experience.",
+      "learn": [
+        "What to check before publishing",
+        "How to test delivery",
+        "Why a live page beats a perfect draft"
+      ],
+      "takeaways": [
+        "Run the launch checklist",
+        "Confirm the file arrives",
+        "Save your link"
+      ],
+      "resourceIds": [
+        "res-dp-launch-checklist"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-14",
+      "title": "Your First Sale Attempt",
+      "category": "Marketing & Launch",
+      "path": "digital_products",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "First sales usually come from people who already know you. Learn how to share honestly with people and communities without pressure or spam.",
+      "learn": [
+        "Who to tell first",
+        "How to write a short honest message",
+        "How to follow community rules"
+      ],
+      "takeaways": [
+        "Share with ten people or one community",
+        "Ask for feedback, not favors",
+        "Note every question"
+      ],
+      "resourceIds": [
+        "res-dp-launch-checklist"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-15",
+      "title": "Lead Magnets That Help",
+      "category": "Email List",
+      "path": "digital_products",
+      "duration": "7:40",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "A lead magnet is a small free resource that solves one tiny part of the problem and invites people to join your email list.",
+      "learn": [
+        "What makes a good lead magnet",
+        "How to connect it to your product",
+        "How to make it in one sitting"
+      ],
+      "takeaways": [
+        "Solve one small step",
+        "Make it useful on its own",
+        "End with a short pointer to the product"
+      ],
+      "resourceIds": [
+        "res-dp-lead-magnet-ideas"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-16",
+      "title": "Starting an Email List",
+      "category": "Email List",
+      "path": "digital_products",
+      "duration": "8:25",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Set up a free signup form and a welcome email. Learn the basics of consent and unsubscribe links so your list starts on the right foot.",
+      "learn": [
+        "How to choose a free email tool",
+        "What to put in a welcome email",
+        "Consent and unsubscribe basics"
+      ],
+      "takeaways": [
+        "Ask only for name and email",
+        "Deliver the freebie right away",
+        "Test the signup yourself"
+      ],
+      "resourceIds": [
+        "res-dp-welcome-sequence"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-17",
+      "title": "Content That Points to Your Product",
+      "category": "Marketing & Launch",
+      "path": "digital_products",
+      "duration": "9:00",
+      "minutes": 9,
+      "hue": 150,
+      "summary": "Helpful posts earn attention without ads. Learn how to plan content that solves small problems and points naturally to your product.",
+      "learn": [
+        "How to turn questions into posts",
+        "How to add a soft call to action",
+        "How to plan a week of content"
+      ],
+      "takeaways": [
+        "Pick one or two channels",
+        "Plan six helpful posts",
+        "End each with one clear link"
+      ],
+      "resourceIds": [
+        "res-dp-launch-post-ideas"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-18",
+      "title": "Launch Day Without Stress",
+      "category": "Marketing & Launch",
+      "path": "digital_products",
+      "duration": "7:20",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "Launch day is just the day you start sharing consistently. Learn how to publish, reply and track calmly.",
+      "learn": [
+        "What to publish on day one",
+        "How to reply to comments",
+        "What to note after launch"
+      ],
+      "takeaways": [
+        "Publish two posts",
+        "Update your bio links",
+        "Small numbers are normal"
+      ],
+      "resourceIds": [
+        "res-dp-launch-post-ideas"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-19",
+      "title": "Pins and Short Videos",
+      "category": "Marketing & Launch",
+      "path": "digital_products",
+      "duration": "10:05",
+      "minutes": 10,
+      "hue": 150,
+      "summary": "Pinterest pins and short videos can bring visitors for a long time. Learn simple formats that show your product's real pages and tips.",
+      "learn": [
+        "Formats that suit digital products",
+        "How to write searchable titles",
+        "How to link correctly"
+      ],
+      "takeaways": [
+        "Show real pages",
+        "Use search words in titles",
+        "Point every post to one link"
+      ],
+      "resourceIds": [],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-20",
+      "title": "Helping in Communities",
+      "category": "Marketing & Launch",
+      "path": "digital_products",
+      "duration": "6:50",
+      "minutes": 6,
+      "hue": 150,
+      "summary": "Communities reward people who help first. Learn how to read rules, give complete answers and share your work only where it is allowed.",
+      "learn": [
+        "How to read self-promotion rules",
+        "What a genuinely helpful answer looks like",
+        "When and how to mention your product"
+      ],
+      "takeaways": [
+        "Read the rules first",
+        "Help without needing a sale",
+        "Link from your profile if posting links is not allowed"
+      ],
+      "resourceIds": [],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-21",
+      "title": "Asking for Feedback",
+      "category": "Feedback",
+      "path": "digital_products",
+      "duration": "7:00",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "Feedback tells you what to fix and what to say on your page. Learn how to ask short questions that people actually answer.",
+      "learn": [
+        "Who to ask",
+        "Which questions get honest answers",
+        "How to sort feedback"
+      ],
+      "takeaways": [
+        "Ask two or three short questions",
+        "Sort into keep, fix and add later",
+        "Thank everyone"
+      ],
+      "resourceIds": [
+        "res-dp-feedback-request"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-22",
+      "title": "Improving Version 1",
+      "category": "Creation",
+      "path": "digital_products",
+      "duration": "8:15",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Small improvements based on real feedback beat big redesigns. Learn how to choose and ship the fixes that help the most people.",
+      "learn": [
+        "How to prioritize fixes",
+        "How to update files on your platform",
+        "How to tell past buyers"
+      ],
+      "takeaways": [
+        "Pick three fixes",
+        "Change clarity before design",
+        "Let buyers know about updates"
+      ],
+      "resourceIds": [],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-23",
+      "title": "Honest Testimonials",
+      "category": "Feedback",
+      "path": "digital_products",
+      "duration": "6:40",
+      "minutes": 6,
+      "hue": 150,
+      "summary": "Real words from real buyers help visitors trust you. Learn how to ask for permission and use testimonials fairly.",
+      "learn": [
+        "How to ask for a testimonial",
+        "Where to place it on your page",
+        "What you must never do with reviews"
+      ],
+      "takeaways": [
+        "Use real words with permission",
+        "Never write or edit reviews",
+        "Place them near the price"
+      ],
+      "resourceIds": [
+        "res-dp-feedback-request",
+        "res-dp-sales-page-template"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-24",
+      "title": "Reading Your Numbers",
+      "category": "Analytics & Growth",
+      "path": "digital_products",
+      "duration": "9:30",
+      "minutes": 9,
+      "hue": 150,
+      "summary": "Page visits, conversion rate and sales tell you most of what you need. Learn what each means and how to find your bottleneck.",
+      "learn": [
+        "Where to find your numbers",
+        "How to work out conversion rate",
+        "How to name your bottleneck"
+      ],
+      "takeaways": [
+        "Low visits means a traffic problem",
+        "Visits without sales means a page or offer problem",
+        "Small numbers are rough signals"
+      ],
+      "resourceIds": [],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-25",
+      "title": "Fixing One Thing at a Time",
+      "category": "Analytics & Growth",
+      "path": "digital_products",
+      "duration": "7:45",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "Change one thing at a time so you know what worked. Learn which changes to try for traffic and which for conversion.",
+      "learn": [
+        "Changes that help traffic",
+        "Changes that help conversion",
+        "How to log and compare"
+      ],
+      "takeaways": [
+        "Make one change",
+        "Log the date",
+        "Check again in a week"
+      ],
+      "resourceIds": [
+        "res-dp-sales-page-template"
+      ],
+      "instructor": "Sam Okafor"
+    },
+    {
+      "id": "dpl-26",
+      "title": "Bundles and Upsells",
+      "category": "Analytics & Growth",
+      "path": "digital_products",
+      "duration": "8:35",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Give buyers who want more a clear next step. Learn simple bundle and upsell ideas that fit small products.",
+      "learn": [
+        "What makes a good upsell",
+        "How bundles work",
+        "How to price add-ons"
+      ],
+      "takeaways": [
+        "Listen to what buyers ask for next",
+        "Price fairly against the main product",
+        "Outline before you build"
+      ],
+      "resourceIds": [
+        "res-dp-pricing-worksheet",
+        "res-dp-outline-template"
+      ],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-27",
+      "title": "Emails That Help and Sell",
+      "category": "Email List",
+      "path": "digital_products",
+      "duration": "7:55",
+      "minutes": 7,
+      "hue": 150,
+      "summary": "The best product emails teach first. Learn a simple tip, story and mention structure you can reuse each week.",
+      "learn": [
+        "A reusable email structure",
+        "How often to email",
+        "What to track"
+      ],
+      "takeaways": [
+        "Lead with a useful tip",
+        "Mention the product in one line",
+        "Note opens, clicks and replies"
+      ],
+      "resourceIds": [
+        "res-dp-welcome-sequence"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-28",
+      "title": "A Weekly Content Routine",
+      "category": "Marketing & Launch",
+      "path": "digital_products",
+      "duration": "8:05",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "A simple weekly routine keeps your product visible without burning you out. Learn how to batch and reuse what works.",
+      "learn": [
+        "How to choose a sustainable rhythm",
+        "How to batch in one session",
+        "How to reuse top posts"
+      ],
+      "takeaways": [
+        "Choose a rhythm you can keep",
+        "Batch once a week",
+        "Repeat what got clicks"
+      ],
+      "resourceIds": [
+        "res-dp-launch-post-ideas"
+      ],
+      "instructor": "Lena Hart"
+    },
+    {
+      "id": "dpl-29",
+      "title": "Doubts, Slow Sales and Refunds",
+      "category": "Mindset",
+      "path": "digital_products",
+      "duration": "8:30",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Self-doubt, quiet weeks and refund requests are normal. Learn calm, practical ways to handle each one and keep going.",
+      "learn": [
+        "How to handle imposter feelings",
+        "What to do in a slow week",
+        "How to handle refunds fairly"
+      ],
+      "takeaways": [
+        "Being a few steps ahead is enough",
+        "Have a slow-week plan",
+        "Follow your platform's refund rules"
+      ],
+      "resourceIds": [],
+      "instructor": "Nadia Brooks"
+    },
+    {
+      "id": "dpl-30",
+      "title": "Your Day 30 Review",
+      "category": "Mindset",
+      "path": "digital_products",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 150,
+      "summary": "Look back at your month with honest numbers and turn what you learned into one clear focus for the next 30 days.",
+      "learn": [
+        "How to review your month",
+        "How to choose one focus",
+        "How to plan weekly goals"
+      ],
+      "takeaways": [
+        "Write your real numbers",
+        "Pick one focus",
+        "Plan the next 30 days in weeks"
+      ],
+      "resourceIds": [
+        "res-dp-launch-checklist"
+      ],
+      "instructor": "Nadia Brooks"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-dp-validation-worksheet",
+      "title": "Product Validation Worksheet",
+      "type": "Template",
+      "path": "digital_products",
+      "description": "Check that people want help with your problem before you build. Fill it in over Days 2 to 4.",
+      "minutes": 8,
+      "sections": [
+        {
+          "heading": "Questions people ask",
+          "body": [
+            "Write 15 questions copied word for word from Reddit, Pinterest, Etsy reviews or YouTube comments.",
+            "Note where you found each one.",
+            "Group them into three or four themes."
+          ]
+        },
+        {
+          "heading": "What already sells",
+          "body": [
+            "List 10 similar products with format, price and rough review count.",
+            "Note what buyers praise and what they wish was included.",
+            "Write one sentence on how your version could be clearer or more specific."
+          ]
+        },
+        {
+          "heading": "Tiny survey",
+          "body": [
+            "Ask: what do you struggle with, what have you tried, what would help most?",
+            "Share only with friends or in places where surveys are allowed.",
+            "Write the top two answers here."
+          ]
+        },
+        {
+          "heading": "Decision",
+          "body": [
+            "Is the problem asked about often?",
+            "Do similar products already sell?",
+            "If both are yes, move on. If not, adjust the problem or audience."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-outline-template",
+      "title": "Product Outline Template",
+      "type": "Template",
+      "path": "digital_products",
+      "description": "Plan your product backwards from the result so version 1 stays small and finishable.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "End result",
+          "body": [
+            "After using this, the buyer will be able to...",
+            "They will have these files or pages..."
+          ]
+        },
+        {
+          "heading": "Sections",
+          "body": [
+            "Start here: how to use the product.",
+            "Sections 1 to 6: one step each, in order.",
+            "Wrap up: what to do next."
+          ]
+        },
+        {
+          "heading": "Cut list",
+          "body": [
+            "Write anything that is nice to know but not needed.",
+            "Move it to a later version or a bonus."
+          ]
+        },
+        {
+          "heading": "What is included",
+          "body": [
+            "Format: PDF, template link, printable or video.",
+            "Number of pages, files or lessons.",
+            "What is not included, stated plainly."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-licensing-checklist",
+      "title": "Licensing and Copyright Checklist",
+      "type": "Checklist",
+      "path": "digital_products",
+      "description": "Make sure everything in your product is yours to sell. Go through it before publishing and whenever you add assets.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "Your content",
+          "body": [
+            "Everything is written in your own words.",
+            "You are not reselling other people's work or PLR content as your own.",
+            "Any quotes are short and credited."
+          ]
+        },
+        {
+          "heading": "Fonts and images",
+          "body": [
+            "Each font's license allows commercial use in products for sale.",
+            "Each image is your own or licensed for use in products for sale.",
+            "Keep a note or screenshot of each license."
+          ]
+        },
+        {
+          "heading": "Templates and tools",
+          "body": [
+            "Check the terms of any template you started from before reselling a design based on it.",
+            "Follow the rules of tools such as Canva or Notion on what can be sold.",
+            "Never include brand logos or characters you do not have rights to."
+          ]
+        },
+        {
+          "heading": "Sensitive topics",
+          "body": [
+            "For health, finance or legal topics, frame the product as educational.",
+            "Add a clear disclaimer that it is not professional advice.",
+            "Follow your selling platform's rules for your category."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-sales-page-template",
+      "title": "Sales Page Template",
+      "type": "Template",
+      "path": "digital_products",
+      "description": "A simple, honest structure for your product page. Fill each part in plain words.",
+      "minutes": 8,
+      "sections": [
+        {
+          "heading": "Headline and promise",
+          "body": [
+            "Name the result in your audience's words.",
+            "Add one line on who it is for.",
+            "Avoid promises you cannot keep, such as guaranteed income or results."
+          ]
+        },
+        {
+          "heading": "Who it is for",
+          "body": [
+            "This is for you if... (three bullets).",
+            "This is not for you if... (one or two bullets)."
+          ]
+        },
+        {
+          "heading": "What is inside",
+          "body": [
+            "List every file, page or lesson.",
+            "Say the format and how delivery works.",
+            "Add three preview images that show real pages."
+          ]
+        },
+        {
+          "heading": "Price and FAQ",
+          "body": [
+            "State the price clearly.",
+            "Answer: how do I get it, what devices does it work on, what is your refund policy?",
+            "Add real testimonials once you have them, with permission."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-pricing-worksheet",
+      "title": "Pricing Worksheet",
+      "type": "Template",
+      "path": "digital_products",
+      "description": "Set a fair beginner price you can explain, then revisit it once you have real sales.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Market range",
+          "body": [
+            "Lowest price of similar products.",
+            "Most common price.",
+            "Highest price and what makes it different."
+          ]
+        },
+        {
+          "heading": "Value",
+          "body": [
+            "How much time or stress does it save?",
+            "How complete is it compared with others?",
+            "Is it a quick tool or a full system?"
+          ]
+        },
+        {
+          "heading": "Your price",
+          "body": [
+            "Pick one number inside the range.",
+            "Write one sentence on why it is fair.",
+            "Avoid pricing far below everyone just because you are new."
+          ]
+        },
+        {
+          "heading": "Review later",
+          "body": [
+            "Revisit after your first sales or after a month.",
+            "Change price separately from other changes so you can tell what worked."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-launch-checklist",
+      "title": "Launch Checklist",
+      "type": "Checklist",
+      "path": "digital_products",
+      "description": "Everything to check before and after your product goes live.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Before publishing",
+          "body": [
+            "Title names the result.",
+            "Price is set and the refund policy is written.",
+            "Files are uploaded and open correctly on phone and computer.",
+            "Preview images show real pages."
+          ]
+        },
+        {
+          "heading": "Page details",
+          "body": [
+            "What is included is listed clearly.",
+            "FAQ answers delivery, devices and refunds.",
+            "Licensing checklist is complete."
+          ]
+        },
+        {
+          "heading": "Test",
+          "body": [
+            "Use preview or a test purchase to confirm delivery.",
+            "Check that the email or download link arrives."
+          ]
+        },
+        {
+          "heading": "After publishing",
+          "body": [
+            "Save your link.",
+            "Add it to your bio.",
+            "Share with ten people or one community, following its rules."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-lead-magnet-ideas",
+      "title": "Lead Magnet Ideas",
+      "type": "Guide",
+      "path": "digital_products",
+      "description": "Small free resources that help on their own and lead naturally to your product.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Quick wins",
+          "body": [
+            "A one-page checklist.",
+            "A quick-start sheet for step one.",
+            "A short cheat sheet of key terms."
+          ]
+        },
+        {
+          "heading": "Samples",
+          "body": [
+            "One page or section of your product.",
+            "A mini version of your template.",
+            "A free printable from the same set."
+          ]
+        },
+        {
+          "heading": "Rules",
+          "body": [
+            "Make it genuinely useful by itself.",
+            "Build it in one sitting.",
+            "End with one short paragraph about the paid product."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-welcome-sequence",
+      "title": "Email Welcome Sequence",
+      "type": "Script",
+      "path": "digital_products",
+      "description": "Three short emails to welcome new subscribers and introduce your product honestly.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Email 1: Welcome",
+          "body": [
+            "Deliver the freebie with a direct link.",
+            "Say who you are in two sentences.",
+            "Tell them what kind of emails to expect and how often."
+          ]
+        },
+        {
+          "heading": "Email 2: Help",
+          "body": [
+            "Share one useful tip related to the freebie.",
+            "Ask them to reply with their biggest question."
+          ]
+        },
+        {
+          "heading": "Email 3: Introduce the product",
+          "body": [
+            "Explain the problem it solves and who it is for.",
+            "List what is inside and the price.",
+            "Link to the sales page once, with no pressure."
+          ]
+        },
+        {
+          "heading": "Basics",
+          "body": [
+            "Only email people who signed up.",
+            "Include an unsubscribe link in every email.",
+            "Keep each email short."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-feedback-request",
+      "title": "Feedback and Testimonial Request",
+      "type": "Script",
+      "path": "digital_products",
+      "description": "Short messages for asking buyers and testers for feedback and, with permission, a testimonial.",
+      "minutes": 4,
+      "sections": [
+        {
+          "heading": "Feedback message",
+          "body": [
+            "Hi [name], thank you for trying [product].",
+            "Which part helped most?",
+            "Where did you get stuck or confused?",
+            "Is there anything you expected that was missing?"
+          ]
+        },
+        {
+          "heading": "Testimonial message",
+          "body": [
+            "I am glad it helped. Could I quote what you said on my product page?",
+            "I can use your first name only, or no name if you prefer."
+          ]
+        },
+        {
+          "heading": "Rules",
+          "body": [
+            "Only use real words from real people, with permission.",
+            "Never write, edit or buy reviews.",
+            "Thank everyone who replies."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-dp-launch-post-ideas",
+      "title": "Launch Post Ideas",
+      "type": "Guide",
+      "path": "digital_products",
+      "description": "Helpful post ideas that point to your product or freebie without spam.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Teach",
+          "body": [
+            "One quick tip from inside the product.",
+            "A common mistake and how to fix it.",
+            "A before and after of using the template or guide."
+          ]
+        },
+        {
+          "heading": "Show",
+          "body": [
+            "A short walkthrough of a real page.",
+            "How you made the product and why.",
+            "A buyer result, shared with permission."
+          ]
+        },
+        {
+          "heading": "Ask",
+          "body": [
+            "A question or poll about your audience's biggest struggle.",
+            "An invitation to download the freebie."
+          ]
+        },
+        {
+          "heading": "Rules",
+          "body": [
+            "Lead with help, not with the product.",
+            "Use one clear link per post.",
+            "Follow each platform and community's rules on self-promotion."
+          ]
+        }
+      ],
+      "link": null
+    }
+  ],
+  "achievements": [
+    {
+      "id": "dp-first-mission",
+      "title": "First Step",
+      "description": "Complete your first daily mission.",
+      "icon": "checkmark.seal.fill",
+      "metric": "missions",
+      "target": 1
+    },
+    {
+      "id": "dp-streak-7",
+      "title": "7-Day Streak",
+      "description": "Work on your product seven days in a row.",
+      "icon": "flame.fill",
+      "metric": "streak",
+      "target": 7
+    },
+    {
+      "id": "dp-first-launch",
+      "title": "Product Launched",
+      "description": "Publish your first digital product.",
+      "icon": "square.and.arrow.up.fill",
+      "metric": "productsLaunched",
+      "target": 1
+    },
+    {
+      "id": "dp-first-sale",
+      "title": "First Sale",
+      "description": "Make your first product sale.",
+      "icon": "cart.fill",
+      "metric": "salesCount",
+      "target": 1
+    },
+    {
+      "id": "dp-ten-sales",
+      "title": "Ten Sales",
+      "description": "Reach ten product sales.",
+      "icon": "bag.fill",
+      "metric": "salesCount",
+      "target": 10
+    },
+    {
+      "id": "dp-100-visits",
+      "title": "First 100 Visits",
+      "description": "Reach 100 visits to your product page.",
+      "icon": "chart.line.uptrend.xyaxis",
+      "metric": "pageVisits",
+      "target": 100
+    },
+    {
+      "id": "dp-50-subscribers",
+      "title": "First 50 Subscribers",
+      "description": "Reach 50 email subscribers.",
+      "icon": "envelope.fill",
+      "metric": "emailSubscribers",
+      "target": 50
+    },
+    {
+      "id": "dp-first-100",
+      "title": "First $100",
+      "description": "Earn your first $100 from product sales.",
+      "icon": "dollarsign.circle.fill",
+      "metric": "productRevenue",
+      "target": 100,
+      "money": true
+    }
+  ],
+  "coach": {
+    "suggestedPrompts": [
+      "What digital product should I make?",
+      "How do I know if people will buy it?",
+      "How much should I charge?",
+      "My product has no sales yet.",
+      "How do I get visitors without ads?",
+      "Which platform should I sell on?"
+    ],
+    "tips": [
+      "Solve one specific problem well instead of covering a whole topic.",
+      "Copy your audience's exact words into your notes; they become your headlines.",
+      "Competition is a good sign: it means people already pay for help.",
+      "Read the 2 and 3 star reviews of similar products to find what is missing.",
+      "Five honest survey answers beat fifty guesses.",
+      "Pick a format you can finish in about a week.",
+      "Name the result in your title, not the format.",
+      "Outline backwards from what the buyer can do at the end.",
+      "Write [fix later] and keep going when you get stuck.",
+      "Only use fonts and images whose license allows use in products for sale.",
+      "Never resell PLR or someone else's work as your own.",
+      "Test your file on a phone before you publish it.",
+      "Pick one selling platform and start; you can add another later.",
+      "Price inside the market range, not far below it.",
+      "Show real pages in your preview images, not just the cover.",
+      "Say plainly what is and is not included.",
+      "A live page teaches you more than a perfect draft.",
+      "Your first sales usually come from people who already know you.",
+      "Read a community's rules before you mention your product there.",
+      "Help first; a complete answer earns more trust than a link.",
+      "A small free resource is the easiest way to start an email list.",
+      "Lead every post with a useful tip, then mention the product.",
+      "Small numbers in month one are normal, not failure.",
+      "Divide sales by visits to find your conversion rate.",
+      "Low visits is a traffic problem; low sales from many visits is a page problem.",
+      "Change one thing at a time so you know what worked.",
+      "Ask buyers what helped most and where they got stuck.",
+      "Only use real testimonials, with permission.",
+      "Your next product idea is often the question buyers ask after the first.",
+      "Being a few steps ahead of your audience is enough to help them."
+    ],
+    "replies": [
+      {
+        "id": "dpr-what-to-sell",
+        "keywords": [
+          "what to sell",
+          "product idea",
+          "what product",
+          "what should i make",
+          "which product",
+          "no idea",
+          "ideas",
+          "what to create"
+        ],
+        "text": {
+          "digital_products": "The best first product solves one specific problem your audience already asks about.\n\n1. Write down who you want to help and five problems they have.\n2. Search Reddit, Pinterest and YouTube comments for those problems and copy real questions.\n3. Pick the problem that comes up most and choose a small format, such as a checklist, template or short guide.\n\nNext step: write one sentence: I help [audience] with [problem] using a [format]."
+        },
+        "followUps": [
+          "How do I check if people will buy it?",
+          "Which format is easiest to start with?",
+          "How small should my first product be?"
+        ]
+      },
+      {
+        "id": "dpr-validation",
+        "keywords": [
+          "validate",
+          "will people buy",
+          "will it sell",
+          "test my idea",
+          "is my idea good",
+          "demand",
+          "survey",
+          "worth it"
+        ],
+        "text": {
+          "digital_products": "You cannot know for sure until people buy, but you can lower the risk a lot before you build.\n\n1. Collect 15 real questions about the problem from places your audience talks.\n2. Look for similar products already selling and note their prices and reviews.\n3. Ask five people who fit your audience a short three-question survey.\n\nIf people ask about it often and similar products sell, that is a good enough signal to build a small version 1.\n\nNext step: open the Product Validation Worksheet and fill in the first section."
+        },
+        "followUps": [
+          "Where do I find real questions?",
+          "What if there is a lot of competition?",
+          "How do I write survey questions?"
+        ]
+      },
+      {
+        "id": "dpr-pricing",
+        "keywords": [
+          "price",
+          "pricing",
+          "how much",
+          "charge",
+          "cheap",
+          "expensive",
+          "what to charge",
+          "cost"
+        ],
+        "text": {
+          "digital_products": "Start with a fair price inside the range similar products already sell for.\n\n1. Note the prices of 10 similar products and find the most common one.\n2. Think about how much time or stress your product saves and how complete it is.\n3. Pick one number in the range and write one sentence on why it is fair.\n\nAvoid pricing far below everyone just because you are new; very low prices can make a product look less useful. You can change it later, one change at a time.\n\nNext step: fill in the Pricing Worksheet."
+        },
+        "followUps": [
+          "Should I offer a discount at launch?",
+          "When should I raise my price?",
+          "Is a free product a good idea?"
+        ]
+      },
+      {
+        "id": "dpr-no-sales",
+        "keywords": [
+          "no sales",
+          "nobody buys",
+          "not selling",
+          "zero sales",
+          "no one bought",
+          "no buyers",
+          "no orders",
+          "not working"
+        ],
+        "text": {
+          "digital_products": "No sales in the first weeks is very common, and the fix depends on your numbers.\n\n1. Check your page visits. If very few people have seen the page, the issue is traffic, not the product.\n2. If you have had a fair number of visits and no sales, look at the headline, preview images and what is included.\n3. Ask a few people who fit your audience what stopped them from buying.\n\nChange one thing at a time so you can tell what helped.\n\nNext step: write down your visits and sales from the last two weeks."
+        },
+        "followUps": [
+          "How do I get more visitors?",
+          "How do I improve my sales page?",
+          "Should I lower my price?"
+        ]
+      },
+      {
+        "id": "dpr-platform",
+        "keywords": [
+          "platform",
+          "gumroad",
+          "etsy",
+          "payhip",
+          "stan",
+          "ko-fi",
+          "where to sell",
+          "which site"
+        ],
+        "text": {
+          "digital_products": "There is no single best platform. Pick one that fits your product and your audience, and start.\n\n1. Marketplaces such as Etsy have shoppers already browsing but more competition and rules.\n2. Storefronts such as Gumroad, Payhip, Stan or Ko-fi give you a simple page you send people to yourself.\n3. Check each one's current fees and rules for digital products before you decide.\n\nYou can add a second platform later if your buyers clearly shop there.\n\nNext step: compare two platforms in a short table and pick one today."
+        },
+        "followUps": [
+          "What should I set up first on my platform?",
+          "Can I sell on two platforms at once?",
+          "How do platform fees work?"
+        ]
+      },
+      {
+        "id": "dpr-sales-page",
+        "keywords": [
+          "sales page",
+          "product page",
+          "listing",
+          "description",
+          "headline",
+          "preview",
+          "copy"
+        ],
+        "text": {
+          "digital_products": "A clear sales page answers six questions: what it does, who it is for, what is inside, what it costs, what it looks like and what if.\n\n1. Write the headline using your audience's own words for the problem.\n2. List exactly what is included: format, pages and files.\n3. Add three preview images that show real pages, and a short FAQ with your refund policy.\n\nKeep it honest: no guaranteed results.\n\nNext step: open the Sales Page Template and write your headline."
+        },
+        "followUps": [
+          "How do I write a better headline?",
+          "How do I make preview images?",
+          "What should go in my FAQ?"
+        ]
+      },
+      {
+        "id": "dpr-traffic",
+        "keywords": [
+          "traffic",
+          "visitors",
+          "views",
+          "no visits",
+          "without ads",
+          "marketing",
+          "promote",
+          "pinterest",
+          "get seen"
+        ],
+        "text": {
+          "digital_products": "You can get your first visitors without ads by being helpful where your audience already spends time.\n\n1. Pick one or two channels, such as Pinterest, short videos or a community you belong to.\n2. Turn the questions you collected into helpful posts that each solve a small problem.\n3. End each post with one link to your product or free resource.\n\nIn communities, read the rules first and only share your link where it is allowed.\n\nNext step: write three post ideas from your question list."
+        },
+        "followUps": [
+          "What should I post about?",
+          "How often should I post?",
+          "How do I use Pinterest for products?"
+        ]
+      },
+      {
+        "id": "dpr-email",
+        "keywords": [
+          "email",
+          "list",
+          "newsletter",
+          "subscribers",
+          "lead magnet",
+          "freebie",
+          "signup"
+        ],
+        "text": {
+          "digital_products": "An email list lets you reach interested people directly, and you can start it for free.\n\n1. Make a small free resource that solves one tiny part of the problem.\n2. Set up a signup form with your selling platform's email feature or a free email tool.\n3. Send a welcome email that delivers the freebie and says what to expect.\n\nOnly email people who signed up, and include an unsubscribe link.\n\nNext step: pick one idea from the Lead Magnet Ideas guide."
+        },
+        "followUps": [
+          "What should my lead magnet be?",
+          "What do I write in a welcome email?",
+          "How often should I email?"
+        ]
+      },
+      {
+        "id": "dpr-imposter",
+        "keywords": [
+          "imposter",
+          "not expert",
+          "not good enough",
+          "who am i",
+          "fraud",
+          "scared",
+          "afraid",
+          "confidence"
+        ],
+        "text": {
+          "digital_products": "Feeling unqualified is very common when you make your first product.\n\n1. You do not need to be the top expert, only a few steps ahead of the people you help.\n2. Reread the questions you collected; they show people need this help.\n3. Be honest about what your product covers and what it does not.\n\nFor health, finance or legal topics, keep it educational and add a clear disclaimer.\n\nNext step: write three things you know now that you wish you had known earlier."
+        },
+        "followUps": [
+          "How do I find my angle?",
+          "How do I share without feeling pushy?",
+          "What if someone criticizes my product?"
+        ]
+      },
+      {
+        "id": "dpr-refunds",
+        "keywords": [
+          "refund",
+          "refunds",
+          "money back",
+          "complaint",
+          "unhappy buyer",
+          "return",
+          "chargeback"
+        ],
+        "text": {
+          "digital_products": "Refund requests happen to every seller, and a calm, fair policy protects you and your buyers.\n\n1. Write a clear refund policy that follows your platform's rules and put it on your page.\n2. When someone asks, reply politely, ask what did not work and handle it according to your policy.\n3. Use what they tell you to make the product or the page clearer.\n\nBeing clear about what is included up front prevents many refund requests.\n\nNext step: write your refund policy in two or three sentences."
+        },
+        "followUps": [
+          "What should my refund policy say?",
+          "How do I reply to an unhappy buyer?",
+          "How do I prevent refunds?"
+        ]
+      },
+      {
+        "id": "dpr-copyright",
+        "keywords": [
+          "copyright",
+          "license",
+          "licence",
+          "plr",
+          "fonts",
+          "images",
+          "legal",
+          "can i use",
+          "resell"
+        ],
+        "text": {
+          "digital_products": "Everything in your product should be yours or properly licensed for use in products you sell.\n\n1. Write the content in your own words. Do not resell PLR or other people's material as your own.\n2. Use fonts and images whose license allows commercial use in products for sale, and keep notes.\n3. Check the terms of any tool or template you used before selling designs made with it.\n\nIf you are unsure about a specific case, check the license directly or ask a qualified professional.\n\nNext step: go through the Licensing and Copyright Checklist."
+        },
+        "followUps": [
+          "Can I use Canva elements in products I sell?",
+          "What is PLR?",
+          "Do I need a disclaimer?"
+        ]
+      },
+      {
+        "id": "dpr-bundles",
+        "keywords": [
+          "bundle",
+          "upsell",
+          "second product",
+          "next product",
+          "more products",
+          "add-on",
+          "upgrade"
+        ],
+        "text": {
+          "digital_products": "A bundle or upsell gives buyers who want more a clear next step.\n\n1. Look at what buyers ask for after using your first product.\n2. Pick one idea: a companion template, a bigger version or a bundle of related items.\n3. Price it fairly against your main product using the Pricing Worksheet.\n\nFocus on getting your first product seen before building many more.\n\nNext step: write one upsell idea and a rough outline."
+        },
+        "followUps": [
+          "How should I price a bundle?",
+          "When should I make a second product?",
+          "What makes a good companion product?"
+        ]
+      },
+      {
+        "id": "dpr-finish",
+        "keywords": [
+          "finish",
+          "perfect",
+          "perfectionism",
+          "stuck",
+          "too long",
+          "no time",
+          "procrastinate",
+          "not ready"
+        ],
+        "text": {
+          "digital_products": "Most first products stall because they are too big or aiming for perfect.\n\n1. Cut your outline to the sections that are needed for the result.\n2. Work in short, fixed sessions and write [fix later] when you get stuck.\n3. Remember you can update the file after launch and send buyers the new version.\n\nA finished small product teaches you more than a perfect unfinished one.\n\nNext step: pick the next section and work on it for 30 minutes."
+        },
+        "followUps": [
+          "How small should version 1 be?",
+          "How do I make time for this?",
+          "How do I update my product after launch?"
+        ]
+      }
+    ],
+    "fallback": {
+      "id": "dpr-fallback",
+      "keywords": [],
+      "text": {
+        "digital_products": "Good question. Tell me a bit more so I can be specific: who your product is for, what stage it is at and what you are trying to improve.\n\nUntil then, the rule that fixes most early product problems is simple: finish the next small step and put it in front of real people. One published page teaches more than a week of planning.\n\nNext step: open Today's Mission and finish the first task, then come back with details."
+      },
+      "followUps": [
+        "What should I do today?",
+        "What product should I make?",
+        "How do I get my first sale?"
+      ]
+    }
+  }
+}

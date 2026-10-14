@@ -79,7 +79,201 @@
         "analytics",
         "monetization",
         "resources"
-      ]
+      ],
+      "workspace": {
+        "title": "Your Channel",
+        "navLabel": "Channel",
+        "icon": "play.rectangle.fill",
+        "tabs": {
+          "content": "Content",
+          "analytics": "Analytics",
+          "monetization": "Monetize"
+        },
+        "itemNoun": "video",
+        "itemNounPlural": "videos",
+        "addLabel": "Add a Video Idea",
+        "newItemTitle": "New video idea",
+        "titlePlaceholder": "e.g. 5 mistakes every beginner makes",
+        "emptyTitle": "No video ideas yet",
+        "formats": [
+          "Long-form",
+          "Short"
+        ],
+        "stages": [
+          {
+            "stage": "idea",
+            "label": "Idea",
+            "icon": "lightbulb.fill",
+            "nextAction": "Research it"
+          },
+          {
+            "stage": "researched",
+            "label": "Researched",
+            "icon": "magnifyingglass",
+            "nextAction": "Write the script"
+          },
+          {
+            "stage": "scripted",
+            "label": "Scripted",
+            "icon": "text.alignleft",
+            "nextAction": "Record it"
+          },
+          {
+            "stage": "recorded",
+            "label": "Recorded",
+            "icon": "video.fill",
+            "nextAction": "Edit it"
+          },
+          {
+            "stage": "edited",
+            "label": "Edited",
+            "icon": "scissors",
+            "nextAction": "Publish it"
+          },
+          {
+            "stage": "published",
+            "label": "Published",
+            "icon": "checkmark.seal.fill",
+            "nextAction": "Review its analytics"
+          }
+        ],
+        "doneStage": "published",
+        "doneMetric": "videosPublished",
+        "weeklyMetric": "uploadsThisWeek",
+        "doneTitle": "Mark as published?",
+        "doneConfirm": "It's live on YouTube",
+        "doneToast": "Published. Check its numbers in 48 hours.",
+        "doneNoticeFirst": "Your first video is live",
+        "doneNotice": "Video {n} is live",
+        "logSource": "YouTube Studio",
+        "logHint": "Open YouTube Studio > Analytics, pick the last 28 days, and copy what you see. Leave anything you can't find empty.",
+        "logMetrics": [
+          "subscribers",
+          "watchTime",
+          "clickThroughRate",
+          "returningViewers"
+        ],
+        "guide": [
+          {
+            "icon": "cursorarrow.click.2",
+            "title": "Click-through rate",
+            "body": "Low means the title and thumbnail aren't earning the click. Change one of them, not both."
+          },
+          {
+            "icon": "clock.fill",
+            "title": "Watch time",
+            "body": "Grows when the first 30 seconds deliver what the title promised."
+          },
+          {
+            "icon": "arrow.triangle.2.circlepath",
+            "title": "Returning viewers",
+            "body": "Your clearest sign of an audience. Series and a steady schedule raise it."
+          }
+        ],
+        "incomeMetric": "channelIncome",
+        "incomeTitle": "Channel income",
+        "incomeHint": "Log every dollar from affiliates, sponsors, products or ads. The first one usually comes from an affiliate link, not ads.",
+        "incomeSources": [
+          "Affiliate link",
+          "Sponsorship",
+          "Digital product",
+          "Ad revenue",
+          "Other"
+        ],
+        "stagesTitle": "Your monetization stage",
+        "headline": [
+          "videosPublished",
+          "subscribers"
+        ],
+        "milestones": [
+          {
+            "title": "First Video",
+            "icon": "play.rectangle.fill",
+            "metric": "videosPublished",
+            "target": 1
+          },
+          {
+            "title": "3 Uploads in a Week",
+            "icon": "calendar.badge.clock",
+            "metric": "uploadsThisWeek",
+            "target": 3
+          },
+          {
+            "title": "5 Videos",
+            "icon": "square.stack.fill",
+            "metric": "videosPublished",
+            "target": 5
+          },
+          {
+            "title": "First 100 Subscribers",
+            "icon": "person.3.fill",
+            "metric": "subscribers",
+            "target": 100
+          },
+          {
+            "title": "First Channel Income",
+            "icon": "dollarsign.circle.fill",
+            "metric": "channelIncome",
+            "target": 1,
+            "money": true
+          }
+        ],
+        "checkin": {
+          "title": "How many videos did you publish this week?",
+          "subtitle": "Prefilled from your content board. Shorts count too.",
+          "label": "Videos published",
+          "accomplishedHint": "e.g. Scripted, recorded and published my second video",
+          "difficultHint": "e.g. Sounding natural on camera",
+          "improveHint": "e.g. A stronger first 30 seconds",
+          "quickPicks": [
+            "Publish on schedule",
+            "Stronger hooks",
+            "Better thumbnails",
+            "Batch my scripts",
+            "Reply to every comment"
+          ]
+        },
+        "coachGate": "Get instant, practical answers about ideas, scripts, packaging, analytics and monetization, tailored to your channel.",
+        "sampleTitles": [
+          "5 beginner mistakes in {topic}",
+          "{Topic} for complete beginners",
+          "What I wish I knew about {topic}",
+          "Your top {topic} questions, answered",
+          "The {topic} tools I actually use"
+        ],
+        "sampleNumbers": [
+          {
+            "metric": "subscribers",
+            "value": 18,
+            "daysAgo": 5
+          },
+          {
+            "metric": "watchTime",
+            "value": 140,
+            "daysAgo": 5
+          },
+          {
+            "metric": "subscribers",
+            "value": 42,
+            "daysAgo": 1
+          },
+          {
+            "metric": "watchTime",
+            "value": 310,
+            "daysAgo": 1
+          },
+          {
+            "metric": "clickThroughRate",
+            "value": 4.1,
+            "daysAgo": 1
+          },
+          {
+            "metric": "returningViewers",
+            "value": 12,
+            "daysAgo": 1
+          }
+        ]
+      }
     },
     {
       "id": "youtube_services",
@@ -262,24 +456,269 @@
     {
       "id": "digital_products",
       "version": 1,
-      "status": "coming_soon",
-      "label": "Digital products",
+      "status": "active",
+      "label": "Sell your own digital product",
       "shortLabel": "Digital products",
-      "description": "Create and sell templates, guides or small courses.",
+      "description": "Create one small product people in your niche will pay for — a template, guide, printable or mini-course — then launch it and make your first sales.",
       "icon": "doc.richtext.fill",
       "hue": 150,
-      "track": null,
-      "planId": null,
-      "primaryAction": "",
-      "modules": [],
-      "metrics": [],
-      "achievementIds": [],
-      "monetizationStages": [],
+      "track": "digital_products",
+      "planId": "digital-products-30-day-v1",
+      "primaryAction": "Make your next sale",
+      "modules": [
+        "product",
+        "validation",
+        "creation",
+        "salesPage",
+        "launch",
+        "sales",
+        "analytics",
+        "growth"
+      ],
+      "metrics": [
+        "productsLaunched",
+        "salesCount",
+        "salesThisWeek",
+        "productRevenue",
+        "pageVisits",
+        "emailSubscribers"
+      ],
+      "achievementIds": [
+        "first-step",
+        "three-day",
+        "seven-day",
+        "mission-master",
+        "lesson-lover",
+        "finisher"
+      ],
+      "monetizationStages": [
+        "validateIdea",
+        "preSell",
+        "launch",
+        "grow"
+      ],
       "requiresProspects": false,
       "requiresDeals": false,
-      "goalOptions": [],
-      "checkinMetrics": [],
-      "quickActions": []
+      "goalOptions": [
+        {
+          "label": "Make my first sale",
+          "metric": "salesCount",
+          "target": 1
+        },
+        {
+          "label": "Earn my first $100",
+          "metric": "productRevenue",
+          "target": 100,
+          "money": true
+        },
+        {
+          "label": "Get 10 sales",
+          "metric": "salesCount",
+          "target": 10
+        },
+        {
+          "label": "Build an email list of 100",
+          "metric": "emailSubscribers",
+          "target": 100
+        }
+      ],
+      "checkinMetrics": [
+        "salesThisWeek",
+        "pageVisits"
+      ],
+      "quickActions": [
+        "content",
+        "analytics",
+        "monetization",
+        "resources"
+      ],
+      "workspace": {
+        "title": "Your Products",
+        "navLabel": "Products",
+        "icon": "bag.fill",
+        "tabs": {
+          "content": "Build",
+          "analytics": "Numbers",
+          "monetization": "Sales"
+        },
+        "itemNoun": "product",
+        "itemNounPlural": "products",
+        "addLabel": "Add a Product Idea",
+        "newItemTitle": "New product idea",
+        "titlePlaceholder": "e.g. 30-day meal planner template",
+        "emptyTitle": "No product ideas yet",
+        "formats": [
+          "Template",
+          "Guide",
+          "Printable",
+          "Mini-course",
+          "Other"
+        ],
+        "stages": [
+          {
+            "stage": "idea",
+            "label": "Idea",
+            "icon": "lightbulb.fill",
+            "nextAction": "Validate it"
+          },
+          {
+            "stage": "validated",
+            "label": "Validated",
+            "icon": "checkmark.circle.fill",
+            "nextAction": "Outline it"
+          },
+          {
+            "stage": "outlined",
+            "label": "Outlined",
+            "icon": "list.bullet.clipboard.fill",
+            "nextAction": "Create it"
+          },
+          {
+            "stage": "created",
+            "label": "Created",
+            "icon": "doc.richtext.fill",
+            "nextAction": "Write the sales page"
+          },
+          {
+            "stage": "listed",
+            "label": "Sales page",
+            "icon": "cart.fill",
+            "nextAction": "Launch it"
+          },
+          {
+            "stage": "launched",
+            "label": "Launched",
+            "icon": "checkmark.seal.fill",
+            "nextAction": "Track its sales"
+          }
+        ],
+        "doneStage": "launched",
+        "doneMetric": "productsLaunched",
+        "weeklyMetric": "salesThisWeek",
+        "doneTitle": "Mark as launched?",
+        "doneConfirm": "It's live and on sale",
+        "doneToast": "Launched. Share it where your buyers already hang out.",
+        "doneNoticeFirst": "Your first product is live",
+        "doneNotice": "Product {n} is live",
+        "logSource": "your store dashboard",
+        "logHint": "Open your store dashboard (Gumroad, Etsy, Payhip…) and your email tool, then copy the totals. Leave anything you can't find empty.",
+        "logMetrics": [
+          "pageVisits",
+          "emailSubscribers"
+        ],
+        "guide": [
+          {
+            "icon": "eye.fill",
+            "title": "Page visits",
+            "body": "Low visits means people don't know it exists. Post more helpful content that points to it."
+          },
+          {
+            "icon": "cart.fill",
+            "title": "Visits to sales",
+            "body": "Lots of visits but no sales usually means the promise, preview or price isn't clear yet. Change one thing at a time."
+          },
+          {
+            "icon": "envelope.fill",
+            "title": "Email subscribers",
+            "body": "Your list is the audience you own. A free sample of your product grows it fastest."
+          }
+        ],
+        "incomeMetric": "productRevenue",
+        "incomeTitle": "Product sales",
+        "incomeHint": "Log each sale once the money is paid out. Your first sale usually comes from people who already follow or know you.",
+        "incomeSources": [
+          "Gumroad",
+          "Etsy",
+          "Payhip",
+          "Stan",
+          "Direct",
+          "Other"
+        ],
+        "salesMetric": "salesCount",
+        "stagesTitle": "Your growth stage",
+        "headline": [
+          "salesCount",
+          "productRevenue"
+        ],
+        "milestones": [
+          {
+            "title": "First Week Done",
+            "icon": "flag.fill",
+            "metric": "missions",
+            "target": 7
+          },
+          {
+            "title": "First Product Launched",
+            "icon": "checkmark.seal.fill",
+            "metric": "productsLaunched",
+            "target": 1
+          },
+          {
+            "title": "First Sale",
+            "icon": "cart.fill",
+            "metric": "salesCount",
+            "target": 1
+          },
+          {
+            "title": "10 Sales",
+            "icon": "bag.fill",
+            "metric": "salesCount",
+            "target": 10
+          },
+          {
+            "title": "First $100",
+            "icon": "dollarsign.circle.fill",
+            "metric": "productRevenue",
+            "target": 100,
+            "money": true
+          }
+        ],
+        "checkin": {
+          "title": "How many sales did you make this week?",
+          "subtitle": "Prefilled from your sales log. Free downloads don't count.",
+          "label": "Sales this week",
+          "accomplishedHint": "e.g. Finished my template and published the sales page",
+          "difficultHint": "e.g. Deciding on a price",
+          "improveHint": "e.g. Post about it three times",
+          "quickPicks": [
+            "Post about it more",
+            "Clearer sales page",
+            "Better preview images",
+            "Grow my email list",
+            "Ask buyers for reviews"
+          ]
+        },
+        "coachGate": "Get instant, practical answers about product ideas, pricing, sales pages, launches and getting buyers, tailored to your niche.",
+        "sampleTitles": [
+          "{Topic} starter template",
+          "The beginner's {topic} checklist",
+          "{Topic} planner printable",
+          "A mini-course on {topic}",
+          "{Topic} toolkit bundle"
+        ],
+        "sampleNumbers": [
+          {
+            "metric": "pageVisits",
+            "value": 40,
+            "daysAgo": 5
+          },
+          {
+            "metric": "emailSubscribers",
+            "value": 6,
+            "daysAgo": 5
+          },
+          {
+            "metric": "pageVisits",
+            "value": 138,
+            "daysAgo": 1
+          },
+          {
+            "metric": "emailSubscribers",
+            "value": 23,
+            "daysAgo": 1
+          }
+        ]
+      }
     },
     {
       "id": "affiliate_content",
@@ -400,9 +839,10 @@
     "uploadsThisWeek": {
       "label": "Uploads this week",
       "icon": "calendar.badge.clock",
-      "kind": "derived",
+      "kind": "weekly",
       "format": "number",
-      "hint": "Publish on your weekly schedule"
+      "hint": "Publish on your weekly schedule",
+      "of": "videosPublished"
     },
     "watchTime": {
       "label": "Watch time",
@@ -438,6 +878,49 @@
       "kind": "sum",
       "format": "money",
       "hint": "Log income from affiliates, sponsors, products or ads"
+    },
+    "productsLaunched": {
+      "label": "Products launched",
+      "icon": "checkmark.seal.fill",
+      "kind": "count",
+      "format": "number",
+      "hint": "Launch a product from your board"
+    },
+    "salesCount": {
+      "label": "Sales",
+      "icon": "cart.fill",
+      "kind": "sum",
+      "format": "number",
+      "hint": "Log each sale from your store"
+    },
+    "salesThisWeek": {
+      "label": "Sales this week",
+      "icon": "calendar.badge.clock",
+      "kind": "weekly",
+      "format": "number",
+      "hint": "Sales in the last 7 days",
+      "of": "salesCount"
+    },
+    "productRevenue": {
+      "label": "Product revenue",
+      "icon": "dollarsign.circle.fill",
+      "kind": "sum",
+      "format": "money",
+      "hint": "Log money from product sales"
+    },
+    "pageVisits": {
+      "label": "Page visits",
+      "icon": "eye.fill",
+      "kind": "latest",
+      "format": "number",
+      "hint": "Log visits from your store dashboard"
+    },
+    "emailSubscribers": {
+      "label": "Email subscribers",
+      "icon": "envelope.fill",
+      "kind": "latest",
+      "format": "number",
+      "hint": "Log your email list size"
     }
   },
   "monetization": [
@@ -496,44 +979,62 @@
         "Review the monetization policies for your niche",
         "Keep publishing; ads add to income you already built"
       ]
-    }
-  ],
-  "contentStages": [
-    {
-      "stage": "idea",
-      "label": "Idea",
-      "icon": "lightbulb.fill",
-      "nextAction": "Research it"
     },
     {
-      "stage": "researched",
-      "label": "Researched",
-      "icon": "magnifyingglass",
-      "nextAction": "Write the script"
+      "id": "validateIdea",
+      "title": "Validate the idea",
+      "summary": "Before you build, check that people already ask for this and pay for similar things.",
+      "readyWhen": [
+        "You found people asking for this in your niche",
+        "Similar products sell, and you know their prices"
+      ],
+      "actions": [
+        "Collect 10 real questions from your audience",
+        "Look at 5 similar products and their reviews",
+        "Run a quick poll or ask 3 people directly"
+      ]
     },
     {
-      "stage": "scripted",
-      "label": "Scripted",
-      "icon": "text.alignleft",
-      "nextAction": "Record it"
+      "id": "preSell",
+      "title": "Pre-sell or soft-launch",
+      "summary": "A few early buyers prove the idea and pay for your time. A simple 'founding price' works well.",
+      "readyWhen": [
+        "Version 1 exists, even if rough",
+        "You have a sales page with a clear promise"
+      ],
+      "actions": [
+        "Offer an early-bird price to people who know you",
+        "Ask early buyers what's missing",
+        "Collect one testimonial"
+      ]
     },
     {
-      "stage": "recorded",
-      "label": "Recorded",
-      "icon": "video.fill",
-      "nextAction": "Edit it"
+      "id": "launch",
+      "title": "Launch",
+      "summary": "Tell people where they already are, with helpful content that points to your product.",
+      "readyWhen": [
+        "Your sales page shows previews and a clear price",
+        "You have 3–5 posts ready"
+      ],
+      "actions": [
+        "Post helpful content daily for one week",
+        "Share it with your email list",
+        "Answer every question and comment"
+      ]
     },
     {
-      "stage": "edited",
-      "label": "Edited",
-      "icon": "scissors",
-      "nextAction": "Publish it"
-    },
-    {
-      "stage": "published",
-      "label": "Published",
-      "icon": "checkmark.seal.fill",
-      "nextAction": "Review its analytics"
+      "id": "grow",
+      "title": "Grow",
+      "summary": "Once it sells, improve it, add a bundle or upsell, and grow your email list.",
+      "readyWhen": [
+        "You've made a handful of sales",
+        "Buyers tell you what they want next"
+      ],
+      "actions": [
+        "Add a bundle or a bigger version",
+        "Turn reviews into social proof",
+        "Send your list something useful every week"
+      ]
     }
   ],
   "universalLessonIds": [
@@ -1205,6 +1706,11 @@
           "title": "Which kind of businesses would you like to help?",
           "subtitle": "Cafés, dentists, gyms, plumbers… whatever feels right to you.",
           "placeholder": "e.g. dentists in Austin"
+        },
+        "digital_products": {
+          "title": "What could you help people with?",
+          "subtitle": "A topic you know well, even a little. Pick one below or type your own.",
+          "placeholder": "e.g. meal planning for busy parents"
         }
       }
     },
@@ -1594,6 +2100,137 @@
       "summary": "Outreach"
     },
     {
+      "key": "productStatus",
+      "icon": "bag.fill",
+      "title": "Have you made a digital product before?",
+      "subtitle": "Anything you've created or sold counts.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "Not yet",
+          "icon": "sparkles",
+          "hint": "Perfect — we'll find your idea together",
+          "stage": "idea"
+        },
+        {
+          "value": "made",
+          "label": "I made one, but haven't sold it",
+          "icon": "doc.richtext.fill",
+          "hint": "It exists, it just needs buyers",
+          "stage": "started"
+        },
+        {
+          "value": "some",
+          "label": "I've made a few sales",
+          "icon": "cart.fill",
+          "hint": "Something is working already",
+          "stage": "some_traction"
+        },
+        {
+          "value": "regular",
+          "label": "I sell regularly",
+          "icon": "dollarsign.circle.fill",
+          "hint": "Ready to grow it",
+          "stage": "already_earning"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Everyone's first product started as an idea.",
+      "methods": [
+        "digital_products"
+      ],
+      "summary": "Product"
+    },
+    {
+      "key": "productType",
+      "icon": "doc.richtext.fill",
+      "title": "What kind of product sounds fun to make?",
+      "subtitle": "Go with your gut. We'll check it's something people want.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "template",
+          "label": "A template",
+          "icon": "square.grid.2x2.fill",
+          "hint": "Notion, Canva, spreadsheet",
+          "planNote": "Templates sell best with clear previews: show 3–4 screenshots of it in use."
+        },
+        {
+          "value": "guide",
+          "label": "A guide or ebook",
+          "icon": "book.fill",
+          "hint": "Teach something step by step",
+          "planNote": "Keep your guide short and specific: 15–30 pages that solve one problem beat 100 pages that cover everything."
+        },
+        {
+          "value": "printable",
+          "label": "Printables",
+          "icon": "printer.fill",
+          "hint": "Planners, checklists, worksheets",
+          "planNote": "Printables are quick to make, so plan a small bundle rather than a single page."
+        },
+        {
+          "value": "course",
+          "label": "A mini-course",
+          "icon": "play.rectangle.fill",
+          "hint": "Short videos or lessons",
+          "planNote": "Keep the first course to 5–7 short lessons you can film on a phone."
+        },
+        {
+          "value": "unsure",
+          "label": "Not sure yet",
+          "icon": "questionmark.circle.fill",
+          "hint": "That's fine — your plan helps you choose"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Small and specific sells best.",
+      "methods": [
+        "digital_products"
+      ],
+      "summary": "Format"
+    },
+    {
+      "key": "audienceStatus",
+      "icon": "person.3.fill",
+      "title": "Do you already have people who follow you?",
+      "subtitle": "Any size counts — friends, a small account, a group you're in.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "Not really",
+          "icon": "person.fill",
+          "hint": "We'll help you find your first buyers",
+          "planNote": "No audience yet: you'll start by posting helpful content where your buyers already hang out."
+        },
+        {
+          "value": "social",
+          "label": "A small social following",
+          "icon": "bubble.left.and.bubble.right.fill",
+          "hint": null,
+          "planNote": "Use your followers for validation: ask them before you build."
+        },
+        {
+          "value": "email",
+          "label": "An email list",
+          "icon": "envelope.fill",
+          "hint": null,
+          "planNote": "Your email list is your best launch channel — pre-sell to them first."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Zero followers is a fine place to start.",
+      "methods": [
+        "digital_products"
+      ],
+      "summary": "Audience"
+    },
+    {
       "key": "weeklyTime",
       "icon": "clock.fill",
       "title": "How much time can you set aside each week?",
@@ -1874,6 +2511,58 @@
               "hint": null
             }
           ]
+        },
+        "digital_products": {
+          "options": [
+            {
+              "value": "Writing",
+              "label": "Writing",
+              "icon": "pencil",
+              "hint": null
+            },
+            {
+              "value": "Graphic design",
+              "label": "Graphic design",
+              "icon": "paintbrush.fill",
+              "hint": null
+            },
+            {
+              "value": "Teaching",
+              "label": "Teaching",
+              "icon": "person.wave.2.fill",
+              "hint": null
+            },
+            {
+              "value": "Organizing",
+              "label": "Organizing",
+              "icon": "list.bullet.clipboard.fill",
+              "hint": null
+            },
+            {
+              "value": "Social media",
+              "label": "Social media",
+              "icon": "bubble.left.and.bubble.right.fill",
+              "hint": null
+            },
+            {
+              "value": "Video editing",
+              "label": "Video editing",
+              "icon": "film.fill",
+              "hint": null
+            },
+            {
+              "value": "Research",
+              "label": "Research",
+              "icon": "magnifyingglass",
+              "hint": null
+            },
+            {
+              "value": "None yet",
+              "label": "Nothing yet, I'm new",
+              "icon": "sparkles",
+              "hint": null
+            }
+          ]
         }
       }
     },
@@ -1925,7 +2614,8 @@
       "required": true,
       "mascotLine": "Gear never made anyone consistent.",
       "methods": [
-        "youtube_owned_channel"
+        "youtube_owned_channel",
+        "digital_products"
       ]
     },
     {

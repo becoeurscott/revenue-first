@@ -6,9 +6,10 @@ struct CheckInAnswers {
     var difficult = ""
     var prospects = 0
     var replies = 0
-    /// Owned-channel journeys: videos published this week.
+    /// Workspace journeys: this week's count of the journey's own weekly metric (uploads, sales…).
     var published = 0
-    var services = true
+    var workspace: Workspace? = nil
+    var services: Bool { workspace == nil }
     var madeMoney = false
     var moneyAnswered = false
     var improve = ""
@@ -23,9 +24,9 @@ struct CheckInStep {
     let subtitle: String
     var placeholder = ""
 
-    /// Service journeys check in on outreach; channel journeys on publishing.
-    static func steps(services: Bool) -> [CheckInStep] {
-        guard !services else {
+    /// Service journeys check in on outreach; workspace journeys on their own weekly number.
+    static func steps(workspace: Workspace?) -> [CheckInStep] {
+        guard let w = workspace else {
             return [
                 CheckInStep(kind: .accomplished, icon: "flag.checkered", title: "What did you accomplish?", subtitle: "Big or small. Missions, samples, messages sent — it all counts.", placeholder: "e.g. Finished my portfolio and sent my first 10 messages"),
                 CheckInStep(kind: .difficult, icon: "mountain.2.fill", title: "What was difficult?", subtitle: "Naming the hard part is how you get past it.", placeholder: "e.g. Finding creators who actually reply"),
@@ -36,11 +37,11 @@ struct CheckInStep {
             ]
         }
         return [
-            CheckInStep(kind: .accomplished, icon: "flag.checkered", title: "What did you accomplish?", subtitle: "Big or small. Ideas, scripts, recordings, uploads — it all counts.", placeholder: "e.g. Scripted, recorded and published my second video"),
-            CheckInStep(kind: .difficult, icon: "mountain.2.fill", title: "What was difficult?", subtitle: "Naming the hard part is how you get past it.", placeholder: "e.g. Sounding natural on camera"),
-            CheckInStep(kind: .published, icon: "play.rectangle.fill", title: "How many videos did you publish this week?", subtitle: "Prefilled from your content board. Shorts count too."),
-            CheckInStep(kind: .madeMoney, icon: "dollarsign.circle.fill", title: "Did your channel make money?", subtitle: "Affiliates, sponsors, products or ads. “Not yet” is normal this early."),
-            CheckInStep(kind: .improve, icon: "scope", title: "What do you want to improve?", subtitle: "Pick one thing. This becomes part of next week’s focus.", placeholder: "e.g. A stronger first 30 seconds"),
+            CheckInStep(kind: .accomplished, icon: "flag.checkered", title: "What did you accomplish?", subtitle: "Big or small, it all counts.", placeholder: w.checkin.accomplishedHint),
+            CheckInStep(kind: .difficult, icon: "mountain.2.fill", title: "What was difficult?", subtitle: "Naming the hard part is how you get past it.", placeholder: w.checkin.difficultHint),
+            CheckInStep(kind: .published, icon: w.icon, title: w.checkin.title, subtitle: w.checkin.subtitle),
+            CheckInStep(kind: .madeMoney, icon: "dollarsign.circle.fill", title: "Did you make money this week?", subtitle: "“Not yet” is a perfectly normal answer this early."),
+            CheckInStep(kind: .improve, icon: "scope", title: "What do you want to improve?", subtitle: "Pick one thing. This becomes part of next week’s focus.", placeholder: w.checkin.improveHint),
         ]
     }
 }
@@ -56,7 +57,7 @@ struct CheckInView: View {
     @State private var prefilled = false
     @State private var confirmClose = false
 
-    private var steps: [CheckInStep] { CheckInStep.steps(services: store.journey.sellsServices) }
+    private var steps: [CheckInStep] { CheckInStep.steps(workspace: store.journey.workspace) }
 
     /// The week that was just completed (Day 8 → week 1, Day 14 → week 2).
     private var week: Int {
@@ -96,8 +97,8 @@ struct CheckInView: View {
         let st = store.stats
         answers.prospects = st.contacted
         answers.replies = st.replies
-        answers.published = st.uploadsThisWeek
-        answers.services = store.journey.sellsServices
+        answers.workspace = store.journey.workspace
+        if let w = answers.workspace { answers.published = st.value(w.weeklyMetric) }
     }
 
     // MARK: Chrome

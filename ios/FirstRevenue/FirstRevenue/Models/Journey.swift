@@ -82,6 +82,8 @@ struct JourneyConfig: Codable, Identifiable, Hashable {
     let goalOptions: [GoalOption]
     let checkinMetrics: [StatMetric]
     let quickActions: [String]
+    /// The journey's own work board, numbers log and income tracker (nil for service journeys).
+    var workspace: Workspace? = nil
 
     var isActive: Bool { status == .active && track != nil }
     func has(_ module: String) -> Bool { modules.contains(module) }
@@ -89,7 +91,8 @@ struct JourneyConfig: Codable, Identifiable, Hashable {
 }
 
 struct MetricDef: Codable, Hashable {
-    enum Kind: String, Codable, Hashable { case count, sum, latest, derived }
+    /// count/sum: total of logged events; latest: the last logged value; weekly: `of` summed over the last 7 days.
+    enum Kind: String, Codable, Hashable { case count, sum, latest, weekly, derived }
     enum Format: String, Codable, Hashable { case number, money, percent, minutes }
     let label: String
     /// SF Symbol name
@@ -97,6 +100,67 @@ struct MetricDef: Codable, Hashable {
     let kind: Kind
     let format: Format
     let hint: String
+    var of: StatMetric? = nil
+}
+
+/// Everything a non-service journey's workspace needs: the board's stages, what "done" counts as, which
+/// numbers the user logs, how income is recorded, and the copy that names it all ("video" vs "product").
+struct Workspace: Codable, Hashable {
+    struct Guide: Codable, Hashable { let icon: String; let title: String; let body: String }
+    struct Milestone: Codable, Hashable { let title: String; let icon: String; let metric: StatMetric; let target: Int; var money: Bool? = nil }
+    struct SampleNumber: Codable, Hashable { let metric: StatMetric; let value: Double; let daysAgo: Int }
+    struct Checkin: Codable, Hashable { let title: String; let subtitle: String; let label: String; let accomplishedHint: String; let difficultHint: String; let improveHint: String; let quickPicks: [String] }
+
+    let title: String
+    let navLabel: String
+    let icon: String
+    let tabs: [String: String]
+    let itemNoun: String
+    let itemNounPlural: String
+    let addLabel: String
+    let newItemTitle: String
+    let titlePlaceholder: String
+    let emptyTitle: String
+    let formats: [String]
+    let stages: [ContentStageInfo]
+    let doneStage: String
+    let doneMetric: StatMetric
+    let weeklyMetric: StatMetric
+    let doneTitle: String
+    let doneConfirm: String
+    let doneToast: String
+    let doneNoticeFirst: String
+    let doneNotice: String
+    let logSource: String
+    let logHint: String
+    let logMetrics: [StatMetric]
+    let guide: [Guide]
+    let incomeMetric: StatMetric
+    let incomeTitle: String
+    let incomeHint: String
+    let incomeSources: [String]
+    var salesMetric: StatMetric? = nil
+    let stagesTitle: String
+    let headline: [StatMetric]
+    let milestones: [Milestone]
+    let checkin: Checkin
+    let coachGate: String
+    let sampleTitles: [String]
+    let sampleNumbers: [SampleNumber]
+
+    func tab(_ t: ChannelTab) -> String {
+        let key = switch t { case .content: "content"; case .analytics: "analytics"; case .monetization: "monetization" }
+        return tabs[key] ?? t.rawValue
+    }
+    func stage(_ id: String) -> ContentStageInfo { stages.first { $0.stage == id } ?? ContentStageInfo(stage: id, label: id.capitalized, icon: "circle", nextAction: "") }
+    func next(after id: String) -> String? {
+        guard let i = stages.firstIndex(where: { $0.stage == id }), i + 1 < stages.count else { return nil }
+        return stages[i + 1].stage
+    }
+    /// "{n}" in notices becomes the count; "{title}" the item title.
+    func fill(_ s: String, n: Int = 0, title: String = "") -> String {
+        s.replacingOccurrences(of: "{n}", with: "\(n)").replacingOccurrences(of: "{title}", with: title)
+    }
 }
 
 struct MonetizationStageInfo: Codable, Hashable, Identifiable {
@@ -180,7 +244,8 @@ struct JourneyQuestion: Codable, Hashable {
 }
 
 struct ContentStageInfo: Codable, Hashable {
-    let stage: ContentStage
+    /// Stage id from the journey's workspace, e.g. "idea" … "published" or "idea" … "launched".
+    let stage: String
     let label: String
     let icon: String
     let nextAction: String
@@ -206,21 +271,11 @@ struct JourneyAnswers: Codable, Hashable {
     func answer(_ key: String) -> String { extra?[key]?.first ?? "" }
 }
 
-enum ContentStage: String, Codable, CaseIterable, Identifiable, Hashable {
-    case idea, researched, scripted, recorded, edited, published
-    var id: String { rawValue }
-    var next: ContentStage? {
-        let all = Self.allCases
-        guard let i = all.firstIndex(of: self), i + 1 < all.count else { return nil }
-        return all[i + 1]
-    }
-}
-
 struct ContentItem: Codable, Hashable, Identifiable {
     let id: String
     var title: String
     var format: String
-    var stage: ContentStage
+    var stage: String
     var notes: String
     var link: String
     let createdAt: Date
@@ -274,8 +329,6 @@ struct JourneyState: Codable, Hashable {
 
 extension JourneyConfig {
     var coachGateMessage: String {
-        sellsServices
-            ? "Get instant, practical answers about clients, pricing and outreach, tailored to your journey."
-            : "Get instant, practical answers about ideas, scripts, packaging, analytics and monetization, tailored to your channel."
+        workspace?.coachGate ?? "Get instant, practical answers about clients, pricing and outreach, tailored to your journey."
     }
 }

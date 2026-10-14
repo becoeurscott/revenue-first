@@ -6,7 +6,6 @@ struct JourneyCatalogBundle: Decodable {
     let journeys: [JourneyConfig]
     let metrics: [StatMetric: MetricDef]
     let monetization: [MonetizationStageInfo]
-    let contentStages: [ContentStageInfo]
     let universalLessonIds: [String]
     let universalResourceIds: [String]
     let broadNicheTerms: [String]
@@ -53,9 +52,6 @@ enum Journeys {
         catalog.metrics[m] ?? MetricDef(label: m.rawValue, icon: "chart.bar.fill", kind: .derived, format: .number, hint: "")
     }
     static func monetization(_ id: String) -> MonetizationStageInfo? { catalog.monetization.first { $0.id == id } }
-    static func stage(_ s: ContentStage) -> ContentStageInfo {
-        catalog.contentStages.first { $0.stage == s } ?? ContentStageInfo(stage: s, label: s.rawValue.capitalized, icon: "circle", nextAction: "")
-    }
 
     /// The question that tells us where this method's user starts (its options carry a stage).
     static func stageQuestion(for method: EarningMethod) -> JourneyQuestion? {
@@ -130,6 +126,7 @@ enum NicheResolver {
         let display = label.prefix(1).uppercased() + label.dropFirst()
         let haystack = " " + label.lowercased() + " "
         let owned = method == .youtubeOwnedChannel
+        let products = method == .digitalProducts
 
         if let match = Journeys.catalog.niches.first(where: { n in n.keywords.contains { haystack.contains(" \($0) ") || haystack.contains(" \($0)s ") } }) {
             let specific = label.lowercased() != match.label.lowercased() && !match.keywords.contains(label.lowercased())
@@ -142,7 +139,7 @@ enum NicheResolver {
                 allowedClaims: match.allowedClaims,
                 restrictedTopics: match.restrictedTopics,
                 exampleTerms: Array(((specific ? keywords(in: label) : []) + match.exampleTerms).uniqued().prefix(5)),
-                monetizationOptions: owned ? match.monetizationOptions : servicesMonetization,
+                monetizationOptions: products ? productMonetization : owned ? match.monetizationOptions : servicesMonetization,
                 source: .catalog,
                 version: version,
                 cautionNote: match.cautionNote
@@ -154,12 +151,12 @@ enum NicheResolver {
         return NicheContext(
             rawInput: [base, extra].filter { !$0.isEmpty }.joined(separator: " — "),
             normalizedLabel: String(display),
-            audience: owned ? "viewers interested in \(lower)" : "people and businesses in \(lower)",
-            problemOrDesire: owned ? "clear, trustworthy help with \(lower)" : "getting more done in \(lower) without doing it all themselves",
+            audience: products ? "people who want help with \(lower)" : owned ? "viewers interested in \(lower)" : "people and businesses in \(lower)",
+            problemOrDesire: products ? "a ready-made shortcut for \(lower)" : owned ? "clear, trustworthy help with \(lower)" : "getting more done in \(lower) without doing it all themselves",
             allowedClaims: ["general education", "your own experience and results"],
             restrictedTopics: flagged.flatMap(\.restricted),
             exampleTerms: Array((keywords(in: label) + ["\(lower) for beginners"]).uniqued().prefix(5)),
-            monetizationOptions: owned ? ["affiliate links for products you use", "sponsorships from brands your viewers use", "a small digital product"] : servicesMonetization,
+            monetizationOptions: products ? productMonetization : owned ? ["affiliate links for products you use", "sponsorships from brands your viewers use", "a small digital product"] : servicesMonetization,
             source: .generated,
             version: version,
             cautionNote: flagged.first?.note
@@ -176,6 +173,8 @@ enum NicheResolver {
         default: return nil
         }
     }
+
+    private static let productMonetization = ["one small, specific product to start", "a bundle once the first product sells", "an email list for every launch"]
 
     private static let servicesMonetization = ["a small paid starter package", "a monthly retainer once results show"]
 
