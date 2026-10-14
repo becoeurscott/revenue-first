@@ -57,6 +57,33 @@ enum Journeys {
         catalog.contentStages.first { $0.stage == s } ?? ContentStageInfo(stage: s, label: s.rawValue.capitalized, icon: "circle", nextAction: "")
     }
 
+    /// The question that tells us where this method's user starts (its options carry a stage).
+    static func stageQuestion(for method: EarningMethod) -> JourneyQuestion? {
+        catalog.onboarding.first { $0.applies(to: method) && $0.resolved(for: method).options?.contains { $0.stage != nil } == true }?.resolved(for: method)
+    }
+
+    /// "Not yet" / "1–2 paid clients"… in the words of the method's own status question.
+    static func stageLabel(_ stage: StartingStage, method: EarningMethod) -> String {
+        stageQuestion(for: method)?.options?.first { $0.stage == stage }?.label ?? stage.rawValue.replacingOccurrences(of: "_", with: " ").capitalized
+    }
+
+    /// Method-specific answers that change how the plan should be done, as one sentence each.
+    static func planNotes(_ answers: JourneyAnswers, method: EarningMethod) -> [String] {
+        catalog.onboarding.filter { $0.applies(to: method) }.compactMap { q in
+            let picked = answers.extra?[q.key] ?? []
+            return q.resolved(for: method).options?.first { picked.contains($0.value) }?.planNote
+        }
+    }
+
+    /// "Format: Shorts", "Offer: Thumbnails"… for the results and profile screens.
+    static func setupSummary(_ answers: JourneyAnswers, method: EarningMethod) -> [(label: String, value: String)] {
+        catalog.onboarding.filter { $0.applies(to: method) && $0.summary != nil }.compactMap { q in
+            let picked = answers.extra?[q.key] ?? []
+            guard let summary = q.summary, let option = q.resolved(for: method).options?.first(where: { picked.contains($0.value) }) else { return nil }
+            return (summary, option.label)
+        }
+    }
+
     /// Resolves the onboarding answer to a journey. YouTube needs `youtubeMode`; nil means "ask, don't guess".
     static func method(choice: String, youtubeMode: String) -> EarningMethod? {
         if choice == "youtube" {
@@ -106,11 +133,12 @@ enum NicheResolver {
 
         if let match = Journeys.catalog.niches.first(where: { n in n.keywords.contains { haystack.contains(" \($0) ") || haystack.contains(" \($0)s ") } }) {
             let specific = label.lowercased() != match.label.lowercased() && !match.keywords.contains(label.lowercased())
+            let client = clientAudience(method, topic: (specific ? label : match.label).lowercased(), catalogLabel: match.label)
             return NicheContext(
                 rawInput: [base, extra].filter { !$0.isEmpty }.joined(separator: " — "),
                 normalizedLabel: specific ? String(display) : match.label,
-                audience: match.audience,
-                problemOrDesire: match.problemOrDesire,
+                audience: client?.audience ?? match.audience,
+                problemOrDesire: client?.problem ?? match.problemOrDesire,
                 allowedClaims: match.allowedClaims,
                 restrictedTopics: match.restrictedTopics,
                 exampleTerms: Array(((specific ? keywords(in: label) : []) + match.exampleTerms).uniqued().prefix(5)),
@@ -136,6 +164,17 @@ enum NicheResolver {
             version: version,
             cautionNote: flagged.first?.note
         )
+    }
+
+    /// On a service journey the niche names the client, not the viewer: "gaming" means gaming creators
+    /// (or gaming businesses), so the audience is who pays. Client-type catalog niches already describe them.
+    private static func clientAudience(_ method: EarningMethod, topic: String, catalogLabel: String) -> (audience: String, problem: String)? {
+        guard !["Local businesses", "Podcasters and creators"].contains(catalogLabel) else { return nil }
+        switch method {
+        case .youtubeServices: return ("YouTube creators in \(topic)", "more reach and better videos without doing all the work themselves")
+        case .freelanceServices: return ("businesses in \(topic)", "more customers finding and choosing them")
+        default: return nil
+        }
     }
 
     private static let servicesMonetization = ["a small paid starter package", "a monthly retainer once results show"]

@@ -19,18 +19,22 @@ struct OnboardingFlow: View {
     private var method: EarningMethod? { Journeys.method(choice: choice, youtubeMode: answers.youtubeMode) }
     private var config: JourneyConfig? { method.flatMap(Journeys.config) }
 
-    /// Questions that apply to the answers so far.
+    /// Questions that apply to the answers so far: the list branches as soon as the earning method is known,
+    /// and again on answers like "no channel yet" (no subscriber question) or "local clients" (city question).
     private var steps: [JourneyQuestion] {
         Journeys.catalog.onboarding.filter { q in
-            switch q.key {
-            case "youtubeMode": choice == "youtube"
-            case "nicheDetail": !answers.niche.isEmpty && NicheResolver.isTooBroad(answers.niche)
-            case "location": config?.sellsServices == true
-            default: true
+            if q.key == "nicheDetail" { return !answers.niche.isEmpty && NicheResolver.isTooBroad(answers.niche) }
+            guard q.applies(to: method) else { return false }
+            if let c = q.showIf {
+                let v = value(c.key)
+                if let anyOf = c.anyOf, !anyOf.contains(v) { return false }
+                if let noneOf = c.noneOf, v.isEmpty || noneOf.contains(v) { return false }
             }
+            return true
         }
     }
-    private var step: JourneyQuestion { steps.first { $0.key == key } ?? steps[0] }
+    /// The current question, worded and optioned for the chosen method.
+    private var step: JourneyQuestion { (steps.first { $0.key == key } ?? steps[0]).resolved(for: method) }
     private var position: Int { steps.firstIndex { $0.key == key } ?? 0 }
 
     var body: some View {
@@ -57,7 +61,7 @@ struct OnboardingFlow: View {
 
     private var isValid: Bool {
         switch step.kind {
-        case "multi": return step.key == "skills" ? !answers.skills.isEmpty : !answers.equipment.isEmpty
+        case "multi": return !selectedMulti.isEmpty
         case "text":
             let v = text(step.key).trimmingCharacters(in: .whitespaces)
             return !step.required || v.count >= 2
@@ -129,15 +133,9 @@ struct OnboardingFlow: View {
         .scrollDismissesKeyboard(.interactively)
     }
 
-    /// The niche questions speak the language of the chosen method.
-    private var title: String {
-        if key == "niche", let config { return config.sellsServices ? "Who will you serve?" : "What will your channel be about?" }
-        return step.title
-    }
+    private var title: String { step.title }
     private var subtitle: String {
-        if key == "nicheDetail" { return "“\(answers.niche)” is broad. \(step.subtitle)" }
-        if key == "niche", let config, config.sellsServices { return "The type of client or industry you'll work with, e.g. fitness YouTubers or dentists in Austin." }
-        return step.subtitle
+        key == "nicheDetail" ? "“\(answers.niche)” is broad. \(step.subtitle)" : step.subtitle
     }
 
     @ViewBuilder private var input: some View {
@@ -204,38 +202,65 @@ struct OnboardingFlow: View {
         switch key {
         case "earningMethod": choice
         case "youtubeMode": answers.youtubeMode
-        case "startingStage": answers.startingStage?.rawValue ?? ""
         case "weeklyTime": answers.weeklyTime
         case "budget": answers.budget
         case "goal": answers.goal
-        default: ""
+        default: answers.answer(key)
         }
     }
 
     private func setValue(_ key: String, _ v: String) {
         switch key {
         case "earningMethod":
-            if v != choice { answers.youtubeMode = ""; answers.goal = "" }
+            if v != choice { resetMethodAnswers() }
             choice = v
         case "youtubeMode":
-            if v != answers.youtubeMode { answers.goal = "" }
+            if v != answers.youtubeMode { resetMethodAnswers() }
             answers.youtubeMode = v
-        case "startingStage": answers.startingStage = StartingStage(rawValue: v)
         case "weeklyTime": answers.weeklyTime = v
         case "budget": answers.budget = v
         case "goal": answers.goal = v
-        default: break
+        default:
+            var extra = answers.extra ?? [:]
+            extra[key] = [v]
+            answers.extra = extra
+            // Status questions ("Do you already have a channel?") set where the plan starts.
+            if let stage = step.options?.first(where: { $0.value == v })?.stage { answers.startingStage = stage }
         }
     }
 
-    private var selectedMulti: [String] { step.key == "skills" ? answers.skills : answers.equipment }
+    /// Switching methods changes every question after it, so answers given for the old method are dropped.
+    private func resetMethodAnswers() {
+        answers.youtubeMode = ""
+        answers.goal = ""
+        answers.extra = nil
+        answers.startingStage = nil
+        answers.skills = []
+        answers.equipment = []
+        answers.location = ""
+    }
+
+    private var selectedMulti: [String] {
+        switch step.key {
+        case "skills": answers.skills
+        case "equipment": answers.equipment
+        default: answers.extra?[step.key] ?? []
+        }
+    }
 
     private func toggle(_ v: String) {
         Haptics.select()
-        let none = step.key == "skills" ? "None yet" : "None of these"
+        let none = step.options?.first { $0.value.hasPrefix("None") }?.value
         var list = selectedMulti
         if v == none { list = list.contains(v) ? [] : [v] } else { list.removeAll { $0 == none }; list.toggle(v) }
-        if step.key == "skills" { answers.skills = list } else { answers.equipment = list }
+        switch step.key {
+        case "skills": answers.skills = list
+        case "equipment": answers.equipment = list
+        default:
+            var extra = answers.extra ?? [:]
+            extra[step.key] = list
+            answers.extra = extra
+        }
     }
 
     private func choose(_ v: String) {
@@ -285,12 +310,12 @@ struct OnboardingFlow: View {
 
     /// "Not sure yet": the user picks one explicitly; we never pick for them.
     private func pick(_ m: EarningMethod) {
+        resetMethodAnswers()
         switch m {
         case .youtubeOwnedChannel: choice = "youtube"; answers.youtubeMode = "own_channel"
         case .youtubeServices: choice = "youtube"; answers.youtubeMode = "services"
-        default: choice = m.rawValue; answers.youtubeMode = ""
+        default: choice = m.rawValue
         }
-        answers.goal = ""
         forward = true
         key = "niche"
         withAnimation(.snappy) { phase = .questions }
@@ -406,6 +431,7 @@ private struct JourneyResultsView: View {
                 .fadeUp(1)
 
                 nicheCard.fadeUp(2)
+                setupCard.fadeUp(2)
 
                 if let path {
                     VStack(alignment: .leading, spacing: Space.m) {
@@ -463,8 +489,8 @@ private struct JourneyResultsView: View {
             fact("person.2.fill", "For \(n.audience)")
             fact("target", "Helping with \(n.problemOrDesire)")
             if !n.exampleTerms.isEmpty { fact("text.magnifyingglass", n.exampleTerms.joined(separator: ", ")) }
-            if let stage = answers.startingStage, let label = Journeys.catalog.onboarding.first(where: { $0.key == "startingStage" })?.options?.first(where: { $0.value == stage.rawValue })?.label {
-                fact("flag.fill", "Starting from: \(label.lowercased())")
+            if let stage = answers.startingStage {
+                fact("flag.fill", "Starting point: \(Journeys.stageLabel(stage, method: config.id))")
             }
             if let note = n.cautionNote {
                 Label(note, systemImage: "exclamationmark.shield.fill").font(.footnote).foregroundStyle(Theme.warning).fixedSize(horizontal: false, vertical: true)
@@ -472,6 +498,25 @@ private struct JourneyResultsView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .card()
+    }
+
+    /// What the method-specific answers changed in the plan.
+    @ViewBuilder private var setupCard: some View {
+        let summary = Journeys.setupSummary(answers, method: config.id)
+        let notes = Journeys.planNotes(answers, method: config.id)
+        if !summary.isEmpty || !notes.isEmpty {
+            VStack(alignment: .leading, spacing: Space.m) {
+                Text("Your setup").font(.section).foregroundStyle(Theme.ink)
+                if !summary.isEmpty {
+                    FlowLayout {
+                        ForEach(summary, id: \.label) { item in Badge("\(item.label): \(item.value)", tone: .brand) }
+                    }
+                }
+                ForEach(notes, id: \.self) { note in fact("wand.and.stars", note) }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .card()
+        }
     }
 
     private func fact(_ icon: String, _ text: String) -> some View {

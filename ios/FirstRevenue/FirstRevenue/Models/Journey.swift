@@ -125,10 +125,29 @@ struct JourneyQuestionOption: Codable, Hashable {
     /// SF Symbol name
     let icon: String
     let hint: String?
+    /// Status questions: the starting stage this answer means.
+    var stage: StartingStage? = nil
+    /// How this answer changes the plan; shown on mission cards.
+    var planNote: String? = nil
 }
 
+/// The onboarding branches: each question can be limited to some earning methods, depend on an
+/// earlier answer, and reword itself (or swap its options) per method.
 struct JourneyQuestion: Codable, Hashable {
-    /// name | earningMethod | youtubeMode | niche | nicheDetail | startingStage | weeklyTime | budget | skills | equipment | location | goal
+    struct Condition: Codable, Hashable {
+        let key: String
+        var anyOf: [String]? = nil
+        var noneOf: [String]? = nil
+    }
+    struct Variant: Codable, Hashable {
+        var title: String? = nil
+        var subtitle: String? = nil
+        var placeholder: String? = nil
+        var options: [JourneyQuestionOption]? = nil
+    }
+
+    /// Built-ins: name | earningMethod | youtubeMode | niche | nicheDetail | weeklyTime | budget | skills | equipment | location | goal.
+    /// Any other key is method-specific and stored in `JourneyAnswers.extra`.
     let key: String
     let icon: String
     let title: String
@@ -139,6 +158,25 @@ struct JourneyQuestion: Codable, Hashable {
     let placeholder: String?
     let required: Bool
     let mascotLine: String
+    /// Asked only for these earning methods (nil = everyone).
+    var methods: [EarningMethod]? = nil
+    var showIf: Condition? = nil
+    var variants: [EarningMethod: Variant]? = nil
+    /// Short label for the "Your setup" summary (nil = not summarized).
+    var summary: String? = nil
+
+    func resolved(for method: EarningMethod?) -> JourneyQuestion {
+        guard let method, let v = variants?[method] else { return self }
+        var q = JourneyQuestion(key: key, icon: icon, title: v.title ?? title, subtitle: v.subtitle ?? subtitle, kind: kind,
+                                options: v.options ?? options, placeholder: v.placeholder ?? placeholder, required: required, mascotLine: mascotLine)
+        q.methods = methods; q.showIf = showIf; q.summary = summary
+        return q
+    }
+
+    func applies(to method: EarningMethod?) -> Bool {
+        guard let methods else { return true }
+        return method.map(methods.contains) ?? false
+    }
 }
 
 struct ContentStageInfo: Codable, Hashable {
@@ -162,6 +200,10 @@ struct JourneyAnswers: Codable, Hashable {
     var equipment: [String] = []
     var location = ""
     var goal = ""
+    /// Method-specific answers keyed by question key (e.g. "videoFormat": ["shorts"]). Optional so older saves load.
+    var extra: [String: [String]]? = nil
+
+    func answer(_ key: String) -> String { extra?[key]?.first ?? "" }
 }
 
 enum ContentStage: String, Codable, CaseIterable, Identifiable, Hashable {

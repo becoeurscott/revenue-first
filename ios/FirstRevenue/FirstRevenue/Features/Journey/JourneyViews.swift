@@ -28,12 +28,16 @@ struct MissionNicheCard: View {
             let niche = enrollment.niche(forDay: plan.day)
             let nicheLine = plan.nicheHint.map(niche.fill)
             let stageLine = plan.stageHints?[enrollment.startingStage.rawValue]
-            if nicheLine != nil || stageLine != nil || niche.cautionNote != nil {
+            let setupNotes = Journeys.planNotes(enrollment.answers, method: enrollment.journeyId)
+            if nicheLine != nil || stageLine != nil || niche.cautionNote != nil || !setupNotes.isEmpty {
                 VStack(alignment: .leading, spacing: Space.s) {
                     Label("FOR \(niche.normalizedLabel.uppercased())", systemImage: "scope").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.brand300)
                     if let nicheLine { Text(nicheLine).font(.subheadline).foregroundStyle(Theme.inkSoft).fixedSize(horizontal: false, vertical: true) }
                     if let stageLine {
                         Label(stageLine, systemImage: "flag.fill").font(.footnote).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
+                    }
+                    ForEach(setupNotes, id: \.self) { note in
+                        Label(note, systemImage: "wand.and.stars").font(.footnote).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
                     }
                     if let note = niche.cautionNote {
                         Label(note, systemImage: "exclamationmark.shield.fill").font(.footnote).foregroundStyle(Theme.warning).fixedSize(horizontal: false, vertical: true)

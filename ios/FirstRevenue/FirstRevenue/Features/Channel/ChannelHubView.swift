@@ -161,7 +161,10 @@ private struct ChannelContentSheet: View {
             .outreachSheetChrome()
         }
         .onAppear {
-            guard let item else { return }
+            guard let item else {
+                if store.enrollment?.answers.answer("videoFormat") == "shorts" { format = "Short" }
+                return
+            }
             title = item.title; format = item.format; notes = item.notes; link = item.link
         }
     }

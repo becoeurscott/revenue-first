@@ -162,7 +162,7 @@ private struct ProfileGoalsSheet: View {
     var body: some View {
         let user = store.s.user
         let a = store.enrollment?.answers
-        let stage = a?.startingStage.flatMap { st in Journeys.catalog.onboarding.first { $0.key == "startingStage" }?.options?.first { $0.value == st.rawValue }?.label }
+        let stage = a?.startingStage.map { Journeys.stageLabel($0, method: store.journey.id) }
         AccountSheetScaffold(title: "My goals", description: "What you told us when you started. Your plan is built around it.", detents: [.medium, .large]) {
             goalCard
             Grid(horizontalSpacing: Space.m, verticalSpacing: Space.m) {

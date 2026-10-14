@@ -59,11 +59,25 @@ struct JourneyAddSheet: View {
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var niche = ""
-    @State private var stage = StartingStage.idea.rawValue
+    /// Answers to this method's own onboarding questions, by question key.
+    @State private var picks: [String: String] = [:]
     @State private var goal = ""
     @State private var touched = false
 
-    private var stageOptions: [JourneyQuestionOption] { Journeys.catalog.onboarding.first { $0.key == "startingStage" }?.options ?? [] }
+    private var nicheQuestion: JourneyQuestion? { Journeys.catalog.onboarding.first { $0.key == "niche" }?.resolved(for: config.id) }
+    /// The same branching questions onboarding asks for this method, respecting their conditions.
+    private var questions: [JourneyQuestion] {
+        Journeys.catalog.onboarding
+            .filter { $0.methods?.contains(config.id) == true && $0.kind == "single" }
+            .map { $0.resolved(for: config.id) }
+            .filter { q in
+                guard let c = q.showIf else { return true }
+                let v = picks[c.key] ?? ""
+                if let anyOf = c.anyOf, !anyOf.contains(v) { return false }
+                if let noneOf = c.noneOf, v.isEmpty || noneOf.contains(v) { return false }
+                return true
+            }
+    }
     private var nicheError: String? { touched && niche.trimmingCharacters(in: .whitespaces).count < 2 ? "Add the niche for this journey" : nil }
 
     var body: some View {
@@ -71,11 +85,17 @@ struct JourneyAddSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: Space.l) {
                     Text(config.description).font(.subheadline).foregroundStyle(Theme.muted)
-                    FRTextField(label: config.sellsServices ? "Who will you serve?" : "What will your channel be about?", text: $niche, placeholder: "e.g. beginner home workouts", systemImage: "scope", error: nicheError)
+                    FRTextField(label: nicheQuestion?.title ?? "Your niche", text: $niche, placeholder: nicheQuestion?.placeholder ?? "", systemImage: "scope", error: nicheError)
                     if !niche.isEmpty && NicheResolver.isTooBroad(niche) {
                         Label("That's broad. Add who it's for, e.g. “\(niche) for busy parents”.", systemImage: "lightbulb").font(.footnote).foregroundStyle(Theme.warning)
                     }
-                    SelectRow(label: "Where are you starting from?", selection: Binding(get: { stageOptions.first { $0.value == stage }?.label ?? "" }, set: { l in stage = stageOptions.first { $0.label == l }?.value ?? stage }), options: stageOptions.map(\.label))
+                    ForEach(questions, id: \.key) { q in
+                        let options = q.options ?? []
+                        SelectRow(label: q.title, selection: Binding(
+                            get: { options.first { $0.value == picks[q.key] }?.label ?? "" },
+                            set: { l in picks[q.key] = options.first { $0.label == l }?.value }
+                        ), options: options.map(\.label))
+                    }
                     SelectRow(label: "First goal", selection: $goal, options: config.goalOptions.map(\.label))
                     Button("Start \(config.shortLabel)", action: save).buttonStyle(.fr(.primary, size: .lg, full: true))
                 }
@@ -86,7 +106,12 @@ struct JourneyAddSheet: View {
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss(); onDone() } } }
             .outreachSheetChrome()
         }
-        .onAppear { if goal.isEmpty { goal = config.goalOptions.first?.label ?? "" } }
+        .onAppear {
+            if goal.isEmpty { goal = config.goalOptions.first?.label ?? "" }
+            for q in Journeys.catalog.onboarding where q.methods?.contains(config.id) == true {
+                if picks[q.key] == nil, let first = q.resolved(for: config.id).options?.first { picks[q.key] = first.value }
+            }
+        }
     }
 
     private func save() {
@@ -97,7 +122,9 @@ struct JourneyAddSheet: View {
         a.earningMethod = config.id
         a.youtubeMode = config.id == .youtubeOwnedChannel ? "own_channel" : config.id == .youtubeServices ? "services" : ""
         a.niche = niche.trimmingCharacters(in: .whitespaces)
-        a.startingStage = StartingStage(rawValue: stage)
+        let asked = questions
+        a.extra = Dictionary(uniqueKeysWithValues: asked.compactMap { q in picks[q.key].map { (q.key, [$0]) } })
+        a.startingStage = asked.lazy.compactMap { q in q.options?.first { $0.value == picks[q.key] }?.stage }.first ?? .idea
         a.weeklyTime = current.weeklyTime
         a.budget = current.budget
         a.skills = current.skills
