@@ -205,7 +205,6 @@ struct LoginView: View {
                     .buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(loading)
             }
             .padding(.top, Space.xxl)
-            DemoButton(disabled: loading).padding(.top, Space.xl)
         } footer: {
             HStack(spacing: 4) {
                 Text("New here?").foregroundStyle(Theme.muted)
@@ -252,25 +251,6 @@ private struct FormErrorBanner: View {
             .padding(Space.m)
             .background(RoundedRectangle(cornerRadius: Radius.md, style: .continuous).fill(Theme.danger.opacity(0.1)))
             .transition(.opacity)
-    }
-}
-
-/// The offline demo stays one tap away: it runs onboarding, then shows Day 7 of the journey picked.
-private struct DemoButton: View {
-    var disabled = false
-    @Environment(AppStore.self) private var store
-    var body: some View {
-        VStack(spacing: Space.m) {
-            HStack(spacing: 12) {
-                Rectangle().fill(Theme.line).frame(height: 1)
-                Text("or").font(.caption.weight(.medium)).foregroundStyle(Theme.faint)
-                Rectangle().fill(Theme.line).frame(height: 1)
-            }
-            Button { Haptics.tap(); store.startDemo() } label: { Label("Try the Demo", systemImage: "play.circle") }
-                .buttonStyle(.fr(.secondary, size: .lg, full: true)).disabled(disabled)
-            Text("Answer a few questions, then explore your journey on Day 7 with sample progress. Nothing is saved to the server.")
-                .font(.footnote).foregroundStyle(Theme.faint).multilineTextAlignment(.center)
-        }
     }
 }
 
@@ -323,7 +303,6 @@ struct SignupView: View {
                     .buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(loading)
             }
             .padding(.top, Space.xxl)
-            DemoButton(disabled: loading).padding(.top, Space.xl)
         } footer: {
             HStack(spacing: 4) {
                 Text("Already have an account?").foregroundStyle(Theme.muted)

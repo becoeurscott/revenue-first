@@ -18,7 +18,7 @@ struct AppSettings: Codable, Hashable {
     var darkMode = true
     var language = "English"
     var reminderTime = "9:00 AM"
-    /// Demo switch: simulates losing the connection.
+    /// Kept so older saves decode; the switch was removed and is always reset to false.
     var offline = false
 }
 
@@ -31,7 +31,7 @@ struct Subscription: Codable, Hashable {
 /// Everything that is persisted. Mirrors the web store's snapshot so both prototypes behave the same.
 struct Snapshot: Codable {
     var authed = false
-    /// The signed-in Vaulten account; nil for the offline demo.
+    /// The signed-in Vaulten account.
     var account: AuthUser?
     var onboarded = false
     var user: UserProfile
@@ -40,8 +40,6 @@ struct Snapshot: Codable {
     var pathId: PathID = .clipping
     /// Nil until onboarding finishes (and in saves from before journeys, which `migrate` fills in).
     var journey: JourneyState?
-    /// The offline demo: onboarding runs as usual, then sample progress is filled in for the chosen journey.
-    var isDemo: Bool?
     var subscription = Subscription()
     var progress: [PathID: PathProgress] = [.clipping: .init(), .gbp: .init()]
     var tasks: [String: TaskState] = [:]
@@ -117,7 +115,11 @@ final class AppStore {
             s = AppStore.fresh()
         }
         // A real account without a stored session can't call the API — send it back to sign-in.
-        if s.authed, s.account != nil, Keychain.load() == nil { s.authed = false }
+        // Every session needs a real account with a stored token. Saves from the removed offline demo had
+        // no account, so they start over at sign-in.
+        if s.authed, s.account == nil { s = AppStore.fresh() }
+        if s.authed, Keychain.load() == nil { s.authed = false }
+        s.settings.offline = false
         AppStore.migrate(&s)
         NotificationCenter.default.addObserver(forName: VaultenAPI.sessionEndedNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated {
@@ -227,18 +229,6 @@ final class AppStore {
 
     // MARK: Auth
 
-    /// Offline demo: Alex Carter on Day 7, no account.
-    /// The demo asks the same onboarding questions as a real account, so it shows the journey the visitor
-    /// picks (own channel, creator services, freelance) instead of one fixed sample account.
-    func startDemo() {
-        var snap = AppStore.fresh()
-        snap.authed = true
-        snap.isDemo = true
-        s = snap
-        tab = .home; paths = [:]
-        Monitoring.track("demo_started")
-    }
-
     /// A real Vaulten session was created. The same account resumes its local progress;
     /// a different account starts fresh (the server is the source of truth for identity).
     func signedIn(_ user: AuthUser, enrollment: Enrollment? = nil) {
@@ -303,11 +293,7 @@ final class AppStore {
         s.user.time = a.weeklyTime
         s.user.goal = e.goal.label
         if e.goal.metric == .revenue { s.user.goalAmount = e.goal.target }
-        if s.isDemo == true {
-            seedDemo()
-        } else {
-            notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
-        }
+        notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
         tab = .home; paths = [:]
         Monitoring.track("onboarding_completed", ["journey": a.earningMethod.rawValue, "starting_stage": e.startingStage.rawValue, "niche_source": e.niche.source.rawValue, "weekly_time": a.weeklyTime, "goal": e.goal.label])
     }
@@ -479,7 +465,7 @@ final class AppStore {
         s.xp += plan?.xp ?? 100
         s.streak += 1
         s.longestStreak = max(s.longestStreak, s.streak)
-        // First free calendar slot from today onward (lets the demo run several days in one sitting).
+        // First free calendar slot from today onward (lets testers run several days in one sitting).
         var active = Set(s.activeDays)
         var offset = 0
         while active.contains(Date.daysFromNow(offset).dayKey) { offset += 1 }
@@ -647,82 +633,7 @@ final class AppStore {
         s.recentSearches = Array(([q] + s.recentSearches.filter { $0.lowercased() != q.lowercased() }).prefix(6))
     }
 
-    // MARK: Profile, settings, paths
-
-    func jumpToDay(_ day: Int) {
-        let target = min(max(day, 1), MockData.totalDays)
-        let completed = Array(1..<target)
-        for d in completed { for t in MockData.day(s.pathId, d)?.tasks ?? [] { s.tasks[t.id] = .done } }
-        s.progress[s.pathId] = PathProgress(currentDay: target, completedDays: completed)
-        s.streak = max(s.streak, target - 1)
-        s.longestStreak = max(s.longestStreak, s.streak)
-        s.activeDays = (0..<(target - 1)).map { Date.daysAgo($0 + 1).dayKey }
-    }
-
-    /// Rebuilds the demo for the journey the visitor is on, or reruns onboarding if there is none.
-    func resetDemo() {
-        let answers = enrollment?.answers
-        let name = s.answers.name
-        startDemo()
-        s.answers.name = name
-        if let answers { startJourney(answers) }
-        cover = nil
-    }
-
-    /// Day 7 of the chosen journey with believable sample data, so every journey's screens have something in them.
-    private func seedDemo() {
-        guard let track = journey.track else { return }
-        let d = MockData.shared
-        let plan = MockData.plan(track)
-        s.user.email = d.user.email
-        s.subscription = Subscription(status: .active, plan: "yearly", renews: Date.daysFromNow(359))
-        s.progress[track] = PathProgress(currentDay: 7, completedDays: Array(1...6))
-        for day in 1...6 { for t in MockData.day(track, day)?.tasks ?? [] { s.tasks[t.id] = .done } }
-        for t in (MockData.day(track, 7)?.tasks ?? []).prefix(3) { s.tasks[t.id] = .done }
-        s.completedLessons = plan.prefix(5).map(\.lessonId)
-        s.recentLessons = Array(plan.prefix(6).map(\.lessonId).reversed().prefix(3))
-        s.xp = 650
-        s.streak = 6
-        s.longestStreak = 6
-        s.activeDays = (1...6).map { Date.daysAgo($0).dayKey }
-        let version = niche?.version ?? 1
-        updateEnrollment { e in for day in 1...6 { e.completedDayNiche[day] = version } }
-
-        if journey.sellsServices {
-            s.prospects = d.prospects.filter { $0.path == track }
-            s.deals = d.deals.filter { $0.path == track }
-            if track == .clipping {
-                s.notifications = d.notifications
-                s.conversations = d.coach.conversations
-                s.recentSearches = ["outreach template", "pricing", "follow-up"]
-            }
-            return
-        }
-
-        // Workspace journeys: items across the board (three done), and a week of logged numbers.
-        guard let w = journey.workspace else { return }
-        let topic = niche?.normalizedLabel.lowercased() ?? "your topic"
-        let Topic = topic.prefix(1).uppercased() + topic.dropFirst()
-        let format = defaultFormat
-        let stageFor: [String] = [w.doneStage, w.doneStage, w.doneStage, w.stages[max(w.stages.count - 2, 0)].stage, w.stages[0].stage]
-        let daysAgo = [6, 4, 1, 0, 0]
-        updateEnrollment { e in
-            for (i, template) in w.sampleTitles.prefix(5).enumerated() {
-                let id = UID.make("v")
-                let title = template.replacingOccurrences(of: "{topic}", with: topic).replacingOccurrences(of: "{Topic}", with: Topic)
-                let done = stageFor[i] == w.doneStage
-                let when = Date.daysAgo(daysAgo[i])
-                e.contentItems.append(ContentItem(id: id, title: title, format: format, stage: stageFor[i], notes: "", link: "", createdAt: Date.daysAgo(daysAgo[i] + 2), publishedAt: done ? when : nil))
-                if done { e.metricEvents.append(MetricEvent(id: UID.make("me"), key: w.doneMetric, value: 1, date: when, refId: id)) }
-            }
-            e.metricEvents += w.sampleNumbers.map { MetricEvent(id: UID.make("me"), key: $0.metric, value: $0.value, date: Date.daysAgo($0.daysAgo)) }
-            if let sales = w.salesMetric {
-                e.metricEvents += [(2, 12.0, 3), (1, 12.0, 1)].map { qty, price, ago in MetricEvent(id: UID.make("me"), key: sales, value: Double(qty), date: Date.daysAgo(ago), note: w.incomeSources.first) }
-                e.metricEvents += [(24.0, 3), (12.0, 1)].map { amount, ago in MetricEvent(id: UID.make("me"), key: w.incomeMetric, value: amount, date: Date.daysAgo(ago), note: w.incomeSources.first) }
-            }
-        }
-        notify(w.icon, w.fill(w.doneNotice, n: 3), "Your latest \(w.itemNoun) is live. Log its numbers in a couple of days.", "/channel/analytics")
-    }
+    // MARK: Helpers
 
     private func event(_ kind: String, _ text: String) -> ContactEvent { ContactEvent(id: UID.make("e"), kind: kind, text: text, date: Date()) }
 }

@@ -5,15 +5,9 @@ private enum SettingsSheet: String, Identifiable {
     var id: String { rawValue }
 }
 
-private enum SettingsDialog: String, Identifiable {
-    case subState, jump, jump30, reset
-    var id: String { rawValue }
-}
-
 struct SettingsView: View {
     @Environment(AppStore.self) private var store
     @State private var sheet: SettingsSheet?
-    @State private var dialog: SettingsDialog?
     @State private var twoFactor = false
 
     private static let reminderTimes = ["7:00 AM", "8:00 AM", "9:00 AM", "12:00 PM", "6:00 PM", "8:00 PM", "9:00 PM"]
@@ -35,7 +29,6 @@ struct SettingsView: View {
                     ListGroup(title: "Help") {
                         ListRow(icon: "lifepreserver", title: "Help & support", detail: "FAQ, contact and problem reports") { store.push(.help) }
                     }
-                    prototypeGroup
                 }
                 Text("Vaulten \(VaultenConfig.appVersion)")
                     .font(.caption).foregroundStyle(Theme.faint)
@@ -43,11 +36,6 @@ struct SettingsView: View {
             }
         }
         .sheet(item: $sheet) { sheetView($0) }
-        .confirmationDialog(dialogTitle, isPresented: dialogBinding, titleVisibility: .visible, presenting: dialog) { d in
-            dialogActions(d)
-        } message: { d in
-            Text(dialogMessage(d))
-        }
     }
 
     // MARK: Groups
@@ -99,25 +87,6 @@ struct SettingsView: View {
         }
     }
 
-    private var prototypeGroup: some View {
-        VStack(alignment: .leading, spacing: Space.s) {
-            HStack(spacing: Space.s) {
-                Text("PROTOTYPE CONTROLS").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.faint).accessibilityAddTraits(.isHeader)
-                Badge("Demo", tone: .warning)
-            }
-            .padding(.horizontal, 4)
-            ListGroup {
-                FRToggleRow(icon: "wifi.slash", title: "Simulate offline", detail: "Coach, generator and checkout will fail", isOn: offlineBinding)
-                ListRow(icon: "crown", title: "Subscription state", detail: store.s.subscription.status.rawValue.capitalized) { dialog = .subState }
-                ListRow(icon: "forward.end", title: "Jump to Day 30", detail: "See the finish line and completion flow") { dialog = .jump30 }
-                ListRow(icon: "forward", title: "Jump to day…", detail: "Currently on Day \(store.program.currentDay)") { dialog = .jump }
-                ListRow(icon: "arrow.counterclockwise", title: "Reset demo data", danger: true) { dialog = .reset }
-            }
-            .padding(4)
-            .overlay(RoundedRectangle(cornerRadius: Radius.xl + 4, style: .continuous).strokeBorder(Theme.warning.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [6, 5])))
-        }
-    }
-
     private var subscriptionDetail: String {
         let sub = store.s.subscription
         let planName = MockData.shared.subscription.plans.first { $0.id == sub.plan }?.name
@@ -154,13 +123,6 @@ struct SettingsView: View {
         })
     }
 
-    private var offlineBinding: Binding<Bool> {
-        Binding(get: { store.s.settings.offline }, set: { v in
-            store.s.settings.offline = v
-            if v { store.showToast("Offline mode on — network actions will fail", .warning) } else { store.showToast("Back online") }
-        })
-    }
-
     // MARK: Sheets
 
     @ViewBuilder private func sheetView(_ s: SettingsSheet) -> some View {
@@ -183,71 +145,6 @@ struct SettingsView: View {
         case .data: SettingsDataSheet()
         case .sessions: SettingsSessionsSheet()
         }
-    }
-
-    // MARK: Dialogs
-
-    private var dialogBinding: Binding<Bool> {
-        Binding(get: { dialog != nil }, set: { if !$0 { dialog = nil } })
-    }
-
-    private var dialogTitle: String {
-        switch dialog {
-        case .subState: "Subscription state"
-        case .jump: "Jump to day…"
-        case .jump30: "Jump to Day 30?"
-        case .reset: "Reset demo data?"
-        case nil: ""
-        }
-    }
-
-    private func dialogMessage(_ d: SettingsDialog) -> String {
-        switch d {
-        case .subState: "Switch states to preview the paywall, manage and expired screens."
-        case .jump: "Earlier days are marked complete so the plan looks realistic."
-        case .jump30: "Days 1–29 will be marked complete on your current journey. You can undo this with Reset demo data."
-        case .reset: "This puts your journey back to the sample Day 7. Anything you added will be lost."
-        }
-    }
-
-    @ViewBuilder private func dialogActions(_ d: SettingsDialog) -> some View {
-        switch d {
-        case .subState:
-            Button("Active — Premium unlocked") { setSub(.active) }
-            Button("Expired — renewal prompts") { setSub(.expired) }
-            Button("None — free account") { setSub(.none) }
-            Button("Cancel", role: .cancel) {}
-        case .jump:
-            ForEach([1, 7, 14, 21, 29], id: \.self) { n in
-                Button("Day \(n)") { jump(n) }
-            }
-            Button("Cancel", role: .cancel) {}
-        case .jump30:
-            Button("Jump to Day 30") { jump(MockData.totalDays) }
-            Button("Cancel", role: .cancel) {}
-        case .reset:
-            Button("Reset everything", role: .destructive) {
-                store.resetDemo()
-                store.showToast("Demo data reset")
-            }
-            Button("Cancel", role: .cancel) {}
-        }
-    }
-
-    private func setSub(_ status: SubscriptionStatus) {
-        if status == .active && store.s.subscription.renews == nil {
-            store.subscribe(store.s.subscription.plan ?? "yearly")
-        } else {
-            store.setSubscription(status)
-        }
-        store.showToast("Subscription state: \(status.rawValue)")
-    }
-
-    private func jump(_ day: Int) {
-        store.jumpToDay(day)
-        store.showToast("Jumped to Day \(day)")
-        store.popToRoot()
-        store.tab = .home
     }
 }
 

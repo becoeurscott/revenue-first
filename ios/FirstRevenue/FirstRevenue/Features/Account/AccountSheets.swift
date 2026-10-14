@@ -147,7 +147,7 @@ enum AccountLegalDoc: String, Identifiable {
         switch self {
         case .privacy:
             [("What we collect", "Only what you type into the app: your name, email, onboarding answers, prospects, deals and messages. In this prototype none of it is sent to a server."),
-             ("Where it lives", "Everything is stored in a single file on this device. Deleting the app, or using \"Reset demo data\" in Settings, removes it completely."),
+             ("Where it lives", "Everything is stored in a single file on this device. Deleting the app removes it completely."),
              ("Who we share it with", "Nobody. There are no analytics, no ad trackers and no third-party SDKs in this build."),
              ("Your choices", "You can export a copy of your data as JSON or wipe it at any time from Settings → Privacy → Your data.")]
         case .terms:

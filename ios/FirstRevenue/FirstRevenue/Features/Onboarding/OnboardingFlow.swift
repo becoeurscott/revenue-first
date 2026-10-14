@@ -470,7 +470,7 @@ private struct JourneyResultsView: View {
         .overlay { ConfettiView(count: 50) }
         .safeAreaInset(edge: .bottom) {
             BottomBar {
-                Button { serverService || store.isPremium || store.s.isDemo == true ? onStart() : (paywall = true) } label: {
+                Button { serverService || store.isPremium ? onStart() : (paywall = true) } label: {
                     Label("Start My 30-Day Journey", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
                 }
                 .buttonStyle(.fr(.primary, size: .lg, full: true))
