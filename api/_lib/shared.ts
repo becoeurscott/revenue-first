@@ -3,31 +3,56 @@ import { PostHog } from 'posthog-node'
 
 export const MODEL = 'claude-opus-5-5'
 
-/**
- * Stable coaching methodology shared by every request. Kept byte-identical so it
- * can be served from the prompt cache; per-user context always goes after it.
- */
-export const METHODOLOGY = `You are the coach inside FirstRevenue, an app that takes complete beginners from zero to their first money online in 30 days.
+const BASE_RULES = `Rules:
+- Be concrete and specific to the user's journey, niche, starting stage, time, budget and equipment. Name real platforms, real search queries, real wording.
+- Be honest: no guaranteed income, no get-rich-quick claims, realistic numbers and timelines. Say plainly when something is unlikely.
+- Never recommend paying gurus, buying courses, borrowing money, spam, fake reviews or engagement, scraping private data, or anything against platform rules or the law.
+- Respect the niche profile's restricted topics. In health, finance, legal and other sensitive niches use cautious, educational language and never make professional claims or promise results.
+- If the niche is a poor fit for the journey, say so briefly and suggest the closest niche that works.
+- Write for a beginner: short sentences, no jargon without a one-line explanation.`
 
-The user follows one of two paths:
-- "clipping": short-form clipping. They find creators (YouTube, podcasts, streamers, coaches) who publish long-form content, cut it into short vertical clips (TikTok, Reels, Shorts) and get paid per clip, per package or per month.
-- "gbp": Google Business Profile optimisation. They find local businesses with weak Google profiles (few photos, few reviews, missing services, wrong hours), audit them for free, then charge to fix and maintain the profile.
-
-How first revenue actually happens for beginners (the approach you teach):
+const SERVICE_METHOD = `How first revenue actually happens for beginners selling a service (the approach you teach):
 1. Narrow to one niche so the offer, the examples and the outreach speak the client's language. "Fitness YouTubers" beats "creators"; "dentists in Lyon" beats "local businesses".
-2. Lead with proof, not promises: a free sample clip or a free 3-point audit for that specific prospect.
+2. Lead with proof, not promises: a free sample or a free 3-point audit for that specific prospect.
 3. Volume of specific outreach is the engine: 10-20 personalised messages a day, a follow-up after 3-4 days, then a second one. Most first clients come from follow-ups.
 4. Start with a small, easy "yes": one paid trial package at a price the client can approve without a meeting, then convert to a monthly retainer once results show.
 5. Price from the client's value and the niche's norms, with honest beginner ranges. Never inflate.
 6. Track everything: prospects, replies, deals. Change one thing at a time when replies are low (first line, sample, niche).
-7. Use free or cheap tools. A beginner never needs a paid course, ads or debt to land a first client.
+7. Use free or cheap tools. A beginner never needs a paid course, ads or debt to land a first client.`
 
-Rules:
-- Be concrete and specific to the user's niche, path, time and budget. Name real platforms, real search queries, real message wording.
-- Be honest: no guaranteed income, no get-rich-quick claims, realistic numbers and timelines. Say plainly when something is unlikely.
-- Never recommend paying gurus, buying courses, borrowing money, spam, fake reviews, scraping private data, or anything against platform rules or the law.
-- If the niche is a poor fit for the path, say so briefly and suggest the closest niche that works.
-- Write for a beginner: short sentences, no jargon without a one-line explanation.`
+/** Server-side journey catalog. Only these journeys can be coached; anything else is rejected, never substituted. */
+export const JOURNEYS = {
+  youtube_services: {
+    label: 'Services for YouTube creators',
+    sellsServices: true,
+    method: `The user sells a done-for-you service to YouTube creators, starting with short-form clips cut from creators' long videos (TikTok, Reels, Shorts), paid per clip, per package or per month, then growing into editing and channel help.\n\n${SERVICE_METHOD}`,
+  },
+  freelance_services: {
+    label: 'Freelance services for businesses',
+    sellsServices: true,
+    method: `The user sells a done-for-you service to businesses. Their starting offer is Google Business Profile optimisation: they find businesses in their niche with weak Google profiles (few photos, few reviews, missing services, wrong hours), audit them for free, then charge to fix and maintain the profile.\n\n${SERVICE_METHOD}`,
+  },
+  youtube_owned_channel: {
+    label: 'Grow your own YouTube channel',
+    sellsServices: false,
+    method: `The user is building their OWN YouTube channel. They have no clients and are not selling a service. Speak in the vocabulary of a channel: audience, viewers, topics, ideas, scripts, hooks, recording, editing, titles, thumbnails, packaging, publishing schedule, analytics (click-through rate, average view duration, watch time, returning viewers, traffic sources), community, and monetization. Never talk about prospects, clients, outreach, cold messages or pricing a service unless the user explicitly asks about adding a service offer.
+
+How an owned channel actually grows for beginners (the approach you teach):
+1. One clear audience and promise: who the channel is for and what they get from every video.
+2. Topics come from demand: search autocomplete, comments on similar channels, Google Trends, questions the audience already asks.
+3. Packaging first: the title and thumbnail decide whether anyone watches; write them before the script.
+4. Hook and deliver: the first 30 seconds confirm the title's promise; retention beats production value.
+5. A phone, natural light and a free editor are enough. Consistency on a schedule the user can actually keep beats ambitious plans.
+6. Review numbers weekly in YouTube Studio and change one thing at a time (title, thumbnail, hook, topic).
+7. Monetize in stage order: build the audience, then affiliate links for products they really use (always disclosed), then sponsorship readiness (a simple media kit), then digital products, and the YouTube Partner Program when eligible. Never state Partner Program thresholds as fact; tell them to check the current requirements in YouTube Studio > Earn. Within 30 days the realistic goal is consistent publishing and a first small income attempt, not ad revenue.`,
+  },
+} as const
+
+export type JourneyId = keyof typeof JOURNEYS
+
+/** Stable per journey, so each journey's prompt prefix is served from the prompt cache. */
+export const methodology = (id: JourneyId) =>
+  `You are the coach inside FirstRevenue, an app that takes complete beginners from zero to their first money online in 30 days. Each user follows one journey, chosen by how they want to earn.\n\nThis user's journey: ${JOURNEYS[id].label}.\n${JOURNEYS[id].method}\n\n${BASE_RULES}`
 
 let client: Anthropic | null = null
 let posthog: PostHog | null | undefined
@@ -51,7 +76,7 @@ function getPostHog(): PostHog | null {
 /** Records one Claude call in PostHog LLM analytics (model, tokens, latency) — never the user's text. */
 export function trackGeneration(
   ai: AiObservabilityContext,
-  feature: 'coach' | 'playbook',
+  feature: 'coach' | 'playbook' | 'niche',
   response: { model: string; stop_reason: string | null; usage: { input_tokens: number; output_tokens: number; cache_read_input_tokens?: number | null } },
   startedAt: number,
 ) {
@@ -110,48 +135,106 @@ export function readAiObservability(raw: unknown): AiObservabilityContext | null
   return { distinctId: context.distinctId, sessionId: context.sessionId, traceId: context.traceId }
 }
 
-export interface UserContext {
-  path: 'clipping' | 'gbp'
-  niche: string
-  name: string
-  experience: string
-  skills: string[]
-  time: string
-  budget: string
-  goal: string
-  blocker: string
+export interface NicheProfile {
+  normalizedLabel: string
+  audience: string
+  problemOrDesire: string
+  allowedClaims: string[]
+  restrictedTopics: string[]
+  exampleTerms: string[]
+  monetizationOptions: string[]
 }
 
-export function readUser(raw: unknown): UserContext | null {
-  if (!raw || typeof raw !== 'object') return null
-  const u = raw as Record<string, unknown>
-  if (u.path !== 'clipping' && u.path !== 'gbp') return null
-  const niche = clip(u.niche, 80).trim()
-  if (!niche) return null
+/** Everything a request knows about the user's active enrollment. */
+export interface JourneyContext {
+  journeyId: JourneyId
+  journeyVersion: number
+  niche: string
+  nicheProfile: NicheProfile | null
+  startingStage: string
+  constraints: { weeklyTime: string; budget: string; equipment: string[]; skills: string[]; location: string }
+  name: string
+  goal: string
+  currentDay: number | null
+  currentMission: string
+  metrics: Record<string, number>
+}
+
+const strings = (v: unknown, max: number, n = 8) => (Array.isArray(v) ? v.slice(0, n).map((x) => clip(x, max).trim()).filter(Boolean) : [])
+const obj = (v: unknown) => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {})
+
+export const isJourneyId = (v: unknown): v is JourneyId => typeof v === 'string' && Object.prototype.hasOwnProperty.call(JOURNEYS, v)
+
+export function readNicheProfile(raw: unknown): NicheProfile | null {
+  const n = obj(raw)
+  const normalizedLabel = clip(n.normalizedLabel, 80).trim()
+  if (!normalizedLabel) return null
   return {
-    path: u.path,
-    niche,
-    name: clip(u.name, 40),
-    experience: clip(u.experience, 40),
-    skills: Array.isArray(u.skills) ? u.skills.slice(0, 8).map((s) => clip(s, 40)) : [],
-    time: clip(u.time, 40),
-    budget: clip(u.budget, 40),
-    goal: clip(u.goal, 40),
-    blocker: clip(u.blocker, 120),
+    normalizedLabel,
+    audience: clip(n.audience, 160),
+    problemOrDesire: clip(n.problemOrDesire, 160),
+    allowedClaims: strings(n.allowedClaims, 120),
+    restrictedTopics: strings(n.restrictedTopics, 120),
+    exampleTerms: strings(n.exampleTerms, 60),
+    monetizationOptions: strings(n.monetizationOptions, 120),
   }
 }
 
-export const describeUser = (u: UserContext) =>
-  [
-    `Path: ${u.path === 'clipping' ? 'Short-form clipping' : 'Google Business Profiles'}`,
-    `Niche: ${u.niche}`,
-    u.name && `Name: ${u.name}`,
-    u.experience && `Experience: ${u.experience}`,
-    u.skills.length ? `Skills: ${u.skills.join(', ')}` : '',
-    u.time && `Time per day: ${u.time}`,
-    u.budget && `Budget: ${u.budget}`,
-    u.goal && `First income goal: ${u.goal}`,
-    u.blocker && `Biggest blocker: ${u.blocker}`,
+/** Null for a missing niche; `unsupported` for a journey this server can't coach (never mapped to another one). */
+export function readContext(raw: unknown): JourneyContext | 'unsupported' | null {
+  const c = obj(raw)
+  if (!c.journeyId) return null
+  if (!isJourneyId(c.journeyId)) return 'unsupported'
+  const niche = clip(c.niche, 80).trim()
+  if (!niche) return null
+  const k = obj(c.constraints)
+  const metrics: Record<string, number> = {}
+  for (const [key, value] of Object.entries(obj(c.metrics)).slice(0, 12)) {
+    if (/^[A-Za-z_]{1,40}$/.test(key) && typeof value === 'number' && Number.isFinite(value)) metrics[key] = value
+  }
+  const day = Number(c.currentDay)
+  return {
+    journeyId: c.journeyId,
+    journeyVersion: Number(c.journeyVersion) || 1,
+    niche,
+    nicheProfile: readNicheProfile(c.nicheProfile),
+    startingStage: clip(c.startingStage, 40),
+    constraints: {
+      weeklyTime: clip(k.weeklyTime, 40),
+      budget: clip(k.budget, 40),
+      equipment: strings(k.equipment, 40),
+      skills: strings(k.skills, 40),
+      location: clip(k.location, 60),
+    },
+    name: clip(c.name, 40),
+    goal: clip(c.goal, 60),
+    currentDay: Number.isInteger(day) && day >= 1 && day <= 30 ? day : null,
+    currentMission: clip(c.currentMission, 160),
+    metrics,
+  }
+}
+
+export const describeContext = (c: JourneyContext) => {
+  const n = c.nicheProfile
+  return [
+    `Journey: ${JOURNEYS[c.journeyId].label} (v${c.journeyVersion})`,
+    `Niche: ${n?.normalizedLabel ?? c.niche}`,
+    n?.audience && `Audience: ${n.audience}`,
+    n?.problemOrDesire && `What they want: ${n.problemOrDesire}`,
+    n?.exampleTerms.length ? `Niche terms: ${n.exampleTerms.join(', ')}` : '',
+    n?.restrictedTopics.length ? `Avoid (restricted in this niche): ${n.restrictedTopics.join('; ')}` : '',
+    n?.monetizationOptions.length ? `Monetization options for this niche: ${n.monetizationOptions.join('; ')}` : '',
+    c.name && `Name: ${c.name}`,
+    c.startingStage && `Starting stage: ${c.startingStage}`,
+    c.constraints.weeklyTime && `Time per week: ${c.constraints.weeklyTime}`,
+    c.constraints.budget && `Budget: ${c.constraints.budget}`,
+    c.constraints.skills.length ? `Skills: ${c.constraints.skills.join(', ')}` : '',
+    c.constraints.equipment.length ? `Equipment: ${c.constraints.equipment.join(', ')}` : '',
+    c.constraints.location && `Location: ${c.constraints.location}`,
+    c.goal && `First goal: ${c.goal}`,
+    c.currentDay && `Current day: ${c.currentDay} of 30${c.currentMission ? ` — ${c.currentMission}` : ''}`,
+    Object.keys(c.metrics).length ? `Current numbers: ${Object.entries(c.metrics).map(([k, v]) => `${k} ${v}`).join(', ')}` : '',
   ]
     .filter(Boolean)
     .join('\n')
+}

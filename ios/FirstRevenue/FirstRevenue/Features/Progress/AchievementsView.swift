@@ -8,7 +8,7 @@ struct AchievementsView: View {
     @State private var filter: AchievementFilter = .all
     @State private var selected: Achievement?
 
-    private var all: [Achievement] { MockData.shared.achievements }
+    private var all: [Achievement] { store.achievements }
 
     var body: some View {
         let stats = store.stats
@@ -160,6 +160,9 @@ private struct AchievementDetailSheet: View {
         case .revenue: store.push(.revenue)
         case .lessons: store.push(.lessons)
         case .streak: store.push(.streak)
+        case .videosPublished, .uploadsThisWeek: store.push(.channel(.content))
+        case .watchTime, .subscribers, .clickThroughRate, .returningViewers: store.push(.channel(.analytics))
+        case .channelIncome: store.push(.channel(.monetization))
         }
     }
 
@@ -174,6 +177,10 @@ private struct AchievementDetailSheet: View {
         case .clients: AchievementHint(cta: "Open prospects", tip: "Move an interested prospect to Won.", icon: "person.2.fill")
         case .revenue: AchievementHint(cta: "Open revenue tracker", tip: "Mark a deal as collected once the client pays.", icon: "dollarsign.circle.fill")
         case .lessons: AchievementHint(cta: "Browse lessons", tip: "Watch lessons from the library to the end.", icon: "play.rectangle.fill")
+        case .videosPublished: AchievementHint(cta: "Open content board", tip: "Move an idea all the way to Published.", icon: "play.rectangle.fill")
+        case .uploadsThisWeek: AchievementHint(cta: "Open content board", tip: "Publish on your weekly schedule. Batching scripts makes it easier.", icon: "calendar.badge.clock")
+        case .watchTime, .subscribers, .clickThroughRate, .returningViewers: AchievementHint(cta: "Log my numbers", tip: "Copy your latest numbers from YouTube Studio once a week.", icon: "chart.line.uptrend.xyaxis")
+        case .channelIncome: AchievementHint(cta: "Open monetization", tip: "Log income from affiliates, sponsors, products or ads once it is paid out.", icon: "dollarsign.circle.fill")
         }
     }
 }

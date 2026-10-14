@@ -2,21 +2,31 @@ import SwiftUI
 
 struct PathsView: View {
     @Environment(AppStore.self) private var store
-    @State private var switchTarget: PathID?
+    @State private var switchTarget: EarningMethod?
 
     var body: some View {
-        Screen(title: "Paths", subtitle: "Two proven ways to earn your first money online.", large: true) {
+        let others = Journeys.active.filter { $0.id != store.journey.id }
+        let soon = Journeys.all.filter { $0.status == .comingSoon }
+        Screen(title: "Journeys", subtitle: "Each way to earn has its own plan, tools and coaching.", large: true) {
             Adaptive2Col(spacing: Space.xl) {
                 VStack(alignment: .leading, spacing: Space.s) {
-                    SectionHeader(title: "Current path")
+                    SectionHeader(title: "Current journey")
                     PathCurrentHero().fadeUp(0)
                 }
             } trailing: {
                 VStack(alignment: .leading, spacing: Space.s) {
-                    SectionHeader(title: "Other path")
-                    PathOtherCard { id in PathSwitch.request(id, store: store, target: $switchTarget) }.fadeUp(1)
+                    SectionHeader(title: "Other journeys")
+                    ForEach(Array(others.enumerated()), id: \.element.id) { i, j in
+                        PathOtherCard(journey: j) { PathSwitch.request(j.id, store: store, target: $switchTarget) }.fadeUp(i + 1)
+                    }
                 }
-                PathExplainerCard().fadeUp(2)
+                if !soon.isEmpty {
+                    VStack(alignment: .leading, spacing: Space.s) {
+                        SectionHeader(title: "Coming soon")
+                        ForEach(soon) { JourneyComingSoonCard(config: $0) }
+                    }
+                }
+                PathExplainerCard().fadeUp(3)
             }
         }
         .pathSwitchAlert(target: $switchTarget)
@@ -41,7 +51,7 @@ private struct PathCurrentHero: View {
                 PathNumberedList(items: path.workflow)
             }
             Button { Haptics.tap(); store.push(.path(path.id)) } label: {
-                Label("Open path dashboard", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
+                Label("Open journey dashboard", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
             }
             .buttonStyle(.fr(.primary, size: .lg, full: true))
         }
@@ -58,8 +68,8 @@ private struct PathCurrentHero: View {
             PathEmojiTile(path: path)
             VStack(alignment: .leading, spacing: 6) {
                 Badge("Active", tone: .brand, systemImage: "checkmark")
-                Text(path.name).font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).fixedSize(horizontal: false, vertical: true)
-                Text(path.tagline).font(.subheadline).foregroundStyle(Theme.inkSoft.opacity(0.8)).fixedSize(horizontal: false, vertical: true)
+                Text(store.journey.label).font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).fixedSize(horizontal: false, vertical: true)
+                Text(store.niche.map { "Niche: \($0.normalizedLabel)" } ?? path.tagline).font(.subheadline).foregroundStyle(Theme.inkSoft.opacity(0.8)).fixedSize(horizontal: false, vertical: true)
             }
         }
         .accessibilityElement(children: .combine)
@@ -90,12 +100,15 @@ private struct PathCurrentHero: View {
 // MARK: - Other path
 
 private struct PathOtherCard: View {
-    let onSwitch: (PathID) -> Void
+    let journey: JourneyConfig
+    let onSwitch: () -> Void
     @Environment(AppStore.self) private var store
+
+    private var enrolled: Bool { store.s.journey?.enrollments[journey.id] != nil }
 
     var body: some View {
         let premium = store.isPremium
-        let other = MockData.path(store.s.pathId.other)
+        let other = MockData.path(journey.track!)
         VStack(alignment: .leading, spacing: Space.l) {
             summary(other, premium: premium)
             tiles(other)
@@ -109,25 +122,25 @@ private struct PathOtherCard: View {
             PathEmojiTile(path: other, size: 56, locked: !premium)
             VStack(alignment: .leading, spacing: 6) {
                 if premium { Badge("Available", tone: .success) } else { Badge("Premium", tone: .brand, systemImage: "crown.fill") }
-                Text(other.name).font(.headline.weight(.bold)).foregroundStyle(Theme.ink).fixedSize(horizontal: false, vertical: true)
-                Text(other.tagline).font(.subheadline).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
+                Text(journey.label).font(.headline.weight(.bold)).foregroundStyle(Theme.ink).fixedSize(horizontal: false, vertical: true)
+                Text(journey.description).font(.subheadline).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
         }
         if premium {
             content.accessibilityElement(children: .combine)
         } else {
-            Button { onSwitch(other.id) } label: { content.contentShape(Rectangle()) }
+            Button { onSwitch() } label: { content.contentShape(Rectangle()) }
                 .buttonStyle(.pressable)
-                .accessibilityLabel("\(other.name). Unlock path switching with Premium")
+                .accessibilityLabel("\(journey.label). Unlock journey switching with Premium")
         }
     }
 
     private func tiles(_ other: PathInfo) -> some View {
         let done = store.s.progress[other.id]?.completedDays.count ?? 0
         return HStack(spacing: Space.m) {
-            PathInfoTile(label: "Typical price", value: other.typicalPrice)
-            PathInfoTile(label: "Your progress", value: done > 0 ? "\(done) / \(MockData.totalDays) days" : "Not started")
+            PathInfoTile(label: journey.sellsServices ? "Typical price" : "How income arrives", value: other.typicalPrice)
+            PathInfoTile(label: "Your progress", value: enrolled ? "\(done) / \(MockData.totalDays) days" : "Not started")
         }
     }
 
@@ -144,8 +157,8 @@ private struct PathOtherCard: View {
     }
 
     private func switchButton(_ other: PathInfo, premium: Bool) -> some View {
-        Button { onSwitch(other.id) } label: {
-            Label(premium ? "Switch to this path" : "Unlock switching", systemImage: premium ? "arrow.triangle.2.circlepath" : "lock.fill")
+        Button { onSwitch() } label: {
+            Label(premium ? (enrolled ? "Resume" : "Start this journey") : "Unlock switching", systemImage: premium ? "arrow.triangle.2.circlepath" : "lock.fill")
         }
         .buttonStyle(.fr(.primary, full: true))
     }
@@ -155,14 +168,14 @@ private struct PathOtherCard: View {
 
 private struct PathExplainerCard: View {
     private let items: [(icon: String, title: String, body: String)] = [
-        ("safari", "One path at a time", "Your daily missions, lessons and resources follow the path you are on, so you always know what to do next."),
-        ("externaldrive.badge.checkmark", "Progress is never lost", "Each path keeps its own day count. Switch away and come back — you pick up exactly where you stopped."),
-        ("arrow.triangle.2.circlepath", "Switching is a Premium feature", "Exploring any path is free. Running both programs is part of Premium."),
+        ("safari", "One journey at a time", "Your missions, tools, coach and numbers follow the journey you are on, so you always know what to do next."),
+        ("externaldrive.badge.checkmark", "Progress is never lost", "Each journey keeps its own days, niche and numbers. Switch away and come back — you pick up exactly where you stopped."),
+        ("arrow.triangle.2.circlepath", "Switching is a Premium feature", "Exploring any journey is free. Running more than one is part of Premium."),
     ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.l) {
-            Text("How paths work").font(.section).foregroundStyle(Theme.ink).accessibilityAddTraits(.isHeader)
+            Text("How journeys work").font(.section).foregroundStyle(Theme.ink).accessibilityAddTraits(.isHeader)
             ForEach(items, id: \.title) { item in
                 HStack(alignment: .top, spacing: Space.m) {
                     Image(systemName: item.icon).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.brand300)

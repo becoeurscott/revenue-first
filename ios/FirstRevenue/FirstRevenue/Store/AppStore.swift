@@ -36,7 +36,10 @@ struct Snapshot: Codable {
     var onboarded = false
     var user: UserProfile
     var answers = OnboardingAnswers()
+    /// Active content track; always the track of the active journey once onboarded.
     var pathId: PathID = .clipping
+    /// Nil until onboarding finishes (and in saves from before journeys, which `migrate` fills in).
+    var journey: JourneyState?
     var subscription = Subscription()
     var progress: [PathID: PathProgress] = [.clipping: .init(), .gbp: .init()]
     var tasks: [String: TaskState] = [:]
@@ -82,7 +85,7 @@ enum Cover: Identifiable, Hashable {
 enum AppTab: String, Hashable, CaseIterable {
     case home, plan, coach, progress, profile
     // Sidebar-only destinations (iPad / regular width)
-    case paths, prospects, revenue, lessons, resources, achievements
+    case paths, prospects, revenue, channel, lessons, resources, achievements
 }
 
 /// Single source of truth. Every mutation below maps 1:1 to a future API call.
@@ -113,6 +116,7 @@ final class AppStore {
         }
         // A real account without a stored session can't call the API — send it back to sign-in.
         if s.authed, s.account != nil, Keychain.load() == nil { s.authed = false }
+        AppStore.migrate(&s)
         NotificationCenter.default.addObserver(forName: VaultenAPI.sessionEndedNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated {
                 guard let self, self.s.account != nil else { return }
@@ -169,7 +173,46 @@ final class AppStore {
         s.notifications = d.notifications
         s.conversations = d.coach.conversations
         s.recentSearches = ["outreach template", "pricing", "follow-up"]
+        let answers = JourneyAnswers(earningMethod: .youtubeServices, youtubeMode: "services", niche: "Fitness YouTubers", startingStage: .idea, weeklyTime: "5-10 hours", budget: "Under $50", skills: d.user.skills, equipment: ["Smartphone", "Computer"], goal: "$500")
+        s.journey = JourneyState(activeId: .youtubeServices, enrollments: [.youtubeServices: enrollment(.youtubeServices, answers: answers, startedAt: Date.daysAgo(6))])
         return s
+    }
+
+    /// Saves from before journeys only knew a service path: map it to its service journey, keeping all progress.
+    static func migrate(_ s: inout Snapshot) {
+        guard s.onboarded, s.journey == nil else { return }
+        var state = JourneyState(activeId: .youtubeServices, enrollments: [:])
+        for track in [PathID.clipping, .gbp] where track == s.pathId || !(s.progress[track]?.completedDays.isEmpty ?? true) {
+            guard let config = Journeys.config(track: track) else { continue }
+            let answers = JourneyAnswers(earningMethod: config.id, youtubeMode: track == .clipping ? "services" : "", niche: track == .clipping ? "Podcasters and creators" : "Local businesses", startingStage: .idea, weeklyTime: s.user.time, budget: s.user.budget, skills: s.user.skills, goal: s.user.goal)
+            var e = enrollment(config.id, answers: answers, startedAt: s.user.joined)
+            e.goal = GoalOption(label: money(s.user.goalAmount), metric: .revenue, target: max(s.user.goalAmount, 1), money: true)
+            e.status = track == s.pathId ? .active : .paused
+            state.enrollments[config.id] = e
+            if track == s.pathId { state.activeId = config.id }
+        }
+        s.journey = state
+    }
+
+    /// A fresh enrollment for an active journey. The niche is resolved once here and shared by every screen.
+    static func enrollment(_ method: EarningMethod, answers: JourneyAnswers, startedAt: Date = Date()) -> JourneyEnrollment {
+        guard let config = Journeys.config(method), config.isActive, let track = config.track else {
+            fatalError("enrollment(\(method.rawValue)) requires an active journey")
+        }
+        let niche = NicheResolver.resolve(answers.niche, detail: answers.nicheDetail, method: method)
+        let goal = config.goalOptions.first { $0.label == answers.goal } ?? config.goalOptions[0]
+        let stage = answers.startingStage ?? .idea
+        let monetization: String = {
+            let stages = config.monetizationStages
+            switch stage {
+            case .idea, .started: return stages.first ?? ""
+            case .someTraction: return stages[safe: 1] ?? stages.first ?? ""
+            case .alreadyEarning: return stages[safe: 2] ?? stages.last ?? ""
+            }
+        }()
+        return JourneyEnrollment(id: UID.make("en"), journeyId: method, journeyVersion: config.version, planId: config.planId ?? track.rawValue,
+                                 nicheHistory: [niche], startingStage: stage, answers: answers, goal: goal, startedAt: startedAt,
+                                 completedAt: nil, status: .active, monetizationStage: monetization)
     }
 
     // MARK: Feedback & navigation
@@ -244,15 +287,17 @@ final class AppStore {
         Monitoring.track("signed_in")
     }
 
-    /// End of the API onboarding: the account is enrolled server-side (or, on the free plan, locally).
-    func completeServerOnboarding(path: PathID, day: Int) {
-        completeOnboarding(path: path)
-        applyEnrollment(path, day: day)
-    }
-
+    /// A server enrollment found at sign-in (e.g. a new phone). The backend only knows service tracks today,
+    /// so the journey is rebuilt from the track; unknown slugs never reach here (`Enrollment.path` is exact).
     private func applyEnrollment(_ path: PathID, day: Int) {
+        guard let config = Journeys.config(track: path) else { return }
+        if s.journey?.enrollments[config.id] != nil {
+            activate(config.id)
+        } else {
+            let answers = JourneyAnswers(earningMethod: config.id, youtubeMode: path == .clipping ? "services" : "", niche: path == .clipping ? "Podcasters and creators" : "Local businesses", startingStage: .idea, weeklyTime: s.user.time, budget: s.user.budget, skills: s.user.skills)
+            add(AppStore.enrollment(config.id, answers: answers))
+        }
         s.onboarded = true
-        s.pathId = path
         var p = s.progress[path] ?? .init()
         p.currentDay = max(p.currentDay, day)
         s.progress[path] = p
@@ -265,22 +310,158 @@ final class AppStore {
         s.authed = false; paths = [:]; cover = nil
     }
 
-    func completeOnboarding(path: PathID) {
-        let a = s.answers
+    // MARK: Journeys
+
+    /// End of onboarding: enrolls the chosen journey. `day` is the server's current day for enrolled accounts.
+    func startJourney(_ a: JourneyAnswers, day: Int = 1) {
+        let e = AppStore.enrollment(a.earningMethod, answers: a)
+        add(e)
+        guard let track = journey.track else { return }
         s.onboarded = true
-        s.pathId = path
-        if s.user.name.isEmpty { s.user.name = a.name }
-        s.user.role = a.role
+        var p = s.progress[track] ?? .init()
+        p.currentDay = max(p.currentDay, day)
+        s.progress[track] = p
+        if s.user.name.isEmpty { s.user.name = s.answers.name }
         s.user.skills = a.skills
-        s.user.experience = a.experience
         s.user.budget = a.budget
-        s.user.time = a.time
-        s.user.goal = a.goal
-        s.user.goalAmount = Int(a.goal.filter(\.isNumber)) ?? 500
-        s.user.confidence = a.comfort
-        notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked. It takes about 20 minutes — start while the motivation is fresh.", "/plan/day/1")
+        s.user.time = a.weeklyTime
+        s.user.goal = e.goal.label
+        if e.goal.metric == .revenue { s.user.goalAmount = e.goal.target }
+        notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
         tab = .home; paths = [:]
-        Monitoring.track("onboarding_completed", ["path": path.rawValue, "experience": a.experience, "time_per_day": a.time, "learning_style": a.learning, "goal": a.goal])
+        Monitoring.track("onboarding_completed", ["journey": a.earningMethod.rawValue, "starting_stage": e.startingStage.rawValue, "niche_source": e.niche.source.rawValue, "weekly_time": a.weeklyTime, "goal": e.goal.label])
+    }
+
+    /// Adds a journey the user hasn't tried yet and makes it active. Other enrollments are paused, never reset.
+    func enroll(_ a: JourneyAnswers) {
+        let from = s.journey?.activeId
+        add(AppStore.enrollment(a.earningMethod, answers: a))
+        Monitoring.track("journey_switched", ["from": from?.rawValue ?? "", "to": a.earningMethod.rawValue, "new_enrollment": true])
+        notify(journey.icon, "Journey added", "Your plan, tools and coach now follow \(journey.shortLabel). Progress on your other journey is saved.", "/plan")
+        tab = .home; paths = [:]
+    }
+
+    /// Switches to a journey the user already has. Its progress resumes exactly where it stopped.
+    func switchJourney(_ method: EarningMethod) {
+        guard let state = s.journey, state.activeId != method, state.enrollments[method] != nil else { return }
+        Monitoring.track("journey_switched", ["from": state.activeId.rawValue, "to": method.rawValue, "new_enrollment": false])
+        activate(method)
+        notify(journey.icon, "Journey switched", "Your plan, tools and coach now follow \(journey.shortLabel). Progress on your other journey is saved.", "/plan")
+    }
+
+    private func add(_ e: JourneyEnrollment) {
+        var state = s.journey ?? JourneyState(activeId: e.journeyId, enrollments: [:])
+        state.enrollments[e.journeyId] = e
+        s.journey = state
+        activate(e.journeyId)
+    }
+
+    private func activate(_ method: EarningMethod) {
+        guard var state = s.journey, let track = Journeys.config(method)?.track else { return }
+        for (id, var e) in state.enrollments {
+            e.status = id == method ? .active : (e.status == .active ? .paused : e.status)
+            state.enrollments[id] = e
+        }
+        state.activeId = method
+        s.journey = state
+        s.pathId = track
+    }
+
+    func joinWaitlist(_ method: EarningMethod) {
+        var state = s.journey ?? JourneyState(activeId: .unknown, enrollments: [:])
+        guard !state.waitlist.contains(method) else { return }
+        state.waitlist.append(method)
+        s.journey = state
+        Monitoring.track("journey_waitlist_joined", ["journey": method.rawValue])
+    }
+
+    func isOnWaitlist(_ method: EarningMethod) -> Bool { s.journey?.waitlist.contains(method) ?? false }
+
+    /// Applies `change` to the active enrollment.
+    func updateEnrollment(_ change: (inout JourneyEnrollment) -> Void) {
+        guard var state = s.journey, var e = state.enrollments[state.activeId] else { return }
+        change(&e)
+        state.enrollments[state.activeId] = e
+        s.journey = state
+    }
+
+    /// A new niche shapes future missions and coaching; completed days keep the niche they were done with.
+    func updateNiche(_ raw: String, detail: String = "") {
+        guard let current = enrollment else { return }
+        let next = NicheResolver.resolve(raw, detail: detail, method: current.journeyId, version: current.niche.version + 1)
+        guard next.normalizedLabel != current.niche.normalizedLabel else { return }
+        updateEnrollment {
+            $0.nicheHistory.append(next)
+            $0.answers.niche = raw
+            $0.answers.nicheDetail = detail
+        }
+        Monitoring.track("niche_updated", ["journey": current.journeyId.rawValue, "source": next.source.rawValue])
+    }
+
+    // MARK: Channel (owned-channel journeys)
+
+    @discardableResult
+    func addContent(title: String, format: String) -> String {
+        let id = UID.make("v")
+        updateEnrollment { $0.contentItems.insert(ContentItem(id: id, title: title, format: format, stage: .idea, notes: "", link: "", createdAt: Date(), publishedAt: nil), at: 0) }
+        Monitoring.track("content_idea_added", ["format": format])
+        return id
+    }
+
+    func advanceContent(_ id: String) {
+        guard let item = enrollment?.contentItems.first(where: { $0.id == id }), let next = item.stage.next else { return }
+        updateEnrollment { e in
+            guard let i = e.contentItems.firstIndex(where: { $0.id == id }) else { return }
+            e.contentItems[i].stage = next
+            if next == .published {
+                e.contentItems[i].publishedAt = Date()
+                e.metricEvents.append(MetricEvent(id: UID.make("me"), key: .videosPublished, value: 1, date: Date(), refId: id))
+            }
+        }
+        Monitoring.track("content_stage_advanced", ["to": next.rawValue])
+        if next == .published {
+            s.xp += 40
+            let count = stats.videosPublished
+            notify("play.rectangle.fill", count == 1 ? "Your first video is live" : "Video \(count) is live", "“\(item.title)” is published. Check its click-through rate and retention in 48 hours.", "/channel/analytics")
+        }
+    }
+
+    func updateContent(_ id: String, title: String, format: String, notes: String, link: String) {
+        updateEnrollment { e in
+            guard let i = e.contentItems.firstIndex(where: { $0.id == id }) else { return }
+            e.contentItems[i].title = title
+            e.contentItems[i].format = format
+            e.contentItems[i].notes = notes
+            e.contentItems[i].link = link
+        }
+    }
+
+    func deleteContent(_ id: String) {
+        updateEnrollment { e in
+            e.contentItems.removeAll { $0.id == id }
+            e.metricEvents.removeAll { $0.refId == id }
+        }
+    }
+
+    /// Logs a YouTube Studio snapshot. Only the values the user filled in are recorded.
+    func logChannelStats(subscribers: Double?, watchTime: Double?, clickThroughRate: Double?, returningViewers: Double?) {
+        let values: [(StatMetric, Double?)] = [(.subscribers, subscribers), (.watchTime, watchTime), (.clickThroughRate, clickThroughRate), (.returningViewers, returningViewers)]
+        let events = values.compactMap { key, value in value.map { MetricEvent(id: UID.make("me"), key: key, value: $0, date: Date()) } }
+        guard !events.isEmpty else { return }
+        updateEnrollment { $0.metricEvents.append(contentsOf: events) }
+        Monitoring.track("channel_stats_logged", ["fields": events.map(\.key.rawValue)])
+    }
+
+    func logChannelIncome(amount: Int, source: String) {
+        let first = stats.channelIncome == 0
+        updateEnrollment { $0.metricEvents.append(MetricEvent(id: UID.make("me"), key: .channelIncome, value: Double(amount), date: Date(), note: source)) }
+        Monitoring.track("channel_income_logged", ["source": source, "amount": amount, "first_revenue": first])
+        if first { notify("dollarsign.circle.fill", "Your channel earned its first \(money(amount))", "From \(source.lowercased()). That's the hardest dollar — the next ones come faster.", "/channel/monetization") }
+    }
+
+    func setMonetizationStage(_ id: String) {
+        updateEnrollment { $0.monetizationStage = id }
+        Monitoring.track("monetization_stage_set", ["stage": id])
     }
 
     // MARK: Subscription
@@ -305,6 +486,7 @@ final class AppStore {
         let plan = MockData.day(s.pathId, day)
         p.completedDays = (p.completedDays + [day]).sorted()
         s.progress[s.pathId] = p
+        if let version = enrollment?.niche.version { updateEnrollment { $0.completedDayNiche[day] = version } }
         Monitoring.track("mission_completed", ["day": day, "path": s.pathId.rawValue])
         s.xp += plan?.xp ?? 100
         s.streak += 1
@@ -447,7 +629,7 @@ final class AppStore {
     func startConversation(_ text: String) -> String {
         let id = UID.make("c")
         let title = text.count > 42 ? String(text.prefix(42)) + "…" : text
-        s.conversations.insert(CoachConversation(id: id, title: title, date: Date(), messages: []), at: 0)
+        s.conversations.insert(CoachConversation(id: id, title: title, date: Date(), messages: [], journeyId: journey.id.rawValue), at: 0)
         return id
     }
     func addChatMessage(_ conversationId: String, from: String, _ text: String) {
@@ -464,9 +646,10 @@ final class AppStore {
     }
     func deleteTemplate(_ id: String) { s.customTemplates.removeAll { $0.id == id } }
 
-    func addCheckin(week: Int, accomplished: String, difficult: String, prospects: Int, replies: Int, madeMoney: Bool, improve: String) {
-        Monitoring.track("check_in_saved", ["week": week, "made_money": madeMoney, "prospects": prospects, "replies": replies])
-        s.checkins.insert(WeeklyCheckin(id: UID.make("w"), week: week, date: Date(), accomplished: accomplished, difficult: difficult, prospects: prospects, replies: replies, madeMoney: madeMoney, improve: improve), at: 0)
+    func addCheckin(week: Int, accomplished: String, difficult: String, prospects: Int, replies: Int, published: Int? = nil, madeMoney: Bool, improve: String) {
+        Monitoring.track("check_in_saved", ["week": week, "made_money": madeMoney, "prospects": prospects, "replies": replies, "published": published ?? 0, "journey": journey.id.rawValue])
+        s.checkins.insert(WeeklyCheckin(id: UID.make("w"), week: week, date: Date(), accomplished: accomplished, difficult: difficult, prospects: prospects, replies: replies, madeMoney: madeMoney, improve: improve,
+                                        journeyId: journey.id.rawValue, metrics: published.map { ["uploadsThisWeek": $0] }), at: 0)
         s.xp += 50
     }
 
@@ -477,13 +660,6 @@ final class AppStore {
     }
 
     // MARK: Profile, settings, paths
-
-    func switchPath(_ path: PathID) {
-        guard s.pathId != path else { return }
-        Monitoring.track("path_switched", ["from": s.pathId.rawValue, "to": path.rawValue])
-        s.pathId = path
-        notify("safari.fill", "Path switched", "Your plan, lessons and resources now follow your new path. Progress on the old path is saved.", "/plan")
-    }
 
     func jumpToDay(_ day: Int) {
         let target = min(max(day, 1), MockData.totalDays)

@@ -1,9 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { METHODOLOGY, MODEL, clip, describeUser, flushPostHog, getClient, trackGeneration, json, readAiObservability, readUser, sameOrigin } from './_lib/shared.js'
+import { MODEL, clip, describeContext, flushPostHog, getClient, methodology, trackGeneration, json, readAiObservability, readContext, sameOrigin } from './_lib/shared.js'
 
 const MAX_TURNS = 20
 
-const COACH_STYLE = `You are chatting inside the app. Answer the user's question directly for their path and niche.
+const COACH_STYLE = `You are chatting inside the app. Answer the user's question directly for their journey, niche and stage, using the journey's own vocabulary and numbers.
 - Keep replies short: usually 3-8 sentences or a short list. Use plain text with simple "- " bullets, no headings, no markdown tables.
 - Give one clear next action they can do today.
 - Search the web only when the answer depends on current facts (platform rules, current rates, tool pricing); otherwise answer from what you know.
@@ -14,8 +14,9 @@ export async function POST(req: Request): Promise<Response> {
   const client = getClient()
   if (!client) return json({ error: 'ai_not_configured' }, 503)
 
-  const body = (await req.json().catch(() => null)) as { user?: unknown; playbookSummary?: unknown; messages?: unknown; ai?: unknown } | null
-  const user = readUser(body?.user)
+  const body = (await req.json().catch(() => null)) as { context?: unknown; playbookSummary?: unknown; messages?: unknown; ai?: unknown } | null
+  const ctx = readContext(body?.context)
+  if (ctx === 'unsupported') return json({ error: 'unsupported_journey' }, 400)
   const ai = readAiObservability(body?.ai)
   const raw = Array.isArray(body?.messages) ? body.messages.slice(-MAX_TURNS) : []
   const messages: Anthropic.Beta.BetaMessageParam[] = raw
@@ -26,9 +27,13 @@ export async function POST(req: Request): Promise<Response> {
     .filter((m) => m.content.trim())
   // The API needs the conversation to start and end on a user turn.
   while (messages.length && messages[0].role !== 'user') messages.shift()
-  if (!user || !ai || !messages.length || messages[messages.length - 1].role !== 'user') return json({ error: 'bad_request' }, 400)
+  if (!ctx || !ai || !messages.length || messages[messages.length - 1].role !== 'user') return json({ error: 'bad_request' }, 400)
 
-  const context = [describeUser(user), body?.playbookSummary ? `\nTheir niche playbook summary: ${clip(body.playbookSummary, 600)}` : ''].join('')
+  const context = [describeContext(ctx), body?.playbookSummary ? `\nTheir niche playbook summary: ${clip(body.playbookSummary, 600)}` : ''].join('')
+  const system: Anthropic.Beta.BetaTextBlockParam[] = [
+    { type: 'text', text: methodology(ctx.journeyId), cache_control: { type: 'ephemeral' } },
+    { type: 'text', text: `${COACH_STYLE}\n\nAbout this user:\n${context}` },
+  ]
 
   const startedAt = Date.now()
   try {
@@ -38,10 +43,7 @@ export async function POST(req: Request): Promise<Response> {
       fallbacks: 'default',
       max_tokens: 4000,
       output_config: { effort: 'low' },
-      system: [
-        { type: 'text', text: METHODOLOGY, cache_control: { type: 'ephemeral' } },
-        { type: 'text', text: `${COACH_STYLE}\n\nAbout this user:\n${context}` },
-      ],
+      system,
       tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 3 }],
       messages,
     })
@@ -53,10 +55,7 @@ export async function POST(req: Request): Promise<Response> {
         fallbacks: 'default',
         max_tokens: 4000,
         output_config: { effort: 'low' },
-        system: [
-          { type: 'text', text: METHODOLOGY, cache_control: { type: 'ephemeral' } },
-          { type: 'text', text: `${COACH_STYLE}\n\nAbout this user:\n${context}` },
-        ],
+        system,
         tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 3 }],
         messages: [...messages, { role: 'assistant', content: response.content }],
       })

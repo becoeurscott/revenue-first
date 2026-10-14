@@ -70,21 +70,19 @@ extension AccountSheetScaffold where Footer == EmptyView {
 // MARK: Edit profile
 
 enum AccountProfileOptions {
-    static var goals: [String] {
-        MockData.shared.onboarding.steps.first { $0.key == "goal" }?.options?.map(\.value) ?? ["$50", "$100", "$250", "$500", "$1,000+"]
-    }
     static var skills: [OnboardingOption] {
         (MockData.shared.onboarding.steps.first { $0.key == "skills" }?.options ?? []).filter { $0.value != "None yet" }
     }
     static func isEmail(_ s: String) -> Bool { s.range(of: #"^[^\s@]+@[^\s@]+\.[^\s@]+$"#, options: .regularExpression) != nil }
 }
 
-/// Edit name, email and income goal. Used by Profile and Settings.
+/// Edit name, email, niche and the active journey's goal. Used by Profile and Settings.
 struct AccountEditProfileSheet: View {
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
     @State private var email = ""
+    @State private var niche = ""
     @State private var goal = ""
     @State private var errors: [String: String] = [:]
 
@@ -93,7 +91,12 @@ struct AccountEditProfileSheet: View {
             VStack(spacing: Space.l) {
                 FRTextField(label: "Name", text: $name, placeholder: "Your name", systemImage: "person", error: errors["name"], contentType: .name)
                 FRTextField(label: "Email", text: $email, placeholder: "you@example.com", systemImage: "envelope", error: errors["email"], keyboard: .emailAddress, contentType: .emailAddress)
-                SelectRow(label: "First income goal (30 days)", selection: $goal, options: AccountProfileOptions.goals)
+                if store.enrollment != nil {
+                    FRTextField(label: "Niche", text: $niche, placeholder: "e.g. beginner home workouts", systemImage: "scope", error: errors["niche"])
+                    Text("Changing your niche updates upcoming missions and coaching. Days you've completed keep the niche they were done with.")
+                        .font(.footnote).foregroundStyle(Theme.faint).frame(maxWidth: .infinity, alignment: .leading)
+                }
+                SelectRow(label: "First goal (30 days)", selection: $goal, options: store.journey.goalOptions.map(\.label))
             }
             .animation(.snappy, value: errors)
         } footer: {
@@ -107,21 +110,26 @@ struct AccountEditProfileSheet: View {
         let u = store.s.user
         name = u.name
         email = u.email
-        let options = AccountProfileOptions.goals
-        goal = options.contains(u.goal) ? u.goal : (options.first { Int($0.filter(\.isNumber)) == u.goalAmount } ?? options[safe: 3] ?? "")
+        niche = store.enrollment?.answers.niche ?? ""
+        goal = store.goal.label
     }
 
     private func save() {
         var next: [String: String] = [:]
         if name.trimmingCharacters(in: .whitespaces).count < 2 { next["name"] = "Enter your name." }
         if !AccountProfileOptions.isEmail(email.trimmingCharacters(in: .whitespaces)) { next["email"] = "Enter a valid email address." }
+        let cleanNiche = niche.trimmingCharacters(in: .whitespaces)
+        if store.enrollment != nil && (cleanNiche.count < 2 || NicheResolver.isTooBroad(cleanNiche)) { next["niche"] = "Be a bit more specific, e.g. who it's for." }
         errors = next
         guard next.isEmpty else { Haptics.notify(.error); return }
         store.s.user.name = name.trimmingCharacters(in: .whitespaces)
         store.s.user.email = email.trimmingCharacters(in: .whitespaces)
-        store.s.user.goal = goal
-        store.s.user.goalAmount = Int(goal.filter(\.isNumber)) ?? store.s.user.goalAmount
-        store.s.answers.goal = goal
+        if cleanNiche != store.enrollment?.answers.niche { store.updateNiche(cleanNiche) }
+        if let option = store.journey.goalOptions.first(where: { $0.label == goal }) {
+            store.updateEnrollment { $0.goal = option; $0.answers.goal = option.label }
+            store.s.user.goal = option.label
+            if option.metric == .revenue { store.s.user.goalAmount = option.target }
+        }
         store.showToast("Profile updated")
         dismiss()
     }

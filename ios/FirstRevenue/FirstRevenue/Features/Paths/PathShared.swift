@@ -2,47 +2,114 @@ import SwiftUI
 
 // Shared building blocks for the Paths feature (PathsView + PathDetailView).
 
-/// Premium-gated path switching. Premium users confirm in an alert; free users see the paywall.
+/// Premium-gated journey switching. A journey the user already has resumes after a confirm alert;
+/// a new one first asks for its niche, stage and goal (never silently reusing another journey's).
 struct PathSwitchModifier: ViewModifier {
-    @Binding var target: PathID?
+    @Binding var target: EarningMethod?
     @Environment(AppStore.self) private var store
 
     func body(content: Content) -> some View {
-        content.alert(title, isPresented: presented, presenting: target) { id in
-            Button("Switch path") { confirm(id) }
-            Button("Cancel", role: .cancel) { target = nil }
-        } message: { _ in
-            Text("Your progress on \(store.program.path.name) is saved — days, streak, prospects and revenue stay exactly where they are. You can switch back at any time.")
-        }
+        content
+            .alert(title, isPresented: presented(enrolled: true), presenting: target) { id in
+                Button("Switch journey") { confirm(id) }
+                Button("Cancel", role: .cancel) { target = nil }
+            } message: { _ in
+                Text("Your progress on \(store.journey.shortLabel) is saved — days, streak and your numbers stay exactly where they are. You can switch back at any time.")
+            }
+            .sheet(isPresented: presented(enrolled: false)) {
+                if let id = target, let config = Journeys.config(id) { JourneyAddSheet(config: config) { target = nil } }
+            }
     }
 
-    private var title: String { target.map { "Switch to \(MockData.path($0).name)?" } ?? "Switch path?" }
+    private var title: String { target.flatMap(Journeys.config).map { "Switch to \($0.shortLabel)?" } ?? "Switch journey?" }
 
-    private var presented: Binding<Bool> {
-        Binding(get: { target != nil }, set: { if !$0 { target = nil } })
+    private func presented(enrolled: Bool) -> Binding<Bool> {
+        Binding(get: { target.map { (store.s.journey?.enrollments[$0] != nil) == enrolled } ?? false }, set: { if !$0 { target = nil } })
     }
 
-    private func confirm(_ id: PathID) {
+    private func confirm(_ id: EarningMethod) {
         target = nil
-        store.switchPath(id)
+        store.switchJourney(id)
         Haptics.notify(.success)
-        store.showToast("Switched to \(MockData.path(id).name)")
+        store.showToast("Switched to \(store.journey.shortLabel)")
         store.popToRoot()
         store.tab = .home
     }
 }
 
 extension View {
-    func pathSwitchAlert(target: Binding<PathID?>) -> some View { modifier(PathSwitchModifier(target: target)) }
+    func pathSwitchAlert(target: Binding<EarningMethod?>) -> some View { modifier(PathSwitchModifier(target: target)) }
 }
 
 @MainActor
 enum PathSwitch {
-    /// Call from a button: premium → sets `target` (shows the confirm alert); free → paywall.
-    static func request(_ id: PathID, store: AppStore, target: Binding<PathID?>) {
-        guard id != store.s.pathId else { return }
+    /// Call from a button: premium → sets `target` (confirm alert or setup sheet); free → paywall.
+    static func request(_ id: EarningMethod, store: AppStore, target: Binding<EarningMethod?>) {
+        guard id != store.journey.id, Journeys.config(id)?.isActive == true else { return }
         Haptics.tap()
-        if store.isPremium { target.wrappedValue = id } else { store.paywallFeature = "Path switching" }
+        if store.isPremium { target.wrappedValue = id } else { store.paywallFeature = "Journey switching" }
+    }
+}
+
+/// Sets up a journey the user hasn't tried: its own niche, starting stage and goal. Time, budget,
+/// skills and equipment carry over from the current journey because they describe the person, not the method.
+struct JourneyAddSheet: View {
+    let config: JourneyConfig
+    let onDone: () -> Void
+    @Environment(AppStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var niche = ""
+    @State private var stage = StartingStage.idea.rawValue
+    @State private var goal = ""
+    @State private var touched = false
+
+    private var stageOptions: [JourneyQuestionOption] { Journeys.catalog.onboarding.first { $0.key == "startingStage" }?.options ?? [] }
+    private var nicheError: String? { touched && niche.trimmingCharacters(in: .whitespaces).count < 2 ? "Add the niche for this journey" : nil }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: Space.l) {
+                    Text(config.description).font(.subheadline).foregroundStyle(Theme.muted)
+                    FRTextField(label: config.sellsServices ? "Who will you serve?" : "What will your channel be about?", text: $niche, placeholder: "e.g. beginner home workouts", systemImage: "scope", error: nicheError)
+                    if !niche.isEmpty && NicheResolver.isTooBroad(niche) {
+                        Label("That's broad. Add who it's for, e.g. “\(niche) for busy parents”.", systemImage: "lightbulb").font(.footnote).foregroundStyle(Theme.warning)
+                    }
+                    SelectRow(label: "Where are you starting from?", selection: Binding(get: { stageOptions.first { $0.value == stage }?.label ?? "" }, set: { l in stage = stageOptions.first { $0.label == l }?.value ?? stage }), options: stageOptions.map(\.label))
+                    SelectRow(label: "First goal", selection: $goal, options: config.goalOptions.map(\.label))
+                    Button("Start \(config.shortLabel)", action: save).buttonStyle(.fr(.primary, size: .lg, full: true))
+                }
+                .padding(Space.xl).frame(maxWidth: 620).frame(maxWidth: .infinity)
+            }
+            .navigationTitle(config.shortLabel)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss(); onDone() } } }
+            .outreachSheetChrome()
+        }
+        .onAppear { if goal.isEmpty { goal = config.goalOptions.first?.label ?? "" } }
+    }
+
+    private func save() {
+        touched = true
+        guard nicheError == nil, !NicheResolver.isTooBroad(niche) else { Haptics.notify(.error); return }
+        let current = store.enrollment?.answers ?? JourneyAnswers()
+        var a = JourneyAnswers()
+        a.earningMethod = config.id
+        a.youtubeMode = config.id == .youtubeOwnedChannel ? "own_channel" : config.id == .youtubeServices ? "services" : ""
+        a.niche = niche.trimmingCharacters(in: .whitespaces)
+        a.startingStage = StartingStage(rawValue: stage)
+        a.weeklyTime = current.weeklyTime
+        a.budget = current.budget
+        a.skills = current.skills
+        a.equipment = current.equipment
+        a.location = current.location
+        a.goal = goal
+        store.enroll(a)
+        Haptics.notify(.success)
+        store.showToast("\(config.shortLabel) started")
+        dismiss()
+        onDone()
+        store.popToRoot()
     }
 }
 

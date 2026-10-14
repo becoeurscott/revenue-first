@@ -17,7 +17,7 @@ struct LessonsView: View {
 
     private var categories: [String] {
         let pool = all
-        return ["All"] + MockData.shared.lessonCategories.filter { c in pool.contains { $0.category == c } }
+        return ["All"] + MockData.lessonCategories.filter { c in pool.contains { $0.category == c } }
     }
 
     private var filtered: [Lesson] {

@@ -15,10 +15,8 @@ struct RootView: View {
             } else if !store.s.authed {
                 AuthFlow().transition(.opacity)
             } else if !store.s.onboarded {
-                Group {
-                    // Real accounts answer the backend questionnaire; the offline demo keeps the local one.
-                    if store.s.account != nil { ServerOnboardingFlow() } else { OnboardingFlow() }
-                }
+                // Journey setup for every account; real accounts on a service journey continue into the backend questionnaire.
+                OnboardingFlow()
                 .transition(.move(edge: .trailing).combined(with: .opacity))
             } else {
                 MainTabView().transition(.opacity)
@@ -52,9 +50,15 @@ struct MainTabView: View {
             // Only added at regular width, so the iPhone tab bar keeps exactly 5 tabs (no "More").
             if hSize == .regular {
             TabSection("Grow") {
-                sidebarTab("Paths", "map.fill", .paths) { PathsView().premiumLocked("paths") }
-                sidebarTab("Prospects", "person.2.fill", .prospects) { OutreachHubView(initialTab: .prospects).premiumLocked("prospects & outreach") }
-                sidebarTab("Revenue", "dollarsign.circle.fill", .revenue) { RevenueView().premiumLocked("revenue tracking") }
+                sidebarTab("Journeys", "map.fill", .paths) { PathsView().premiumLocked("journeys") }
+                // Each journey shows only its own tools: the client pipeline for services, the channel for creators.
+                if store.journey.sellsServices {
+                    sidebarTab("Prospects", "person.2.fill", .prospects) { OutreachHubView(initialTab: .prospects).premiumLocked("prospects & outreach") }
+                    sidebarTab("Revenue", "dollarsign.circle.fill", .revenue) { RevenueView().premiumLocked("revenue tracking") }
+                }
+                if store.journey.has("channel") {
+                    sidebarTab("Channel", "play.rectangle.fill", .channel) { ChannelHubView(initialTab: .content).premiumLocked("your channel tools") }
+                }
             }
             TabSection("Learn") {
                 sidebarTab("Lessons", "play.rectangle.fill", .lessons) { LessonsView().premiumLocked("all lessons") }
@@ -111,7 +115,24 @@ struct RouteView: View {
     let route: Route
     @Environment(AppStore.self) private var store
 
-    var body: some View { screen.premiumLocked(lockedFeature) }
+    var body: some View {
+        if let message = outsideJourney {
+            JourneyGateView(message: message)
+        } else {
+            screen.premiumLocked(lockedFeature)
+        }
+    }
+
+    /// Tools that belong to another journey (e.g. an old notification link) explain themselves instead of opening.
+    private var outsideJourney: String? {
+        switch route {
+        case .outreach, .prospect, .generate, .pricing, .revenue:
+            store.journey.sellsServices ? nil : "Prospects, outreach, pricing and client revenue belong to service journeys. \(store.journey.shortLabel) tracks your content and audience instead."
+        case .channel:
+            store.journey.has("channel") ? nil : "The channel board, analytics and monetization belong to the own-channel journey."
+        default: nil
+        }
+    }
 
     /// On the free plan only Day 1, its lesson, and account screens stay open.
     private var lockedFeature: String? {
@@ -123,7 +144,8 @@ struct RouteView: View {
         case .outreach, .prospect, .generate: "prospects & outreach"
         case .pricing: "the pricing assistant"
         case .revenue: "revenue tracking"
-        case .paths, .path: "paths"
+        case .channel: "your channel tools"
+        case .paths, .path: "journeys"
         case .streak, .achievements: "your progress"
         case .resources, .resource: "the resource library"
         case .search: "search"
@@ -142,6 +164,7 @@ struct RouteView: View {
         case .generate(let pid): OutreachGenerateView(prospectId: pid)
         case .pricing: PricingView()
         case .revenue: RevenueView()
+        case .channel(let t): ChannelHubView(initialTab: t)
         case .paths: PathsView()
         case .path(let p): PathDetailView(pathId: p)
         case .streak: StreakView()

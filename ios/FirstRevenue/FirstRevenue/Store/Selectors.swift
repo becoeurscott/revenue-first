@@ -20,6 +20,9 @@ struct Stats {
     var missions = 0, daysCompleted = 0, lessons = 0, streak = 0, longestStreak = 0
     var prospects = 0, contacted = 0, replies = 0, clients = 0
     var revenue = 0, booked = 0, potential = 0, conversion = 0
+    var videosPublished = 0, uploadsThisWeek = 0, channelIncome = 0
+    /// Latest YouTube Studio values the user logged (nil = never logged).
+    var watchTime: Double?, subscribers: Double?, clickThroughRate: Double?, returningViewers: Double?
     var xp = 0, level = 1
     var levelProgress = 0.0
 
@@ -34,11 +37,59 @@ struct Stats {
         case .clients: clients
         case .revenue: revenue
         case .daysCompleted: daysCompleted
+        case .videosPublished: videosPublished
+        case .uploadsThisWeek: uploadsThisWeek
+        case .channelIncome: channelIncome
+        case .watchTime: Int((watchTime ?? 0).rounded())
+        case .subscribers: Int((subscribers ?? 0).rounded())
+        case .clickThroughRate: Int((clickThroughRate ?? 0).rounded())
+        case .returningViewers: Int((returningViewers ?? 0).rounded())
+        }
+    }
+
+    /// Display string in the metric's own format ("—" for Studio values never logged).
+    func display(_ m: StatMetric) -> String {
+        let latest: Double? = switch m {
+        case .watchTime: watchTime
+        case .subscribers: subscribers
+        case .clickThroughRate: clickThroughRate
+        case .returningViewers: returningViewers
+        default: Double(value(m))
+        }
+        guard let v = latest else { return "—" }
+        switch Journeys.metric(m).format {
+        case .money: return money(Int(v.rounded()))
+        case .percent: return v.formatted(.number.precision(.fractionLength(0...1))) + "%"
+        case .minutes: return v >= 120 ? (v / 60).formatted(.number.precision(.fractionLength(0...1))) + " h" : "\(Int(v.rounded())) min"
+        case .number: return Int(v.rounded()).formatted()
         }
     }
 }
 
 extension AppStore {
+    /// The active journey. Before onboarding it falls back to the journey of the stored track.
+    var journey: JourneyConfig {
+        if let id = s.journey?.activeId, let c = Journeys.config(id), c.isActive { return c }
+        guard let c = Journeys.config(track: s.pathId) else { fatalError("No journey for track \(s.pathId.rawValue)") }
+        return c
+    }
+
+    var enrollment: JourneyEnrollment? { s.journey.flatMap { $0.enrollments[$0.activeId] } }
+    var niche: NicheContext? { enrollment?.niche }
+    var enrolledJourneys: [EarningMethod] { Journeys.active.map(\.id).filter { s.journey?.enrollments[$0] != nil } }
+
+    /// The first goal the user picked for the active journey.
+    var goal: GoalOption {
+        enrollment?.goal ?? GoalOption(label: money(s.user.goalAmount), metric: .revenue, target: max(s.user.goalAmount, 1), money: true)
+    }
+
+    var achievements: [Achievement] { MockData.achievements(for: journey) }
+
+    /// Coach chats belong to the journey they were started in.
+    var coachConversations: [CoachConversation] {
+        s.conversations.filter { $0.journeyId == journey.id.rawValue || ($0.journeyId == nil && journey.sellsServices) }
+    }
+
     var program: Program {
         let pathId = s.pathId
         let progress = s.progress[pathId] ?? PathProgress()
@@ -80,15 +131,28 @@ extension AppStore {
         st.lessons = s.completedLessons.count
         st.streak = s.streak
         st.longestStreak = s.longestStreak
-        st.prospects = s.prospects.count
-        st.contacted = s.prospects.filter { $0.status != .new }.count
-        st.replies = s.prospects.filter { ProspectStatus.repliedGroup.contains($0.status) }.count
-        st.clients = s.prospects.filter { $0.status == .won }.count
-        func sum(_ status: DealStatus) -> Int { s.deals.filter { $0.status == status }.reduce(0) { $0 + $1.amount } }
+        // Every metric belongs to the active journey: a service journey counts only its own track's pipeline.
+        let prospects = s.prospects.filter { $0.path == s.pathId }
+        let deals = s.deals.filter { $0.path == s.pathId }
+        st.prospects = prospects.count
+        st.contacted = prospects.filter { $0.status != .new }.count
+        st.replies = prospects.filter { ProspectStatus.repliedGroup.contains($0.status) }.count
+        st.clients = prospects.filter { $0.status == .won }.count
+        func sum(_ status: DealStatus) -> Int { deals.filter { $0.status == status }.reduce(0) { $0 + $1.amount } }
         st.revenue = sum(.collected)
         st.booked = sum(.booked)
         st.potential = sum(.potential)
         st.conversion = st.contacted > 0 ? Int((Double(st.clients) / Double(st.contacted) * 100).rounded()) : 0
+        let events = enrollment?.metricEvents ?? []
+        func latest(_ key: StatMetric) -> Double? { events.last { $0.key == key }?.value }
+        let published = events.filter { $0.key == .videosPublished }
+        st.videosPublished = Int(published.reduce(0) { $0 + $1.value })
+        st.uploadsThisWeek = Int(published.filter { $0.date > Date.daysAgo(7) }.reduce(0) { $0 + $1.value })
+        st.channelIncome = Int(events.filter { $0.key == .channelIncome }.reduce(0) { $0 + $1.value })
+        st.watchTime = latest(.watchTime)
+        st.subscribers = latest(.subscribers)
+        st.clickThroughRate = latest(.clickThroughRate)
+        st.returningViewers = latest(.returningViewers)
         st.xp = s.xp
         st.level = s.xp / 400 + 1
         st.levelProgress = Double(s.xp % 400) / 400

@@ -49,7 +49,7 @@ struct CoachConversationView: View {
     private func respond() async {
         guard store.isPremium, let last = conversation?.messages.last, last.isUser else { return }
         failed = false
-        let reply = CoachEngine.reply(to: last.text).text(for: store.s.pathId)
+        let reply = CoachEngine.reply(to: last.text, path: store.s.pathId).text
         try? await Task.sleep(for: CoachEngine.typingDelay(for: reply))
         guard !Task.isCancelled else { return }
         if store.isOffline {
@@ -90,14 +90,14 @@ private struct CoachThreadScreen: View {
 
     private var followUps: [String] {
         guard let last = messages.last, !last.isUser else { return [] }
-        if let prevUser = messages.last(where: { $0.isUser }) { return CoachEngine.reply(to: prevUser.text).followUps }
-        return MockData.shared.coach.fallback.followUps
+        if let prevUser = messages.last(where: { $0.isUser }) { return CoachEngine.reply(to: prevUser.text, path: store.s.pathId).followUps }
+        return MockData.coachFallback(store.s.pathId).followUps
     }
 
     var body: some View {
         ScrollViewReader { proxy in
             Screen(title: conversation.title) {
-                PremiumGate(feature: "AI Coach", message: "Get instant, practical answers about clients, pricing and outreach, tailored to your path.") {
+                PremiumGate(feature: "AI Coach", message: store.journey.coachGateMessage) {
                     thread
                 }
             }

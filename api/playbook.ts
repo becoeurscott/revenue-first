@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { z } from 'zod'
-import { METHODOLOGY, MODEL, clip, describeUser, flushPostHog, getClient, trackGeneration, json, readAiObservability, readUser, sameOrigin } from './_lib/shared.js'
+import { JOURNEYS, MODEL, clip, describeContext, flushPostHog, getClient, methodology, trackGeneration, json, readAiObservability, readContext, sameOrigin } from './_lib/shared.js'
 
 const PlaybookSchema = z.object({
   niche: z.string().describe('The niche, cleaned up, e.g. "Fitness YouTubers"'),
@@ -22,6 +22,26 @@ const PlaybookSchema = z.object({
 
 export type Playbook = z.infer<typeof PlaybookSchema>
 
+/** Owned-channel journeys have no clients, offers or outreach: audience, content and stage-ordered income instead. */
+const ChannelPlaybookSchema = z.object({
+  niche: z.string().describe('The niche, cleaned up, e.g. "Beginner home workouts"'),
+  fit: z.string().describe('One honest sentence on how well this niche fits an owned YouTube channel'),
+  summary: z.string().describe('2-3 sentences: who the channel serves, what it promises, and the fastest route to a consistent channel'),
+  audience: z.array(z.string()).describe('4 specific viewer profiles the channel is for'),
+  contentPillars: z.array(z.object({ pillar: z.string(), why: z.string() })).describe('3 recurring content themes with why viewers search for them'),
+  videoIdeas: z
+    .array(z.object({ title: z.string(), hook: z.string(), format: z.enum(['Long-form', 'Short']) }))
+    .describe('10 video ideas with a packaged title and a one-sentence opening hook, grounded in real search demand'),
+  packagingTips: z.array(z.string()).describe('4 title and thumbnail tips specific to this niche'),
+  monetizationByStage: z
+    .array(z.object({ stage: z.enum(['Build an audience', 'Affiliate offers', 'Sponsorship readiness', 'YouTube Partner Program']), ideas: z.array(z.string()) }))
+    .describe('For each stage in order, 2 realistic income ideas for this niche. Never state Partner Program thresholds as fact.'),
+  pitfalls: z.array(z.string()).describe('3 mistakes, claims or scams to avoid in this niche'),
+  dailyTips: z.array(z.string()).describe("Exactly 30 tips, one per day of the plan in order, each one sentence that applies that day's mission to this niche"),
+})
+
+export type ChannelPlaybook = z.infer<typeof ChannelPlaybookSchema>
+
 interface PlanDay {
   day: number
   theme: string
@@ -33,10 +53,12 @@ export async function POST(req: Request): Promise<Response> {
   const client = getClient()
   if (!client) return json({ error: 'ai_not_configured' }, 503)
 
-  const body = (await req.json().catch(() => null)) as { user?: unknown; plan?: unknown; ai?: unknown } | null
-  const user = readUser(body?.user)
+  const body = (await req.json().catch(() => null)) as { context?: unknown; plan?: unknown; ai?: unknown } | null
+  const ctx = readContext(body?.context)
   const ai = readAiObservability(body?.ai)
-  if (!user || !ai) return json({ error: 'bad_request' }, 400)
+  if (ctx === 'unsupported') return json({ error: 'unsupported_journey' }, 400)
+  if (!ctx || !ai) return json({ error: 'bad_request' }, 400)
+  const sellsServices = JOURNEYS[ctx.journeyId].sellsServices
   const plan: PlanDay[] = Array.isArray(body?.plan)
     ? body.plan.slice(0, 30).map((d: Record<string, unknown>, i: number) => ({ day: Number(d.day) || i + 1, theme: clip(d.theme, 80), mission: clip(d.mission, 160) }))
     : []
@@ -44,7 +66,7 @@ export async function POST(req: Request): Promise<Response> {
   const request = [
     'Build this user\'s niche playbook.',
     '',
-    describeUser(user),
+    describeContext(ctx),
     '',
     'Their 30-day plan (write one daily tip per day, in this order):',
     ...plan.map((d) => `Day ${d.day} — ${d.theme}: ${d.mission}`),
@@ -57,14 +79,14 @@ export async function POST(req: Request): Promise<Response> {
       betas: ['server-side-fallback-2026-07-01'],
       fallbacks: 'default',
       max_tokens: 16000,
-      output_config: { effort: 'medium', format: zodOutputFormat(PlaybookSchema) },
-      system: [{ type: 'text', text: METHODOLOGY, cache_control: { type: 'ephemeral' } }],
+      output_config: { effort: 'medium', format: zodOutputFormat(sellsServices ? PlaybookSchema : ChannelPlaybookSchema) },
+      system: [{ type: 'text', text: methodology(ctx.journeyId), cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: request }],
     })
     trackGeneration(ai, 'playbook', response, startedAt)
     if (response.stop_reason === 'refusal') return json({ error: 'refused' }, 422)
     if (!response.parsed_output) return json({ error: 'bad_output' }, 502)
-    return json({ playbook: response.parsed_output })
+    return json({ kind: sellsServices ? 'service' : 'channel', journeyId: ctx.journeyId, journeyVersion: ctx.journeyVersion, playbook: response.parsed_output })
   } catch (error) {
     if (error instanceof Anthropic.RateLimitError) return json({ error: 'busy' }, 429)
     if (error instanceof Anthropic.APIError) return json({ error: 'upstream', status: error.status }, 502)

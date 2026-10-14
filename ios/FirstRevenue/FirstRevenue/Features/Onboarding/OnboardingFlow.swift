@@ -1,41 +1,74 @@
 import SwiftUI
 
+/// Journey setup for every account: earning method (with the YouTube follow-up), niche, starting stage
+/// and constraints. Real accounts on a service journey then answer the backend questionnaire, which enrolls
+/// them server-side; the owned-channel journey has no server path yet, so it is enrolled on this device.
 struct OnboardingFlow: View {
     @Environment(AppStore.self) private var store
-    @State private var index = 0
-    @State private var interstitial = false
+
+    enum Phase: Equatable { case questions, pickJourney, comingSoon(EarningMethod), analysis, results, server }
+
     @State private var phase: Phase = .questions
+    @State private var answers = JourneyAnswers()
+    /// Raw earning-method option ("youtube" is resolved by the follow-up question).
+    @State private var choice = ""
+    @State private var key = "name"
     @State private var forward = true
     @State private var autoAdvance: Task<Void, Never>?
 
-    enum Phase { case questions, analysis, results }
+    private var method: EarningMethod? { Journeys.method(choice: choice, youtubeMode: answers.youtubeMode) }
+    private var config: JourneyConfig? { method.flatMap(Journeys.config) }
 
-    private let steps = MockData.shared.onboarding.steps
-    /// A breather screen shown once, before this step.
-    private let interstitialBefore = 7
+    /// Questions that apply to the answers so far.
+    private var steps: [JourneyQuestion] {
+        Journeys.catalog.onboarding.filter { q in
+            switch q.key {
+            case "youtubeMode": choice == "youtube"
+            case "nicheDetail": !answers.niche.isEmpty && NicheResolver.isTooBroad(answers.niche)
+            case "location": config?.sellsServices == true
+            default: true
+            }
+        }
+    }
+    private var step: JourneyQuestion { steps.first { $0.key == key } ?? steps[0] }
+    private var position: Int { steps.firstIndex { $0.key == key } ?? 0 }
 
     var body: some View {
-        switch phase {
-        case .questions: questions
-        case .analysis: AnalysisView { withAnimation(.easeInOut) { phase = .results } }.transition(.opacity)
-        case .results: ResultsView().transition(.opacity)
+        Group {
+            switch phase {
+            case .questions: questions
+            case .pickJourney: PickJourneyView { picked in pick(picked) } onBack: { go(.questions, key: "earningMethod") }
+            case .comingSoon(let m): comingSoon(m)
+            case .analysis: AnalysisView(niche: answers.niche) { withAnimation(.easeInOut) { phase = .results } }.transition(.opacity)
+            case .results:
+                if let config {
+                    JourneyResultsView(config: config, answers: answers, onStart: start, onEditNiche: { go(.questions, key: "niche") }, onChangeMethod: { go(.questions, key: "earningMethod") })
+                        .transition(.opacity)
+                }
+            case .server:
+                if let config {
+                    ServerOnboardingFlow(journey: config, onEnrolled: { day in store.startJourney(answers, day: day) }, onChangeMethod: { go(.questions, key: "earningMethod") })
+                }
+            }
         }
     }
 
-    private var step: OnboardingStep { steps[index] }
+    // MARK: Questions
 
     private var isValid: Bool {
-        if interstitial { return true }
-        if step.kind == "multi" { return !store.s.answers.skills.isEmpty }
-        let v = store.s.answers[step.key].trimmingCharacters(in: .whitespaces)
-        return v.count >= (step.kind == "text" ? 2 : 1)
+        switch step.kind {
+        case "multi": return step.key == "skills" ? !answers.skills.isEmpty : !answers.equipment.isEmpty
+        case "text":
+            let v = text(step.key).trimmingCharacters(in: .whitespaces)
+            return !step.required || v.count >= 2
+        default: return !value(step.key).isEmpty
+        }
     }
 
     private var questions: some View {
         VStack(spacing: 0) {
-            // Progress + nav
             VStack(spacing: Space.m) {
-                ProgressBar(value: max(Double(index + (interstitial ? 1 : 0)) / Double(steps.count), 0.04), height: 6, label: "Onboarding progress")
+                ProgressBar(value: max(Double(position) / Double(steps.count), 0.04), height: 6, label: "Onboarding progress")
                 HStack {
                     Button(action: back) {
                         HStack(spacing: 4) { Image(systemName: "chevron.left").font(.caption.weight(.bold)); Text("Back") }
@@ -45,29 +78,25 @@ struct OnboardingFlow: View {
                     }
                     .frame(minHeight: 44)
                     Spacer()
-                    Text("\(index + 1) / \(steps.count)").font(.footnote.weight(.semibold)).monospacedDigit().foregroundStyle(Theme.brand300)
-                        .accessibilityLabel("Step \(index + 1) of \(steps.count)")
+                    Text("\(position + 1) / \(steps.count)").font(.footnote.weight(.semibold)).monospacedDigit().foregroundStyle(Theme.brand300)
+                        .accessibilityLabel("Step \(position + 1) of \(steps.count)")
                 }
             }
             .padding(.horizontal, Space.xl).padding(.top, Space.s)
 
-            ZStack {
-                if interstitial {
-                    interstitialView.transition(slide)
-                } else {
-                    stepView.id(index).transition(slide)
-                }
-            }
-            .frame(maxHeight: .infinity, alignment: .top)
+            stepView.id(key).transition(slide).frame(maxHeight: .infinity, alignment: .top)
         }
         .frame(maxWidth: 520)
         .frame(maxWidth: .infinity)
         .safeAreaInset(edge: .bottom) {
-            Button(action: next) {
-                Label(index == steps.count - 1 ? "Build My Plan" : "Continue", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
+            VStack(spacing: 4) {
+                Button(action: next) {
+                    Label(key == steps.last?.key ? "Build My Plan" : "Continue", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
+                }
+                .buttonStyle(.fr(.primary, size: .lg, full: true))
+                .disabled(!isValid)
+                if !step.required { Text("Optional — you can skip this one.").font(.caption).foregroundStyle(Theme.faint) }
             }
-            .buttonStyle(.fr(.primary, size: .lg, full: true))
-            .disabled(!isValid)
             .frame(maxWidth: 520)
             .padding(.horizontal, Space.xl).padding(.bottom, Space.s).padding(.top, Space.m)
             .background(LinearGradient(colors: [Theme.bg.opacity(0), Theme.bg], startPoint: .top, endPoint: .center))
@@ -79,47 +108,20 @@ struct OnboardingFlow: View {
         .asymmetric(insertion: .move(edge: forward ? .trailing : .leading).combined(with: .opacity), removal: .move(edge: forward ? .leading : .trailing).combined(with: .opacity))
     }
 
-    private var interstitialView: some View {
-        VStack(spacing: Space.l) {
-            Spacer()
-            MascotView(mood: .excited, size: 190)
-            Text("We got your back\(store.s.answers.name.isEmpty ? "" : ", \(store.s.answers.name)")")
-                .font(.title.weight(.heavy)).foregroundStyle(Theme.ink).multilineTextAlignment(.center).padding(.top, Space.l)
-            Text("With hands-on daily missions and a coach in your pocket, you'll reach your first client with a lot less guesswork.")
-                .font(.callout).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 320)
-            Spacer(); Spacer()
-        }
-        .padding(.horizontal, Space.xl)
-    }
-
     private var stepView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top) {
-                    MascotView(mood: index == steps.count - 1 ? .excited : index % 3 == 2 ? .wink : .happy, size: 76, say: step.mascotLine, float: false, bubbleSide: .trailing)
+                    MascotView(mood: key == "goal" ? .excited : position % 3 == 2 ? .wink : .happy, size: 76, say: step.mascotLine, float: false, bubbleSide: .trailing)
                     Spacer()
                 }
                 .padding(.top, Space.l)
                 SymbolTile(icon: step.icon, size: 36).padding(.top, Space.l)
-                Text(step.title)
-                    .font(.system(size: 26, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
+                Text(title).font(.system(size: 26, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
+                    .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
-                Text(step.subtitle).font(.callout).foregroundStyle(Theme.muted).padding(.top, Space.s)
-
-                if step.kind == "text" {
-                    NameField(text: Binding(get: { store.s.answers.name }, set: { store.s.answers.name = String($0.prefix(24)) }), placeholder: step.placeholder ?? "", onSubmit: { if isValid { next() } })
-                        .padding(.top, Space.xl)
-                } else if let options = step.options {
-                    let multi = step.kind == "multi"
-                    let columns = multi ? [GridItem(.adaptive(minimum: 150), spacing: 10)] : [GridItem(.flexible())]
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(Array(options.enumerated()), id: \.element.value) { i, o in
-                            OptionCard(option: o, multi: multi, selected: isSelected(o.value)) { select(o.value) }
-                                .fadeUp(i)
-                        }
-                    }
-                    .padding(.top, Space.xl)
-                }
+                Text(subtitle).font(.callout).foregroundStyle(Theme.muted).padding(.top, Space.s)
+                input.padding(.top, Space.xl)
             }
             .padding(.horizontal, Space.xl)
             .padding(.bottom, Space.xl)
@@ -127,54 +129,392 @@ struct OnboardingFlow: View {
         .scrollDismissesKeyboard(.interactively)
     }
 
-    private func isSelected(_ v: String) -> Bool {
-        step.kind == "multi" ? store.s.answers.skills.contains(v) : store.s.answers[step.key] == v
+    /// The niche questions speak the language of the chosen method.
+    private var title: String {
+        if key == "niche", let config { return config.sellsServices ? "Who will you serve?" : "What will your channel be about?" }
+        return step.title
+    }
+    private var subtitle: String {
+        if key == "nicheDetail" { return "“\(answers.niche)” is broad. \(step.subtitle)" }
+        if key == "niche", let config, config.sellsServices { return "The type of client or industry you'll work with, e.g. fitness YouTubers or dentists in Austin." }
+        return step.subtitle
     }
 
-    private func select(_ v: String) {
-        Haptics.select()
-        if step.kind == "multi" {
-            var skills = store.s.answers.skills
-            if v == "None yet" { skills = skills.contains(v) ? [] : [v] }
-            else { skills.removeAll { $0 == "None yet" }; skills.toggle(v) }
-            store.s.answers.skills = skills
-        } else {
-            store.s.answers[step.key] = v
-            // Single choice glides forward on its own; Continue still works.
-            autoAdvance?.cancel()
-            autoAdvance = Task { @MainActor in
-                try? await Task.sleep(for: .milliseconds(340))
-                if !Task.isCancelled { next() }
+    @ViewBuilder private var input: some View {
+        switch step.kind {
+        case "text":
+            VStack(alignment: .leading, spacing: Space.m) {
+                OnboardingTextField(text: binding(step.key), placeholder: step.placeholder ?? "", contentType: step.key == "name" ? .givenName : nil, onSubmit: { if isValid { next() } })
+                if step.key == "niche" {
+                    FlowLayout {
+                        ForEach(Journeys.catalog.niches.prefix(12).map(\.label), id: \.self) { label in
+                            Button { Haptics.select(); answers.niche = label } label: { Badge(label, tone: answers.niche == label ? .brand : .neutral) }
+                                .buttonStyle(.pressable)
+                        }
+                    }
+                }
+            }
+        case "multi":
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 10)], spacing: 10) {
+                ForEach(Array((step.options ?? []).enumerated()), id: \.element.value) { i, o in
+                    OptionCard(option: o, multi: true, selected: selectedMulti.contains(o.value)) { toggle(o.value) }.fadeUp(i)
+                }
+            }
+        case "goal":
+            VStack(spacing: 10) {
+                ForEach(Array((config?.goalOptions ?? []).enumerated()), id: \.element.label) { i, g in
+                    let option = JourneyQuestionOption(value: g.label, label: g.label, icon: g.isMoney ? "dollarsign.circle.fill" : Journeys.metric(g.metric).icon, hint: nil)
+                    OptionCard(option: option, multi: false, selected: answers.goal == g.label) { choose(g.label) }.fadeUp(i)
+                }
+            }
+        default:
+            VStack(spacing: 10) {
+                ForEach(Array((step.options ?? []).enumerated()), id: \.element.value) { i, o in
+                    OptionCard(option: o, multi: false, selected: value(step.key) == o.value) { choose(o.value) }.fadeUp(i)
+                }
             }
         }
     }
 
+    // MARK: Answers
+
+    private func text(_ key: String) -> String {
+        switch key {
+        case "name": store.s.answers.name
+        case "niche": answers.niche
+        case "nicheDetail": answers.nicheDetail
+        case "location": answers.location
+        default: ""
+        }
+    }
+
+    private func binding(_ key: String) -> Binding<String> {
+        Binding(get: { text(key) }, set: { v in
+            switch key {
+            case "name": store.s.answers.name = String(v.prefix(24))
+            case "niche": answers.niche = String(v.prefix(80))
+            case "nicheDetail": answers.nicheDetail = String(v.prefix(80))
+            case "location": answers.location = String(v.prefix(60))
+            default: break
+            }
+        })
+    }
+
+    private func value(_ key: String) -> String {
+        switch key {
+        case "earningMethod": choice
+        case "youtubeMode": answers.youtubeMode
+        case "startingStage": answers.startingStage?.rawValue ?? ""
+        case "weeklyTime": answers.weeklyTime
+        case "budget": answers.budget
+        case "goal": answers.goal
+        default: ""
+        }
+    }
+
+    private func setValue(_ key: String, _ v: String) {
+        switch key {
+        case "earningMethod":
+            if v != choice { answers.youtubeMode = ""; answers.goal = "" }
+            choice = v
+        case "youtubeMode":
+            if v != answers.youtubeMode { answers.goal = "" }
+            answers.youtubeMode = v
+        case "startingStage": answers.startingStage = StartingStage(rawValue: v)
+        case "weeklyTime": answers.weeklyTime = v
+        case "budget": answers.budget = v
+        case "goal": answers.goal = v
+        default: break
+        }
+    }
+
+    private var selectedMulti: [String] { step.key == "skills" ? answers.skills : answers.equipment }
+
+    private func toggle(_ v: String) {
+        Haptics.select()
+        let none = step.key == "skills" ? "None yet" : "None of these"
+        var list = selectedMulti
+        if v == none { list = list.contains(v) ? [] : [v] } else { list.removeAll { $0 == none }; list.toggle(v) }
+        if step.key == "skills" { answers.skills = list } else { answers.equipment = list }
+    }
+
+    private func choose(_ v: String) {
+        Haptics.select()
+        setValue(step.key, v)
+        autoAdvance?.cancel()
+        autoAdvance = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(340))
+            if !Task.isCancelled { next() }
+        }
+    }
+
+    // MARK: Navigation
+
     private func next() {
         autoAdvance?.cancel()
+        guard isValid else { return }
         forward = true
-        if index == steps.count - 1 { withAnimation(.easeInOut) { phase = .analysis }; return }
-        if index + 1 == interstitialBefore && !interstitial { withAnimation(.snappy) { interstitial = true }; return }
-        withAnimation(.snappy) { interstitial = false; index += 1 }
+        if key == "earningMethod" {
+            if choice == "unknown" { withAnimation(.snappy) { phase = .pickJourney }; return }
+            if let m = EarningMethod(rawValue: choice), Journeys.config(m)?.isActive == false { withAnimation(.snappy) { phase = .comingSoon(m) }; return }
+        }
+        let list = steps
+        guard let i = list.firstIndex(where: { $0.key == key }) else { return }
+        if i == list.count - 1 {
+            guard let method else { return }
+            answers.earningMethod = method
+            withAnimation(.easeInOut) { phase = .analysis }
+            return
+        }
+        withAnimation(.snappy) { key = list[i + 1].key }
     }
 
     private func back() {
         autoAdvance?.cancel()
         forward = false
-        if interstitial { withAnimation(.snappy) { interstitial = false }; return }
-        if index == 0 { store.logout(); return }
-        withAnimation(.snappy) { index -= 1 }
+        let list = steps
+        guard let i = list.firstIndex(where: { $0.key == key }), i > 0 else { store.logout(); return }
+        withAnimation(.snappy) { key = list[i - 1].key }
+    }
+
+    private func go(_ p: Phase, key k: String) {
+        forward = false
+        key = k
+        withAnimation(.snappy) { phase = p }
+    }
+
+    /// "Not sure yet": the user picks one explicitly; we never pick for them.
+    private func pick(_ m: EarningMethod) {
+        switch m {
+        case .youtubeOwnedChannel: choice = "youtube"; answers.youtubeMode = "own_channel"
+        case .youtubeServices: choice = "youtube"; answers.youtubeMode = "services"
+        default: choice = m.rawValue; answers.youtubeMode = ""
+        }
+        answers.goal = ""
+        forward = true
+        key = "niche"
+        withAnimation(.snappy) { phase = .questions }
+    }
+
+    private func start() {
+        guard let config else { return }
+        answers.earningMethod = config.id
+        if store.s.account != nil && config.sellsServices {
+            withAnimation(.easeInOut) { phase = .server }
+        } else {
+            store.startJourney(answers)
+        }
+    }
+
+    private func comingSoon(_ m: EarningMethod) -> some View {
+        VStack(spacing: Space.l) {
+            Spacer()
+            MascotView(mood: .thinking, size: 140)
+            if let c = Journeys.config(m) {
+                Text("\(c.label) isn't ready yet").font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).multilineTextAlignment(.center)
+                Text("We'd rather tell you than hand you a plan for something else. Join the list and we'll tell you when it opens, or choose another way to earn today.")
+                    .font(.callout).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 340)
+                JourneyComingSoonCard(config: c).frame(maxWidth: 420)
+            }
+            Spacer()
+            Button("Choose a Different Method") { go(.questions, key: "earningMethod") }
+                .buttonStyle(.fr(.primary, size: .lg, full: true)).frame(maxWidth: 420)
+        }
+        .padding(Space.xl)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.bg.ignoresSafeArea())
     }
 }
 
-private struct NameField: View {
+// MARK: - "Not sure yet"
+
+private struct PickJourneyView: View {
+    let onPick: (EarningMethod) -> Void
+    let onBack: () -> Void
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: Space.l) {
+                MascotView(mood: .happy, size: 96).padding(.top, Space.xl)
+                Text("Here's what you can start today").font(.system(size: 26, weight: .heavy)).foregroundStyle(Theme.ink)
+                Text("Each one is a different way to earn, with its own plan and tools. Pick the one that sounds most like you — you can add another later.")
+                    .font(.callout).foregroundStyle(Theme.muted)
+                ForEach(Array(Journeys.active.enumerated()), id: \.element.id) { i, j in
+                    Button { Haptics.select(); onPick(j.id) } label: {
+                        HStack(alignment: .top, spacing: Space.m) {
+                            SymbolTile(icon: j.icon, size: 44)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(j.label).font(.body.weight(.bold)).foregroundStyle(Theme.ink)
+                                Text(j.description).font(.footnote).foregroundStyle(Theme.muted).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                            }
+                            Spacer(minLength: 0)
+                            Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.faint)
+                        }
+                        .card()
+                    }
+                    .buttonStyle(.pressable)
+                    .fadeUp(i)
+                }
+                Button("Back") { onBack() }.buttonStyle(.fr(.ghost, full: true))
+            }
+            .padding(.horizontal, Space.xl).padding(.bottom, Space.xl)
+            .frame(maxWidth: 520).frame(maxWidth: .infinity)
+        }
+        .background(Theme.bg.ignoresSafeArea())
+    }
+}
+
+// MARK: - Results
+
+private struct JourneyResultsView: View {
+    let config: JourneyConfig
+    let answers: JourneyAnswers
+    let onStart: () -> Void
+    let onEditNiche: () -> Void
+    let onChangeMethod: () -> Void
+    @Environment(AppStore.self) private var store
+    @State private var paywall = false
+    @State private var plan = "yearly"
+    @State private var loading = false
+
+    private var niche: NicheContext { NicheResolver.resolve(answers.niche, detail: answers.nicheDetail, method: config.id) }
+    private var path: PathInfo? { config.track.map(MockData.path) }
+    private var serverService: Bool { store.s.account != nil && config.sellsServices }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: Space.l) {
+                VStack(spacing: Space.l) {
+                    MascotView(mood: .excited, size: 130)
+                    Text("YOUR JOURNEY IS READY\(store.s.answers.name.isEmpty ? "" : ", \(store.s.answers.name.uppercased())")").font(.eyebrow).tracking(1).foregroundStyle(Theme.brand300)
+                }
+                .padding(.top, Space.xl)
+
+                VStack(alignment: .leading, spacing: Space.m) {
+                    HStack(alignment: .top) {
+                        SymbolTile(icon: config.icon, tint: .white, size: 48)
+                        Spacer()
+                        Badge("Your choice", tone: .success).background(Capsule().fill(.black.opacity(0.4)))
+                    }
+                    Text(config.label.uppercased()).font(.system(size: 28, weight: .heavy)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
+                    Text(config.description).font(.callout).foregroundStyle(.white.opacity(0.85)).fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(Space.xl)
+                .background(Theme.hueGradient(config.hue))
+                .clipShape(RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous))
+                .shadow(color: Theme.brand600.opacity(0.35), radius: 24, y: 10)
+                .fadeUp(1)
+
+                nicheCard.fadeUp(2)
+
+                if let path {
+                    VStack(alignment: .leading, spacing: Space.m) {
+                        Text("Your first steps").font(.section).foregroundStyle(Theme.ink)
+                        ForEach(Array(path.firstTasks.enumerated()), id: \.offset) { i, t in
+                            HStack(alignment: .top, spacing: 12) {
+                                Text("\(i + 1)").font(.caption.weight(.bold)).foregroundStyle(Theme.brand300).frame(width: 24, height: 24).background(Circle().fill(Theme.brand500.opacity(0.15)))
+                                Text(t).font(.subheadline).foregroundStyle(Theme.inkSoft)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .card().fadeUp(3)
+                }
+
+                VStack(alignment: .leading, spacing: Space.m) {
+                    Text("What you'll track").font(.section).foregroundStyle(Theme.ink)
+                    FlowLayout {
+                        ForEach(config.metrics, id: \.self) { m in Badge(Journeys.metric(m).label, tone: .brand, systemImage: Journeys.metric(m).icon) }
+                    }
+                    Text("First goal: \(answers.goal)").font(.footnote).foregroundStyle(Theme.faint)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .card().fadeUp(4)
+            }
+            .frame(maxWidth: 520)
+            .padding(.horizontal, Space.xl)
+            .padding(.bottom, Space.xl)
+            .frame(maxWidth: .infinity)
+        }
+        .background(Theme.bg.ignoresSafeArea())
+        .overlay { ConfettiView(count: 50) }
+        .safeAreaInset(edge: .bottom) {
+            BottomBar {
+                Button { serverService || store.isPremium ? onStart() : (paywall = true) } label: {
+                    Label("Start My 30-Day Journey", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
+                }
+                .buttonStyle(.fr(.primary, size: .lg, full: true))
+                Button { onChangeMethod() } label: { Label("Change Earning Method", systemImage: "arrow.triangle.branch") }
+                    .buttonStyle(.fr(.ghost, full: true))
+            }
+        }
+        .sheet(isPresented: $paywall) { journeyPaywall }
+    }
+
+    private var nicheCard: some View {
+        let n = niche
+        return VStack(alignment: .leading, spacing: Space.m) {
+            HStack {
+                Text("Your niche").font(.section).foregroundStyle(Theme.ink)
+                Spacer()
+                Button("Edit", action: onEditNiche).font(.footnote.weight(.semibold)).foregroundStyle(Theme.brand300).frame(minHeight: 44)
+            }
+            Text(n.normalizedLabel).font(.title3.weight(.bold)).foregroundStyle(Theme.ink)
+            fact("person.2.fill", "For \(n.audience)")
+            fact("target", "Helping with \(n.problemOrDesire)")
+            if !n.exampleTerms.isEmpty { fact("text.magnifyingglass", n.exampleTerms.joined(separator: ", ")) }
+            if let stage = answers.startingStage, let label = Journeys.catalog.onboarding.first(where: { $0.key == "startingStage" })?.options?.first(where: { $0.value == stage.rawValue })?.label {
+                fact("flag.fill", "Starting from: \(label.lowercased())")
+            }
+            if let note = n.cautionNote {
+                Label(note, systemImage: "exclamationmark.shield.fill").font(.footnote).foregroundStyle(Theme.warning).fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .card()
+    }
+
+    private func fact(_ icon: String, _ text: String) -> some View {
+        Label(text, systemImage: icon).font(.subheadline).foregroundStyle(Theme.inkSoft).fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var journeyPaywall: some View {
+        VStack(alignment: .leading, spacing: Space.l) {
+            Text("Start your journey with Premium").font(.title2).foregroundStyle(Theme.ink).padding(.top, Space.xl)
+            Text("Your full 30-day program, AI Coach, lessons and every tool.").font(.subheadline).foregroundStyle(Theme.muted)
+            PlanPicker(selection: $plan).padding(.top, Space.s)
+            Spacer()
+            Button {
+                mockCheckout(store: store, plan: plan, loading: $loading) {
+                    paywall = false
+                    store.showToast("Premium unlocked")
+                    onStart()
+                }
+            } label: { LoadingLabel(title: "Start Premium", systemImage: "crown.fill", loading: loading) }
+            .buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(loading)
+            Button("Maybe later — look around first") { paywall = false; onStart() }
+                .buttonStyle(.fr(.ghost, full: true)).disabled(loading)
+            Text("Prototype checkout — no payment is taken.").font(.caption).foregroundStyle(Theme.faint).frame(maxWidth: .infinity)
+        }
+        .padding(.horizontal, Space.xl)
+        .background(Theme.bgSunken.ignoresSafeArea())
+        .presentationDetents([.fraction(0.72), .large])
+        .presentationDragIndicator(.visible)
+    }
+}
+
+// MARK: - Shared pieces
+
+private struct OnboardingTextField: View {
     @Binding var text: String
     let placeholder: String
+    let contentType: UITextContentType?
     let onSubmit: () -> Void
     @FocusState private var focused: Bool
     var body: some View {
         TextField(placeholder, text: $text)
             .font(.title2.weight(.semibold))
-            .textContentType(.givenName)
+            .textContentType(contentType)
             .submitLabel(.continue)
             .onSubmit(onSubmit)
             .focused($focused)
@@ -182,12 +522,12 @@ private struct NameField: View {
             .background(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).fill(Theme.surface))
             .overlay(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).strokeBorder(focused ? Theme.brand500 : Theme.line, lineWidth: focused ? 1.5 : 1))
             .onAppear { focused = true }
-            .accessibilityLabel("Your first name")
+            .accessibilityLabel(placeholder)
     }
 }
 
 private struct OptionCard: View {
-    let option: OnboardingOption
+    let option: JourneyQuestionOption
     let multi: Bool
     let selected: Bool
     let action: () -> Void
@@ -205,12 +545,11 @@ private struct OptionCard: View {
         .accessibilityAddTraits(selected ? .isSelected : [])
     }
 
-    /// Single choice: full-width row.
     private var row: some View {
         HStack(spacing: 14) {
             SymbolTile(icon: option.icon, tint: selected ? Theme.brand300 : Theme.muted, size: 36)
             VStack(alignment: .leading, spacing: 2) {
-                Text(option.value).font(.body.weight(.semibold)).foregroundStyle(Theme.ink).multilineTextAlignment(.leading)
+                Text(option.label).font(.body.weight(.semibold)).foregroundStyle(Theme.ink).multilineTextAlignment(.leading)
                 if let hint = option.hint { Text(hint).font(.footnote).foregroundStyle(Theme.muted).multilineTextAlignment(.leading) }
             }
             Spacer(minLength: 4)
@@ -220,11 +559,10 @@ private struct OptionCard: View {
         .frame(minHeight: 60)
     }
 
-    /// Multi choice: compact tile for a 2-column grid (emoji + check on top, label below).
     private var tile: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack { SymbolTile(icon: option.icon, tint: selected ? Theme.brand300 : Theme.muted, size: 34); Spacer(); check }
-            Text(option.value).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
+            Text(option.label).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
                 .lineLimit(2).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
         }
@@ -244,12 +582,13 @@ private struct OptionCard: View {
     }
 }
 
-// MARK: - Plan-building animation
-
 private struct AnalysisView: View {
+    let niche: String
     let onDone: () -> Void
     @State private var step = 0
-    private let labels = MockData.shared.onboarding.analysisSteps
+    private var labels: [String] {
+        ["Reading your niche: \(niche)", "Matching missions to your starting point", "Fitting the plan to your weekly time", "Picking the tools and numbers you'll track"]
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -266,7 +605,7 @@ private struct AnalysisView: View {
                             if i < step { Image(systemName: "checkmark").font(.caption.weight(.heavy)).foregroundStyle(Theme.success).transition(.scale) }
                             else if i == step { ProgressView().controlSize(.mini) }
                         }
-                        Text(label).font(.callout).foregroundStyle(i < step ? Theme.ink : i == step ? Theme.muted : Theme.faint)
+                        Text(label).font(.callout).foregroundStyle(i < step ? Theme.ink : i == step ? Theme.muted : Theme.faint).lineLimit(1)
                     }
                     .opacity(i > step ? 0.5 : 1)
                 }
@@ -279,190 +618,13 @@ private struct AnalysisView: View {
         .background(Theme.bg.ignoresSafeArea())
         .task {
             for i in 1...labels.count {
-                try? await Task.sleep(for: .milliseconds(850))
+                try? await Task.sleep(for: .milliseconds(750))
                 withAnimation(.snappy) { step = i }
                 Haptics.select()
             }
-            try? await Task.sleep(for: .milliseconds(500))
+            try? await Task.sleep(for: .milliseconds(400))
             Haptics.notify(.success)
             onDone()
         }
-    }
-}
-
-// MARK: - Personalized recommendation
-
-private struct ResultsView: View {
-    @Environment(AppStore.self) private var store
-    @State private var chosen: PathID?
-    @State private var exploring = false
-    @State private var paywall = false
-    @State private var plan = "yearly"
-    @State private var loading = false
-
-    var body: some View {
-        let rec = RecommendationEngine.recommend(store.s.answers)
-        let pathId = chosen ?? rec.pathId
-        let path = MockData.path(pathId)
-        let recommended = pathId == rec.pathId
-
-        ScrollView {
-            VStack(spacing: Space.l) {
-                VStack(spacing: Space.l) {
-                    MascotView(mood: .excited, size: 130)
-                    Text("YOUR PATH IS READY\(store.s.answers.name.isEmpty ? "" : ", \(store.s.answers.name.uppercased())")").font(.eyebrow).tracking(1).foregroundStyle(Theme.brand300)
-                }
-                .padding(.top, Space.xl)
-
-                VStack(alignment: .leading, spacing: Space.m) {
-                    HStack(alignment: .top) {
-                        SymbolTile(icon: path.icon, tint: .white, size: 48)
-                        Spacer()
-                        Badge(recommended ? "\(rec.match)% match" : "Your choice", tone: recommended ? .success : .neutral).background(Capsule().fill(.black.opacity(0.4)))
-                    }
-                    Text(path.name.uppercased()).font(.system(size: 30, weight: .heavy)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
-                    Text(recommended ? rec.summary : path.description).font(.callout).foregroundStyle(.white.opacity(0.85))
-                }
-                .padding(Space.xl)
-                .background(Theme.hueGradient(path.hue))
-                .clipShape(RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous).strokeBorder(Theme.brand500.opacity(0.3)))
-                .shadow(color: Theme.brand600.opacity(0.35), radius: 24, y: 10)
-                .fadeUp(1)
-
-                if recommended {
-                    VStack(alignment: .leading, spacing: Space.m) {
-                        Text("Why this path").font(.section).foregroundStyle(Theme.ink)
-                        ForEach(rec.reasons, id: \.self) { r in
-                            HStack(alignment: .top, spacing: 12) {
-                                Image(systemName: "checkmark").font(.caption2.weight(.heavy)).foregroundStyle(Theme.success).frame(width: 20, height: 20).background(Circle().fill(Theme.success.opacity(0.15)))
-                                Text(r).font(.subheadline).foregroundStyle(Theme.inkSoft)
-                            }
-                        }
-                    }
-                    .card().fadeUp(2)
-                }
-
-                HStack(spacing: Space.m) {
-                    fact("Starting difficulty", path.difficulty)
-                    fact("Typical first deal", path.typicalPrice.components(separatedBy: " per").first ?? path.typicalPrice)
-                }
-                .fadeUp(3)
-
-                VStack(alignment: .leading, spacing: Space.m) {
-                    Text("Skills required").font(.section).foregroundStyle(Theme.ink)
-                    FlowLayout {
-                        ForEach(path.skills, id: \.self) { s in
-                            let have = store.s.answers.skills.contains { s.lowercased().contains($0.lowercased().split(separator: " ").first.map(String.init) ?? "~") }
-                            Badge(s, tone: have ? .success : .neutral)
-                        }
-                    }
-                    Text("Green = you already have it. We teach the rest.").font(.footnote).foregroundStyle(Theme.faint)
-                }
-                .card().fadeUp(4)
-
-                VStack(alignment: .leading, spacing: Space.m) {
-                    Text("Typical first tasks").font(.section).foregroundStyle(Theme.ink)
-                    ForEach(Array(path.firstTasks.enumerated()), id: \.offset) { i, t in
-                        HStack(alignment: .top, spacing: 12) {
-                            Text("\(i + 1)").font(.caption.weight(.bold)).foregroundStyle(Theme.brand300).frame(width: 24, height: 24).background(Circle().fill(Theme.brand500.opacity(0.15)))
-                            Text(t).font(.subheadline).foregroundStyle(Theme.inkSoft)
-                        }
-                    }
-                }
-                .card().fadeUp(5)
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("30-DAY OBJECTIVE", systemImage: "target").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.brand300)
-                    Text(path.objective).font(.title3.weight(.bold)).foregroundStyle(Theme.ink)
-                }
-                .card(.hero).fadeUp(6)
-            }
-            .frame(maxWidth: 520)
-            .padding(.horizontal, Space.xl)
-            .padding(.bottom, Space.xl)
-            .frame(maxWidth: .infinity)
-        }
-        .background(Theme.bg.ignoresSafeArea())
-        .overlay { ConfettiView(count: 50) }
-        .safeAreaInset(edge: .bottom) {
-            BottomBar {
-                Button { store.isPremium ? store.completeOnboarding(path: pathId) : (paywall = true) } label: {
-                    Label("Start My 30-Day Journey", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
-                }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
-                Button { exploring = true } label: { Label("Explore Other Paths", systemImage: "safari") }
-                    .buttonStyle(.fr(.ghost, full: true))
-            }
-        }
-        .sheet(isPresented: $exploring) { explore(other: pathId.other, recommended: rec.pathId) }
-        .sheet(isPresented: $paywall) { journeyPaywall(pathId: pathId) }
-    }
-
-    private func fact(_ label: String, _ value: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label).font(.caption.weight(.medium)).foregroundStyle(Theme.faint)
-            Text(value).font(.headline).foregroundStyle(Theme.ink)
-        }
-        .card()
-    }
-
-    private func explore(other: PathID, recommended: PathID) -> some View {
-        let p = MockData.path(other)
-        return ScrollView {
-            VStack(alignment: .leading, spacing: Space.l) {
-                Text(p.name).font(.title2).foregroundStyle(Theme.ink).padding(.top, Space.xl)
-                Text(p.tagline).font(.subheadline).foregroundStyle(Theme.muted)
-                ZStack { Theme.hueGradient(p.hue); Image(systemName: p.icon).font(.system(size: 44, weight: .semibold)).foregroundStyle(.white) }
-                    .frame(height: 110).clipShape(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous))
-                Text(p.description).font(.subheadline).foregroundStyle(Theme.muted)
-                HStack { Badge(p.difficulty, tone: .brand); Badge(p.typicalPrice) }
-                Text("What the 4 weeks look like").font(.section).foregroundStyle(Theme.ink)
-                ForEach(p.weeks, id: \.week) { w in
-                    (Text("Week \(w.week) · \(w.title): ").fontWeight(.semibold).foregroundStyle(Theme.inkSoft) + Text(w.focus.joined(separator: ", ")))
-                        .font(.subheadline).foregroundStyle(Theme.muted)
-                }
-                if other != recommended {
-                    Text("We recommended \(MockData.path(recommended).name) for you, but you can switch any time.").font(.footnote).foregroundStyle(Theme.faint)
-                }
-            }
-            .padding(.horizontal, Space.xl)
-        }
-        .safeAreaInset(edge: .bottom) {
-            Button("Choose this path instead") {
-                chosen = other
-                exploring = false
-                store.showToast("Switched to \(p.name)", .info)
-            }
-            .buttonStyle(.fr(.secondary, size: .lg, full: true))
-            .padding(.horizontal, Space.xl).padding(.top, Space.m)
-        }
-        .background(Theme.bgSunken.ignoresSafeArea())
-        .presentationDetents([.large])
-        .presentationDragIndicator(.visible)
-    }
-
-    private func journeyPaywall(pathId: PathID) -> some View {
-        VStack(alignment: .leading, spacing: Space.l) {
-            Text("Start your journey with Premium").font(.title2).foregroundStyle(Theme.ink).padding(.top, Space.xl)
-            Text("Your full 30-day program, AI Coach, lessons and every tool.").font(.subheadline).foregroundStyle(Theme.muted)
-            PlanPicker(selection: $plan).padding(.top, Space.s)
-            Spacer()
-            Button {
-                mockCheckout(store: store, plan: plan, loading: $loading) {
-                    paywall = false
-                    store.showToast("Premium unlocked")
-                    store.completeOnboarding(path: pathId)
-                }
-            } label: { LoadingLabel(title: "Start Premium", systemImage: "crown.fill", loading: loading) }
-            .buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(loading)
-            Button("Maybe later — look around first") { paywall = false; store.completeOnboarding(path: pathId) }
-                .buttonStyle(.fr(.ghost, full: true)).disabled(loading)
-            Text("Prototype checkout — no payment is taken.").font(.caption).foregroundStyle(Theme.faint).frame(maxWidth: .infinity)
-        }
-        .padding(.horizontal, Space.xl)
-        .background(Theme.bgSunken.ignoresSafeArea())
-        .presentationDetents([.fraction(0.72), .large])
-        .presentationDragIndicator(.visible)
     }
 }

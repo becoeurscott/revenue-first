@@ -218,7 +218,7 @@ struct PathLessonsTab: View {
     let pathId: PathID
     @Environment(AppStore.self) private var store
 
-    private var lessons: [Lesson] { MockData.shared.lessons.filter { $0.path == pathId.rawValue } }
+    private var lessons: [Lesson] { MockData.allLessons.filter { $0.path == pathId.rawValue } }
 
     var body: some View {
         if lessons.isEmpty {

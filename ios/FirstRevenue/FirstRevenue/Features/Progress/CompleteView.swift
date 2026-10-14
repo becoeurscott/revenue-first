@@ -1,10 +1,11 @@
 import SwiftUI
 
-/// Results shown on the celebration screen.
-private struct CompleteResults {
-    let missions, lessons, contacted, replies, clients, revenue: Int
-    /// Fictitious sample results shown when someone previews the screen before finishing.
-    static let showcase = CompleteResults(missions: 30, lessons: 28, contacted: 87, replies: 12, clients: 3, revenue: 850)
+/// One result tile on the celebration screen.
+private struct CompleteResult: Hashable {
+    let icon: String
+    let value: Int
+    let label: String
+    var isMoney = false
 }
 
 struct CompleteView: View {
@@ -14,10 +15,26 @@ struct CompleteView: View {
 
     private var firstName: String { store.s.user.firstName }
 
-    private var results: CompleteResults {
-        guard store.program.finished else { return .showcase }
+    /// The active journey's own numbers. Before finishing, fictitious sample results preview the screen.
+    private var results: [CompleteResult] {
         let st = store.stats
-        return CompleteResults(missions: st.missions, lessons: st.lessons, contacted: st.contacted, replies: st.replies, clients: st.clients, revenue: st.revenue)
+        let real = store.program.finished
+        let base = [CompleteResult(icon: "target", value: real ? st.missions : 30, label: "Missions completed"),
+                    CompleteResult(icon: "play.rectangle.fill", value: real ? st.lessons : 28, label: "Lessons watched")]
+        guard store.journey.sellsServices else {
+            return base + [
+                CompleteResult(icon: "play.rectangle.on.rectangle.fill", value: real ? st.videosPublished : 8, label: "Videos published"),
+                CompleteResult(icon: "person.3.fill", value: real ? st.value(.subscribers) : 140, label: "Subscribers"),
+                CompleteResult(icon: "clock.fill", value: real ? st.value(.watchTime) : 960, label: "Minutes watched"),
+                CompleteResult(icon: "dollarsign.circle.fill", value: real ? st.channelIncome : 35, label: "Channel income", isMoney: true),
+            ]
+        }
+        return base + [
+            CompleteResult(icon: "paperplane.fill", value: real ? st.contacted : 87, label: "Prospects contacted"),
+            CompleteResult(icon: "bubble.left.and.bubble.right.fill", value: real ? st.replies : 12, label: "Replies"),
+            CompleteResult(icon: "person.2.fill", value: real ? st.clients : 3, label: (real ? st.clients : 3) == 1 ? "Client" : "Clients"),
+            CompleteResult(icon: "dollarsign.circle.fill", value: real ? st.revenue : 850, label: "Earned", isMoney: true),
+        ]
     }
 
     var body: some View {
@@ -62,7 +79,7 @@ struct CompleteView: View {
                 .minimumScaleFactor(0.6)
                 .fadeUp(1)
                 .accessibilityAddTraits(.isHeader)
-            Text("\(firstName.isEmpty ? "You" : "\(firstName), you") showed up for 30 days and built a real skill people pay for. Most people never get past day three.")
+            Text("\(firstName.isEmpty ? "You" : "\(firstName), you") showed up for 30 days and built \(store.journey.sellsServices ? "a real skill people pay for" : "a channel and a publishing habit"). Most people never get past day three.")
                 .font(.body).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 440)
                 .fadeUp(2)
             if !store.program.finished {
@@ -73,20 +90,14 @@ struct CompleteView: View {
     }
 
     private var shareText: String {
-        let r = results
-        return "I just finished the Vaulten 30-day \(store.program.path.name) program: \(r.missions) missions, \(r.contacted) prospects contacted, \(r.clients) \(r.clients == 1 ? "client" : "clients") and \(money(r.revenue)) earned."
+        let parts = results.map { "\($0.isMoney ? money($0.value) : $0.value.formatted()) \($0.label.lowercased())" }
+        return "I just finished the Vaulten 30-day \(store.program.path.name) program: \(parts.joined(separator: ", "))."
     }
 
     private var stats: some View {
-        let r = results
         return VStack(spacing: Space.l) {
             LazyVGrid(columns: adaptiveColumns(min: 150), spacing: Space.m) {
-                CompleteCountStat(icon: "target", value: r.missions, label: "Missions completed")
-                CompleteCountStat(icon: "play.rectangle.fill", value: r.lessons, label: "Lessons watched")
-                CompleteCountStat(icon: "paperplane.fill", value: r.contacted, label: "Prospects contacted")
-                CompleteCountStat(icon: "bubble.left.and.bubble.right.fill", value: r.replies, label: "Replies")
-                CompleteCountStat(icon: "person.2.fill", value: r.clients, label: r.clients == 1 ? "Client" : "Clients")
-                CompleteCountStat(icon: "dollarsign.circle.fill", value: r.revenue, label: "Earned", isMoney: true)
+                ForEach(results, id: \.label) { r in CompleteCountStat(icon: r.icon, value: r.value, label: r.label, isMoney: r.isMoney) }
             }
             ShareLink(item: shareText, subject: Text("30 days complete"), message: Text(shareText)) {
                 Label("Share my results", systemImage: "square.and.arrow.up")
@@ -102,15 +113,29 @@ struct CompleteView: View {
                 Text("Pick a direction. You can change your mind later.").font(.callout).foregroundStyle(Theme.muted)
             }
             LazyVGrid(columns: adaptiveColumns(min: 220), spacing: Space.m) {
-                CompleteOptionCard(icon: "play.fill", title: "Continue Your Path", detail: "Keep working your \(store.program.path.name) pipeline and grow the clients you have.", featured: true) {
-                    finish(toast: "Your path stays open. Keep the momentum going.")
+                if store.journey.sellsServices {
+                    CompleteOptionCard(icon: "play.fill", title: "Continue Your Journey", detail: "Keep working your \(store.program.path.name) pipeline and grow the clients you have.", featured: true) {
+                        finish(toast: "Your journey stays open. Keep the momentum going.")
+                    }
+                } else {
+                    CompleteOptionCard(icon: "play.fill", title: "Keep Publishing", detail: "Plan your next month of videos on your content board and keep your schedule.", featured: true) {
+                        store.cover = nil
+                        store.push(.channel(.content), on: .home)
+                    }
                 }
-                CompleteOptionCard(icon: "arrow.triangle.2.circlepath", title: "Switch Paths", detail: "Add a second income skill. Your progress here stays saved.") {
+                CompleteOptionCard(icon: "arrow.triangle.2.circlepath", title: "Add Another Journey", detail: "Add a second way to earn. Your progress here stays saved.") {
                     store.cover = nil
                     store.push(.paths, on: .home)
                 }
-                CompleteOptionCard(icon: "chart.line.uptrend.xyaxis", title: "Start Advanced Program", detail: "Scale from first revenue to a steady $2K/month.") {
-                    showAdvanced = true
+                if store.journey.sellsServices {
+                    CompleteOptionCard(icon: "chart.line.uptrend.xyaxis", title: "Start Advanced Program", detail: "Scale from first revenue to a steady $2K/month.") {
+                        showAdvanced = true
+                    }
+                } else {
+                    CompleteOptionCard(icon: "dollarsign.circle", title: "Next Monetization Step", detail: "See which income source fits your channel's stage now.") {
+                        store.cover = nil
+                        store.push(.channel(.monetization), on: .home)
+                    }
                 }
             }
         }

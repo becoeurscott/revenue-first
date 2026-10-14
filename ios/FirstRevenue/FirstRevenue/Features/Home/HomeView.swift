@@ -20,7 +20,7 @@ struct HomeView: View {
                             Image(systemName: "crown.fill").foregroundStyle(.white).frame(width: 40, height: 40).background(Circle().fill(Theme.brandGradient))
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("Unlock your full journey").font(.body.weight(.bold)).foregroundStyle(Theme.ink)
-                                Text("AI Coach, outreach assistant, pricing and path switching.").font(.footnote).foregroundStyle(Theme.muted)
+                                Text(store.journey.sellsServices ? "AI Coach, outreach assistant, pricing and journey switching." : "AI Coach, channel tools, monetization guide and journey switching.").font(.footnote).foregroundStyle(Theme.muted)
                             }
                             Spacer()
                             Image(systemName: "arrow.right").foregroundStyle(Theme.brand300)
@@ -93,7 +93,13 @@ struct HomeView: View {
     }
 
     private var quickActions: some View {
-        let actions: [(String, String, Route)] = [("Prospects", "person.2", .outreach(.prospects)), ("Pricing", "tag", .pricing), ("Revenue", "dollarsign.circle", .revenue), ("Resources", "folder", .resources)]
+        let catalog: [String: (String, String, Route)] = [
+            "prospects": ("Prospects", "person.2", .outreach(.prospects)), "pricing": ("Pricing", "tag", .pricing),
+            "revenue": ("Revenue", "dollarsign.circle", .revenue), "resources": ("Resources", "folder", .resources),
+            "content": ("Content", "play.rectangle", .channel(.content)), "analytics": ("Analytics", "chart.line.uptrend.xyaxis", .channel(.analytics)),
+            "monetization": ("Monetize", "dollarsign.circle", .channel(.monetization)),
+        ]
+        let actions = store.journey.quickActions.compactMap { catalog[$0] }
         return HStack(spacing: 10) {
             ForEach(actions, id: \.0) { a in
                 Button { Haptics.tap(); store.push(a.2) } label: {
@@ -123,37 +129,50 @@ struct HomeView: View {
     }
 
     private func currentGoal(_ stats: Stats) -> some View {
-        let goal = max(store.s.user.goalAmount, 1)
-        let pct = min(100, Int(Double(stats.revenue) / Double(goal) * 100))
+        let goal = store.goal
+        let target = max(goal.target, 1)
+        let current = stats.value(goal.metric)
+        let fmt: (Int) -> String = { goal.isMoney ? money($0) : $0.formatted() }
+        let pct = min(100, Int(Double(current) / Double(target) * 100))
+        let services = store.journey.sellsServices
         return VStack(alignment: .leading, spacing: Space.s) {
-            SectionHeader(title: "Current Goal", action: "Revenue") { store.push(.revenue) }
+            SectionHeader(title: "Current Goal", action: services ? "Revenue" : "Channel") { store.push(services ? .revenue : .channel(goal.metric == .channelIncome ? .monetization : .content)) }
             VStack(alignment: .leading, spacing: Space.m) {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Earn your first \(money(goal))").font(.footnote).foregroundStyle(Theme.muted)
-                        (Text(money(stats.revenue)).font(.number(30)).foregroundStyle(Theme.ink) + Text(" / \(money(goal))").font(.body.weight(.semibold)).foregroundStyle(Theme.faint))
+                        Text(goal.metric == .revenue ? "Earn your first \(money(target))" : goal.label).font(.footnote).foregroundStyle(Theme.muted)
+                        (Text(fmt(current)).font(.number(30)).foregroundStyle(Theme.ink) + Text(" / \(fmt(target))").font(.body.weight(.semibold)).foregroundStyle(Theme.faint))
                     }
                     Spacer()
-                    Badge("\(pct)%", tone: stats.revenue > 0 ? .success : .neutral)
+                    Badge("\(pct)%", tone: current > 0 ? .success : .neutral)
                 }
-                ProgressBar(value: Double(stats.revenue) / Double(goal), tone: .success, label: "Progress to income goal")
-                Text(stats.booked > 0 ? "\(money(stats.booked)) more is booked and \(money(stats.potential)) is in your pipeline."
-                     : stats.potential > 0 ? "\(money(stats.potential)) in your pipeline. Keep following up."
-                     : "Your first dollar comes from your first conversation. Start with today's mission.")
+                ProgressBar(value: Double(current) / Double(target), tone: .success, label: "Progress to your goal")
+                Text(goalNote(stats))
                     .font(.footnote).foregroundStyle(Theme.faint)
             }
             .card()
         }
     }
 
+    private func goalNote(_ stats: Stats) -> String {
+        guard store.journey.sellsServices else {
+            return stats.videosPublished == 0 ? "Your first video is the hardest one. Today's mission gets you closer."
+                : "\(stats.videosPublished) published, \(stats.uploadsThisWeek) this week. Next: \(store.journey.primaryAction.lowercased())."
+        }
+        return stats.booked > 0 ? "\(money(stats.booked)) more is booked and \(money(stats.potential)) is in your pipeline."
+            : stats.potential > 0 ? "\(money(stats.potential)) in your pipeline. Keep following up."
+            : "Your first dollar comes from your first conversation. Start with today's mission."
+    }
+
     private func yourPath(_ program: Program, stats: Stats) -> some View {
         VStack(alignment: .leading, spacing: Space.s) {
-            SectionHeader(title: "Your Path", action: "All paths") { store.push(.paths) }
+            SectionHeader(title: "Your Journey", action: "All journeys") { store.push(.paths) }
             Button { store.push(.path(program.pathId)) } label: {
                 HStack(spacing: Space.l) {
                     SymbolTile(icon: program.path.icon, size: 56)
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(program.path.name).font(.body.weight(.bold)).foregroundStyle(Theme.ink)
+                        Text(store.journey.shortLabel).font(.body.weight(.bold)).foregroundStyle(Theme.ink)
+                        if let niche = store.niche { Text(niche.normalizedLabel).font(.footnote.weight(.medium)).foregroundStyle(Theme.brand300) }
                         Text("Week \(program.today.week) · \(program.path.weeks[safe: program.today.week - 1]?.title ?? "")").font(.footnote).foregroundStyle(Theme.muted)
                         ProgressBar(value: Double(stats.daysCompleted) / Double(program.totalDays), height: 6, label: "Path progress").padding(.top, 6)
                     }
@@ -166,7 +185,7 @@ struct HomeView: View {
     }
 
     @ViewBuilder private func milestone(_ stats: Stats) -> some View {
-        if let next = MockData.shared.achievements.first(where: { stats.value($0.metric) < $0.target }) {
+        if let next = store.achievements.first(where: { stats.value($0.metric) < $0.target }) {
             let v = stats.value(next.metric)
             VStack(alignment: .leading, spacing: Space.s) {
                 SectionHeader(title: "Upcoming Milestone", action: "Badges") { store.push(.achievements) }
@@ -192,10 +211,16 @@ struct HomeView: View {
 
     private func recentWins(_ stats: Stats) -> some View {
         var wins: [(String, String, Color)] = []
-        if let c = store.s.deals.first(where: { $0.status == .collected }) { wins.append(("dollarsign.circle.fill", "\(c.client) paid you \(money(c.amount))", Theme.success)) }
-        if let w = store.s.prospects.first(where: { $0.status == .won }) { wins.append(("trophy.fill", "You won \(w.business) as a client", Theme.warning)) }
+        if store.journey.sellsServices {
+            if let c = store.s.deals.first(where: { $0.path == store.s.pathId && $0.status == .collected }) { wins.append(("dollarsign.circle.fill", "\(c.client) paid you \(money(c.amount))", Theme.success)) }
+            if let w = store.s.prospects.first(where: { $0.path == store.s.pathId && $0.status == .won }) { wins.append(("trophy.fill", "You won \(w.business) as a client", Theme.warning)) }
+        } else {
+            if stats.channelIncome > 0 { wins.append(("dollarsign.circle.fill", "Your channel earned \(money(stats.channelIncome))", Theme.success)) }
+            if stats.videosPublished > 0 { wins.append(("play.rectangle.fill", "\(stats.videosPublished) video\(stats.videosPublished > 1 ? "s" : "") published", Theme.warning)) }
+            if let subs = stats.subscribers, subs > 0 { wins.append(("person.3.fill", "\(Int(subs).formatted()) subscribers", Theme.info)) }
+        }
         if stats.replies > 0 { wins.append(("bubble.left.and.bubble.right.fill", "\(stats.replies) prospect\(stats.replies > 1 ? "s" : "") replied to your outreach", Theme.info)) }
-        if stats.daysCompleted > 0 { wins.append(("checkmark.seal.fill", "\(stats.daysCompleted) mission\(stats.daysCompleted > 1 ? "s" : "") completed on this path", Theme.brand300)) }
+        if stats.daysCompleted > 0 { wins.append(("checkmark.seal.fill", "\(stats.daysCompleted) mission\(stats.daysCompleted > 1 ? "s" : "") completed on this journey", Theme.brand300)) }
         if stats.streak >= 3 { wins.append(("flame.fill", "\(stats.streak)-day streak and counting", Theme.warning)) }
         return VStack(alignment: .leading, spacing: Space.s) {
             SectionHeader(title: "Recent Wins", action: "Progress") { store.tab = .progress }
@@ -235,7 +260,7 @@ struct HomeView: View {
     }
 
     private func coachTip(_ program: Program) -> some View {
-        let tips = MockData.shared.coach.tips[program.pathId.rawValue] ?? []
+        let tips = MockData.coachTips(program.pathId)
         let tip = tips.isEmpty ? "" : tips[program.currentDay % tips.count]
         return VStack(alignment: .leading, spacing: Space.s) {
             SectionHeader(title: "Coach Tip", action: "Ask coach") { store.tab = .coach }

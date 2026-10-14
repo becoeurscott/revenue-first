@@ -15,6 +15,9 @@
     },
     "api/coach.ts": {
       "maxDuration": 90
+    },
+    "api/niche-profiles/resolve.ts": {
+      "maxDuration": 60
     }
   }
 }

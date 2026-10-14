@@ -73,10 +73,11 @@ private struct SaveAnswersBody: Encodable { let answers: [AnswerInput] }
 private struct ChoosePathBody: Encodable { let pathSlug: String }
 
 extension PathID {
-    /// Backend slugs are "gbp" and "clipping".
+    /// Backend slugs are "gbp" and "clipping". Exact match only: an unknown slug is unsupported,
+    /// never mapped onto a different path by a partial match.
     init?(slug: String) {
-        let s = slug.lowercased()
-        if s.contains("gbp") || s.contains("google") { self = .gbp } else if s.contains("clip") { self = .clipping } else { return nil }
+        guard let p = PathID(rawValue: slug.lowercased()), p.isService else { return nil }
+        self = p
     }
 }
 

@@ -4,10 +4,13 @@ import Foundation
 // Resources/Data/mock.json, which is exported from that TypeScript data layer.
 // ALL DATA IN THIS APP IS FICTITIOUS.
 
+/// A content track: the plan, lessons, resources and coach copy a journey runs on.
+/// "all"-scoped content in mock.json is written for client work, so it only applies to service tracks.
 enum PathID: String, Codable, CaseIterable, Identifiable, Hashable {
     case clipping, gbp
+    case youtubeOwned = "youtube_owned"
     var id: String { rawValue }
-    var other: PathID { self == .clipping ? .gbp : .clipping }
+    var isService: Bool { self != .youtubeOwned }
 }
 
 struct PathWeek: Codable, Hashable { let week: Int; let title: String; let focus: [String] }
@@ -52,6 +55,10 @@ struct DayPlan: Codable, Identifiable, Hashable {
     let xp: Int
     let lessonId: String
     let tasks: [MissionTask]
+    /// How today's universal action applies to the user's niche; uses NicheContext placeholders.
+    var nicheHint: String? = nil
+    /// Adjustment per StartingStage raw value.
+    var stageHints: [String: String]? = nil
 }
 
 struct Lesson: Codable, Identifiable, Hashable {
@@ -171,8 +178,9 @@ struct AppNotification: Codable, Identifiable, Hashable {
     let link: String
 }
 
-enum StatMetric: String, Codable, Hashable {
+enum StatMetric: String, Codable, Hashable, CodingKeyRepresentable {
     case missions, lessons, streak, prospects, contacted, replies, clients, revenue, daysCompleted
+    case videosPublished, uploadsThisWeek, watchTime, subscribers, clickThroughRate, returningViewers, channelIncome
 }
 
 struct Achievement: Codable, Identifiable, Hashable {
@@ -200,15 +208,18 @@ struct CoachConversation: Codable, Identifiable, Hashable {
     var title: String
     var date: Date
     var messages: [ChatMessage]
+    /// Nil for chats from before journeys, which were all service journeys.
+    var journeyId: String? = nil
 }
 
 struct CoachReply: Codable, Hashable {
     let id: String
     let keywords: [String]
-    /// keyed by "clipping" / "gbp" / "all"
+    /// keyed by track ("clipping" / "gbp" / "youtube_owned") or "all" (service tracks only)
     let text: [String: String]
     let followUps: [String]
-    func text(for path: PathID) -> String { text[path.rawValue] ?? text["all"] ?? text.values.first ?? "" }
+    /// Nil when this reply has no copy for the track — never borrow another journey's answer.
+    func text(for path: PathID) -> String? { text[path.rawValue] ?? (path.isService ? text["all"] : nil) }
 }
 
 struct WeeklyCheckin: Codable, Identifiable, Hashable {
@@ -221,6 +232,9 @@ struct WeeklyCheckin: Codable, Identifiable, Hashable {
     let replies: Int
     let madeMoney: Bool
     let improve: String
+    /// Set from journeys onward; older check-ins were all service journeys.
+    var journeyId: String? = nil
+    var metrics: [String: Int]? = nil
 }
 
 struct FaqItem: Codable, Hashable { let q: String; let a: String }

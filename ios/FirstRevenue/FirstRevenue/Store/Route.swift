@@ -1,6 +1,7 @@
 import Foundation
 
 enum OutreachTab: String, CaseIterable, Hashable { case prospects = "Prospects", messages = "Messages", templates = "Templates", followUps = "Follow-ups" }
+enum ChannelTab: String, CaseIterable, Hashable { case content = "Content", analytics = "Analytics", monetization = "Monetize" }
 
 /// Every pushable screen. Top-level tabs and full-screen covers live elsewhere (AppTab, Cover).
 enum Route: Hashable {
@@ -13,6 +14,7 @@ enum Route: Hashable {
     case generate(prospectId: String?)
     case pricing
     case revenue
+    case channel(ChannelTab)
     case paths
     case path(PathID)
     case streak
@@ -46,6 +48,8 @@ enum Route: Hashable {
             }
         case ("pricing", _): self = .pricing
         case ("revenue", _): self = .revenue
+        case ("channel", 1): self = .channel(.content)
+        case ("channel", 2): guard let t = ChannelTab.allCases.first(where: { $0.rawValue.lowercased() == parts[1] || ($0 == .monetization && parts[1] == "monetization") }) else { return nil }; self = .channel(t)
         case ("paths", 1): self = .paths
         case ("paths", 2): guard let p = MockData.path(slug: parts[1]) else { return nil }; self = .path(p.id)
         case ("streak", _): self = .streak

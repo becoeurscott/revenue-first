@@ -21,17 +21,27 @@ function observabilityContext(s: AppState, sessionId: string) {
   }
 }
 
-function userContext(s: AppState) {
+/** The web prototype only runs service journeys: each path maps to exactly one journey. */
+const JOURNEY_BY_PATH = { clipping: 'youtube_services', gbp: 'freelance_services' } as const
+
+function journeyContext(s: AppState) {
+  const day = s.progress[s.pathId]?.currentDay ?? 1
+  const mine = s.prospects.filter((p) => p.path === s.pathId)
   return {
-    path: s.pathId,
+    journeyId: JOURNEY_BY_PATH[s.pathId],
+    journeyVersion: 1,
     niche: s.answers.niche ?? '',
+    startingStage: s.user.experience,
+    constraints: { weeklyTime: s.user.time, budget: s.user.budget, equipment: [], skills: s.user.skills, location: '' },
     name: s.user.name.split(' ')[0],
-    experience: s.user.experience,
-    skills: s.user.skills,
-    time: s.user.time,
-    budget: s.user.budget,
     goal: s.user.goal,
-    blocker: s.answers.blocker,
+    currentDay: day,
+    currentMission: plans[s.pathId].find((d) => d.day === day)?.missionTitle ?? '',
+    metrics: {
+      prospects: mine.length,
+      contacted: mine.filter((p) => p.status !== 'New').length,
+      revenue: s.deals.filter((d) => d.path === s.pathId && d.status === 'Collected').reduce((sum, d) => sum + d.amount, 0),
+    },
   }
 }
 
@@ -62,7 +72,7 @@ export async function generatePlaybook(s: AppState): Promise<Playbook> {
   const plan = plans[s.pathId].map((d) => ({ day: d.day, theme: d.theme, mission: d.missionTitle }))
   const data = await post<{ playbook?: Playbook }>(
     '/api/playbook',
-    { user: userContext(s), plan, ai: observabilityContext(s, `playbook:${crypto.randomUUID()}`) },
+    { context: journeyContext(s), plan, ai: observabilityContext(s, `playbook:${crypto.randomUUID()}`) },
     180_000,
   )
   if (!data.playbook) throw new AiRequestError('failed')
@@ -73,7 +83,7 @@ export async function askCoach(s: AppState, conversationId: string, messages: Ch
   const data = await post<{ reply?: string }>(
     '/api/coach',
     {
-      user: userContext(s),
+      context: journeyContext(s),
       playbookSummary: s.playbook?.summary,
       messages: messages.map((m) => ({ from: m.from, text: m.text })),
       ai: observabilityContext(s, `coach:${conversationId}`),

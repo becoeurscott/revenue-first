@@ -161,6 +161,7 @@ private struct MissionFlow: View {
                     .overlay(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).strokeBorder(Theme.success.opacity(0.25)))
                     .padding(.top, Space.s)
             }
+            MissionNicheCard(plan: plan).padding(.top, Space.s)
         }
         .padding(.top, Space.l)
     }

@@ -141,7 +141,7 @@ struct NotificationsView: View {
                 Button("View all") { withAnimation(.snappy) { filter = "All" } }.buttonStyle(.fr(.secondary))
             }
         } else {
-            EmptyStateView(title: "No notifications", message: "Mission reminders, replies from prospects and milestones will show up here.", mood: .sleepy) {
+            EmptyStateView(title: "No notifications", message: "Mission reminders, progress updates and milestones will show up here.", mood: .sleepy) {
                 Button("Go to today's mission") {
                     store.popToRoot()
                     store.tab = .home

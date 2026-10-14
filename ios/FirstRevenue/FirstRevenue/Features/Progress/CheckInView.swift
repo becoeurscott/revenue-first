@@ -6,12 +6,15 @@ struct CheckInAnswers {
     var difficult = ""
     var prospects = 0
     var replies = 0
+    /// Owned-channel journeys: videos published this week.
+    var published = 0
+    var services = true
     var madeMoney = false
     var moneyAnswered = false
     var improve = ""
 }
 
-enum CheckInStepKind { case accomplished, difficult, prospects, replies, madeMoney, improve }
+enum CheckInStepKind { case accomplished, difficult, prospects, replies, published, madeMoney, improve }
 
 struct CheckInStep {
     let kind: CheckInStepKind
@@ -20,14 +23,26 @@ struct CheckInStep {
     let subtitle: String
     var placeholder = ""
 
-    static let all: [CheckInStep] = [
-        CheckInStep(kind: .accomplished, icon: "flag.checkered", title: "What did you accomplish?", subtitle: "Big or small. Missions, samples, messages sent — it all counts.", placeholder: "e.g. Finished my portfolio and sent my first 10 messages"),
-        CheckInStep(kind: .difficult, icon: "mountain.2.fill", title: "What was difficult?", subtitle: "Naming the hard part is how you get past it.", placeholder: "e.g. Finding creators who actually reply"),
-        CheckInStep(kind: .prospects, icon: "paperplane.fill", title: "How many prospects did you contact?", subtitle: "Prefilled from your prospect list. Adjust if you reached out elsewhere."),
-        CheckInStep(kind: .replies, icon: "bubble.left.and.bubble.right.fill", title: "How many replies did you receive?", subtitle: "Any reply counts — even a “not right now”."),
-        CheckInStep(kind: .madeMoney, icon: "dollarsign.circle.fill", title: "Did you make money?", subtitle: "Be honest. “Not yet” is a perfectly normal answer."),
-        CheckInStep(kind: .improve, icon: "scope", title: "What do you want to improve?", subtitle: "Pick one thing. This becomes part of next week’s focus.", placeholder: "e.g. Writing better first lines"),
-    ]
+    /// Service journeys check in on outreach; channel journeys on publishing.
+    static func steps(services: Bool) -> [CheckInStep] {
+        guard !services else {
+            return [
+                CheckInStep(kind: .accomplished, icon: "flag.checkered", title: "What did you accomplish?", subtitle: "Big or small. Missions, samples, messages sent — it all counts.", placeholder: "e.g. Finished my portfolio and sent my first 10 messages"),
+                CheckInStep(kind: .difficult, icon: "mountain.2.fill", title: "What was difficult?", subtitle: "Naming the hard part is how you get past it.", placeholder: "e.g. Finding creators who actually reply"),
+                CheckInStep(kind: .prospects, icon: "paperplane.fill", title: "How many prospects did you contact?", subtitle: "Prefilled from your prospect list. Adjust if you reached out elsewhere."),
+                CheckInStep(kind: .replies, icon: "bubble.left.and.bubble.right.fill", title: "How many replies did you receive?", subtitle: "Any reply counts — even a “not right now”."),
+                CheckInStep(kind: .madeMoney, icon: "dollarsign.circle.fill", title: "Did you make money?", subtitle: "Be honest. “Not yet” is a perfectly normal answer."),
+                CheckInStep(kind: .improve, icon: "scope", title: "What do you want to improve?", subtitle: "Pick one thing. This becomes part of next week’s focus.", placeholder: "e.g. Writing better first lines"),
+            ]
+        }
+        return [
+            CheckInStep(kind: .accomplished, icon: "flag.checkered", title: "What did you accomplish?", subtitle: "Big or small. Ideas, scripts, recordings, uploads — it all counts.", placeholder: "e.g. Scripted, recorded and published my second video"),
+            CheckInStep(kind: .difficult, icon: "mountain.2.fill", title: "What was difficult?", subtitle: "Naming the hard part is how you get past it.", placeholder: "e.g. Sounding natural on camera"),
+            CheckInStep(kind: .published, icon: "play.rectangle.fill", title: "How many videos did you publish this week?", subtitle: "Prefilled from your content board. Shorts count too."),
+            CheckInStep(kind: .madeMoney, icon: "dollarsign.circle.fill", title: "Did your channel make money?", subtitle: "Affiliates, sponsors, products or ads. “Not yet” is normal this early."),
+            CheckInStep(kind: .improve, icon: "scope", title: "What do you want to improve?", subtitle: "Pick one thing. This becomes part of next week’s focus.", placeholder: "e.g. A stronger first 30 seconds"),
+        ]
+    }
 }
 
 private enum CheckInPhase { case form, analysing, summary }
@@ -41,7 +56,7 @@ struct CheckInView: View {
     @State private var prefilled = false
     @State private var confirmClose = false
 
-    private let steps = CheckInStep.all
+    private var steps: [CheckInStep] { CheckInStep.steps(services: store.journey.sellsServices) }
 
     /// The week that was just completed (Day 8 → week 1, Day 14 → week 2).
     private var week: Int {
@@ -81,6 +96,8 @@ struct CheckInView: View {
         let st = store.stats
         answers.prospects = st.contacted
         answers.replies = st.replies
+        answers.published = st.uploadsThisWeek
+        answers.services = store.journey.sellsServices
     }
 
     // MARK: Chrome
@@ -131,7 +148,7 @@ struct CheckInView: View {
         case .improve: answers.improve.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
         case .madeMoney: answers.moneyAnswered
         case .replies: answers.replies <= answers.prospects
-        case .prospects: true
+        case .prospects, .published: true
         }
     }
 
@@ -190,6 +207,7 @@ struct CheckInView: View {
             difficult: answers.difficult.trimmingCharacters(in: .whitespacesAndNewlines),
             prospects: answers.prospects,
             replies: answers.replies,
+            published: answers.services ? nil : answers.published,
             madeMoney: answers.madeMoney,
             improve: answers.improve.trimmingCharacters(in: .whitespacesAndNewlines)
         )

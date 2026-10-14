@@ -1,15 +1,13 @@
 import SwiftUI
 
-private let coachGateMessage = "Get instant, practical answers about clients, pricing and outreach, tailored to your path."
-
 struct CoachView: View {
     @Environment(AppStore.self) private var store
     @State private var loading = true
     @State private var pendingDelete: CoachConversation?
 
     var body: some View {
-        Screen(title: "Your Business Coach", subtitle: "Ask me anything about your path.", large: true) {
-            PremiumGate(feature: "AI Coach", message: coachGateMessage) {
+        Screen(title: store.journey.sellsServices ? "Your Business Coach" : "Your Channel Coach", subtitle: store.journey.sellsServices ? "Ask me anything about your clients, offer and outreach." : "Ask me anything about your channel.", large: true) {
+            PremiumGate(feature: "AI Coach", message: store.journey.coachGateMessage) {
                 content
             }
         }
@@ -51,7 +49,7 @@ struct CoachView: View {
 
     private var hero: some View {
         let first = store.s.user.firstName
-        let prompts = MockData.shared.coach.suggestedPrompts[store.s.pathId.rawValue] ?? []
+        let prompts = MockData.coachPrompts(store.s.pathId)
         return VStack(alignment: .leading, spacing: Space.l) {
             HStack(spacing: Space.m) {
                 MascotView(mood: .happy, size: 76, float: false)
@@ -82,11 +80,11 @@ struct CoachView: View {
             SectionHeader(title: "Recent conversations")
             if loading {
                 SkeletonList(count: 3)
-            } else if store.s.conversations.isEmpty {
+            } else if store.coachConversations.isEmpty {
                 EmptyStateView(title: "No conversations yet", message: "Ask your first question below. Your chats are saved here so you can come back to the advice.", mood: .thinking, compact: true)
             } else {
                 VStack(spacing: Space.m) {
-                    ForEach(Array(store.s.conversations.enumerated()), id: \.element.id) { i, c in
+                    ForEach(Array(store.coachConversations.enumerated()), id: \.element.id) { i, c in
                         RevealSwipeRow(actions: [RevealSwipeAction(title: "Delete", systemImage: "trash", tint: Theme.danger) { pendingDelete = c }]) {
                             CoachConversationRow(conversation: c) { store.push(.coachConversation(c.id)) }
                         }
@@ -104,7 +102,7 @@ struct CoachView: View {
     // MARK: Tip
 
     private var tipCard: some View {
-        let tips = MockData.shared.coach.tips[store.s.pathId.rawValue] ?? []
+        let tips = MockData.coachTips(store.s.pathId)
         let tip = tips.isEmpty ? "" : tips[Calendar.current.component(.day, from: Date()) % tips.count]
         return VStack(alignment: .leading, spacing: Space.s) {
             SectionHeader(title: "Coach tip")

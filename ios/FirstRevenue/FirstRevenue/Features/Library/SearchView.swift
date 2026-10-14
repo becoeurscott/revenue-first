@@ -127,7 +127,7 @@ struct SearchView: View {
         r.lessons = MockData.lessons(for: pathId).filter { has($0.title, $0.category, $0.summary) }
         r.resources = MockData.resources(for: pathId).filter { has($0.title, $0.type, $0.description) }
         r.missions = MockData.plan(pathId).filter { has($0.theme, $0.missionTitle) }
-        r.prospects = store.s.prospects.filter { has($0.name, $0.business, $0.platform, $0.status.rawValue) }
+        r.prospects = store.s.prospects.filter { $0.path == pathId && has($0.name, $0.business, $0.platform, $0.status.rawValue) }
         r.paths = MockData.paths.filter { has($0.name, $0.tagline, $0.service) }
         return r
     }

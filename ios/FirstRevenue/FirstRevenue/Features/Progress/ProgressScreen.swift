@@ -46,10 +46,15 @@ struct ProgressScreen: View {
                 StatCard(icon: "medal.fill", value: "\(stats.longestStreak)", label: "Longest streak")
                 StatCard(icon: "target", value: "\(stats.missions)", label: "Missions completed")
                 StatCard(icon: "play.rectangle.fill", value: "\(stats.lessons)", label: "Lessons watched") { store.push(.lessons) }
-                StatCard(icon: "paperplane.fill", value: "\(stats.contacted)", label: "Prospects contacted") { store.push(.outreach(.prospects)) }
-                StatCard(icon: "bubble.left.and.bubble.right.fill", value: "\(stats.replies)", label: "Replies")
-                StatCard(icon: "person.2.fill", value: "\(stats.clients)", label: "Clients won")
-                StatCard(icon: "dollarsign.circle.fill", value: money(stats.revenue), label: "Revenue earned", accent: true) { store.push(.revenue) }
+                ForEach(store.journey.metrics.filter { $0 != .prospects }, id: \.self) { m in
+                    let def = Journeys.metric(m)
+                    let accent = m == .revenue || m == .videosPublished
+                    if let route = store.route(for: m) {
+                        StatCard(icon: def.icon, value: stats.display(m), label: def.label, accent: accent) { store.push(route) }
+                    } else {
+                        StatCard(icon: def.icon, value: stats.display(m), label: def.label, accent: accent)
+                    }
+                }
             }
         }
     }
@@ -122,18 +127,24 @@ private struct ProgressHeroCard: View {
     }
 
     private var revenue: some View {
-        let goal = max(store.s.user.goalAmount, 1)
-        let note = stats.revenue >= goal
+        let goal = store.goal
+        let target = max(goal.target, 1)
+        let current = stats.value(goal.metric)
+        let fmt: (Int) -> String = { goal.isMoney ? money($0) : $0.formatted() }
+        let services = store.journey.sellsServices
+        let note = current >= target
             ? "Goal reached. Time to set a bigger one."
-            : "\(money(goal - stats.revenue)) to go. " + (stats.booked > 0 ? "\(money(stats.booked)) is already booked." : "One client can close most of that gap.")
+            : "\(fmt(target - current)) to go. " + (services
+                ? (stats.booked > 0 ? "\(money(stats.booked)) is already booked." : "One client can close most of that gap.")
+                : "Steady uploads move this faster than any single video.")
         return VStack(alignment: .leading, spacing: Space.s) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Revenue goal").font(.body.weight(.bold)).foregroundStyle(Theme.ink)
+                Text(goal.metric == .revenue ? "Revenue goal" : goal.label).font(.body.weight(.bold)).foregroundStyle(Theme.ink).lineLimit(1).minimumScaleFactor(0.8)
                 Spacer(minLength: 6)
-                (Text(money(stats.revenue)).fontWeight(.semibold).foregroundStyle(Theme.ink) + Text(" of \(money(goal))").foregroundStyle(Theme.muted))
+                (Text(fmt(current)).fontWeight(.semibold).foregroundStyle(Theme.ink) + Text(" of \(fmt(target))").foregroundStyle(Theme.muted))
                     .font(.footnote).monospacedDigit()
             }
-            ProgressBar(value: Double(stats.revenue) / Double(goal), tone: .success, label: "Revenue goal progress")
+            ProgressBar(value: Double(current) / Double(target), tone: .success, label: "Goal progress")
             Text(note).font(.footnote).foregroundStyle(Theme.faint).fixedSize(horizontal: false, vertical: true)
         }
         .accessibilityElement(children: .combine)
@@ -159,9 +170,20 @@ private struct ProgressMilestonesCard: View {
     @Environment(AppStore.self) private var store
 
     private var items: [ProgressMilestone] {
-        [
+        let start = [
             ProgressMilestone(title: "First Mission", icon: "flag.fill", current: stats.missions, target: 1, hint: "Complete your first daily mission"),
             ProgressMilestone(title: "3-Day Streak", icon: "flame.fill", current: max(stats.streak, min(stats.longestStreak, 3)), target: 3, hint: "Show up three days in a row"),
+        ]
+        guard store.journey.sellsServices else {
+            return start + [
+                ProgressMilestone(title: "First Video", icon: "play.rectangle.fill", current: stats.videosPublished, target: 1, hint: "Publish your first video"),
+                ProgressMilestone(title: "3 Uploads in a Week", icon: "calendar.badge.clock", current: stats.uploadsThisWeek, target: 3, hint: "Publish three videos within seven days"),
+                ProgressMilestone(title: "5 Videos", icon: "square.stack.fill", current: stats.videosPublished, target: 5, hint: "Publish five videos"),
+                ProgressMilestone(title: "First 100 Subscribers", icon: "person.3.fill", current: stats.value(.subscribers), target: 100, hint: "Log 100 subscribers from YouTube Studio"),
+                ProgressMilestone(title: "First Channel Income", icon: "dollarsign.circle.fill", current: stats.channelIncome, target: 1, isMoney: true, hint: "Log your first affiliate, sponsor or product income"),
+            ]
+        }
+        return start + [
             ProgressMilestone(title: "First Prospect", icon: "magnifyingglass", current: stats.prospects, target: 1, hint: "Add one potential client"),
             ProgressMilestone(title: "10 Prospects", icon: "list.bullet.clipboard.fill", current: stats.prospects, target: 10, hint: "Build a list of 10 potential clients"),
             ProgressMilestone(title: "First Reply", icon: "bubble.left.fill", current: stats.replies, target: 1, hint: "Get a reply from a prospect"),

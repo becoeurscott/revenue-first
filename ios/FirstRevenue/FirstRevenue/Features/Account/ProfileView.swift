@@ -70,7 +70,7 @@ struct ProfileView: View {
                     Text(displayName).font(.title3.weight(.heavy)).foregroundStyle(Theme.ink).lineLimit(1)
                     Text(store.s.user.email.isEmpty ? "No email added" : store.s.user.email).font(.footnote).foregroundStyle(Theme.muted).lineLimit(1)
                     HStack(spacing: 6) {
-                        Badge(program.path.name, tone: .brand, systemImage: program.path.icon)
+                        Badge(store.journey.shortLabel, tone: .brand, systemImage: store.journey.icon)
                         Badge("Day \(program.currentDay) / \(program.totalDays)")
                     }
                     .padding(.top, 4)
@@ -94,8 +94,11 @@ struct ProfileView: View {
         let stats = store.stats
         return HStack(spacing: Space.m) {
             StatCard(icon: "flame.fill", value: "\(stats.streak)", label: "Day streak") { store.push(.streak) }
-            StatCard(icon: "person.2.fill", value: "\(stats.prospects)", label: "Prospects") { store.push(.outreach(.prospects)) }
-            StatCard(icon: "dollarsign.circle.fill", value: money(stats.revenue), label: "Revenue", accent: true) { store.push(.revenue) }
+            ForEach(store.journey.sellsServices ? [StatMetric.prospects, .revenue] : [.videosPublished, .subscribers], id: \.self) { m in
+                StatCard(icon: Journeys.metric(m).icon, value: stats.display(m), label: Journeys.metric(m).label, accent: m == .revenue || m == .videosPublished) {
+                    if let route = store.route(for: m) { store.push(route) }
+                }
+            }
         }
     }
 
@@ -105,9 +108,10 @@ struct ProfileView: View {
         let user = store.s.user
         let stats = store.stats
         return ListGroup(title: "About me") {
-            ListRow(icon: "target", title: "My Goals", detail: "\(money(stats.revenue)) of \(user.goal.isEmpty ? money(user.goalAmount) : user.goal) earned") { sheet = .goals }
+            ListRow(icon: "target", title: "My Goals", detail: "\(store.goal.isMoney ? money(stats.value(store.goal.metric)) : stats.value(store.goal.metric).formatted()) toward \(store.goal.label)") { sheet = .goals }
             ListRow(icon: "sparkles", title: "My Skills", detail: user.skills.isEmpty ? "Add your skills" : user.skills.joined(separator: ", ")) { sheet = .skills }
-            ListRow(icon: "safari", title: "My Path", detail: store.program.path.name) { store.push(.paths) }
+            ListRow(icon: "safari", title: "My Journey", detail: store.journey.shortLabel) { store.push(.paths) }
+            ListRow(icon: "scope", title: "My Niche", detail: store.niche?.normalizedLabel ?? "Not set") { sheet = .edit }
         }
     }
 
@@ -116,7 +120,11 @@ struct ProfileView: View {
         return ListGroup(title: "My journey") {
             ListRow(icon: "chart.line.uptrend.xyaxis", title: "Progress", detail: "\(stats.daysCompleted) of \(MockData.totalDays) days completed") { store.tab = .progress }
             ListRow(icon: "trophy", title: "Achievements") { store.push(.achievements) }
-            ListRow(icon: "dollarsign.circle", title: "Revenue", detail: "\(money(stats.revenue)) collected") { store.push(.revenue) }
+            if store.journey.sellsServices {
+                ListRow(icon: "dollarsign.circle", title: "Revenue", detail: "\(money(stats.revenue)) collected") { store.push(.revenue) }
+            } else {
+                ListRow(icon: "play.rectangle.on.rectangle", title: "Channel", detail: "\(stats.videosPublished) published · \(money(stats.channelIncome)) earned") { store.push(.channel(.content)) }
+            }
             ListRow(icon: "play.rectangle", title: "Lessons", detail: "\(stats.lessons) completed") { store.push(.lessons) }
             ListRow(icon: "folder", title: "Resources", detail: "\(store.s.savedResources.count) saved") { store.push(.resources) }
         }
@@ -153,25 +161,29 @@ private struct ProfileGoalsSheet: View {
 
     var body: some View {
         let user = store.s.user
-        let answers = store.s.answers
+        let a = store.enrollment?.answers
+        let stage = a?.startingStage.flatMap { st in Journeys.catalog.onboarding.first { $0.key == "startingStage" }?.options?.first { $0.value == st.rawValue }?.label }
         AccountSheetScaffold(title: "My goals", description: "What you told us when you started. Your plan is built around it.", detents: [.medium, .large]) {
             goalCard
             Grid(horizontalSpacing: Space.m, verticalSpacing: Space.m) {
                 GridRow {
-                    AccountFactTile(label: "Time per day", value: answers.time.isEmpty ? user.time : answers.time)
-                    AccountFactTile(label: "Starting budget", value: answers.budget.isEmpty ? user.budget : answers.budget)
+                    AccountFactTile(label: "Time per week", value: a?.weeklyTime.isEmpty == false ? a!.weeklyTime : user.time)
+                    AccountFactTile(label: "Starting budget", value: a?.budget.isEmpty == false ? a!.budget : user.budget)
                 }
                 GridRow {
-                    AccountFactTile(label: "Experience", value: answers.experience.isEmpty ? user.experience : answers.experience)
-                    AccountFactTile(label: "Commitment", value: answers.commitment)
+                    AccountFactTile(label: "Starting point", value: stage ?? "Not set")
+                    AccountFactTile(label: "Equipment", value: a?.equipment.isEmpty == false ? a!.equipment.joined(separator: ", ") : "Not set")
                 }
             }
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Biggest blocker").font(.caption).foregroundStyle(Theme.faint)
-                Text(answers.blocker.isEmpty ? "Not set" : answers.blocker).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
-                Text("Your daily missions and coach answers are tuned to help you get past this.").font(.footnote).foregroundStyle(Theme.muted).padding(.top, 2)
+            if let niche = store.niche {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Niche").font(.caption).foregroundStyle(Theme.faint)
+                    Text(niche.normalizedLabel).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
+                    Text("Your missions, coach answers and examples are written for \(niche.audience).").font(.footnote).foregroundStyle(Theme.muted).padding(.top, 2)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .card(padding: 14)
             }
-            .card(padding: 14)
         } footer: {
             Button {
                 onEdit()
@@ -181,22 +193,24 @@ private struct ProfileGoalsSheet: View {
     }
 
     private var goalCard: some View {
-        let revenue = store.stats.revenue
-        let target = max(store.s.user.goalAmount, 1)
-        let ratio = min(Double(revenue) / Double(target), 1)
-        let left = max(target - revenue, 0)
+        let goal = store.goal
+        let current = store.stats.value(goal.metric)
+        let target = max(goal.target, 1)
+        let fmt: (Int) -> String = { goal.isMoney ? money($0) : $0.formatted() }
+        let ratio = min(Double(current) / Double(target), 1)
+        let left = max(target - current, 0)
         return VStack(alignment: .leading, spacing: Space.m) {
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("30-DAY GOAL").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.brand300)
-                    (Text(money(revenue)).font(.number(30)).foregroundStyle(Theme.ink)
-                     + Text(" / \(store.s.user.goal.isEmpty ? money(target) : store.s.user.goal)").font(.body.weight(.semibold)).foregroundStyle(Theme.faint))
+                    Text("30-DAY GOAL · \(goal.label.uppercased())").font(.eyebrow).tracking(0.8).foregroundStyle(Theme.brand300).lineLimit(1)
+                    (Text(fmt(current)).font(.number(30)).foregroundStyle(Theme.ink)
+                     + Text(" / \(fmt(target))").font(.body.weight(.semibold)).foregroundStyle(Theme.faint))
                 }
                 Spacer()
                 Text("\(Int(ratio * 100))%").font(.subheadline.weight(.bold)).monospacedDigit().foregroundStyle(Theme.brand300)
             }
             ProgressBar(value: ratio, tone: ratio >= 1 ? .success : .brand, label: "Progress toward income goal")
-            Text(left == 0 ? "Goal reached. Time to pick a bigger one." : "\(money(left)) to go. One more client could close the gap.")
+            Text(left == 0 ? "Goal reached. Time to pick a bigger one." : "\(fmt(left)) to go. " + (store.journey.sellsServices ? "One more client could close the gap." : "Keep publishing on schedule."))
                 .font(.footnote).foregroundStyle(Theme.muted)
         }
         .card(.selected)

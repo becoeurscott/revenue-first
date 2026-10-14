@@ -7,7 +7,11 @@ struct CheckInStepContent: View {
     let week: Int
     @Binding var answers: CheckInAnswers
 
-    private static let quickPicks = ["Send more outreach", "Write better openers", "Follow up faster", "Be more consistent", "Price with confidence"]
+    private var quickPicks: [String] {
+        answers.services
+            ? ["Send more outreach", "Write better openers", "Follow up faster", "Be more consistent", "Price with confidence"]
+            : ["Publish on schedule", "Stronger hooks", "Better thumbnails", "Batch my scripts", "Reply to every comment"]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -39,6 +43,8 @@ struct CheckInStepContent: View {
             }
         case .prospects:
             CheckInCounter(value: $answers.prospects, label: "Prospects contacted")
+        case .published:
+            CheckInCounter(value: $answers.published, label: "Videos published")
         case .replies:
             VStack(spacing: Space.xl) {
                 CheckInCounter(value: $answers.replies, label: "Replies received")
@@ -64,7 +70,7 @@ struct CheckInStepContent: View {
 
     private var quickPickChips: some View {
         FlowLayout(spacing: 8) {
-            ForEach(Self.quickPicks, id: \.self) { q in
+            ForEach(quickPicks, id: \.self) { q in
                 let on = answers.improve.contains(q)
                 Button {
                     Haptics.select()
@@ -181,6 +187,31 @@ struct CheckInSummaryData {
             return s.prefix(1).uppercased() + s.dropFirst()
         }
         let rate = a.prospects > 0 ? Int((Double(a.replies) / Double(a.prospects) * 100).rounded()) : 0
+        self.rate = rate
+
+        guard a.services else {
+            var wins = [sentence(a.accomplished)]
+            if a.published > 0 { wins.append("\(a.published) \(a.published == 1 ? "video" : "videos") published this week — most channels stall before their first") }
+            if stats.videosPublished > a.published { wins.append("\(stats.videosPublished) videos published in total") }
+            if a.madeMoney { wins.append(stats.channelIncome > 0 ? "Your channel has earned \(money(stats.channelIncome)) so far" : "Your channel made money this week") }
+            if stats.streak >= 3 { wins.append("\(stats.streak)-day streak and counting") }
+
+            var challenges = [sentence(a.difficult)]
+            if a.published == 0 { challenges.append("Nothing published this week — an unpublished video teaches you nothing about your audience") }
+            if stats.clickThroughRate == nil && stats.videosPublished > 0 { challenges.append("No YouTube Studio numbers logged yet, so it's hard to see what's working") }
+            if !a.madeMoney { challenges.append("No channel income yet — expected this early; audience comes first") }
+
+            var focus: [String] = []
+            if a.published == 0 { focus.append("Publish one video this week, even a short one") }
+            else if a.published < 2 { focus.append("Batch two scripts in one sitting so next week has two uploads") }
+            else { focus.append("Change one thing in your packaging and compare click-through rate") }
+            if stats.videosPublished > 0 { focus.append("Log your numbers from YouTube Studio every week") }
+            focus.append("Your own focus: \(sentence(a.improve))")
+            self.wins = wins
+            self.challenges = challenges
+            self.focus = focus
+            return
+        }
 
         var wins = [sentence(a.accomplished)]
         if stats.daysCompleted > 0 { wins.append("\(stats.daysCompleted) \(stats.daysCompleted == 1 ? "mission" : "missions") completed on your plan") }
@@ -206,7 +237,6 @@ struct CheckInSummaryData {
         self.wins = wins
         self.challenges = challenges
         self.focus = focus
-        self.rate = rate
     }
 }
 
@@ -260,9 +290,15 @@ struct CheckInSummaryView: View {
 
     private func numbers(_ s: CheckInSummaryData) -> some View {
         HStack(spacing: Space.m) {
-            tile("\(answers.prospects)", "Contacted")
-            tile("\(answers.replies)", "Replies")
-            tile("\(s.rate)%", "Reply rate")
+            if answers.services {
+                tile("\(answers.prospects)", "Contacted")
+                tile("\(answers.replies)", "Replies")
+                tile("\(s.rate)%", "Reply rate")
+            } else {
+                tile("\(answers.published)", "Published")
+                tile("\(stats.videosPublished)", "Total videos")
+                tile(stats.display(.subscribers), "Subscribers")
+            }
         }
     }
 

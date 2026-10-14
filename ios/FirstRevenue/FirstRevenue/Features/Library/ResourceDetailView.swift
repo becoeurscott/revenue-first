@@ -86,7 +86,7 @@ private struct ResDetailContent: View {
     }
 
     private var pathLabel: String {
-        guard resource.path != "all", let p = PathID(rawValue: resource.path) else { return "All paths" }
+        guard resource.path != "all", let p = PathID(rawValue: resource.path) else { return "All journeys" }
         return MockData.path(p).name
     }
 

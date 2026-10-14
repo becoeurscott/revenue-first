@@ -3,73 +3,6 @@ import Foundation
 // Frontend-only "intelligence". Each engine is a pure function so a real API can replace it later
 // without touching the screens. Ported 1:1 from src/data/{onboarding,pricing,messages,coach}.ts.
 
-// MARK: - Path recommendation
-
-struct Recommendation: Hashable {
-    let pathId: PathID
-    let match: Int
-    let summary: String
-    let reasons: [String]
-}
-
-enum RecommendationEngine {
-    private static let contentSkills = ["Video editing", "Social media", "Graphic design", "Photography", "Writing"]
-    private static let businessSkills = ["Sales", "Marketing", "Customer service", "Research", "Web development"]
-
-    static func recommend(_ a: OnboardingAnswers) -> Recommendation {
-        var clip = 0.0, gbp = 0.0
-        var clipWhy: [String] = [], gbpWhy: [String] = []
-
-        if a.interest == "Creating content" {
-            clip += 4; clipWhy.append("You're more excited by creating content than by consulting")
-        } else if a.interest == "Helping businesses" {
-            gbp += 4; gbpWhy.append("You're drawn to helping real businesses get found")
-        }
-
-        let content = a.skills.filter(contentSkills.contains)
-        let business = a.skills.filter(businessSkills.contains)
-        if !content.isEmpty {
-            clip += Double(content.count) * 1.5 + (content.contains("Video editing") ? 2 : 0)
-            clipWhy.append("You already have \(content.prefix(2).joined(separator: " and ").lowercased()) skills")
-        }
-        if !business.isEmpty {
-            gbp += Double(business.count) * 1.5 + (business.contains("Sales") ? 2 : 0)
-            gbpWhy.append("Your \(business.prefix(2).joined(separator: " and ").lowercased()) background transfers directly")
-        }
-
-        if ["Comfortable", "Very comfortable"].contains(a.comfort) {
-            gbp += 1.5; gbpWhy.append("You're comfortable talking to owners, which local outreach rewards")
-        } else if !a.comfort.isEmpty {
-            clip += 1; clipWhy.append("Creator outreach happens over DMs — low pressure while you build confidence")
-        }
-
-        if ["15 minutes", "30 minutes"].contains(a.time) {
-            gbp += 1; gbpWhy.append("Profile audits fit neatly into \(a.time) a day")
-        } else if !a.time.isEmpty {
-            clip += 1; clipWhy.append("\(a.time) a day is enough to edit and pitch consistently")
-        }
-
-        if a.budget == "$0" {
-            gbp += 0.5; gbpWhy.append("It needs no paid tools to start")
-        } else if !a.budget.isEmpty {
-            clipWhy.append("Your \(a.budget) budget comfortably covers the editing tools")
-        }
-
-        if ["Creator", "Student"].contains(a.role) { clip += 0.5 }
-        if ["Employee", "Entrepreneur"].contains(a.role) { gbp += 0.5 }
-
-        let pathId: PathID = gbp > clip ? .gbp : .clipping
-        let total = max(clip + gbp, 1)
-        let match = min(98, Int((72 + max(clip, gbp) / total * 26).rounded()))
-        var reasons = Array((pathId == .clipping ? clipWhy : gbpWhy).prefix(4))
-        if !a.goal.isEmpty { reasons.append("A first \(a.goal) is realistic on this path within 30 days") }
-        let summary = pathId == .clipping
-            ? "Based on your skills, available time, and interest in content, we've matched you with Short-Form Clipping."
-            : "Based on your strengths, schedule, and interest in helping businesses, we've matched you with Google Business Profiles."
-        return Recommendation(pathId: pathId, match: match, summary: summary, reasons: reasons)
-    }
-}
-
 // MARK: - Pricing assistant
 
 struct PriceRecommendation: Hashable {
@@ -240,10 +173,13 @@ enum OutreachEngine {
 // MARK: - Mock AI coach
 
 enum CoachEngine {
-    /// First canned reply whose keyword appears in the message, in data order (most specific first).
-    static func reply(to text: String) -> CoachReply {
+    /// First canned reply written for this track whose keyword appears in the message (most specific first).
+    /// Replies without copy for the track are skipped, so an owned-channel user never gets client advice.
+    static func reply(to text: String, path: PathID) -> (text: String, followUps: [String]) {
         let lower = text.lowercased()
-        return MockData.shared.coach.replies.first { $0.keywords.contains { lower.contains($0) } } ?? MockData.shared.coach.fallback
+        let match = MockData.coachReplies(path).first { r in r.text(for: path) != nil && r.keywords.contains { lower.contains($0) } }
+        let reply = match ?? MockData.coachFallback(path)
+        return (reply.text(for: path) ?? "", reply.followUps)
     }
 
     /// Simulated "thinking" time, scaled a little with answer length.

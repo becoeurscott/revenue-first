@@ -8,17 +8,20 @@ struct PathDetailView: View {
     let pathId: PathID
     @Environment(AppStore.self) private var store
     @State private var tab: PathDetailTab = .overview
-    @State private var switchTarget: PathID?
+    @State private var switchTarget: EarningMethod?
     @State private var loadedTabs: Set<PathDetailTab> = [.overview, .plan, .skills, .tools]
     @State private var loading = false
 
     private var path: PathInfo { MockData.path(pathId) }
     private var active: Bool { store.s.pathId == pathId }
+    private var journey: JourneyConfig? { Journeys.config(track: pathId) }
+    /// Client lists only exist on service journeys.
+    private var tabs: [PathDetailTab] { PathDetailTab.allCases.filter { $0 != .clients || journey?.sellsServices == true } }
 
     var body: some View {
         Screen(title: path.name) {
             VStack(alignment: .leading, spacing: Space.l) {
-                PathDetailHero(path: path, active: active).fadeUp(0)
+                PathDetailHero(path: path, active: active, sellsServices: journey?.sellsServices ?? true).fadeUp(0)
                 LazyVStack(alignment: .leading, spacing: Space.l, pinnedViews: [.sectionHeaders]) {
                     Section {
                         tabContent
@@ -35,7 +38,7 @@ struct PathDetailView: View {
     }
 
     private var tabBar: some View {
-        SegmentedTabs(options: PathDetailTab.allCases, selection: $tab, title: { $0.rawValue })
+        SegmentedTabs(options: tabs, selection: $tab, title: { $0.rawValue })
             .padding(.vertical, Space.s)
             .padding(.horizontal, Space.gutter)
             .background(Theme.bg.opacity(0.94))
@@ -48,7 +51,7 @@ struct PathDetailView: View {
             SkeletonList(count: 3)
         } else {
             switch tab {
-            case .overview: PathOverviewTab(path: path, active: active) { PathSwitch.request(pathId, store: store, target: $switchTarget) }
+            case .overview: PathOverviewTab(path: path, active: active) { if let journey { PathSwitch.request(journey.id, store: store, target: $switchTarget) } }
             case .plan: PathPlanTabView(path: path, active: active)
             case .skills: PathSkillsTab(path: path)
             case .tools: PathToolsTab(path: path)
@@ -74,6 +77,7 @@ struct PathDetailView: View {
 private struct PathDetailHero: View {
     let path: PathInfo
     let active: Bool
+    let sellsServices: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.l) {
@@ -86,7 +90,7 @@ private struct PathDetailHero: View {
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
-                        if active { Badge("Active path", tone: .brand) }
+                        if active { Badge("Active journey", tone: .brand) }
                         Badge(path.difficulty, tone: .success)
                     }
                     Text(path.name).font(.title1).foregroundStyle(Theme.ink).fixedSize(horizontal: false, vertical: true)
@@ -107,8 +111,8 @@ private struct PathDetailHero: View {
     }
 
     @ViewBuilder private var tiles: some View {
-        PathInfoTile(label: "Typical price", value: path.typicalPrice)
-        PathInfoTile(label: "What you sell", value: path.service)
+        PathInfoTile(label: sellsServices ? "Typical price" : "How income arrives", value: path.typicalPrice)
+        PathInfoTile(label: sellsServices ? "What you sell" : "What you build", value: path.service)
     }
 }
 
@@ -151,12 +155,12 @@ private struct PathOverviewTab: View {
             .card(.hero)
         } else {
             VStack(alignment: .leading, spacing: Space.s) {
-                Text(done > 0 ? "You completed \(done) of \(MockData.totalDays) days here" : "You are not on this path yet")
+                Text(done > 0 ? "You completed \(done) of \(MockData.totalDays) days here" : "You are not on this journey yet")
                     .font(.body.weight(.semibold)).foregroundStyle(Theme.ink)
-                Text("Switching keeps all progress on your current path. \(store.isPremium ? "You can switch back at any time." : "Path switching is part of Premium.")")
+                Text("Switching keeps all progress on your current journey. \(store.isPremium ? "You can switch back at any time." : "Journey switching is part of Premium.")")
                     .font(.subheadline).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
                 Button(action: onSwitch) {
-                    Label("Switch to this path", systemImage: store.isPremium ? "arrow.triangle.2.circlepath" : "lock.fill")
+                    Label("Switch to this journey", systemImage: store.isPremium ? "arrow.triangle.2.circlepath" : "lock.fill")
                 }
                 .buttonStyle(.fr(.primary, size: .lg, full: true))
                 .padding(.top, Space.s)
@@ -167,7 +171,7 @@ private struct PathOverviewTab: View {
 
     private var about: some View {
         VStack(alignment: .leading, spacing: Space.m) {
-            Text("About this path").font(.section).foregroundStyle(Theme.ink).accessibilityAddTraits(.isHeader)
+            Text("About this journey").font(.section).foregroundStyle(Theme.ink).accessibilityAddTraits(.isHeader)
             Text(path.description).font(.subheadline).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
             PathObjectiveBox(objective: path.objective, title: "30-day objective")
         }

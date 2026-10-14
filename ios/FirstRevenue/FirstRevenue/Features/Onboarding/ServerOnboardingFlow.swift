@@ -1,9 +1,12 @@
 import SwiftUI
 
-/// Onboarding for real Vaulten accounts: questions come from the API, each answer is saved as the user
-/// goes (so it resumes on another device), the backend recommends a path, and choosing it enrolls the
+/// Backend questionnaire for real accounts on a service journey: questions come from the API, each answer
+/// is saved as the user goes (so it resumes on another device), and choosing the journey's path enrolls the
 /// account server-side — which is what lets later sign-ins skip onboarding.
 struct ServerOnboardingFlow: View {
+    let journey: JourneyConfig
+    let onEnrolled: (Int) -> Void
+    let onChangeMethod: () -> Void
     @Environment(AppStore.self) private var store
 
     private enum Phase { case loading, failed(String), questions, computing, results(PathRecommendation) }
@@ -46,7 +49,7 @@ struct ServerOnboardingFlow: View {
                 .padding(Space.xl)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .results(let rec):
-                ServerResultsView(recommendation: rec)
+                ServerResultsView(recommendation: rec, journey: journey, onEnrolled: onEnrolled, onChangeMethod: onChangeMethod)
             }
         }
         .background(Theme.bg.ignoresSafeArea())
@@ -232,7 +235,7 @@ struct ServerOnboardingFlow: View {
         autoAdvance?.cancel()
         stepError = nil
         forward = false
-        if index == 0 { store.logout(); return }
+        if index == 0 { onChangeMethod(); return }
         withAnimation(.snappy) { index -= 1 }
     }
 
@@ -289,17 +292,19 @@ private struct ChoiceRow: View {
 
 private struct ServerResultsView: View {
     let recommendation: PathRecommendation
+    let journey: JourneyConfig
+    let onEnrolled: (Int) -> Void
+    let onChangeMethod: () -> Void
     @Environment(AppStore.self) private var store
-    @State private var chosenSlug: String?
     @State private var paywall = false
     @State private var plan = "yearly"
     @State private var loading = false
     @State private var enrolling = false
     @State private var error: String?
 
-    /// Paths the user may choose (blocked ones are excluded by the API), mapped to the app's paths.
-    private var choices: [RankedPath] { recommendation.ranked.filter { PathID(slug: $0.slug) != nil } }
-    private var selected: RankedPath? { choices.first { $0.slug == chosenSlug } ?? recommendation.recommended ?? choices.first }
+    /// The server path for the journey the user chose. Never another path, even if the backend ranks it higher.
+    private var selected: RankedPath? { recommendation.ranked.first { PathID(slug: $0.slug) == journey.track } }
+    private var blocked: BlockedPath? { recommendation.blocked.first { PathID(slug: $0.slug) == journey.track } }
 
     var body: some View {
         ScrollView {
@@ -312,7 +317,7 @@ private struct ServerResultsView: View {
                         HStack(alignment: .top) {
                             SymbolTile(icon: path.icon, tint: .white, size: 48)
                             Spacer()
-                            Badge(selected.slug == recommendation.recommended?.slug ? "Recommended for you" : "Your choice", tone: selected.slug == recommendation.recommended?.slug ? .success : .neutral)
+                            Badge(selected.slug == recommendation.recommended?.slug ? "Recommended for you" : "Your choice", tone: .success)
                                 .background(Capsule().fill(.black.opacity(0.4)))
                         }
                         Text(selected.name.uppercased()).font(.system(size: 30, weight: .heavy)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
@@ -323,21 +328,10 @@ private struct ServerResultsView: View {
                     .clipShape(RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous))
                     .shadow(color: Theme.brand600.opacity(0.35), radius: 24, y: 10)
                 } else {
-                    Text("No path matches your answers yet. Contact support so we can help you get started.")
+                    Label("\(journey.label) isn't available for your account: \(blocked?.reason ?? "the server has no matching path yet").", systemImage: "lock.fill")
                         .font(.callout).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
-                }
-
-                if choices.count > 1 {
-                    VStack(alignment: .leading, spacing: Space.s) {
-                        Text("Prefer another path?").font(.section).foregroundStyle(Theme.ink)
-                        ForEach(choices, id: \.slug) { p in
-                            ChoiceRow(label: p.name, multi: false, selected: p.slug == selected?.slug) { Haptics.select(); chosenSlug = p.slug }
-                        }
-                    }
-                }
-                ForEach(recommendation.blocked, id: \.slug) { b in
-                    Label("\(b.name) isn't available: \(b.reason ?? "based on your answers").", systemImage: "lock.fill")
-                        .font(.footnote).foregroundStyle(Theme.faint).frame(maxWidth: .infinity, alignment: .leading)
+                    Text("We won't switch you to a different journey without asking. Choose another earning method, or contact support.")
+                        .font(.footnote).foregroundStyle(Theme.faint).multilineTextAlignment(.center)
                 }
                 if let error { Label(error, systemImage: "exclamationmark.circle.fill").font(.footnote).foregroundStyle(Theme.danger) }
             }
@@ -346,11 +340,14 @@ private struct ServerResultsView: View {
         }
         .safeAreaInset(edge: .bottom) {
             BottomBar {
-                Button { store.isPremium ? enroll() : (paywall = true) } label: {
-                    LoadingLabel(title: "Start My 30-Day Journey", loading: enrolling)
+                if selected != nil {
+                    Button { store.isPremium ? enroll() : (paywall = true) } label: {
+                        LoadingLabel(title: "Start My 30-Day Journey", loading: enrolling)
+                    }
+                    .buttonStyle(.fr(.primary, size: .lg, full: true))
+                    .disabled(enrolling)
                 }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
-                .disabled(selected == nil || enrolling)
+                Button("Change Earning Method", action: onChangeMethod).buttonStyle(.fr(selected == nil ? .primary : .ghost, full: true))
             }
         }
         .sheet(isPresented: $paywall) { journeyPaywall }
@@ -381,17 +378,17 @@ private struct ServerResultsView: View {
 
     /// Records the choice on the server, then opens the app on that path.
     private func enroll() {
-        guard let selected, let pathId = PathID(slug: selected.slug) else { return }
+        guard let selected else { return }
         enrolling = true
         error = nil
         Task { @MainActor in
             defer { enrolling = false }
             do {
                 let enrollment = try await OnboardingAPI.choosePath(slug: selected.slug)
-                store.completeServerOnboarding(path: pathId, day: enrollment.currentDay)
+                onEnrolled(enrollment.currentDay)
             } catch APIError.problem(let p) where p.code == "SUBSCRIPTION_REQUIRED" {
                 // Free plan: the backend only enrolls subscribers, so keep the choice on this device for now.
-                store.completeServerOnboarding(path: pathId, day: 1)
+                onEnrolled(1)
             } catch {
                 Haptics.notify(.error)
                 withAnimation { self.error = AuthErrorCopy.message(error) }
