@@ -10,6 +10,8 @@ enum PathID: String, Codable, CaseIterable, Identifiable, Hashable {
     case clipping, gbp
     case youtubeOwned = "youtube_owned"
     case digitalProducts = "digital_products"
+    case affiliateContent = "affiliate_content"
+    case creatorBrand = "creator_brand"
     var id: String { rawValue }
     var isService: Bool { self == .clipping || self == .gbp }
 }
@@ -183,6 +185,7 @@ enum StatMetric: String, Codable, Hashable, CodingKeyRepresentable {
     case missions, lessons, streak, prospects, contacted, replies, clients, revenue, daysCompleted
     case videosPublished, uploadsThisWeek, watchTime, subscribers, clickThroughRate, returningViewers, channelIncome
     case productsLaunched, salesCount, salesThisWeek, productRevenue, pageVisits, emailSubscribers
+    case postsPublished, postsThisWeek, linkClicks, affiliateIncome, followers, engagementRate, brandIncome
 }
 
 struct Achievement: Codable, Identifiable, Hashable {

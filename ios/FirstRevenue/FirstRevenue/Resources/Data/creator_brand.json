@@ -1,0 +1,3062 @@
+{
+  "path": {
+    "id": "creator_brand",
+    "slug": "creator-brand",
+    "name": "Your Creator Brand",
+    "tagline": "Grow a personal brand on one platform and turn it into your first small brand deal or paid offer.",
+    "icon": "person.crop.square.fill",
+    "hue": 320,
+    "description": "You decide who your content is for and what you want to be known for, then pick one platform and set up a clear profile. Over 30 days you study creators in your niche, plan two weeks of posts and publish consistently with just your phone and free tools. You practise hooks, reply to every comment, read your numbers and collaborate with peers. In the last week you build a simple media kit and UGC portfolio and pitch small brands honestly. Growth is usually slow at first, so the goal is a consistent posting habit, real feedback and your first professional brand pitches, not a follower number.",
+    "difficulty": "Beginner",
+    "objective": "Define your brand, set up one platform, post consistently from Day 4 or 5, build a media kit and UGC portfolio, send your first honest brand pitches and finish with real numbers and a plan for the next 30 days.",
+    "service": "Your personal brand and audience",
+    "typicalPrice": "Small brand deals and UGC gigs often start at $50–$300",
+    "skills": [
+      "Brand positioning",
+      "Short-form content",
+      "Hooks and storytelling",
+      "Community engagement",
+      "Reading analytics",
+      "Brand pitching and pricing"
+    ],
+    "firstTasks": [
+      "Write who your content is for and what you want to be known for",
+      "Choose three content pillars and one main platform",
+      "Set up a clear bio, profile photo and link",
+      "Publish your first post by Day 4 or 5"
+    ],
+    "workflow": [
+      "Decide who your content is for and the one thing you want to be known for",
+      "Pick one main platform and set up a clear, honest profile",
+      "Study creators in your niche to learn formats, hooks and timing",
+      "Plan two weeks of posts around three content pillars",
+      "Post consistently and reply to every genuine comment",
+      "Read reach, saves, shares and follower growth, then adjust",
+      "Build a media kit and pitch small brands, always disclosing paid posts"
+    ],
+    "weeks": [
+      {
+        "week": 1,
+        "title": "Define & Set Up",
+        "focus": [
+          "Brand and pillars",
+          "Platform and profile",
+          "First posts"
+        ]
+      },
+      {
+        "week": 2,
+        "title": "Create & Post",
+        "focus": [
+          "Content calendar",
+          "Hooks and storytelling",
+          "Repurposing"
+        ]
+      },
+      {
+        "week": 3,
+        "title": "Engage & Grow",
+        "focus": [
+          "Genuine engagement",
+          "Analytics",
+          "Collaborations"
+        ]
+      },
+      {
+        "week": 4,
+        "title": "Brand Deals",
+        "focus": [
+          "Media kit and UGC",
+          "Honest pitching",
+          "Day 30 review"
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "Your phone camera",
+        "purpose": "Film and photograph all of your content; natural window light is enough",
+        "cost": "Free"
+      },
+      {
+        "name": "CapCut",
+        "purpose": "Edit short videos, add captions and trim to the best moments",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "Canva",
+        "purpose": "Design carousels, covers, your media kit and your UGC portfolio",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "Platform analytics",
+        "purpose": "Read reach, saves, shares and follower growth inside your chosen app",
+        "cost": "Free"
+      },
+      {
+        "name": "Google Sheets",
+        "purpose": "Keep your content calendar, weekly numbers and brand list in one place",
+        "cost": "Free"
+      },
+      {
+        "name": "Link-in-bio page",
+        "purpose": "Pick one, such as Linktree, Beacons or Stan, to hold your links and media kit",
+        "cost": "Free to start"
+      }
+    ]
+  },
+  "lessonCategories": [
+    "Brand Strategy",
+    "Platform & Profile",
+    "Research",
+    "Content Planning",
+    "Content Creation",
+    "Hooks & Storytelling",
+    "Community",
+    "Analytics & Growth",
+    "Collaboration",
+    "Media Kit & UGC",
+    "Brand Deals",
+    "Mindset"
+  ],
+  "plan": [
+    {
+      "day": 1,
+      "week": 1,
+      "theme": "Define Your Brand",
+      "missionTitle": "Decide who your content is for and what you want to be known for.",
+      "goal": "Write a one-sentence brand statement and your 30-day goal.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-01",
+      "tasks": [
+        {
+          "id": "cr-01-t1",
+          "title": "Watch the Day 1 lesson",
+          "description": "See how a personal brand works: one audience, one clear topic and a reason to follow you instead of anyone else."
+        },
+        {
+          "id": "cr-01-t2",
+          "title": "Name your audience",
+          "description": "Write who you want to reach in plain words. Be specific enough that one person could read it and think \"that is me\".",
+          "resourceId": "res-cr-brand-statement"
+        },
+        {
+          "id": "cr-01-t3",
+          "title": "List what you know",
+          "description": "Write ten things you know, are learning or do every week that this audience would find useful or interesting."
+        },
+        {
+          "id": "cr-01-t4",
+          "title": "Write your brand statement",
+          "description": "Use this shape: \"I help [audience] with [topic] by sharing [what you post].\" Keep it to one sentence.",
+          "resourceId": "res-cr-brand-statement"
+        },
+        {
+          "id": "cr-01-t5",
+          "title": "Set your 30-day goal",
+          "description": "Choose a goal you control, such as \"post 3 times a week and send 5 brand pitches\". Followers and income are not fully in your control yet."
+        }
+      ],
+      "nicheHint": "Start from this draft: I help {audience} with {problem} in {niche}. Then circle the one thing from your list you could talk about every week for a year.",
+      "stageHints": {
+        "idea": "Pick the audience you understand best, ideally one you belong to or used to belong to.",
+        "started": "Look at your past posts and write the statement they were really trying to say.",
+        "some_traction": "Write the statement around the posts your followers already save and share most.",
+        "already_earning": "Write down what brands or buyers paid you for; this month builds your brand around that."
+      }
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "theme": "Three Content Pillars",
+      "missionTitle": "Choose three content pillars your brand will be known for.",
+      "goal": "Write three pillars with five post ideas each.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-02",
+      "tasks": [
+        {
+          "id": "cr-02-t1",
+          "title": "Watch the Day 2 lesson",
+          "description": "Learn how content pillars keep you consistent without running out of ideas, and why three is enough to start."
+        },
+        {
+          "id": "cr-02-t2",
+          "title": "Pick three pillars",
+          "description": "Choose three topics that fit your brand statement, such as one teaching pillar, one personal pillar and one behind-the-scenes pillar.",
+          "resourceId": "res-cr-pillars-planner"
+        },
+        {
+          "id": "cr-02-t3",
+          "title": "Fill each pillar",
+          "description": "Write five post ideas under each pillar. Short, rough titles are fine.",
+          "resourceId": "res-cr-pillars-planner"
+        },
+        {
+          "id": "cr-02-t4",
+          "title": "Check the fit",
+          "description": "For each idea ask: would my audience save, share or comment on this? Cross out anything that is only for you."
+        },
+        {
+          "id": "cr-02-t5",
+          "title": "Note what you will not post",
+          "description": "Write two topics you will keep off your brand, such as your home location or your family's private life."
+        }
+      ],
+      "nicheHint": "Try these pillars as a start: tips about {problem}, your own journey in {niche}, and answers to questions {audience} ask. Adjust the wording until it sounds like you.",
+      "stageHints": {
+        "idea": "Pick pillars you can talk about without notes; you can refine them after your first posts.",
+        "started": "Sort your existing posts into three groups and name the pillars from what you see.",
+        "some_traction": "Keep the pillar that performs best and test whether the other two still earn their place.",
+        "already_earning": "Make sure one pillar shows the kind of work brands or buyers have paid you for."
+      }
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "theme": "Pick One Platform",
+      "missionTitle": "Choose one main platform to grow on this month.",
+      "goal": "Pick your main platform and write why it fits.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-03",
+      "tasks": [
+        {
+          "id": "cr-03-t1",
+          "title": "Watch the Day 3 lesson",
+          "description": "Compare Instagram, TikTok, LinkedIn, X and YouTube Shorts in plain terms, and why one platform done well beats five done badly."
+        },
+        {
+          "id": "cr-03-t2",
+          "title": "Find your audience",
+          "description": "Search your topic on two or three platforms and note where your audience's conversations are most active."
+        },
+        {
+          "id": "cr-03-t3",
+          "title": "Match your strengths",
+          "description": "Note whether you prefer talking on camera, writing or showing visuals. Pick the platform that rewards what you enjoy."
+        },
+        {
+          "id": "cr-03-t4",
+          "title": "Choose one",
+          "description": "Write your main platform and one sentence on why. Other platforms can wait until your habit is steady."
+        },
+        {
+          "id": "cr-03-t5",
+          "title": "Secure your name",
+          "description": "Check that your preferred handle is available. Keep it simple, easy to spell and free of personal details."
+        }
+      ],
+      "nicheHint": "Search for {terms} on two platforms and note where {audience} ask the most questions about {problem}. That is usually your best first platform.",
+      "stageHints": {
+        "idea": "Pick the app you already open daily; you understand its style without studying it.",
+        "started": "Stay on the platform where you already post unless your audience is clearly elsewhere.",
+        "some_traction": "Keep your growing platform as the main one; do not split your energy this month.",
+        "already_earning": "Choose the platform where brands in your niche are already working with creators."
+      }
+    },
+    {
+      "day": 4,
+      "week": 1,
+      "theme": "Set Up Your Profile",
+      "missionTitle": "Set up a clear profile and publish your first post.",
+      "goal": "Finish your bio, photo and link, then publish an intro post.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-04",
+      "tasks": [
+        {
+          "id": "cr-04-t1",
+          "title": "Watch the Day 4 lesson",
+          "description": "See what a clear profile does in the first three seconds: who you help, what you post and what to do next."
+        },
+        {
+          "id": "cr-04-t2",
+          "title": "Write your bio",
+          "description": "Turn your brand statement into a short bio: who it is for, what they get, and one line of proof or personality."
+        },
+        {
+          "id": "cr-04-t3",
+          "title": "Choose a profile photo",
+          "description": "Use a clear, well-lit photo of your face or a simple logo. Avoid photos that show your home, street or school."
+        },
+        {
+          "id": "cr-04-t4",
+          "title": "Add one link",
+          "description": "Add a link-in-bio page with a short welcome and, later, your media kit. One link is enough for now."
+        },
+        {
+          "id": "cr-04-t5",
+          "title": "Publish an intro post",
+          "description": "Post a short intro: who you are, who this account is for and what you will share. Done is better than perfect."
+        }
+      ],
+      "nicheHint": "Write a bio line in this shape: Helping {audience} with {problem}. Then read it aloud and cut any word that does not help a stranger decide to follow.",
+      "stageHints": {
+        "idea": "Your first post can be simple: say hello and what you will share. Nobody expects a polished start.",
+        "started": "Update your bio to match your brand statement before you post again.",
+        "some_traction": "Refresh your bio and pinned posts so new visitors see your best work first.",
+        "already_earning": "Add a line or link showing you are open to brand partnerships."
+      }
+    },
+    {
+      "day": 5,
+      "week": 1,
+      "theme": "Study 10 Creators",
+      "missionTitle": "Study ten creators in your niche to learn what works.",
+      "goal": "Fill in notes on 10 creators and publish your second post.",
+      "minutes": 45,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-05",
+      "tasks": [
+        {
+          "id": "cr-05-t1",
+          "title": "Watch the Day 5 lesson",
+          "description": "Learn how to study creators without copying them: formats, hooks, lengths and posting times."
+        },
+        {
+          "id": "cr-05-t2",
+          "title": "Find ten creators",
+          "description": "Pick ten creators in your niche, ideally a mix of small and medium accounts close to where you are."
+        },
+        {
+          "id": "cr-05-t3",
+          "title": "Note formats and hooks",
+          "description": "For each one note their best-performing format, the first line of three top posts and roughly when they post.",
+          "resourceId": "res-cr-hook-bank"
+        },
+        {
+          "id": "cr-05-t4",
+          "title": "Spot the gaps",
+          "description": "Write three things your audience asks about that these creators rarely cover or explain simply."
+        },
+        {
+          "id": "cr-05-t5",
+          "title": "Publish your second post",
+          "description": "Post one idea from your pillars, borrowing a format you saw but using your own words, story and examples."
+        }
+      ],
+      "nicheHint": "Search for {terms} and note how {audience} describe {problem} in comments. Their exact words make strong hooks later.",
+      "stageHints": {
+        "idea": "Study accounts only a little ahead of you; their steps are easier to follow than huge creators'.",
+        "started": "Compare your recent posts with the creators you studied and note one format to try.",
+        "some_traction": "Look for creators at your size to collaborate with in Week 3.",
+        "already_earning": "Note which creators in your niche work with brands and how they disclose those posts."
+      }
+    },
+    {
+      "day": 6,
+      "week": 1,
+      "theme": "Your 2-Week Calendar",
+      "missionTitle": "Plan two weeks of content around your pillars.",
+      "goal": "Fill in a 2-week content calendar.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-06",
+      "tasks": [
+        {
+          "id": "cr-06-t1",
+          "title": "Watch the Day 6 lesson",
+          "description": "See how a simple calendar removes the daily \"what do I post\" stress and keeps your pillars balanced."
+        },
+        {
+          "id": "cr-06-t2",
+          "title": "Choose your rhythm",
+          "description": "Pick a posting rhythm you can keep, such as three or four posts a week. Consistent beats frequent."
+        },
+        {
+          "id": "cr-06-t3",
+          "title": "Fill the calendar",
+          "description": "Place your pillar ideas on specific days for the next two weeks, rotating between pillars.",
+          "resourceId": "res-cr-content-calendar"
+        },
+        {
+          "id": "cr-06-t4",
+          "title": "Pick posting times",
+          "description": "Use the times you noted from other creators as a starting point; your own analytics will refine them later."
+        },
+        {
+          "id": "cr-06-t5",
+          "title": "Prepare one post now",
+          "description": "Write the hook and outline for your next post so tomorrow starts easy."
+        }
+      ],
+      "nicheHint": "Make sure at least half of your planned posts answer a real question {audience} have about {problem}.",
+      "stageHints": {
+        "idea": "Plan only what you can keep up; three posts a week is a strong start.",
+        "started": "Plan around the days you actually managed to post in the past.",
+        "some_traction": "Plan more of the pillar your analytics show is working.",
+        "already_earning": "Leave room in the calendar for brand content later, clearly marked."
+      }
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "theme": "Hooks That Stop the Scroll",
+      "missionTitle": "Learn to write hooks that earn the first three seconds.",
+      "goal": "Write 10 hooks for your planned posts.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "crl-07",
+      "tasks": [
+        {
+          "id": "cr-07-t1",
+          "title": "Watch the Day 7 lesson",
+          "description": "Learn the main hook types: question, bold statement, mistake, result and story, and how to keep them honest."
+        },
+        {
+          "id": "cr-07-t2",
+          "title": "Read the hook bank",
+          "description": "Go through the hook bank and mark the five styles that fit your voice.",
+          "resourceId": "res-cr-hook-bank"
+        },
+        {
+          "id": "cr-07-t3",
+          "title": "Write ten hooks",
+          "description": "Write one hook for each of your next ten planned posts."
+        },
+        {
+          "id": "cr-07-t4",
+          "title": "Cut clickbait",
+          "description": "Remove any hook that promises something the post does not deliver. Honest hooks build trust."
+        },
+        {
+          "id": "cr-07-t5",
+          "title": "Post with your best hook",
+          "description": "Publish your next post using the strongest hook and note it in your calendar."
+        }
+      ],
+      "nicheHint": "Try this hook: The mistake most {audience} make with {problem}. Then make sure the post actually explains that mistake and the fix.",
+      "stageHints": {
+        "idea": "Your hooks will feel awkward at first; writing ten makes the eleventh easier.",
+        "started": "Rewrite the first line of your three most recent posts and compare.",
+        "some_traction": "Look at your top three posts and note which hook type they used.",
+        "already_earning": "Practise hooks that work for brand content too, such as a problem the product solves."
+      }
+    },
+    {
+      "day": 8,
+      "week": 2,
+      "theme": "Create With Your Phone",
+      "missionTitle": "Batch-create several posts with only your phone and free tools.",
+      "goal": "Film or design three posts in one session.",
+      "minutes": 50,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-08",
+      "tasks": [
+        {
+          "id": "cr-08-t1",
+          "title": "Watch the Day 8 lesson",
+          "description": "See a simple phone setup: window light, steady phone, clear sound and free editing in CapCut or Canva."
+        },
+        {
+          "id": "cr-08-t2",
+          "title": "Set up your space",
+          "description": "Find a spot with soft window light and a tidy background. Check nothing personal, like your address, is visible."
+        },
+        {
+          "id": "cr-08-t3",
+          "title": "Batch three posts",
+          "description": "Film or design three posts from your calendar in one session."
+        },
+        {
+          "id": "cr-08-t4",
+          "title": "Edit simply",
+          "description": "Trim slow starts, add captions and keep only what helps the viewer.",
+          "resourceId": "res-cr-repurposing-checklist"
+        },
+        {
+          "id": "cr-08-t5",
+          "title": "Schedule or save",
+          "description": "Save the posts as drafts or schedule them for the days in your calendar.",
+          "resourceId": "res-cr-content-calendar"
+        }
+      ],
+      "nicheHint": "Pick three ideas about {problem} that you can show, not just tell, such as a quick before and after for {audience}.",
+      "stageHints": {
+        "idea": "Your first edits do not need effects; clear captions and a fast start matter most.",
+        "started": "Batching saves time; try filming three posts in the time one usually takes.",
+        "some_traction": "Batch a full week so you can spend more time engaging with your audience.",
+        "already_earning": "Batch your regular content so you have time for brand projects."
+      }
+    },
+    {
+      "day": 9,
+      "week": 2,
+      "theme": "Tell a Short Story",
+      "missionTitle": "Use simple storytelling to make your posts memorable.",
+      "goal": "Publish one story-based post.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-09",
+      "tasks": [
+        {
+          "id": "cr-09-t1",
+          "title": "Watch the Day 9 lesson",
+          "description": "Learn a simple story shape: situation, problem, turning point, lesson. It works in 30 seconds or a short caption."
+        },
+        {
+          "id": "cr-09-t2",
+          "title": "Pick a real moment",
+          "description": "Choose a real moment from your journey that relates to one of your pillars."
+        },
+        {
+          "id": "cr-09-t3",
+          "title": "Shape it",
+          "description": "Write it as situation, problem, turning point and lesson in under 100 words."
+        },
+        {
+          "id": "cr-09-t4",
+          "title": "Protect privacy",
+          "description": "Remove names, places and details about other people, especially children, unless they have agreed."
+        },
+        {
+          "id": "cr-09-t5",
+          "title": "Publish it",
+          "description": "Post the story with a hook from your list and ask one simple question at the end.",
+          "resourceId": "res-cr-hook-bank"
+        }
+      ],
+      "nicheHint": "Tell a short story about a time you or someone like {audience} struggled with {problem} and what changed.",
+      "stageHints": {
+        "idea": "A small everyday story is enough; you do not need a dramatic one.",
+        "started": "Turn one of your past tips into a story about how you learned it.",
+        "some_traction": "Share a story behind one of your best-performing posts.",
+        "already_earning": "Share a story about a result you helped someone get, with their permission."
+      }
+    },
+    {
+      "day": 10,
+      "week": 2,
+      "theme": "One Idea, Many Formats",
+      "missionTitle": "Repurpose one idea into several formats.",
+      "goal": "Turn one post into three formats.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-10",
+      "tasks": [
+        {
+          "id": "cr-10-t1",
+          "title": "Watch the Day 10 lesson",
+          "description": "See how one strong idea can become a video, a carousel, a text post and a story without extra research."
+        },
+        {
+          "id": "cr-10-t2",
+          "title": "Pick your best idea",
+          "description": "Choose the post or idea that got the best reaction so far."
+        },
+        {
+          "id": "cr-10-t3",
+          "title": "Follow the checklist",
+          "description": "Use the repurposing checklist to plan three versions of it.",
+          "resourceId": "res-cr-repurposing-checklist"
+        },
+        {
+          "id": "cr-10-t4",
+          "title": "Create two new versions",
+          "description": "Make two of the formats with CapCut or Canva."
+        },
+        {
+          "id": "cr-10-t5",
+          "title": "Add them to the calendar",
+          "description": "Place the new versions in your calendar a few days apart.",
+          "resourceId": "res-cr-content-calendar"
+        }
+      ],
+      "nicheHint": "Take your clearest tip about {problem} and turn it into a short video, a carousel and a text post for {audience}.",
+      "stageHints": {
+        "idea": "Repurposing is not cheating; most people miss most of your posts.",
+        "started": "Repurpose an older post that deserved more views.",
+        "some_traction": "Repurpose your top post into a format you have not tried yet.",
+        "already_earning": "Repurposing also shows brands you can create in several formats."
+      }
+    },
+    {
+      "day": 11,
+      "week": 2,
+      "theme": "Getting Comfortable on Camera",
+      "missionTitle": "Practise showing up on camera, or choose a faceless style that suits you.",
+      "goal": "Record and publish one short talking or voiceover video.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-11",
+      "tasks": [
+        {
+          "id": "cr-11-t1",
+          "title": "Watch the Day 11 lesson",
+          "description": "Learn simple ways to feel calmer on camera, and how faceless options like voiceover, hands-only or screen recordings can work too."
+        },
+        {
+          "id": "cr-11-t2",
+          "title": "Choose your style",
+          "description": "Decide between face, voiceover, hands-only or screen recording. Any of them can build a brand."
+        },
+        {
+          "id": "cr-11-t3",
+          "title": "Practise three takes",
+          "description": "Record the same 20-second tip three times. Keep the best one; delete the rest."
+        },
+        {
+          "id": "cr-11-t4",
+          "title": "Use notes",
+          "description": "Write three bullet points to glance at instead of a full script."
+        },
+        {
+          "id": "cr-11-t5",
+          "title": "Publish it",
+          "description": "Post the best take with captions. Notice that the second video is easier than the first."
+        }
+      ],
+      "nicheHint": "Record one 20-second tip about {problem} for {audience}, using three bullet points as your only notes.",
+      "stageHints": {
+        "idea": "Start with voiceover or hands-only if showing your face feels like too much.",
+        "started": "Try one format you have avoided and compare how it performs.",
+        "some_traction": "Test talking directly to camera if you have mostly used text or voiceover.",
+        "already_earning": "Short, clear talking videos are what many brands ask for in UGC."
+      }
+    },
+    {
+      "day": 12,
+      "week": 2,
+      "theme": "Captions and Calls to Action",
+      "missionTitle": "Write captions that add value and ask for one clear action.",
+      "goal": "Add clear captions and calls to action to three posts.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-12",
+      "tasks": [
+        {
+          "id": "cr-12-t1",
+          "title": "Watch the Day 12 lesson",
+          "description": "Learn how captions, on-screen text and a single call to action help people save, share and follow."
+        },
+        {
+          "id": "cr-12-t2",
+          "title": "Add on-screen text",
+          "description": "Make sure your key point is readable without sound."
+        },
+        {
+          "id": "cr-12-t3",
+          "title": "Write a useful caption",
+          "description": "Add one extra tip or detail in the caption, not just hashtags."
+        },
+        {
+          "id": "cr-12-t4",
+          "title": "Choose one call to action",
+          "description": "Ask for one thing: save, share, comment or follow. One ask works better than four."
+        },
+        {
+          "id": "cr-12-t5",
+          "title": "Use a few relevant tags",
+          "description": "Add a small number of hashtags or keywords that describe the post, not trending ones that do not fit."
+        }
+      ],
+      "nicheHint": "End your next post with: Save this if you are working on {problem}. Then check that the post is worth saving.",
+      "stageHints": {
+        "idea": "Use the same simple call to action for a week so it becomes a habit.",
+        "started": "Add a clear call to action to your next three posts and compare comments.",
+        "some_traction": "Test which call to action brings the most saves or follows.",
+        "already_earning": "Practise calls to action you could also use in brand content."
+      }
+    },
+    {
+      "day": 13,
+      "week": 2,
+      "theme": "Privacy and Safety",
+      "missionTitle": "Protect your privacy and the people around you.",
+      "goal": "Run a privacy check on your profile and posts.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-13",
+      "tasks": [
+        {
+          "id": "cr-13-t1",
+          "title": "Watch the Day 13 lesson",
+          "description": "Learn what to keep off camera: your address, school, routine, number plates and details about children and family."
+        },
+        {
+          "id": "cr-13-t2",
+          "title": "Check your profile",
+          "description": "Remove anything that reveals your home location, workplace or daily routine."
+        },
+        {
+          "id": "cr-13-t3",
+          "title": "Review your posts",
+          "description": "Look at every post for street names, house numbers, mail, school logos or tagged locations."
+        },
+        {
+          "id": "cr-13-t4",
+          "title": "Set family rules",
+          "description": "Decide what you will and will not share about children and family. Ask adults before you feature them."
+        },
+        {
+          "id": "cr-13-t5",
+          "title": "Tighten settings",
+          "description": "Review comment filters and who can message you in your app's privacy settings."
+        }
+      ],
+      "nicheHint": "Plan how to talk about {problem} using your experience without sharing private details about where you live or who you live with.",
+      "stageHints": {
+        "idea": "Start private-by-default; it is easier to share more later than to take things back.",
+        "started": "Delete or edit any older post that shows where you live.",
+        "some_traction": "As you grow, review tagged locations and comments more often.",
+        "already_earning": "Use a separate business email for brand conversations."
+      }
+    },
+    {
+      "day": 14,
+      "week": 2,
+      "theme": "Week Two Check-In",
+      "missionTitle": "Review two weeks of posting and adjust your plan.",
+      "goal": "Write your numbers and plan the next two weeks.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "crl-14",
+      "tasks": [
+        {
+          "id": "cr-14-t1",
+          "title": "Watch the Day 14 lesson",
+          "description": "Look back at your first posts without judging them, and decide what to keep, change or drop."
+        },
+        {
+          "id": "cr-14-t2",
+          "title": "Count your posts",
+          "description": "Write how many posts you published and how many you planned."
+        },
+        {
+          "id": "cr-14-t3",
+          "title": "Note early signals",
+          "description": "For each post note reach, saves, shares and comments. Early numbers are small; look for patterns, not totals.",
+          "resourceId": "res-cr-analytics-guide"
+        },
+        {
+          "id": "cr-14-t4",
+          "title": "Pick one change",
+          "description": "Choose one thing to change, such as hook style, posting time or format."
+        },
+        {
+          "id": "cr-14-t5",
+          "title": "Plan the next two weeks",
+          "description": "Fill the next two weeks of your calendar with that change built in.",
+          "resourceId": "res-cr-content-calendar"
+        }
+      ],
+      "nicheHint": "Note which post about {problem} got the most saves or comments from {audience}, and plan two more like it.",
+      "stageHints": {
+        "idea": "If you posted at all this week, you are ahead of most people who only plan.",
+        "started": "Compare your posting rhythm now with before this month.",
+        "some_traction": "Write which pillar is growing fastest and give it more space.",
+        "already_earning": "Note which posts would make good examples in your media kit."
+      }
+    },
+    {
+      "day": 15,
+      "week": 3,
+      "theme": "Reply to Every Comment",
+      "missionTitle": "Build community by replying thoughtfully to your comments.",
+      "goal": "Reply to every genuine comment and start three conversations.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-15",
+      "tasks": [
+        {
+          "id": "cr-15-t1",
+          "title": "Watch the Day 15 lesson",
+          "description": "Learn why replies matter: comments are conversations, and the people who comment are your future community."
+        },
+        {
+          "id": "cr-15-t2",
+          "title": "Reply to every comment",
+          "description": "Reply to each genuine comment on your last five posts with more than an emoji or a single word."
+        },
+        {
+          "id": "cr-15-t3",
+          "title": "Ask a follow-up question",
+          "description": "Turn three replies into conversations by asking something specific."
+        },
+        {
+          "id": "cr-15-t4",
+          "title": "Note recurring questions",
+          "description": "Write down questions people ask; they are your next post ideas."
+        },
+        {
+          "id": "cr-15-t5",
+          "title": "Thank new followers",
+          "description": "Where it feels natural, thank new followers who engaged, without sending sales messages."
+        }
+      ],
+      "nicheHint": "Write down every question {audience} asked you about {problem}. Each one can become a post.",
+      "stageHints": {
+        "idea": "Even one comment deserves a thoughtful reply; it shows new visitors you are listening.",
+        "started": "Go back to older posts and reply to any comments you missed.",
+        "some_traction": "Set a daily time to reply so engagement does not take over your day.",
+        "already_earning": "Keep replying personally even as your audience grows; brands notice real community."
+      }
+    },
+    {
+      "day": 16,
+      "week": 3,
+      "theme": "Comment on Peers' Posts",
+      "missionTitle": "Engage genuinely with other creators in your niche.",
+      "goal": "Leave ten thoughtful comments on peers' posts.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-16",
+      "tasks": [
+        {
+          "id": "cr-16-t1",
+          "title": "Watch the Day 16 lesson",
+          "description": "Learn how genuine comments build relationships and visibility, and why to avoid follow-for-follow and engagement pods, which hurt your account and trust."
+        },
+        {
+          "id": "cr-16-t2",
+          "title": "Pick ten peers",
+          "description": "Choose ten creators near your size in your niche."
+        },
+        {
+          "id": "cr-16-t3",
+          "title": "Leave real comments",
+          "description": "Write ten comments that add something: a question, an example or a specific compliment."
+        },
+        {
+          "id": "cr-16-t4",
+          "title": "Skip shortcuts",
+          "description": "Do not join engagement pods or follow-for-follow groups, and never buy followers or likes. They give fake numbers brands can spot."
+        },
+        {
+          "id": "cr-16-t5",
+          "title": "Save your list",
+          "description": "Keep your peer list; you will use it for collaborations on Day 19."
+        }
+      ],
+      "nicheHint": "Find ten creators who also talk to {audience} about {problem} and comment on one post each with a real thought.",
+      "stageHints": {
+        "idea": "You do not need followers to comment; your comments are often how the first ones find you.",
+        "started": "Comment consistently on the same peers for a week to build real relationships.",
+        "some_traction": "Engage with creators slightly bigger than you; thoughtful comments get noticed.",
+        "already_earning": "Comment on brand accounts in your niche too, genuinely, before you pitch them."
+      }
+    },
+    {
+      "day": 17,
+      "week": 3,
+      "theme": "Read Your Analytics",
+      "missionTitle": "Learn to read reach, saves, shares and follower growth.",
+      "goal": "Fill in your analytics review.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-17",
+      "tasks": [
+        {
+          "id": "cr-17-t1",
+          "title": "Watch the Day 17 lesson",
+          "description": "Learn what each number means: reach shows how far a post went, saves and shares show value, follower growth shows trust."
+        },
+        {
+          "id": "cr-17-t2",
+          "title": "Open your analytics",
+          "description": "Switch to a creator or professional account if needed; it is free on most platforms and unlocks basic numbers."
+        },
+        {
+          "id": "cr-17-t3",
+          "title": "Fill the guide",
+          "description": "Record reach, saves, shares, comments and follows for your last ten posts.",
+          "resourceId": "res-cr-analytics-guide"
+        },
+        {
+          "id": "cr-17-t4",
+          "title": "Find your top three",
+          "description": "Mark your three best posts and write what they have in common."
+        },
+        {
+          "id": "cr-17-t5",
+          "title": "Write one insight",
+          "description": "Write one sentence: \"My audience responds most to...\"."
+        }
+      ],
+      "nicheHint": "Look at which posts about {problem} reached the most {audience} and note the hook, format and posting time.",
+      "stageHints": {
+        "idea": "Small numbers are normal now; you are looking for what works relatively better.",
+        "started": "Compare your first week with your second and note what improved.",
+        "some_traction": "Track your engagement trend over four weeks, not single posts.",
+        "already_earning": "Save your best numbers; brands will ask for them in your media kit."
+      }
+    },
+    {
+      "day": 18,
+      "week": 3,
+      "theme": "Double Down on What Works",
+      "missionTitle": "Make more of what your audience responds to.",
+      "goal": "Plan and create three posts based on your best performer.",
+      "minutes": 45,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "crl-18",
+      "tasks": [
+        {
+          "id": "cr-18-t1",
+          "title": "Watch the Day 18 lesson",
+          "description": "See how to turn one good post into a series without repeating yourself."
+        },
+        {
+          "id": "cr-18-t2",
+          "title": "Choose your best post",
+          "description": "Pick the post with the most saves or shares from your analytics review.",
+          "resourceId": "res-cr-analytics-guide"
+        },
+        {
+          "id": "cr-18-t3",
+          "title": "Plan a series",
+          "description": "Write three follow-up ideas: a part two, a deeper example and an answer to a comment."
+        },
+        {
+          "id": "cr-18-t4",
+          "title": "Create them",
+          "description": "Make the three posts using the same format and a fresh hook for each.",
+          "resourceId": "res-cr-hook-bank"
+        },
+        {
+          "id": "cr-18-t5",
+          "title": "Update the calendar",
+          "description": "Add them to your calendar over the next week.",
+          "resourceId": "res-cr-content-calendar"
+        }
+      ],
+      "nicheHint": "Turn your best post about {problem} into a three-part series for {audience}.",
+      "stageHints": {
+        "idea": "If no post stands out yet, repeat your favourite format three times and compare.",
+        "started": "Make a part two of your best recent post.",
+        "some_traction": "Turn your top topic into a recurring weekly series.",
+        "already_earning": "A recurring series is easy for brands to imagine joining."
+      }
+    },
+    {
+      "day": 19,
+      "week": 3,
+      "theme": "Find Collaboration Partners",
+      "missionTitle": "Find peers to collaborate with.",
+      "goal": "Send three friendly collaboration ideas to peers.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-19",
+      "tasks": [
+        {
+          "id": "cr-19-t1",
+          "title": "Watch the Day 19 lesson",
+          "description": "Learn simple collaboration formats: duets or stitches, joint lives, guest posts, shared carousels and swap features."
+        },
+        {
+          "id": "cr-19-t2",
+          "title": "Pick three peers",
+          "description": "Choose three creators from your peer list who share your audience but not your exact topic."
+        },
+        {
+          "id": "cr-19-t3",
+          "title": "Suggest one idea",
+          "description": "For each, write one specific idea that helps both audiences."
+        },
+        {
+          "id": "cr-19-t4",
+          "title": "Send a friendly message",
+          "description": "Send a short, friendly message with the idea. Keep it personal; mention a post of theirs you liked."
+        },
+        {
+          "id": "cr-19-t5",
+          "title": "Track replies",
+          "description": "Note who replied and plan follow-ups politely after a few days."
+        }
+      ],
+      "nicheHint": "Look for creators who reach {audience} from a different angle, so a collaboration about {problem} adds value to both.",
+      "stageHints": {
+        "idea": "Collaborating early is normal; peers at your stage are often happy to try.",
+        "started": "Collaborate with someone you have already exchanged comments with.",
+        "some_traction": "Suggest a recurring collaboration with your strongest peer.",
+        "already_earning": "Collaborations also give you new examples for your media kit."
+      }
+    },
+    {
+      "day": 20,
+      "week": 3,
+      "theme": "Create a Collaboration",
+      "missionTitle": "Create and publish one collaboration post.",
+      "goal": "Publish one collaboration or response post.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-20",
+      "tasks": [
+        {
+          "id": "cr-20-t1",
+          "title": "Watch the Day 20 lesson",
+          "description": "See how to plan a collaboration so both creators look good and the audience gets value."
+        },
+        {
+          "id": "cr-20-t2",
+          "title": "Agree the plan",
+          "description": "Agree the topic, format, posting date and who posts what."
+        },
+        {
+          "id": "cr-20-t3",
+          "title": "Create your part",
+          "description": "Film or design your part with a clear hook and both names visible."
+        },
+        {
+          "id": "cr-20-t4",
+          "title": "Publish and tag",
+          "description": "Publish and tag your partner using the platform's collaboration feature if available."
+        },
+        {
+          "id": "cr-20-t5",
+          "title": "If no one replied yet",
+          "description": "Make a response or duet post to a peer's public video, with credit, as your collaboration for today."
+        }
+      ],
+      "nicheHint": "Collaborate on a post that answers one question {audience} ask about {problem}, with each of you sharing a different view.",
+      "stageHints": {
+        "idea": "A simple duet or response post with credit counts as your first collaboration.",
+        "started": "Pick a partner whose audience is close to yours in size.",
+        "some_traction": "Measure what the collaboration brought: reach, follows and comments.",
+        "already_earning": "Practise agreeing scope and dates; it is the same skill you need for brand deals."
+      }
+    },
+    {
+      "day": 21,
+      "week": 3,
+      "theme": "Handling Negative Comments",
+      "missionTitle": "Set boundaries for comments and protect your energy.",
+      "goal": "Write your comment policy and response plan.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 150,
+      "lessonId": "crl-21",
+      "tasks": [
+        {
+          "id": "cr-21-t1",
+          "title": "Watch the Day 21 lesson",
+          "description": "Learn to tell honest criticism from trolling, when to reply, when to ignore and when to block or report."
+        },
+        {
+          "id": "cr-21-t2",
+          "title": "Sort the comment",
+          "description": "Write three categories: useful criticism, misunderstanding and abuse."
+        },
+        {
+          "id": "cr-21-t3",
+          "title": "Write your replies",
+          "description": "Write a calm reply template for useful criticism and for misunderstandings."
+        },
+        {
+          "id": "cr-21-t4",
+          "title": "Set filters",
+          "description": "Add hidden-word filters for abuse and decide when you block or report."
+        },
+        {
+          "id": "cr-21-t5",
+          "title": "Plan your recovery",
+          "description": "Write one thing you will do when a comment stings, such as stepping away for an hour before replying."
+        }
+      ],
+      "nicheHint": "Prepare a calm reply for the most common pushback {audience} might give about how you talk about {problem}.",
+      "stageHints": {
+        "idea": "Most early comments are kind; prepare now so the first unkind one does not stop you.",
+        "started": "Review any past negative comment and write how you would answer it now.",
+        "some_traction": "As reach grows, use filters and blocking without guilt.",
+        "already_earning": "Brands value creators who handle comments calmly in public."
+      }
+    },
+    {
+      "day": 22,
+      "week": 4,
+      "theme": "Build Your Media Kit",
+      "missionTitle": "Create a simple one-page media kit.",
+      "goal": "Finish a one-page media kit.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-22",
+      "tasks": [
+        {
+          "id": "cr-22-t1",
+          "title": "Watch the Day 22 lesson",
+          "description": "See what brands look for in a media kit: who you reach, what you create, honest numbers and how to contact you."
+        },
+        {
+          "id": "cr-22-t2",
+          "title": "Use the template",
+          "description": "Open the media kit template in Canva or Google Slides.",
+          "resourceId": "res-cr-media-kit"
+        },
+        {
+          "id": "cr-22-t3",
+          "title": "Add your story",
+          "description": "Write a short intro: who you are, who your audience is and what you post."
+        },
+        {
+          "id": "cr-22-t4",
+          "title": "Add honest numbers",
+          "description": "Add followers, average reach and engagement from your analytics. Never round up or invent numbers.",
+          "resourceId": "res-cr-analytics-guide"
+        },
+        {
+          "id": "cr-22-t5",
+          "title": "Add examples",
+          "description": "Add three of your best posts and a professional contact email."
+        }
+      ],
+      "nicheHint": "Describe your audience as specifically as you can, such as {audience} interested in {problem}, so brands in {niche} see the fit.",
+      "stageHints": {
+        "idea": "A small, honest kit is fine; brands working with small creators care about fit more than size.",
+        "started": "Highlight your consistency and your most engaged posts.",
+        "some_traction": "Show your growth trend from this month as well as totals.",
+        "already_earning": "Add past partnerships and results, with permission from those brands."
+      }
+    },
+    {
+      "day": 23,
+      "week": 4,
+      "theme": "Make a UGC Portfolio",
+      "missionTitle": "Create two sample UGC videos for your portfolio.",
+      "goal": "Publish a simple UGC portfolio with two samples.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-23",
+      "tasks": [
+        {
+          "id": "cr-23-t1",
+          "title": "Watch the Day 23 lesson",
+          "description": "Learn what UGC is: brands pay creators for content the brand posts itself, so your follower count matters less than your filming skills."
+        },
+        {
+          "id": "cr-23-t2",
+          "title": "Read the checklist",
+          "description": "Go through the UGC portfolio checklist.",
+          "resourceId": "res-cr-ugc-portfolio"
+        },
+        {
+          "id": "cr-23-t3",
+          "title": "Pick two products you own",
+          "description": "Choose two products you already own and genuinely use. Do not tag brands or imply a partnership."
+        },
+        {
+          "id": "cr-23-t4",
+          "title": "Film two samples",
+          "description": "Film two short samples: one unboxing or first impression and one problem and solution video."
+        },
+        {
+          "id": "cr-23-t5",
+          "title": "Collect them",
+          "description": "Put the samples in a simple Canva page or folder and link it from your media kit.",
+          "resourceId": "res-cr-media-kit"
+        }
+      ],
+      "nicheHint": "Film samples with products {audience} would use for {problem}, so your portfolio fits brands in {niche}.",
+      "stageHints": {
+        "idea": "UGC is a good first income path because brands judge your videos, not your follower count.",
+        "started": "Turn one of your existing videos into a UGC-style sample.",
+        "some_traction": "Make samples in two styles so brands can see your range.",
+        "already_earning": "Add any past UGC work, with the brand's permission."
+      }
+    },
+    {
+      "day": 24,
+      "week": 4,
+      "theme": "Find Brands That Fit",
+      "missionTitle": "Build a list of small brands that fit your niche.",
+      "goal": "List 15 small brands with contact details.",
+      "minutes": 40,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-24",
+      "tasks": [
+        {
+          "id": "cr-24-t1",
+          "title": "Watch the Day 24 lesson",
+          "description": "Learn where to find small brands that work with creators and how to check they fit your audience and values."
+        },
+        {
+          "id": "cr-24-t2",
+          "title": "Start with what you use",
+          "description": "List products you already use and like that fit your niche."
+        },
+        {
+          "id": "cr-24-t3",
+          "title": "Search small brands",
+          "description": "Look for small or new brands already working with creators near your size."
+        },
+        {
+          "id": "cr-24-t4",
+          "title": "Find the right contact",
+          "description": "Note each brand's partnership email or form from their website or profile."
+        },
+        {
+          "id": "cr-24-t5",
+          "title": "Check the fit",
+          "description": "Keep only brands you would genuinely recommend. Skip anything you would not use yourself."
+        }
+      ],
+      "nicheHint": "Search for {terms} plus words like \"small business\" or \"handmade\" to find brands that sell to {audience}.",
+      "stageHints": {
+        "idea": "Start with brands you already use; your honest experience makes your pitch stronger.",
+        "started": "Look for brands that already comment on or reshare creators at your size.",
+        "some_traction": "Include a few brands one step bigger than you have worked with before.",
+        "already_earning": "Revisit brands you worked with and ask about repeat projects."
+      }
+    },
+    {
+      "day": 25,
+      "week": 4,
+      "theme": "Price Your First Deal",
+      "missionTitle": "Decide how to price your first brand deal or UGC gig.",
+      "goal": "Write your starting rates for three deliverables.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-25",
+      "tasks": [
+        {
+          "id": "cr-25-t1",
+          "title": "Watch the Day 25 lesson",
+          "description": "Learn what affects a price: deliverables, usage rights, time, exclusivity and your audience, and why beginner rates are a start, not your worth."
+        },
+        {
+          "id": "cr-25-t2",
+          "title": "List deliverables",
+          "description": "Write three things you could offer: one post, one UGC video and one story set."
+        },
+        {
+          "id": "cr-25-t3",
+          "title": "Estimate your time",
+          "description": "Note how long each takes, including planning, filming, editing and changes."
+        },
+        {
+          "id": "cr-25-t4",
+          "title": "Set starting rates",
+          "description": "Set a starting price for each that covers your time. Write a separate price for extra usage rights.",
+          "resourceId": "res-cr-pitch-template"
+        },
+        {
+          "id": "cr-25-t5",
+          "title": "Decide your minimum",
+          "description": "Write the lowest you will accept and when a free product alone is not enough."
+        }
+      ],
+      "nicheHint": "Look at what creators in {niche} with audiences like {audience} say about their rates, then set yours honestly for your size.",
+      "stageHints": {
+        "idea": "Your first deal may be small; agree it clearly and use it to learn what your time is worth.",
+        "started": "Set a price that covers your time, then raise it after each completed deal.",
+        "some_traction": "Base your rates on your engagement and results, not just followers.",
+        "already_earning": "Raise your rates for new brands and offer package prices to returning ones."
+      }
+    },
+    {
+      "day": 26,
+      "week": 4,
+      "theme": "Disclose Paid Posts",
+      "missionTitle": "Learn how to disclose paid partnerships clearly.",
+      "goal": "Complete the paid-post disclosure checklist.",
+      "minutes": 25,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-26",
+      "tasks": [
+        {
+          "id": "cr-26-t1",
+          "title": "Watch the Day 26 lesson",
+          "description": "Learn why disclosure is required and builds trust: label paid posts with #ad or the platform's branded-content tool, every time."
+        },
+        {
+          "id": "cr-26-t2",
+          "title": "Read the checklist",
+          "description": "Go through the paid-post disclosure checklist.",
+          "resourceId": "res-cr-disclosure-checklist"
+        },
+        {
+          "id": "cr-26-t3",
+          "title": "Find the tool",
+          "description": "Find your platform's paid partnership or branded-content setting."
+        },
+        {
+          "id": "cr-26-t4",
+          "title": "Write your labels",
+          "description": "Write the disclosure you will use at the start of captions, such as \"#ad\" or \"Paid partnership with [brand]\"."
+        },
+        {
+          "id": "cr-26-t5",
+          "title": "Cover gifts too",
+          "description": "Note that free products and affiliate links also need disclosure."
+        }
+      ],
+      "nicheHint": "Write how you will tell {audience} a post is paid, in plain words that match your voice.",
+      "stageHints": {
+        "idea": "Decide now that every paid or gifted post will be labelled; it is the law in many countries and protects your trust.",
+        "started": "Check any past post where you received something free and add a disclosure if needed.",
+        "some_traction": "Use the platform's branded-content tool on every partnership.",
+        "already_earning": "Review your past brand posts and fix any missing disclosures."
+      }
+    },
+    {
+      "day": 27,
+      "week": 4,
+      "theme": "Pitch Your First Brands",
+      "missionTitle": "Send your first professional brand pitches.",
+      "goal": "Send five personalised brand pitches.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 150,
+      "lessonId": "crl-27",
+      "tasks": [
+        {
+          "id": "cr-27-t1",
+          "title": "Watch the Day 27 lesson",
+          "description": "See what a good brand pitch looks like: short, personal, one clear idea, your media kit and honest numbers."
+        },
+        {
+          "id": "cr-27-t2",
+          "title": "Use the template",
+          "description": "Open the brand pitch template and personalise it for your top brand.",
+          "resourceId": "res-cr-pitch-template"
+        },
+        {
+          "id": "cr-27-t3",
+          "title": "Add one idea",
+          "description": "Suggest one specific content idea that fits the brand and your audience."
+        },
+        {
+          "id": "cr-27-t4",
+          "title": "Attach your kit",
+          "description": "Link your media kit and UGC portfolio.",
+          "resourceId": "res-cr-media-kit"
+        },
+        {
+          "id": "cr-27-t5",
+          "title": "Send five pitches",
+          "description": "Send five personalised pitches by email or the brand's partnership form. Note the date sent."
+        }
+      ],
+      "nicheHint": "Pitch each brand one idea that shows how their product helps {audience} with {problem}.",
+      "stageHints": {
+        "idea": "Pitching with a small audience is fine; lead with UGC samples and your idea.",
+        "started": "Mention your best-performing post as proof you know your audience.",
+        "some_traction": "Pitch a small package, such as one post plus one UGC video.",
+        "already_earning": "Pitch past partners a new idea as well as new brands."
+      }
+    },
+    {
+      "day": 28,
+      "week": 4,
+      "theme": "Follow Up and Other Offers",
+      "missionTitle": "Follow up politely and explore other first-income options.",
+      "goal": "Send follow-ups and plan one other offer.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-28",
+      "tasks": [
+        {
+          "id": "cr-28-t1",
+          "title": "Watch the Day 28 lesson",
+          "description": "Learn polite follow-ups and other ways a small brand can earn: paid shoutouts for small businesses and a simple paid offer to your audience."
+        },
+        {
+          "id": "cr-28-t2",
+          "title": "Follow up once",
+          "description": "Send one short, polite follow-up to pitches older than five days with no reply."
+        },
+        {
+          "id": "cr-28-t3",
+          "title": "Handle replies",
+          "description": "For any reply, confirm deliverables, dates, usage and payment before you start."
+        },
+        {
+          "id": "cr-28-t4",
+          "title": "Plan one other offer",
+          "description": "Write one other option, such as a paid shoutout for a local business or a small paid guide or session for your audience."
+        },
+        {
+          "id": "cr-28-t5",
+          "title": "Ask your audience",
+          "description": "Ask your audience what help they would want next, without pressure to buy."
+        }
+      ],
+      "nicheHint": "Think of one small paid offer that helps {audience} with {problem}, such as a short guide or a session, and describe it in one sentence.",
+      "stageHints": {
+        "idea": "No replies yet is normal; follow up once, then keep posting and pitching.",
+        "started": "Send five new pitches to keep your list moving.",
+        "some_traction": "Test a small paid offer with your most engaged followers.",
+        "already_earning": "Combine brand work with your own offer so income does not depend on one source."
+      }
+    },
+    {
+      "day": 29,
+      "week": 4,
+      "theme": "Deliver a Deal Professionally",
+      "missionTitle": "Learn how to deliver a brand deal from brief to payment.",
+      "goal": "Write your deal checklist.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "crl-29",
+      "tasks": [
+        {
+          "id": "cr-29-t1",
+          "title": "Watch the Day 29 lesson",
+          "description": "See the steps of a smooth deal: brief, written agreement, draft, changes, publishing with disclosure, results and payment."
+        },
+        {
+          "id": "cr-29-t2",
+          "title": "Write your checklist",
+          "description": "Write the steps you will follow for every deal, from brief to payment."
+        },
+        {
+          "id": "cr-29-t3",
+          "title": "Agree in writing",
+          "description": "List what must be agreed in writing: deliverables, dates, number of changes, usage rights and payment terms."
+        },
+        {
+          "id": "cr-29-t4",
+          "title": "Plan the report",
+          "description": "Plan a short results summary to send after the post: reach, saves, shares and comments."
+        },
+        {
+          "id": "cr-29-t5",
+          "title": "Protect yourself",
+          "description": "Note red flags, such as requests to pay upfront, to hide that a post is paid or to share passwords."
+        }
+      ],
+      "nicheHint": "Write how you will report results to a brand in a way that shows how {audience} responded to your post about {problem}.",
+      "stageHints": {
+        "idea": "Prepare this checklist now so you feel ready when the first yes arrives.",
+        "started": "Practise with a collaboration: agree scope and dates in writing.",
+        "some_traction": "Add a results summary to every deal to earn repeat work.",
+        "already_earning": "Tighten your agreement template using lessons from past deals."
+      }
+    },
+    {
+      "day": 30,
+      "week": 4,
+      "theme": "Day 30 Review",
+      "missionTitle": "Review your month and plan the next 30 days.",
+      "goal": "Write your next 30-day plan.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 300,
+      "lessonId": "crl-30",
+      "tasks": [
+        {
+          "id": "cr-30-t1",
+          "title": "Watch the Day 30 lesson",
+          "description": "Look back at your month with honest numbers and turn what you learned into a focused next plan."
+        },
+        {
+          "id": "cr-30-t2",
+          "title": "Write your numbers",
+          "description": "Note posts published, reach, saves, shares, follower growth, pitches sent and any brand income.",
+          "resourceId": "res-cr-analytics-guide"
+        },
+        {
+          "id": "cr-30-t3",
+          "title": "Write three lessons",
+          "description": "What worked, what did not and what you would change."
+        },
+        {
+          "id": "cr-30-t4",
+          "title": "Pick one focus",
+          "description": "Choose one focus for the next 30 days, such as consistency, better hooks or more pitches."
+        },
+        {
+          "id": "cr-30-t5",
+          "title": "Plan the next month",
+          "description": "Write weekly goals and fill the first two weeks of a new content calendar.",
+          "resourceId": "res-cr-content-calendar"
+        }
+      ],
+      "nicheHint": "Decide whether next month is about reaching more {audience}, going deeper on {problem}, or pitching more brands in {niche}.",
+      "stageHints": {
+        "idea": "Plan to keep posting for another 30 days; most brands grow slowly at first.",
+        "started": "Plan to fix the one bottleneck your numbers showed.",
+        "some_traction": "Plan to grow what already works before adding a new platform.",
+        "already_earning": "Plan your next pitches and raise your rates for new brands."
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "id": "crl-01",
+      "title": "How Personal Brands Grow",
+      "category": "Brand Strategy",
+      "path": "creator_brand",
+      "duration": "8:20",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "A plain-English look at how a personal brand works: one audience, one clear topic and a reason to follow you. You finish with a brand statement and a 30-day goal.",
+      "learn": [
+        "Why a specific audience grows faster than a broad one",
+        "How to write a one-sentence brand statement",
+        "Why goals you control matter in month one"
+      ],
+      "takeaways": [
+        "Name one audience you understand",
+        "Write: I help [audience] with [topic]",
+        "Set a goal you control, like posting three times a week"
+      ],
+      "resourceIds": [
+        "res-cr-brand-statement"
+      ],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-02",
+      "title": "Content Pillars Made Simple",
+      "category": "Brand Strategy",
+      "path": "creator_brand",
+      "duration": "7:40",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "How three content pillars keep you consistent and recognisable without running out of ideas.",
+      "learn": [
+        "What a content pillar is",
+        "How to balance teaching, personal and behind-the-scenes posts",
+        "What to keep off your brand for privacy"
+      ],
+      "takeaways": [
+        "Three pillars are enough to start",
+        "Write five ideas per pillar",
+        "Decide what you will never share"
+      ],
+      "resourceIds": [
+        "res-cr-pillars-planner"
+      ],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-03",
+      "title": "Choosing One Platform",
+      "category": "Platform & Profile",
+      "path": "creator_brand",
+      "duration": "8:50",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "A calm comparison of Instagram, TikTok, LinkedIn, X and YouTube Shorts, and why one platform done well beats five done badly.",
+      "learn": [
+        "What each platform rewards",
+        "How to find where your audience already is",
+        "Why to focus on one platform this month"
+      ],
+      "takeaways": [
+        "Pick the platform that fits your strengths",
+        "Go where your audience asks questions",
+        "Add other platforms later"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-04",
+      "title": "A Profile That Converts Visitors",
+      "category": "Platform & Profile",
+      "path": "creator_brand",
+      "duration": "9:10",
+      "minutes": 9,
+      "hue": 320,
+      "summary": "What a clear bio, profile photo and link do in the first three seconds, and how to publish your first post without overthinking it.",
+      "learn": [
+        "How to turn your brand statement into a bio",
+        "What makes a good profile photo",
+        "Why your first post can be simple"
+      ],
+      "takeaways": [
+        "Say who it is for and what they get",
+        "Keep personal details out of your profile",
+        "Publish your intro post today"
+      ],
+      "resourceIds": [
+        "res-cr-brand-statement"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-05",
+      "title": "Studying Creators Without Copying",
+      "category": "Research",
+      "path": "creator_brand",
+      "duration": "9:30",
+      "minutes": 9,
+      "hue": 320,
+      "summary": "How to learn from ten creators in your niche: formats, hooks, lengths and timing, while keeping your own voice.",
+      "learn": [
+        "What to note when studying a creator",
+        "How to spot gaps in your niche",
+        "The line between inspiration and copying"
+      ],
+      "takeaways": [
+        "Study accounts a little ahead of you",
+        "Borrow formats, never words",
+        "Write down gaps you can fill"
+      ],
+      "resourceIds": [
+        "res-cr-hook-bank"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-06",
+      "title": "Your 2-Week Content Calendar",
+      "category": "Content Planning",
+      "path": "creator_brand",
+      "duration": "7:50",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "How a simple calendar removes daily posting stress and keeps your pillars balanced.",
+      "learn": [
+        "How to choose a posting rhythm you can keep",
+        "How to rotate pillars",
+        "How to use posting times as a starting point"
+      ],
+      "takeaways": [
+        "Consistent beats frequent",
+        "Plan two weeks at a time",
+        "Prepare tomorrow's post today"
+      ],
+      "resourceIds": [
+        "res-cr-content-calendar"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-07",
+      "title": "Hooks That Earn Attention",
+      "category": "Hooks & Storytelling",
+      "path": "creator_brand",
+      "duration": "8:40",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "The main hook types and how to write honest hooks that stop the scroll without clickbait.",
+      "learn": [
+        "Five hook types that work",
+        "How to match a hook to your post",
+        "Why honest hooks build trust"
+      ],
+      "takeaways": [
+        "Write ten hooks at a time",
+        "Deliver what the hook promises",
+        "Track which hooks work for you"
+      ],
+      "resourceIds": [
+        "res-cr-hook-bank"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-08",
+      "title": "Creating With Just Your Phone",
+      "category": "Content Creation",
+      "path": "creator_brand",
+      "duration": "10:05",
+      "minutes": 10,
+      "hue": 320,
+      "summary": "A simple setup with window light, a steady phone and free editing in CapCut or Canva, plus how to batch-create.",
+      "learn": [
+        "How to use natural light",
+        "How to edit simply in CapCut or Canva",
+        "How batching saves time"
+      ],
+      "takeaways": [
+        "Light and sound matter more than gear",
+        "Add captions to every video",
+        "Batch three posts at once"
+      ],
+      "resourceIds": [
+        "res-cr-repurposing-checklist",
+        "res-cr-content-calendar"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-09",
+      "title": "Short Stories That Stick",
+      "category": "Hooks & Storytelling",
+      "path": "creator_brand",
+      "duration": "7:20",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "A simple story shape that works in 30 seconds or a short caption, and how to tell it while protecting other people's privacy.",
+      "learn": [
+        "The situation, problem, turning point, lesson shape",
+        "How to find stories in everyday moments",
+        "How to protect other people in your stories"
+      ],
+      "takeaways": [
+        "Small stories work",
+        "Keep it under 100 words",
+        "Ask before featuring anyone"
+      ],
+      "resourceIds": [
+        "res-cr-hook-bank"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-10",
+      "title": "Repurposing One Idea",
+      "category": "Content Creation",
+      "path": "creator_brand",
+      "duration": "8:15",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "How one strong idea becomes a video, a carousel, a text post and a story without extra research.",
+      "learn": [
+        "Which ideas are worth repurposing",
+        "How to adapt an idea to each format",
+        "How to space repurposed posts"
+      ],
+      "takeaways": [
+        "Most people miss most of your posts",
+        "Start from your best idea",
+        "Change the format, keep the message"
+      ],
+      "resourceIds": [
+        "res-cr-repurposing-checklist",
+        "res-cr-content-calendar"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-11",
+      "title": "Confidence on Camera",
+      "category": "Content Creation",
+      "path": "creator_brand",
+      "duration": "7:30",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "Simple ways to feel calmer on camera, and faceless styles that also build a brand.",
+      "learn": [
+        "Why the first videos feel awkward",
+        "How to use notes instead of scripts",
+        "Faceless options that work"
+      ],
+      "takeaways": [
+        "Practise three takes, keep one",
+        "Use bullet points, not scripts",
+        "Any style can build a brand"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-12",
+      "title": "Captions and Calls to Action",
+      "category": "Content Creation",
+      "path": "creator_brand",
+      "duration": "6:50",
+      "minutes": 6,
+      "hue": 320,
+      "summary": "How on-screen text, useful captions and one clear call to action help people save, share and follow.",
+      "learn": [
+        "Why most people watch without sound",
+        "How to write a caption that adds value",
+        "Why one call to action beats four"
+      ],
+      "takeaways": [
+        "Make your point readable without sound",
+        "Add value in the caption",
+        "Ask for one action"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-13",
+      "title": "Privacy and Safety Online",
+      "category": "Platform & Profile",
+      "path": "creator_brand",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "What to keep off camera, how to protect children and family, and which settings keep your account safer.",
+      "learn": [
+        "Details that reveal where you live",
+        "How to set family sharing rules",
+        "Which privacy settings to check"
+      ],
+      "takeaways": [
+        "Never show your address",
+        "Ask before featuring anyone",
+        "Use comment and message filters"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-14",
+      "title": "Your Two-Week Check-In",
+      "category": "Analytics & Growth",
+      "path": "creator_brand",
+      "duration": "7:10",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "How to look back at your first posts without judging them and pick one change for the next two weeks.",
+      "learn": [
+        "Which early numbers matter",
+        "How to look for patterns in small numbers",
+        "How to choose one change"
+      ],
+      "takeaways": [
+        "Look for patterns, not totals",
+        "Change one thing at a time",
+        "Plan the next two weeks now"
+      ],
+      "resourceIds": [
+        "res-cr-analytics-guide",
+        "res-cr-content-calendar"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-15",
+      "title": "Replies Build Community",
+      "category": "Community",
+      "path": "creator_brand",
+      "duration": "6:40",
+      "minutes": 6,
+      "hue": 320,
+      "summary": "Why replying to comments turns viewers into a community, and how to start real conversations.",
+      "learn": [
+        "Why comments are conversations",
+        "How to ask good follow-up questions",
+        "How comments become post ideas"
+      ],
+      "takeaways": [
+        "Reply with more than one word",
+        "Ask specific questions",
+        "Save recurring questions"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-16",
+      "title": "Genuine Engagement, No Shortcuts",
+      "category": "Community",
+      "path": "creator_brand",
+      "duration": "8:10",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "How thoughtful comments on peers' posts build relationships, and why to avoid follow-for-follow, engagement pods and bought followers.",
+      "learn": [
+        "What makes a comment thoughtful",
+        "How to choose peers to engage with",
+        "Why fake engagement backfires with audiences and brands"
+      ],
+      "takeaways": [
+        "Comment to add value",
+        "Never buy followers or engagement",
+        "Keep a list of peers"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-17",
+      "title": "Reading Your Analytics",
+      "category": "Analytics & Growth",
+      "path": "creator_brand",
+      "duration": "9:20",
+      "minutes": 9,
+      "hue": 320,
+      "summary": "What reach, saves, shares and follower growth each tell you, and how to find your best posts.",
+      "learn": [
+        "What reach measures",
+        "Why saves and shares signal value",
+        "How to spot your top posts"
+      ],
+      "takeaways": [
+        "Switch to a free creator account",
+        "Compare posts to each other",
+        "Write one insight a week"
+      ],
+      "resourceIds": [
+        "res-cr-analytics-guide"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-18",
+      "title": "Doubling Down on What Works",
+      "category": "Analytics & Growth",
+      "path": "creator_brand",
+      "duration": "7:45",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "How to turn one good post into a series without repeating yourself.",
+      "learn": [
+        "How to choose a post worth repeating",
+        "Three ways to extend an idea",
+        "How a series builds habit"
+      ],
+      "takeaways": [
+        "Make a part two",
+        "Use a fresh hook each time",
+        "Turn winners into series"
+      ],
+      "resourceIds": [
+        "res-cr-analytics-guide",
+        "res-cr-hook-bank"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-19",
+      "title": "Collaborating With Peers",
+      "category": "Collaboration",
+      "path": "creator_brand",
+      "duration": "8:30",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "Simple collaboration formats and how to suggest one in a friendly, personal message.",
+      "learn": [
+        "Duets, stitches, lives and shared posts",
+        "How to choose a collaboration partner",
+        "How to write a friendly collaboration message"
+      ],
+      "takeaways": [
+        "Pick peers with a shared audience",
+        "Suggest one specific idea",
+        "Follow up politely once"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-20",
+      "title": "Making a Collaboration Work",
+      "category": "Collaboration",
+      "path": "creator_brand",
+      "duration": "7:55",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "How to plan a collaboration so both creators look good and the audience gets value.",
+      "learn": [
+        "How to agree topic, format and dates",
+        "How to credit and tag partners",
+        "How to measure what it brought"
+      ],
+      "takeaways": [
+        "Agree the plan in writing",
+        "Credit your partner clearly",
+        "Note the results"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-21",
+      "title": "Handling Negative Comments",
+      "category": "Mindset",
+      "path": "creator_brand",
+      "duration": "8:25",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "How to tell criticism from trolling, when to reply, ignore, block or report, and how to protect your energy.",
+      "learn": [
+        "Three types of negative comment",
+        "Calm reply templates",
+        "When to block or report"
+      ],
+      "takeaways": [
+        "Not every comment needs a reply",
+        "Use filters without guilt",
+        "Step away before replying"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-22",
+      "title": "Your Media Kit",
+      "category": "Media Kit & UGC",
+      "path": "creator_brand",
+      "duration": "9:40",
+      "minutes": 9,
+      "hue": 320,
+      "summary": "What brands look for in a media kit and how to build an honest one-page kit with free tools.",
+      "learn": [
+        "What goes in a media kit",
+        "How to present small numbers honestly",
+        "Which examples to include"
+      ],
+      "takeaways": [
+        "Keep it to one page",
+        "Never round up your numbers",
+        "Show your audience clearly"
+      ],
+      "resourceIds": [
+        "res-cr-media-kit",
+        "res-cr-analytics-guide"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-23",
+      "title": "Getting Started With UGC",
+      "category": "Media Kit & UGC",
+      "path": "creator_brand",
+      "duration": "10:15",
+      "minutes": 10,
+      "hue": 320,
+      "summary": "What UGC is, why follower count matters less, and how to make two portfolio samples with products you already own.",
+      "learn": [
+        "How UGC differs from influencer posts",
+        "Which sample videos to make",
+        "How to present a simple portfolio"
+      ],
+      "takeaways": [
+        "Use products you genuinely use",
+        "Do not imply a partnership",
+        "Two good samples are enough to start"
+      ],
+      "resourceIds": [
+        "res-cr-ugc-portfolio",
+        "res-cr-media-kit"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "crl-24",
+      "title": "Finding Brands That Fit",
+      "category": "Brand Deals",
+      "path": "creator_brand",
+      "duration": "8:05",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "Where to find small brands that work with creators and how to check they fit your audience and values.",
+      "learn": [
+        "Where small brands look for creators",
+        "How to find the right contact",
+        "How to check brand fit"
+      ],
+      "takeaways": [
+        "Start with what you use",
+        "Find partnership emails or forms",
+        "Only pitch brands you would recommend"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-25",
+      "title": "Pricing Your First Deal",
+      "category": "Brand Deals",
+      "path": "creator_brand",
+      "duration": "9:00",
+      "minutes": 9,
+      "hue": 320,
+      "summary": "What affects a creator rate, how to set a starting price that covers your time, and how usage rights change the price.",
+      "learn": [
+        "What deliverables and usage rights mean",
+        "How to price your time",
+        "When a free product is not enough"
+      ],
+      "takeaways": [
+        "List deliverables first",
+        "Price usage rights separately",
+        "Raise rates after each deal"
+      ],
+      "resourceIds": [
+        "res-cr-pitch-template"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-26",
+      "title": "Disclosing Paid Posts",
+      "category": "Brand Deals",
+      "path": "creator_brand",
+      "duration": "7:35",
+      "minutes": 7,
+      "hue": 320,
+      "summary": "Why disclosure is required and builds trust, and how to label paid, gifted and affiliate posts clearly every time.",
+      "learn": [
+        "When a post must be disclosed",
+        "How to use #ad and branded-content tools",
+        "Why gifts and affiliate links count too"
+      ],
+      "takeaways": [
+        "Disclose every paid or gifted post",
+        "Put the label where people see it first",
+        "Use the platform's tool too"
+      ],
+      "resourceIds": [
+        "res-cr-disclosure-checklist"
+      ],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-27",
+      "title": "Pitching Brands Professionally",
+      "category": "Brand Deals",
+      "path": "creator_brand",
+      "duration": "9:50",
+      "minutes": 9,
+      "hue": 320,
+      "summary": "What a good brand pitch looks like: short, personal, one idea, your media kit and honest numbers.",
+      "learn": [
+        "How to personalise a pitch",
+        "How to suggest one clear idea",
+        "What to attach"
+      ],
+      "takeaways": [
+        "Keep pitches short",
+        "Lead with one idea",
+        "Track every pitch"
+      ],
+      "resourceIds": [
+        "res-cr-pitch-template",
+        "res-cr-media-kit"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-28",
+      "title": "Follow-Ups and Other Offers",
+      "category": "Brand Deals",
+      "path": "creator_brand",
+      "duration": "8:35",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "How to follow up politely, handle replies and add other first-income options like paid shoutouts and a simple paid offer.",
+      "learn": [
+        "How and when to follow up",
+        "What to confirm before starting",
+        "Other ways a small brand earns"
+      ],
+      "takeaways": [
+        "Follow up once, politely",
+        "Confirm everything before you start",
+        "Do not rely on one income source"
+      ],
+      "resourceIds": [
+        "res-cr-pitch-template"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "crl-29",
+      "title": "Delivering a Deal Well",
+      "category": "Brand Deals",
+      "path": "creator_brand",
+      "duration": "8:45",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "The steps of a smooth deal from brief to payment, and red flags to avoid.",
+      "learn": [
+        "What to agree in writing",
+        "How to report results",
+        "Common red flags"
+      ],
+      "takeaways": [
+        "Agree scope, dates, usage and payment",
+        "Send a short results summary",
+        "Never hide that a post is paid"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Chen"
+    },
+    {
+      "id": "crl-30",
+      "title": "Your Day 30 Review",
+      "category": "Mindset",
+      "path": "creator_brand",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 320,
+      "summary": "How to review your month with honest numbers and turn what you learned into a focused next 30 days.",
+      "learn": [
+        "Which numbers to review",
+        "How to pick one focus",
+        "How to keep going when growth is slow"
+      ],
+      "takeaways": [
+        "Be honest with your numbers",
+        "Choose one focus",
+        "Plan two weeks ahead"
+      ],
+      "resourceIds": [
+        "res-cr-analytics-guide",
+        "res-cr-content-calendar"
+      ],
+      "instructor": "Maya Chen"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-cr-brand-statement",
+      "title": "Brand Statement Worksheet",
+      "type": "Template",
+      "path": "creator_brand",
+      "description": "Define who your content is for and what you want to be known for. Fill it in on Days 1 and 4.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Your audience",
+          "body": [
+            "Write who you want to reach in one sentence.",
+            "Note what they struggle with or care about.",
+            "Note where they spend time online."
+          ]
+        },
+        {
+          "heading": "What you know",
+          "body": [
+            "List ten things you know or are learning.",
+            "Circle the three your audience would value most.",
+            "Note which ones you could talk about every week."
+          ]
+        },
+        {
+          "heading": "Your statement",
+          "body": [
+            "I help [audience] with [topic] by sharing [what you post].",
+            "Read it aloud and cut extra words.",
+            "Ask: would a stranger know if this is for them?"
+          ]
+        },
+        {
+          "heading": "Your bio",
+          "body": [
+            "Line 1: who it is for and what they get.",
+            "Line 2: one line of proof or personality.",
+            "Line 3: what to do next, such as follow or tap the link."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-pillars-planner",
+      "title": "Content Pillars Planner",
+      "type": "Template",
+      "path": "creator_brand",
+      "description": "Plan three content pillars with five post ideas each. Use it on Day 2 and whenever ideas run low.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Pillar 1: Teach",
+          "body": [
+            "Name the pillar.",
+            "Write five tips, how-tos or mistakes to avoid.",
+            "Mark the one you can post first."
+          ]
+        },
+        {
+          "heading": "Pillar 2: Personal",
+          "body": [
+            "Name the pillar.",
+            "Write five stories, opinions or lessons from your journey.",
+            "Check none reveal private details."
+          ]
+        },
+        {
+          "heading": "Pillar 3: Behind the scenes",
+          "body": [
+            "Name the pillar.",
+            "Write five ideas showing your process, tools or routine.",
+            "Keep your home location and family out of frame."
+          ]
+        },
+        {
+          "heading": "Off-limits list",
+          "body": [
+            "Write topics you will not post about.",
+            "Include your address, school or workplace and children's details.",
+            "Review this list every month."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-hook-bank",
+      "title": "Hook Bank",
+      "type": "Guide",
+      "path": "creator_brand",
+      "description": "Fill-in-the-blank hooks for your first lines. Always deliver what the hook promises.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Question hooks",
+          "body": [
+            "Are you still [common mistake]?",
+            "What would you do if [situation]?",
+            "Why does [problem] keep happening?"
+          ]
+        },
+        {
+          "heading": "Statement hooks",
+          "body": [
+            "The easiest way to [result] I have found.",
+            "Stop [habit] if you want [result].",
+            "Nobody told me this about [topic]."
+          ]
+        },
+        {
+          "heading": "Story hooks",
+          "body": [
+            "A year ago I [situation].",
+            "This happened when I tried [thing].",
+            "The moment I realised [lesson]."
+          ]
+        },
+        {
+          "heading": "Honesty check",
+          "body": [
+            "Does the post deliver what the hook promises?",
+            "Did you avoid exaggerating results?",
+            "Would you be happy if a friend read it?"
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-content-calendar",
+      "title": "2-Week Content Calendar",
+      "type": "Template",
+      "path": "creator_brand",
+      "description": "Plan two weeks of posts around your pillars. Use it on Day 6 and refresh it every two weeks.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Rhythm",
+          "body": [
+            "Choose how many posts per week you can keep.",
+            "Pick your posting days.",
+            "Pick a starting posting time for each day."
+          ]
+        },
+        {
+          "heading": "Week A",
+          "body": [
+            "Write the pillar, idea and format for each posting day.",
+            "Add a hook from the hook bank.",
+            "Mark which posts are batched and ready."
+          ]
+        },
+        {
+          "heading": "Week B",
+          "body": [
+            "Repeat the same layout for the second week.",
+            "Rotate pillars so no pillar appears twice in a row.",
+            "Leave one slot for a reply-to-comment post."
+          ]
+        },
+        {
+          "heading": "Review",
+          "body": [
+            "After two weeks, mark posted or missed.",
+            "Note your top post.",
+            "Carry one learning into the next calendar."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-repurposing-checklist",
+      "title": "Repurposing Checklist",
+      "type": "Checklist",
+      "path": "creator_brand",
+      "description": "Turn one idea into several formats without extra research.",
+      "minutes": 4,
+      "sections": [
+        {
+          "heading": "Pick the idea",
+          "body": [
+            "It got good saves, shares or comments.",
+            "It answers a real audience question.",
+            "It can be explained in several ways."
+          ]
+        },
+        {
+          "heading": "Formats",
+          "body": [
+            "Short video with captions.",
+            "Carousel with one point per slide.",
+            "Text post or thread.",
+            "Story with a poll or question."
+          ]
+        },
+        {
+          "heading": "Adapt",
+          "body": [
+            "Write a fresh hook for each format.",
+            "Resize designs for each placement in Canva.",
+            "Keep the core message the same."
+          ]
+        },
+        {
+          "heading": "Schedule",
+          "body": [
+            "Space versions a few days apart.",
+            "Add them to your calendar.",
+            "Compare how each format performs."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-analytics-guide",
+      "title": "Analytics Review Guide",
+      "type": "Guide",
+      "path": "creator_brand",
+      "description": "Read your numbers calmly and find what to do more of. Use it on Days 14, 17 and 30.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "What each number means",
+          "body": [
+            "Reach: how many accounts saw the post.",
+            "Saves and shares: how useful or relatable it was.",
+            "Follows from the post: how much it built trust."
+          ]
+        },
+        {
+          "heading": "Track ten posts",
+          "body": [
+            "Write reach, saves, shares, comments and follows for each.",
+            "Note hook type, format and posting time.",
+            "Mark your top three."
+          ]
+        },
+        {
+          "heading": "Find patterns",
+          "body": [
+            "What do your top three have in common?",
+            "What do your lowest three have in common?",
+            "Write one sentence: my audience responds most to..."
+          ]
+        },
+        {
+          "heading": "Decide",
+          "body": [
+            "Pick one thing to do more of.",
+            "Pick one thing to change or drop.",
+            "Check again in two weeks."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-media-kit",
+      "title": "Media Kit Template",
+      "type": "Template",
+      "path": "creator_brand",
+      "description": "A one-page media kit you can build in Canva or Google Slides. Use it on Day 22.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "About you",
+          "body": [
+            "Your name or handle and photo.",
+            "One sentence on who your content is for.",
+            "Your three content pillars."
+          ]
+        },
+        {
+          "heading": "Audience and numbers",
+          "body": [
+            "Followers on your main platform.",
+            "Average reach and engagement from your analytics.",
+            "Audience details you can see, such as top locations and age range. Never invent or round up."
+          ]
+        },
+        {
+          "heading": "Work examples",
+          "body": [
+            "Three of your best posts with links.",
+            "Two UGC samples.",
+            "Any past partnerships, with permission."
+          ]
+        },
+        {
+          "heading": "Contact",
+          "body": [
+            "A professional email address.",
+            "What you offer, such as posts, UGC videos or stories.",
+            "Rates on request, or your starting rates."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-ugc-portfolio",
+      "title": "UGC Portfolio Checklist",
+      "type": "Checklist",
+      "path": "creator_brand",
+      "description": "Make a simple portfolio that shows brands what you can film. Use it on Day 23.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Samples",
+          "body": [
+            "Two to four short videos.",
+            "Products you own and genuinely use.",
+            "No brand tags or anything that implies a partnership."
+          ]
+        },
+        {
+          "heading": "Styles",
+          "body": [
+            "Unboxing or first impression.",
+            "Problem and solution.",
+            "Tutorial or how-to.",
+            "Simple testimonial in your own words."
+          ]
+        },
+        {
+          "heading": "Quality",
+          "body": [
+            "Good natural light and clear sound.",
+            "Hook in the first two seconds.",
+            "Captions and a clean ending."
+          ]
+        },
+        {
+          "heading": "Presentation",
+          "body": [
+            "Collect samples in a Canva page or shared folder.",
+            "Add a one-line intro and contact email.",
+            "Link it from your media kit and bio page."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-pitch-template",
+      "title": "Brand Pitch Template",
+      "type": "Script",
+      "path": "creator_brand",
+      "description": "A short, honest email to pitch a brand. Personalise every pitch. Use it on Days 25 and 27.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Subject line",
+          "body": [
+            "Content idea for [brand] from a [niche] creator",
+            "Keep it clear and specific.",
+            "Avoid hype or urgency."
+          ]
+        },
+        {
+          "heading": "Opening",
+          "body": [
+            "Hi [name], I am [name], I create content about [topic] for [audience].",
+            "Mention how you already use or like their product.",
+            "Keep it to two sentences."
+          ]
+        },
+        {
+          "heading": "Your idea",
+          "body": [
+            "Suggest one content idea that fits the product and your audience.",
+            "Mention the format, such as one short video or a UGC video for their ads.",
+            "Say that any paid post will be clearly disclosed."
+          ]
+        },
+        {
+          "heading": "Close",
+          "body": [
+            "Link your media kit and UGC portfolio.",
+            "Offer starting rates or invite them to share their budget.",
+            "Thank them and sign off with your contact details."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-cr-disclosure-checklist",
+      "title": "Paid-Post Disclosure Checklist",
+      "type": "Checklist",
+      "path": "creator_brand",
+      "description": "Disclose paid, gifted and affiliate content clearly every time. Use it on Day 26 and before every brand post.",
+      "minutes": 4,
+      "sections": [
+        {
+          "heading": "When to disclose",
+          "body": [
+            "You were paid in money.",
+            "You received a free product or service.",
+            "You use an affiliate link or code.",
+            "You have a personal connection to the brand."
+          ]
+        },
+        {
+          "heading": "How to disclose",
+          "body": [
+            "Put #ad or \"Paid partnership with [brand]\" at the start of the caption.",
+            "Turn on the platform's paid partnership or branded-content tool.",
+            "Say it out loud in videos where possible."
+          ]
+        },
+        {
+          "heading": "What not to do",
+          "body": [
+            "Do not hide the label among hashtags.",
+            "Do not use vague labels like #sp or #collab alone.",
+            "Do not agree to any request to hide that a post is paid."
+          ]
+        },
+        {
+          "heading": "Before posting",
+          "body": [
+            "Check the brand's brief matches what you agreed.",
+            "Check claims are honest and not medical or financial promises.",
+            "Check your disclosure is visible without tapping more."
+          ]
+        }
+      ],
+      "link": null
+    }
+  ],
+  "achievements": [
+    {
+      "id": "cr-first-mission",
+      "title": "First Step",
+      "description": "Complete your first daily mission.",
+      "icon": "checkmark.seal.fill",
+      "metric": "missions",
+      "target": 1
+    },
+    {
+      "id": "cr-streak-7",
+      "title": "7-Day Streak",
+      "description": "Work on your brand seven days in a row.",
+      "icon": "flame.fill",
+      "metric": "streak",
+      "target": 7
+    },
+    {
+      "id": "cr-first-post",
+      "title": "First Post",
+      "description": "Publish your first post on your main platform.",
+      "icon": "camera.fill",
+      "metric": "postsPublished",
+      "target": 1
+    },
+    {
+      "id": "cr-steady-week",
+      "title": "Steady Week",
+      "description": "Publish three posts in one week.",
+      "icon": "calendar",
+      "metric": "postsThisWeek",
+      "target": 3
+    },
+    {
+      "id": "cr-ten-posts",
+      "title": "Ten Posts",
+      "description": "Publish ten posts.",
+      "icon": "star.fill",
+      "metric": "postsPublished",
+      "target": 10
+    },
+    {
+      "id": "cr-100-followers",
+      "title": "First 100 Followers",
+      "description": "Reach 100 followers on your main platform.",
+      "icon": "person.3.fill",
+      "metric": "followers",
+      "target": 100
+    },
+    {
+      "id": "cr-month-complete",
+      "title": "Month Complete",
+      "description": "Complete all 30 days of your plan.",
+      "icon": "trophy.fill",
+      "metric": "daysCompleted",
+      "target": 30
+    },
+    {
+      "id": "cr-first-100",
+      "title": "First $100",
+      "description": "Earn your first $100 from your brand.",
+      "icon": "dollarsign.circle.fill",
+      "metric": "brandIncome",
+      "target": 100,
+      "money": true
+    }
+  ],
+  "coach": {
+    "suggestedPrompts": [
+      "What should I post this week?",
+      "Why is my reach so low?",
+      "How do I write better hooks?",
+      "How do I get my first brand deal?",
+      "How much should I charge a brand?",
+      "Do I have to say a post is paid?"
+    ],
+    "tips": [
+      "Pick one audience you understand and talk to them, not to everyone.",
+      "Three content pillars are enough to never run out of ideas.",
+      "One platform done well beats five done badly.",
+      "Your bio should tell a stranger in three seconds if the account is for them.",
+      "Study creators to learn formats, never to copy their words.",
+      "Consistent beats frequent: pick a rhythm you can keep.",
+      "Write ten hooks at once; the eleventh is always easier.",
+      "Deliver what your hook promises, every time.",
+      "Natural window light and clear sound matter more than gear.",
+      "Add captions to every video; many people watch without sound.",
+      "Repurpose your best idea into a new format instead of starting from scratch.",
+      "Small stories from everyday life are enough for a strong post.",
+      "Never show your address, school or daily routine in your content.",
+      "Ask before featuring friends or family, and take extra care with children.",
+      "Reply to every genuine comment with more than one word.",
+      "Comment thoughtfully on peers' posts; it builds real relationships.",
+      "Never buy followers or join engagement pods; brands can spot fake numbers.",
+      "Saves and shares tell you a post was useful.",
+      "Compare your posts with each other, not with bigger creators.",
+      "Turn a post that worked into a series.",
+      "Collaborate with peers who share your audience but not your exact topic.",
+      "You can hide, block or report abusive comments without guilt.",
+      "A small, honest media kit beats a big, inflated one.",
+      "UGC rewards filming skills more than follower count.",
+      "Only pitch brands you would genuinely recommend.",
+      "Price your time first, then add usage rights.",
+      "Disclose every paid, gifted or affiliate post with #ad or the platform tool.",
+      "Agree deliverables, dates, usage and payment in writing before you start.",
+      "No reply to a pitch is normal; follow up once, then keep going.",
+      "Rest is part of a sustainable brand; protect one day off a week."
+    ],
+    "replies": [
+      {
+        "id": "crr-what-to-post",
+        "keywords": [
+          "what to post",
+          "what should i post",
+          "content ideas",
+          "post ideas",
+          "no ideas",
+          "run out of ideas",
+          "ideas",
+          "what content"
+        ],
+        "text": {
+          "creator_brand": "The easiest posts answer questions your audience already asks.\n\n1. Open your content pillars and pick the one you have posted least.\n2. Read comments on your posts and on peers' posts in your niche, and copy three real questions.\n3. Answer one question in a short post with a clear hook.\n\nNext step: write three post ideas from real questions and add them to your calendar."
+        },
+        "followUps": [
+          "How do I write a better hook?",
+          "How often should I post?",
+          "Can I reuse old posts?"
+        ]
+      },
+      {
+        "id": "crr-low-reach",
+        "keywords": [
+          "low reach",
+          "no views",
+          "views",
+          "nobody sees",
+          "algorithm",
+          "reach dropped",
+          "shadowban",
+          "not growing"
+        ],
+        "text": {
+          "creator_brand": "Low reach is common in the first months, and nobody can promise how an algorithm will treat a post. What you control is whether people stay, save and share.\n\n1. Check your last ten posts and find the two with the best reach.\n2. Compare their hooks, formats and posting times with your weakest posts.\n3. Make your next post in the style of your best one, with a stronger first line.\n\nNext step: rewrite the hook of your next planned post three ways and use the clearest one."
+        },
+        "followUps": [
+          "How do I read my analytics?",
+          "How do I write a better hook?",
+          "When should I post?"
+        ]
+      },
+      {
+        "id": "crr-no-followers",
+        "keywords": [
+          "no followers",
+          "zero followers",
+          "few followers",
+          "followers",
+          "nobody follows",
+          "small account",
+          "starting from zero",
+          "grow followers"
+        ],
+        "text": {
+          "creator_brand": "Every account starts at zero, and growth is usually slow at first. Avoid shortcuts: never buy followers or join follow-for-follow groups, because fake numbers hurt your reach and brands can spot them.\n\n1. Make sure your bio says who you help and what they get.\n2. Post consistently for four weeks around your three pillars.\n3. Leave ten thoughtful comments a day on peers' posts in your niche.\n\nNext step: rewrite your bio so a stranger knows in three seconds if your account is for them."
+        },
+        "followUps": [
+          "What should I post?",
+          "How do I engage without being spammy?",
+          "Can I earn with a small audience?"
+        ]
+      },
+      {
+        "id": "crr-hooks",
+        "keywords": [
+          "hook",
+          "hooks",
+          "first line",
+          "first seconds",
+          "scroll",
+          "attention",
+          "intro",
+          "opening"
+        ],
+        "text": {
+          "creator_brand": "A hook earns the first two or three seconds; the rest of the post has to keep its promise.\n\n1. Open the hook bank and pick a question, statement or story hook.\n2. Write three versions for your next post.\n3. Read them aloud and keep the one that is clearest and honest.\n\nNext step: write ten hooks for your next ten posts in one sitting."
+        },
+        "followUps": [
+          "Is clickbait ever okay?",
+          "How do I tell a short story?",
+          "Why is my reach low?"
+        ]
+      },
+      {
+        "id": "crr-consistency",
+        "keywords": [
+          "consistency",
+          "consistent",
+          "how often",
+          "post every day",
+          "posting schedule",
+          "keep posting",
+          "frequency",
+          "schedule"
+        ],
+        "text": {
+          "creator_brand": "Consistent beats frequent. Three posts a week you can keep up beat daily posts for a week and then silence.\n\n1. Choose a rhythm you can keep even in a busy week.\n2. Fill a 2-week content calendar.\n3. Batch-create three posts in one session.\n\nNext step: block one hour this week to batch your next three posts."
+        },
+        "followUps": [
+          "How do I batch content?",
+          "Can I reuse old posts?",
+          "I feel burnt out."
+        ]
+      },
+      {
+        "id": "crr-on-camera",
+        "keywords": [
+          "camera",
+          "on camera",
+          "show my face",
+          "faceless",
+          "shy",
+          "awkward",
+          "nervous",
+          "my voice"
+        ],
+        "text": {
+          "creator_brand": "Almost everyone feels awkward on camera at first. It gets easier with practice, and faceless styles can build a brand too.\n\n1. Choose a style: face, voiceover, hands-only or screen recording.\n2. Write three bullet points instead of a script.\n3. Record the same 20-second tip three times and keep the best.\n\nNext step: record one short take today; you do not have to post it yet."
+        },
+        "followUps": [
+          "What should I post?",
+          "How do I edit with CapCut?",
+          "Can faceless accounts get brand deals?"
+        ]
+      },
+      {
+        "id": "crr-platform",
+        "keywords": [
+          "platform",
+          "which platform",
+          "instagram",
+          "tiktok",
+          "linkedin",
+          "youtube shorts",
+          "twitter",
+          "where to post"
+        ],
+        "text": {
+          "creator_brand": "Pick one main platform this month. One platform done well beats five done badly.\n\n1. Search your topic on two or three platforms and see where your audience asks questions.\n2. Match the platform to what you enjoy: talking on camera, writing or visuals.\n3. Choose one and post there consistently for 30 days.\n\nNext step: write your main platform and one sentence on why it fits."
+        },
+        "followUps": [
+          "Can I post the same thing everywhere?",
+          "How do I set up my profile?",
+          "What should I post first?"
+        ]
+      },
+      {
+        "id": "crr-brand-deals",
+        "keywords": [
+          "brand deal",
+          "brand deals",
+          "sponsorship",
+          "sponsor",
+          "brands",
+          "partnership",
+          "work with brands",
+          "get paid"
+        ],
+        "text": {
+          "creator_brand": "Small brands often work with small creators when the fit is clear. Nobody can guarantee a deal, but a professional, honest pitch gives you a real chance.\n\n1. Build a one-page media kit with honest numbers.\n2. List 15 small brands you genuinely use or would recommend.\n3. Send five short, personalised pitches with one content idea each.\n\nNext step: open the brand pitch template and personalise it for your top brand."
+        },
+        "followUps": [
+          "How much should I charge?",
+          "What is UGC?",
+          "Do I have to say a post is paid?"
+        ]
+      },
+      {
+        "id": "crr-pricing",
+        "keywords": [
+          "price",
+          "pricing",
+          "how much",
+          "charge",
+          "rate",
+          "rates",
+          "worth",
+          "budget"
+        ],
+        "text": {
+          "creator_brand": "Price your time first, then adjust for usage rights and your audience. Beginner rates are a starting point, not your worth.\n\n1. List what the brand wants: posts, videos, stories and how long they can use them.\n2. Estimate your hours for planning, filming, editing and changes.\n3. Set a price that covers your time, and add a separate price for extra usage rights.\n\nNext step: write starting rates for one post, one UGC video and one story set."
+        },
+        "followUps": [
+          "Should I work for free products?",
+          "What are usage rights?",
+          "How do I pitch brands?"
+        ]
+      },
+      {
+        "id": "crr-ugc",
+        "keywords": [
+          "ugc",
+          "user generated",
+          "user-generated",
+          "ugc creator",
+          "portfolio",
+          "sample video",
+          "content for brands",
+          "no audience"
+        ],
+        "text": {
+          "creator_brand": "UGC means brands pay you to create videos they post on their own accounts or ads. Your filming skills matter more than your follower count, which makes it a good first path.\n\n1. Pick two products you own and genuinely use.\n2. Film one first-impression video and one problem-and-solution video.\n3. Put them on a simple Canva page and link it from your media kit.\n\nNext step: film your first UGC sample today, without tagging the brand."
+        },
+        "followUps": [
+          "How much should I charge for UGC?",
+          "How do I pitch brands?",
+          "Do I need lots of followers?"
+        ]
+      },
+      {
+        "id": "crr-disclosure",
+        "keywords": [
+          "disclose",
+          "disclosure",
+          "#ad",
+          "ad label",
+          "paid post",
+          "gifted",
+          "affiliate",
+          "say it is paid"
+        ],
+        "text": {
+          "creator_brand": "Always disclose paid, gifted and affiliate posts. It is required in many countries and it protects the trust your audience gives you.\n\n1. Put #ad or \"Paid partnership with [brand]\" at the start of the caption.\n2. Turn on your platform's paid partnership or branded-content tool.\n3. Say it out loud in videos where you can.\n\nNext step: open the disclosure checklist and find the branded-content setting in your app."
+        },
+        "followUps": [
+          "Do free products count?",
+          "What if a brand asks me not to disclose?",
+          "How do I pitch brands?"
+        ]
+      },
+      {
+        "id": "crr-negative-comments",
+        "keywords": [
+          "negative comment",
+          "hate",
+          "troll",
+          "mean comment",
+          "criticism",
+          "rude",
+          "haters",
+          "bullying"
+        ],
+        "text": {
+          "creator_brand": "Negative comments sting, and they happen to every creator. You decide which ones deserve your energy.\n\n1. Sort it: useful criticism, misunderstanding or abuse.\n2. Reply calmly to useful criticism and misunderstandings, or leave them.\n3. Hide, block or report abuse without guilt, and add word filters.\n\nNext step: step away for an hour before you reply to anything that upset you."
+        },
+        "followUps": [
+          "How do I set comment filters?",
+          "I feel like quitting.",
+          "How do I protect my privacy?"
+        ]
+      },
+      {
+        "id": "crr-burnout",
+        "keywords": [
+          "burnout",
+          "burnt out",
+          "burned out",
+          "tired",
+          "exhausted",
+          "overwhelmed",
+          "quit",
+          "give up"
+        ],
+        "text": {
+          "creator_brand": "Feeling tired is a signal to make the plan smaller, not to stop. Rest is part of a sustainable brand.\n\n1. Drop to a rhythm you can keep, even two posts a week.\n2. Repurpose an old post instead of creating from scratch.\n3. Set a time limit for replies and scrolling each day.\n\nNext step: pick one day off this week and protect it."
+        },
+        "followUps": [
+          "Can I reuse old posts?",
+          "How often should I post?",
+          "I keep comparing myself to others."
+        ]
+      },
+      {
+        "id": "crr-comparison",
+        "keywords": [
+          "compare",
+          "comparing",
+          "comparison",
+          "others are ahead",
+          "jealous",
+          "not good enough",
+          "imposter",
+          "everyone else"
+        ],
+        "text": {
+          "creator_brand": "Comparing your start to someone else's middle is unfair to you. Most creators you admire posted for a long time before anyone noticed.\n\n1. Compare yourself only with your own posts from last month.\n2. Write three things you have improved since Day 1.\n3. Unfollow or mute accounts that make you feel worse rather than inspired.\n\nNext step: write down one post you are proud of and why."
+        },
+        "followUps": [
+          "Why is my reach low?",
+          "What should I post?",
+          "I feel burnt out."
+        ]
+      }
+    ],
+    "fallback": {
+      "id": "crr-fallback",
+      "keywords": [],
+      "text": {
+        "creator_brand": "Good question. Tell me a bit more so I can be specific: your niche, your main platform and what you are trying to improve.\n\nUntil then, the rule that fixes most early creator problems is simple: post the next planned piece and reply to every comment. One published post teaches more than a week of planning.\n\nNext step: open Today's Mission and finish the first task, then come back with details."
+      },
+      "followUps": [
+        "What should I do today?",
+        "What should I post?",
+        "How do I get my first brand deal?"
+      ]
+    }
+  }
+}

@@ -181,6 +181,9 @@ private struct AchievementDetailSheet: View {
         case .salesCount, .salesThisWeek, .productRevenue: AchievementHint(cta: "Log a sale", tip: "Log each sale from your store once it's paid out.", icon: "cart.fill")
         case .watchTime, .subscribers, .clickThroughRate, .returningViewers, .pageVisits, .emailSubscribers: AchievementHint(cta: "Log my numbers", tip: "Copy your latest totals from your dashboard once a week.", icon: "chart.line.uptrend.xyaxis")
         case .channelIncome: AchievementHint(cta: "Open monetization", tip: "Log income from affiliates, sponsors, products or ads once it is paid out.", icon: "dollarsign.circle.fill")
+        case .postsPublished, .postsThisWeek: AchievementHint(cta: "Open your posts", tip: "Move an idea all the way to published, on a schedule you can keep.", icon: "checkmark.seal.fill")
+        case .linkClicks, .followers, .engagementRate: AchievementHint(cta: "Log my numbers", tip: "Copy your latest numbers from your dashboard or insights once a week.", icon: "chart.line.uptrend.xyaxis")
+        case .affiliateIncome, .brandIncome: AchievementHint(cta: "Log income", tip: "Log commissions or brand money once it's approved or paid.", icon: "dollarsign.circle.fill")
         }
     }
 }

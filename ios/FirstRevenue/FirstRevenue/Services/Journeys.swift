@@ -127,6 +127,8 @@ enum NicheResolver {
         let haystack = " " + label.lowercased() + " "
         let owned = method == .youtubeOwnedChannel
         let products = method == .digitalProducts
+        let affiliate = method == .affiliateContent
+        let creator = method == .creatorBrand
 
         if let match = Journeys.catalog.niches.first(where: { n in n.keywords.contains { haystack.contains(" \($0) ") || haystack.contains(" \($0)s ") } }) {
             let specific = label.lowercased() != match.label.lowercased() && !match.keywords.contains(label.lowercased())
@@ -139,7 +141,7 @@ enum NicheResolver {
                 allowedClaims: match.allowedClaims,
                 restrictedTopics: match.restrictedTopics,
                 exampleTerms: Array(((specific ? keywords(in: label) : []) + match.exampleTerms).uniqued().prefix(5)),
-                monetizationOptions: products ? productMonetization : owned ? match.monetizationOptions : servicesMonetization,
+                monetizationOptions: affiliate ? affiliateMonetization : creator ? creatorMonetization : products ? productMonetization : owned ? match.monetizationOptions : servicesMonetization,
                 source: .catalog,
                 version: version,
                 cautionNote: match.cautionNote
@@ -151,12 +153,12 @@ enum NicheResolver {
         return NicheContext(
             rawInput: [base, extra].filter { !$0.isEmpty }.joined(separator: " — "),
             normalizedLabel: String(display),
-            audience: products ? "people who want help with \(lower)" : owned ? "viewers interested in \(lower)" : "people and businesses in \(lower)",
-            problemOrDesire: products ? "a ready-made shortcut for \(lower)" : owned ? "clear, trustworthy help with \(lower)" : "getting more done in \(lower) without doing it all themselves",
+            audience: affiliate ? "people researching what to buy for \(lower)" : creator ? "followers interested in \(lower)" : products ? "people who want help with \(lower)" : owned ? "viewers interested in \(lower)" : "people and businesses in \(lower)",
+            problemOrDesire: affiliate ? "honest advice on which \(lower) products are worth it" : creator ? "relatable, useful posts about \(lower)" : products ? "a ready-made shortcut for \(lower)" : owned ? "clear, trustworthy help with \(lower)" : "getting more done in \(lower) without doing it all themselves",
             allowedClaims: ["general education", "your own experience and results"],
             restrictedTopics: flagged.flatMap(\.restricted),
             exampleTerms: Array((keywords(in: label) + ["\(lower) for beginners"]).uniqued().prefix(5)),
-            monetizationOptions: products ? productMonetization : owned ? ["affiliate links for products you use", "sponsorships from brands your viewers use", "a small digital product"] : servicesMonetization,
+            monetizationOptions: affiliate ? affiliateMonetization : creator ? creatorMonetization : products ? productMonetization : owned ? ["affiliate links for products you use", "sponsorships from brands your viewers use", "a small digital product"] : servicesMonetization,
             source: .generated,
             version: version,
             cautionNote: flagged.first?.note
@@ -174,6 +176,8 @@ enum NicheResolver {
         }
     }
 
+    private static let affiliateMonetization = ["affiliate links in honest reviews and comparisons", "brand programs for products you already use", "an email list for recommendations"]
+    private static let creatorMonetization = ["small brand deals and UGC gigs", "paid shoutouts for brands your followers like", "a simple offer for your audience later"]
     private static let productMonetization = ["one small, specific product to start", "a bundle once the first product sells", "an email list for every launch"]
 
     private static let servicesMonetization = ["a small paid starter package", "a monthly retainer once results show"]

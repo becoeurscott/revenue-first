@@ -1,0 +1,3099 @@
+{
+  "path": {
+    "id": "affiliate_content",
+    "slug": "affiliate-content",
+    "name": "Your First Affiliate Commission",
+    "tagline": "Publish honest, helpful content about products you know and earn commission when readers buy through your links.",
+    "icon": "link",
+    "hue": 35,
+    "description": "You pick a niche where people already buy things, choose one platform and join a few affiliate programs. Over 30 days you research what buyers search for before they purchase, publish honest reviews, comparisons and how-tos with clearly disclosed links, and track which posts get clicks. Commissions are usually small and slow at first, so the goal is a steady publishing habit, trust with your readers and possibly a first commission.",
+    "difficulty": "Beginner",
+    "objective": "Choose a buying niche and one platform, join affiliate programs, publish your first honest review by Day 10, keep posting on a schedule with clear disclosures, track your link clicks and finish with real numbers and a plan for the next 30 days.",
+    "service": "Helpful content with affiliate links",
+    "typicalPrice": "Commissions are usually a few percent of each sale, so volume and trust matter",
+    "skills": [
+      "Niche selection",
+      "Search research",
+      "Honest review writing",
+      "Disclosure and platform rules",
+      "Link tracking",
+      "Email and audience building"
+    ],
+    "firstTasks": [
+      "Pick a niche where people already research and buy products",
+      "Choose one platform you can publish on every week",
+      "Apply to two or three affiliate programs and read their terms",
+      "Publish your first honest, disclosed review by Day 10"
+    ],
+    "workflow": [
+      "Pick a niche where people research products before they buy",
+      "Choose one platform and set up a simple home base",
+      "Join affiliate programs that fit and read each one's rules",
+      "Find what buyers search for: reviews, comparisons and \"best X for Y\"",
+      "Publish honest content with clear disclosures near every link",
+      "Track clicks and commissions for each post",
+      "Improve the posts that get clicks and grow an email list or following"
+    ],
+    "weeks": [
+      {
+        "week": 1,
+        "title": "Foundations",
+        "focus": [
+          "Buying niche",
+          "One platform",
+          "Programs and disclosure"
+        ]
+      },
+      {
+        "week": 2,
+        "title": "Research & Publish",
+        "focus": [
+          "Buyer searches",
+          "First honest review",
+          "Posting schedule"
+        ]
+      },
+      {
+        "week": 3,
+        "title": "Trust & Tracking",
+        "focus": [
+          "Pros and cons",
+          "Link tracking",
+          "Email list or following"
+        ]
+      },
+      {
+        "week": 4,
+        "title": "Improve & Grow",
+        "focus": [
+          "Posts that get clicks",
+          "Updates and refreshes",
+          "Next 30-day plan"
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "Google Trends",
+        "purpose": "Compare interest in product topics and spot seasonal buying",
+        "cost": "Free"
+      },
+      {
+        "name": "Google Search autocomplete",
+        "purpose": "Collect the exact phrases people type before they buy",
+        "cost": "Free"
+      },
+      {
+        "name": "Publishing platform",
+        "purpose": "Pick one, such as a free blog, Pinterest, YouTube, TikTok or a newsletter tool, to publish on",
+        "cost": "Free to start"
+      },
+      {
+        "name": "Google Sheets",
+        "purpose": "Track programs, posts, link clicks and commissions in one place",
+        "cost": "Free"
+      },
+      {
+        "name": "Canva",
+        "purpose": "Make pins, thumbnails and simple comparison graphics",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "Email tool",
+        "purpose": "Start a small list on the free plan of a tool such as MailerLite, Kit or Beehiiv",
+        "cost": "Free plan available"
+      }
+    ]
+  },
+  "lessonCategories": [
+    "Niche Strategy",
+    "Platforms",
+    "Affiliate Programs",
+    "Disclosure & Rules",
+    "Search Research",
+    "Content Creation",
+    "Reviews & Comparisons",
+    "Trust",
+    "Tracking",
+    "Email List",
+    "Growth",
+    "Mindset"
+  ],
+  "plan": [
+    {
+      "day": 1,
+      "week": 1,
+      "theme": "Choose a Buying Niche",
+      "missionTitle": "Pick a niche where people research products before they buy.",
+      "goal": "Write one sentence about who you help and the kind of products they buy.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-01",
+      "tasks": [
+        {
+          "id": "af-01-t1",
+          "title": "Watch the Day 1 lesson",
+          "description": "See how affiliate content works: you help people choose, they buy through your disclosed link, and the store pays you a small commission."
+        },
+        {
+          "id": "af-01-t2",
+          "title": "Name your audience",
+          "description": "Write who you want to help in plain words, such as \"new runners\" or \"people setting up a home office\"."
+        },
+        {
+          "id": "af-01-t3",
+          "title": "List what they buy",
+          "description": "Write ten products or tools that audience buys, from small items to bigger purchases."
+        },
+        {
+          "id": "af-01-t4",
+          "title": "Write your niche sentence",
+          "description": "Use this shape: \"I help [audience] choose [type of products] for [goal].\" Keep it to one sentence."
+        },
+        {
+          "id": "af-01-t5",
+          "title": "Set your 30-day goal",
+          "description": "Choose a goal you control, such as \"publish eight honest posts with disclosed links\". Commissions are not fully in your control yet."
+        }
+      ],
+      "nicheHint": "Start from this draft: I help {audience} choose products for {problem}. Then circle the three products in your list that {audience} research the most before buying.",
+      "stageHints": {
+        "idea": "Pick a niche you already spend money and time on, so you can speak from real use.",
+        "started": "Look at the content you already posted and write the niche it is really about.",
+        "some_traction": "Write your niche sentence around the products that already earned you a commission.",
+        "already_earning": "List which product categories earn the most for you; this month builds on them."
+      }
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "theme": "Check Buying Intent",
+      "missionTitle": "Confirm that people in your niche actively look for buying advice.",
+      "goal": "Collect 15 real buying questions people ask about your niche.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-02",
+      "tasks": [
+        {
+          "id": "af-02-t1",
+          "title": "Watch the Day 2 lesson",
+          "description": "Learn the difference between topics people read for fun and topics people research before spending money."
+        },
+        {
+          "id": "af-02-t2",
+          "title": "Search for buying questions",
+          "description": "Type your product types into Google, YouTube and Reddit and copy questions like \"which is better\" or \"is it worth it\".",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-02-t3",
+          "title": "Check that reviews exist",
+          "description": "If other people already publish reviews and comparisons on these products, buyers are looking. That is a good sign."
+        },
+        {
+          "id": "af-02-t4",
+          "title": "Note price ranges",
+          "description": "Write the rough price of each product. Very cheap items earn tiny commissions, so mix in some mid-priced products."
+        },
+        {
+          "id": "af-02-t5",
+          "title": "Decide go or adjust",
+          "description": "If people ask buying questions often and products exist at several price points, keep the niche. If not, narrow or shift it.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        }
+      ],
+      "nicheHint": "Search for {terms} plus words like \"best\", \"review\" and \"vs\". Note how {audience} describe {problem} in their own words before buying.",
+      "stageHints": {
+        "idea": "Do not fall in love with the niche yet; let the questions you find decide.",
+        "started": "Check whether the topics you already post about have buying questions attached to them.",
+        "some_traction": "Look for buying questions close to the products that already convert for you.",
+        "already_earning": "Find buying questions in a neighbouring product category you have not covered yet."
+      }
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "theme": "Pick One Platform",
+      "missionTitle": "Choose the single platform you will publish on for the next 30 days.",
+      "goal": "Pick one platform and write why it fits you and your niche.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-03",
+      "tasks": [
+        {
+          "id": "af-03-t1",
+          "title": "Watch the Day 3 lesson",
+          "description": "Compare blogs, Pinterest, short videos, YouTube and newsletters for affiliate content, including how each one handles links."
+        },
+        {
+          "id": "af-03-t2",
+          "title": "Compare the five options",
+          "description": "Blog: slow to start, strong with search. Pinterest: visual, link-friendly. Short videos: fast reach, links in bio. YouTube: long shelf life. Newsletter: direct trust."
+        },
+        {
+          "id": "af-03-t3",
+          "title": "Match it to your strengths",
+          "description": "Pick the format you can produce every week without dread: writing, photos, talking on camera or emails."
+        },
+        {
+          "id": "af-03-t4",
+          "title": "Check link rules",
+          "description": "Read how your chosen platform allows links and affiliate content. Some restrict links in posts or require a disclosure setting."
+        },
+        {
+          "id": "af-03-t5",
+          "title": "Commit for 30 days",
+          "description": "Write your choice and one sentence on why. Other platforms can wait until this one works."
+        }
+      ],
+      "nicheHint": "Ask where {audience} go when they research {problem}. If they search Google, a blog fits; if they browse ideas, Pinterest; if they watch demos, video.",
+      "stageHints": {
+        "idea": "Choose the format you would enjoy making even if no one watched for a month.",
+        "started": "Stay on the platform you already use unless it clearly blocks the links you need.",
+        "some_traction": "Keep the platform that sent your first commissions as your main one.",
+        "already_earning": "Keep your main platform and note one secondary platform to test later, not now."
+      }
+    },
+    {
+      "day": 4,
+      "week": 1,
+      "theme": "Set Up Your Home Base",
+      "missionTitle": "Create or tidy the profile, blog or newsletter where your content will live.",
+      "goal": "Have a clear home base with a bio that says who you help.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-04",
+      "tasks": [
+        {
+          "id": "af-04-t1",
+          "title": "Watch the Day 4 lesson",
+          "description": "Set up a simple, trustworthy home base with free tools: a clear name, a plain bio and an about section."
+        },
+        {
+          "id": "af-04-t2",
+          "title": "Create or open your account",
+          "description": "Use the free version of your platform. A paid theme or tool is not needed to start."
+        },
+        {
+          "id": "af-04-t3",
+          "title": "Write a clear bio",
+          "description": "Say who you help and what you review, for example \"Honest gear reviews for new runners\"."
+        },
+        {
+          "id": "af-04-t4",
+          "title": "Add an about section",
+          "description": "Explain why you care about this niche and how you test or research products.",
+          "resourceId": "res-af-trust-checklist"
+        },
+        {
+          "id": "af-04-t5",
+          "title": "Add a disclosure note",
+          "description": "Add a short line that you may earn a commission from links. You will refine it on Day 7.",
+          "resourceId": "res-af-disclosure-checklist"
+        }
+      ],
+      "nicheHint": "Write your bio for one person from {audience} who is stuck on {problem}. They should know within five seconds that your content is for them.",
+      "stageHints": {
+        "idea": "Keep it simple; a clear bio beats a perfect design.",
+        "started": "Rewrite your bio so it names your audience and what you review.",
+        "some_traction": "Make sure your about section explains how you choose what to recommend.",
+        "already_earning": "Check that your bio and about page still match the products you now cover."
+      }
+    },
+    {
+      "day": 5,
+      "week": 1,
+      "theme": "Find Affiliate Programs",
+      "missionTitle": "Find the affiliate programs that fit the products you want to recommend.",
+      "goal": "List at least six programs with their commission and cookie details.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-05",
+      "tasks": [
+        {
+          "id": "af-05-t1",
+          "title": "Watch the Day 5 lesson",
+          "description": "Learn the three main sources of programs: big retailers like Amazon Associates, brand programs, and networks like Impact or ShareASale."
+        },
+        {
+          "id": "af-05-t2",
+          "title": "Check the big retailers",
+          "description": "Look up Amazon Associates and other large stores your audience buys from. Note their rules and payment thresholds.",
+          "resourceId": "res-af-program-finder"
+        },
+        {
+          "id": "af-05-t3",
+          "title": "Look for brand programs",
+          "description": "Search \"[brand] affiliate program\" for products you use. Many brands run their own or list on a network.",
+          "resourceId": "res-af-program-finder"
+        },
+        {
+          "id": "af-05-t4",
+          "title": "Browse a network",
+          "description": "Create a free publisher account on a network such as Impact, ShareASale or Awin only if it fits, and search your niche."
+        },
+        {
+          "id": "af-05-t5",
+          "title": "Record the details",
+          "description": "For each program note commission rate, cookie length, approval rules and payout minimum. Approval rules vary by program.",
+          "resourceId": "res-af-program-finder"
+        }
+      ],
+      "nicheHint": "Search \"{terms} affiliate program\" and list brands {audience} already trust for {problem}. Prefer programs for products you have used or researched.",
+      "stageHints": {
+        "idea": "Some programs want existing content before they approve you, so list easy-to-join ones too.",
+        "started": "Look for programs matching products you already mentioned in past posts.",
+        "some_traction": "Check whether a brand program pays more than the retailer you use now.",
+        "already_earning": "Compare your current programs' terms and look for one better-fitting brand program."
+      }
+    },
+    {
+      "day": 6,
+      "week": 1,
+      "theme": "Apply and Read the Terms",
+      "missionTitle": "Apply to two or three programs and understand their rules.",
+      "goal": "Submit your applications and write down each program's key rules.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-06",
+      "tasks": [
+        {
+          "id": "af-06-t1",
+          "title": "Watch the Day 6 lesson",
+          "description": "Affiliate terms decide where you may post links, what you may say and when you get paid. Learn what to look for."
+        },
+        {
+          "id": "af-06-t2",
+          "title": "Apply to two or three programs",
+          "description": "Fill in each application honestly, describing your platform and audience as they are today.",
+          "resourceId": "res-af-program-finder"
+        },
+        {
+          "id": "af-06-t3",
+          "title": "Read the terms",
+          "description": "Look for rules on where links may appear, prices in posts, email use, paid ads and account closure."
+        },
+        {
+          "id": "af-06-t4",
+          "title": "Note deadlines",
+          "description": "Some programs close accounts without qualifying sales in a set time. Write any deadline you find in your sheet.",
+          "resourceId": "res-af-program-finder"
+        },
+        {
+          "id": "af-06-t5",
+          "title": "Plan for a rejection",
+          "description": "If a program says no, note why and reapply after you have published more content."
+        }
+      ],
+      "nicheHint": "Write down any program rules that matter for {problem}-related products, such as restrictions on health claims or price mentions.",
+      "stageHints": {
+        "idea": "It is normal to be declined at first; publishing a few posts often helps on the second try.",
+        "started": "Include links to your existing posts in your applications.",
+        "some_traction": "Ask your best-performing brand whether they have a higher tier or better terms.",
+        "already_earning": "Re-read the terms of your main program; rules change and old posts may need updates."
+      }
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "theme": "Learn the Disclosure Rules",
+      "missionTitle": "Make clear disclosure part of everything you publish.",
+      "goal": "Write your standard disclosure lines and turn on any platform disclosure settings.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "afl-07",
+      "tasks": [
+        {
+          "id": "af-07-t1",
+          "title": "Watch the Day 7 lesson",
+          "description": "Always tell people when you may earn from a link, clearly and close to the link, the way FTC-style guidance expects, and follow each platform's own rules."
+        },
+        {
+          "id": "af-07-t2",
+          "title": "Read the checklist",
+          "description": "Go through the disclosure checklist and note what applies to your platform.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-07-t3",
+          "title": "Write your disclosure lines",
+          "description": "Write a short line for posts, such as \"I may earn a commission if you buy through these links, at no extra cost to you.\"",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-07-t4",
+          "title": "Place it near the link",
+          "description": "Put the disclosure before or right next to the first link, not hidden at the bottom or behind a click."
+        },
+        {
+          "id": "af-07-t5",
+          "title": "Turn on platform settings",
+          "description": "Use the platform's paid partnership or affiliate label where it exists, in addition to your own words."
+        }
+      ],
+      "nicheHint": "If {problem} touches health or money for {audience}, also add a line that your content is educational and not medical or financial advice.",
+      "stageHints": {
+        "idea": "Build the habit now so every post starts with disclosure built in.",
+        "started": "Go back through any posts with links and add a clear disclosure near each one.",
+        "some_traction": "Check that disclosures show on mobile and in short-video captions, not only on desktop.",
+        "already_earning": "Audit your top posts for disclosure placement; earning more means more people are reading them."
+      }
+    },
+    {
+      "day": 8,
+      "week": 2,
+      "theme": "Research Buyer Searches",
+      "missionTitle": "Find what people search for right before they buy in your niche.",
+      "goal": "List 20 search ideas grouped into reviews, comparisons, \"best X for Y\" and how-tos.",
+      "minutes": 45,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-08",
+      "tasks": [
+        {
+          "id": "af-08-t1",
+          "title": "Watch the Day 8 lesson",
+          "description": "Learn the four kinds of buyer searches and why they convert better than general information searches."
+        },
+        {
+          "id": "af-08-t2",
+          "title": "Use autocomplete",
+          "description": "Type each product into Google, YouTube or Pinterest search and copy the suggestions that appear.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-08-t3",
+          "title": "Group your ideas",
+          "description": "Sort them into reviews, comparisons (\"X vs Y\"), \"best X for Y\" and how-tos.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-08-t4",
+          "title": "Check what ranks",
+          "description": "Open the top results for three ideas and note what they cover and what they miss."
+        },
+        {
+          "id": "af-08-t5",
+          "title": "Pick your first three",
+          "description": "Choose three ideas you can answer honestly from use or solid research.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        }
+      ],
+      "nicheHint": "Combine {terms} with \"best\", \"vs\", \"review\" and \"for beginners\" and note which phrases match the way {audience} talk about {problem}.",
+      "stageHints": {
+        "idea": "Favour specific searches, such as \"best budget X for beginners\", over broad ones.",
+        "started": "Check which of your existing posts already match a buyer search, and which do not.",
+        "some_traction": "Look for searches related to the post that earned your commission.",
+        "already_earning": "Find comparison searches for the products you already sell well."
+      }
+    },
+    {
+      "day": 9,
+      "week": 2,
+      "theme": "Plan Your First Review",
+      "missionTitle": "Choose the product for your first honest review and outline it.",
+      "goal": "Finish an outline for one review using the template.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-09",
+      "tasks": [
+        {
+          "id": "af-09-t1",
+          "title": "Watch the Day 9 lesson",
+          "description": "A good review answers who the product is for, who it is not for, and what it is really like to use."
+        },
+        {
+          "id": "af-09-t2",
+          "title": "Pick the product",
+          "description": "Choose something you own and have used. If you do not own it yet, plan a research-based post and say so clearly."
+        },
+        {
+          "id": "af-09-t3",
+          "title": "Fill in the template",
+          "description": "Outline: who it is for, what you tested, pros, cons, who should skip it and alternatives.",
+          "resourceId": "res-af-review-template"
+        },
+        {
+          "id": "af-09-t4",
+          "title": "Gather proof",
+          "description": "Take your own photos, screenshots or short clips. Avoid copying brand images unless the program allows it."
+        },
+        {
+          "id": "af-09-t5",
+          "title": "Note your honest verdict",
+          "description": "Write one sentence on whether you would buy it again and why.",
+          "resourceId": "res-af-trust-checklist"
+        }
+      ],
+      "nicheHint": "Write the review for someone from {audience} trying to solve {problem}. Say clearly who the product suits and who should pick something else.",
+      "stageHints": {
+        "idea": "Review something you already own; your real experience is your advantage.",
+        "started": "Turn a product you mentioned in passing into a full, honest review.",
+        "some_traction": "Review a product your readers asked about in comments or messages.",
+        "already_earning": "Review the main alternative to your best-selling recommendation."
+      }
+    },
+    {
+      "day": 10,
+      "week": 2,
+      "theme": "Publish Your First Review",
+      "missionTitle": "Write or film your first review and publish it with a clear disclosure.",
+      "goal": "Publish one honest review with disclosed affiliate links.",
+      "minutes": 60,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "afl-10",
+      "tasks": [
+        {
+          "id": "af-10-t1",
+          "title": "Watch the Day 10 lesson",
+          "description": "Version 1 is about published, not perfect. Learn how to finish, check and publish your first review."
+        },
+        {
+          "id": "af-10-t2",
+          "title": "Draft or film it",
+          "description": "Follow your outline. Use short sentences, real details and at least one honest con.",
+          "resourceId": "res-af-review-template"
+        },
+        {
+          "id": "af-10-t3",
+          "title": "Add your links",
+          "description": "Add your affiliate link where readers naturally need it, not in every sentence."
+        },
+        {
+          "id": "af-10-t4",
+          "title": "Check the disclosure",
+          "description": "Confirm the disclosure sits near the first link and is easy to read on a phone.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-10-t5",
+          "title": "Publish it",
+          "description": "Publish today, even if you would like to polish more. You can update it later."
+        }
+      ],
+      "nicheHint": "Read your review as someone from {audience} who has never heard of you. Does it help with {problem} even if they never click a link?",
+      "stageHints": {
+        "idea": "Your first post will not be your best, and that is fine; publishing is the win today.",
+        "started": "If you have posts without links, publish this one with links and a disclosure done right.",
+        "some_traction": "Use the format of your best-performing post for this review.",
+        "already_earning": "Publish a review that fills a gap in your existing content."
+      }
+    },
+    {
+      "day": 11,
+      "week": 2,
+      "theme": "Set Your Posting Schedule",
+      "missionTitle": "Choose a realistic weekly publishing rhythm and plan the next two weeks.",
+      "goal": "Fill in a two-week posting schedule you can actually keep.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-11",
+      "tasks": [
+        {
+          "id": "af-11-t1",
+          "title": "Watch the Day 11 lesson",
+          "description": "Consistency builds both trust and search visibility. Learn to pick a rhythm you can keep for months."
+        },
+        {
+          "id": "af-11-t2",
+          "title": "Choose your rhythm",
+          "description": "Pick a number you can sustain, such as two blog posts, five pins or three short videos a week.",
+          "resourceId": "res-af-posting-schedule"
+        },
+        {
+          "id": "af-11-t3",
+          "title": "Block the time",
+          "description": "Put fixed creation slots in your calendar, like any other appointment.",
+          "resourceId": "res-af-posting-schedule"
+        },
+        {
+          "id": "af-11-t4",
+          "title": "Fill two weeks",
+          "description": "Assign one search idea to each slot from your Day 8 list.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-11-t5",
+          "title": "Plan a backup",
+          "description": "Write one easy post idea you can use on a busy day so the schedule does not break."
+        }
+      ],
+      "nicheHint": "Plan posts that each solve one small part of {problem} for {audience}, using {terms} in your titles.",
+      "stageHints": {
+        "idea": "Start smaller than you think; you can always add more later.",
+        "started": "Make your schedule match what you already manage, then add one post a week.",
+        "some_traction": "Schedule more of the format that earned your commission.",
+        "already_earning": "Plan posts around your best sellers' seasons and buying moments."
+      }
+    },
+    {
+      "day": 12,
+      "week": 2,
+      "theme": "Write a Comparison",
+      "missionTitle": "Draft a fair comparison of two or three products people choose between.",
+      "goal": "Finish a comparison draft with a clear recommendation for each type of buyer.",
+      "minutes": 50,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-12",
+      "tasks": [
+        {
+          "id": "af-12-t1",
+          "title": "Watch the Day 12 lesson",
+          "description": "Comparisons help buyers who are already close to a decision. Learn how to compare fairly without forcing a winner."
+        },
+        {
+          "id": "af-12-t2",
+          "title": "Pick the matchup",
+          "description": "Choose two or three products people often compare, using a \"vs\" search from your list.",
+          "resourceId": "res-af-comparison-template"
+        },
+        {
+          "id": "af-12-t3",
+          "title": "Build the table",
+          "description": "Compare the same points for each: price range, key features, best for, main drawback.",
+          "resourceId": "res-af-comparison-template"
+        },
+        {
+          "id": "af-12-t4",
+          "title": "Recommend by buyer type",
+          "description": "Say which product suits which person instead of declaring one winner for everyone."
+        },
+        {
+          "id": "af-12-t5",
+          "title": "Be open about your sources",
+          "description": "Say which products you used and which you researched from specs and owner reviews.",
+          "resourceId": "res-af-trust-checklist"
+        }
+      ],
+      "nicheHint": "Compare products {audience} actually choose between for {problem}, and match each one to a different kind of buyer.",
+      "stageHints": {
+        "idea": "Compare products in one price range so the comparison is fair.",
+        "started": "Turn two of your existing mentions into one clear comparison.",
+        "some_traction": "Compare the product that converted against its closest alternative.",
+        "already_earning": "Update or create a comparison for your highest-earning category."
+      }
+    },
+    {
+      "day": 13,
+      "week": 2,
+      "theme": "Publish the Comparison",
+      "missionTitle": "Finish and publish your comparison, then share it in allowed places.",
+      "goal": "Publish your comparison with disclosures and share it where self-promotion is welcome.",
+      "minutes": 45,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-13",
+      "tasks": [
+        {
+          "id": "af-13-t1",
+          "title": "Watch the Day 13 lesson",
+          "description": "Learn how to share content without spamming: use your own channels and follow each community's rules."
+        },
+        {
+          "id": "af-13-t2",
+          "title": "Final check",
+          "description": "Check prices are described as approximate, links work and the disclosure is near the first link.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-13-t3",
+          "title": "Publish it",
+          "description": "Publish on your main platform today."
+        },
+        {
+          "id": "af-13-t4",
+          "title": "Share on your own channels",
+          "description": "Share the post on your own profile, list or page. Do not drop links in other people's comments or groups."
+        },
+        {
+          "id": "af-13-t5",
+          "title": "Help where it is allowed",
+          "description": "If a community allows it, answer a question fully first and only link when it is welcome and permitted."
+        }
+      ],
+      "nicheHint": "Write a short intro for the post that speaks to {audience} who are stuck choosing between options for {problem}.",
+      "stageHints": {
+        "idea": "Sharing on your own profile is enough for now; growth comes from consistency.",
+        "started": "Link this comparison from your earlier related posts.",
+        "some_traction": "Add this comparison to the post that already gets clicks.",
+        "already_earning": "Mention the new comparison to your email list or followers."
+      }
+    },
+    {
+      "day": 14,
+      "week": 2,
+      "theme": "Week 2 Check-in",
+      "missionTitle": "Review what you published and fix anything that is missing.",
+      "goal": "Check every post for links, disclosures and clear next steps.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "afl-14",
+      "tasks": [
+        {
+          "id": "af-14-t1",
+          "title": "Watch the Day 14 lesson",
+          "description": "Two weeks in, a short review keeps small mistakes from piling up. Learn what to check."
+        },
+        {
+          "id": "af-14-t2",
+          "title": "List what you published",
+          "description": "Write every post with its date, platform and the products linked.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-14-t3",
+          "title": "Audit disclosures",
+          "description": "Open each post on your phone and confirm the disclosure is clear and near the links.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-14-t4",
+          "title": "Check program status",
+          "description": "See which applications were approved and swap links if a program declined you.",
+          "resourceId": "res-af-program-finder"
+        },
+        {
+          "id": "af-14-t5",
+          "title": "Adjust the schedule",
+          "description": "If you missed slots, make the schedule smaller rather than giving up.",
+          "resourceId": "res-af-posting-schedule"
+        }
+      ],
+      "nicheHint": "Ask whether each post clearly helps {audience} with {problem}. Rewrite any intro that talks about the product before the reader's problem.",
+      "stageHints": {
+        "idea": "If you published one post, that is real progress. Plan the next one now.",
+        "started": "Count posts with links and disclosures done right; that is your true starting number.",
+        "some_traction": "Note which week 2 post has the most early views.",
+        "already_earning": "Compare this fortnight's output with your usual pace."
+      }
+    },
+    {
+      "day": 15,
+      "week": 3,
+      "theme": "Build Trust",
+      "missionTitle": "Make your content more trustworthy with real use, pros and cons.",
+      "goal": "Update one post with honest cons, real photos and who should skip the product.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-15",
+      "tasks": [
+        {
+          "id": "af-15-t1",
+          "title": "Watch the Day 15 lesson",
+          "description": "Trust is the reason people buy through your link. Learn the habits that build it and the shortcuts that destroy it."
+        },
+        {
+          "id": "af-15-t2",
+          "title": "Run the trust checklist",
+          "description": "Go through the checklist against your first review.",
+          "resourceId": "res-af-trust-checklist"
+        },
+        {
+          "id": "af-15-t3",
+          "title": "Add real proof",
+          "description": "Add your own photos, measurements or screen recordings of the product in use."
+        },
+        {
+          "id": "af-15-t4",
+          "title": "Add honest cons",
+          "description": "Write at least two real downsides and who should not buy it."
+        },
+        {
+          "id": "af-15-t5",
+          "title": "Set your rule",
+          "description": "Write it down: \"I only recommend things I would buy or have researched carefully.\" Never post fake or paid-for reviews.",
+          "resourceId": "res-af-trust-checklist"
+        }
+      ],
+      "nicheHint": "Tell {audience} exactly what you tested for {problem} and what you did not test. Being open about limits builds more trust than claiming everything.",
+      "stageHints": {
+        "idea": "Being honest about a product's flaws is the fastest way to stand out.",
+        "started": "Add cons and \"who should skip it\" to every review you already published.",
+        "some_traction": "Ask readers who bought what they think, and add their experience with permission.",
+        "already_earning": "Remove or update recommendations you would no longer buy yourself."
+      }
+    },
+    {
+      "day": 16,
+      "week": 3,
+      "theme": "Track Your Links",
+      "missionTitle": "Set up a simple way to see which posts get clicks and commissions.",
+      "goal": "Create a tracking sheet and tag links so you can tell posts apart.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-16",
+      "tasks": [
+        {
+          "id": "af-16-t1",
+          "title": "Watch the Day 16 lesson",
+          "description": "Learn how tracking IDs, sub-IDs and platform analytics show which posts send clicks, without paid tools."
+        },
+        {
+          "id": "af-16-t2",
+          "title": "Open the tracking sheet",
+          "description": "Copy the link tracking sheet and add every post you have published.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-16-t3",
+          "title": "Tag your links",
+          "description": "Use your program's tracking ID or sub-ID feature so each post or platform gets its own tag where allowed.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-16-t4",
+          "title": "Find your dashboards",
+          "description": "Locate the clicks and earnings report in each program and your platform's analytics."
+        },
+        {
+          "id": "af-16-t5",
+          "title": "Set a weekly check",
+          "description": "Pick one day a week to copy clicks and commissions into the sheet.",
+          "resourceId": "res-af-link-tracking-sheet"
+        }
+      ],
+      "nicheHint": "Track which posts for {audience} get clicks, and note the {problem} angle each one used so you can spot patterns later.",
+      "stageHints": {
+        "idea": "Zero clicks so far is normal; the sheet is ready for when they come.",
+        "started": "Fill in past posts too so you can compare old and new.",
+        "some_traction": "Note which post and which product each commission came from.",
+        "already_earning": "Add earnings per click to see which posts are worth updating first."
+      }
+    },
+    {
+      "day": 17,
+      "week": 3,
+      "theme": "Plan a \"Best X for Y\" Post",
+      "missionTitle": "Outline a \"best X for Y\" post for a specific type of buyer.",
+      "goal": "Finish an outline with 3 to 5 picks and a clear reason for each.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-17",
+      "tasks": [
+        {
+          "id": "af-17-t1",
+          "title": "Watch the Day 17 lesson",
+          "description": "\"Best X for Y\" posts match how many people search before buying. Learn to make them specific and honest."
+        },
+        {
+          "id": "af-17-t2",
+          "title": "Choose the Y",
+          "description": "Pick a specific buyer or situation, such as \"for small apartments\" or \"for beginners on a budget\".",
+          "resourceId": "res-af-best-for-outline"
+        },
+        {
+          "id": "af-17-t3",
+          "title": "Pick 3 to 5 products",
+          "description": "Choose products that really fit that buyer. Mark which you used and which you researched.",
+          "resourceId": "res-af-best-for-outline"
+        },
+        {
+          "id": "af-17-t4",
+          "title": "Write the criteria",
+          "description": "List what matters most for that buyer and judge each pick against it.",
+          "resourceId": "res-af-best-for-outline"
+        },
+        {
+          "id": "af-17-t5",
+          "title": "Add a skip section",
+          "description": "Note products you left out and why. It shows readers you did the work."
+        }
+      ],
+      "nicheHint": "Make the Y about {audience} and {problem}, for example \"best {terms} for {audience}\".",
+      "stageHints": {
+        "idea": "A narrow Y is easier to rank for and easier to write honestly.",
+        "started": "Build this post from products you already reviewed.",
+        "some_traction": "Include the product that earned a commission if it truly fits the buyer.",
+        "already_earning": "Target a Y your best posts do not cover yet."
+      }
+    },
+    {
+      "day": 18,
+      "week": 3,
+      "theme": "Publish \"Best X for Y\"",
+      "missionTitle": "Write and publish your \"best X for Y\" post.",
+      "goal": "Publish the post with a short summary at the top and disclosures near links.",
+      "minutes": 50,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "afl-18",
+      "tasks": [
+        {
+          "id": "af-18-t1",
+          "title": "Watch the Day 18 lesson",
+          "description": "Learn how to structure a list post so busy readers find the right pick fast."
+        },
+        {
+          "id": "af-18-t2",
+          "title": "Add a quick summary",
+          "description": "Start with a short list of picks and who each one is for.",
+          "resourceId": "res-af-best-for-outline"
+        },
+        {
+          "id": "af-18-t3",
+          "title": "Write each pick",
+          "description": "For each: why it is on the list, one pro, one con and who should choose it.",
+          "resourceId": "res-af-best-for-outline"
+        },
+        {
+          "id": "af-18-t4",
+          "title": "Disclose and link",
+          "description": "Add your disclosure near the top before the first link, then link each pick once or twice.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-18-t5",
+          "title": "Publish and log it",
+          "description": "Publish and add it to your tracking sheet with its own link tag.",
+          "resourceId": "res-af-link-tracking-sheet"
+        }
+      ],
+      "nicheHint": "Open by naming the situation {audience} are in with {problem}, then give your quick picks.",
+      "stageHints": {
+        "idea": "Done and helpful beats long and unfinished.",
+        "started": "Link to this post from your earlier reviews of the same products.",
+        "some_traction": "Place your strongest, most honest pick first.",
+        "already_earning": "Link this post from your best performer to pass on readers."
+      }
+    },
+    {
+      "day": 19,
+      "week": 3,
+      "theme": "Answer Real Questions",
+      "missionTitle": "Create a how-to post that solves a problem and mentions tools naturally.",
+      "goal": "Publish one helpful how-to that would be useful even without links.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-19",
+      "tasks": [
+        {
+          "id": "af-19-t1",
+          "title": "Watch the Day 19 lesson",
+          "description": "How-to content builds trust and reach. Learn to mention products only where they genuinely help."
+        },
+        {
+          "id": "af-19-t2",
+          "title": "Pick a question",
+          "description": "Choose a how-to question from your Day 8 list or from comments.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-19-t3",
+          "title": "Solve it fully",
+          "description": "Write or film the full answer, step by step, including free options."
+        },
+        {
+          "id": "af-19-t4",
+          "title": "Mention tools where they help",
+          "description": "Link a product only where a reader would naturally need it, with a disclosure nearby.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-19-t5",
+          "title": "Publish and log it",
+          "description": "Publish and add it to your tracking sheet.",
+          "resourceId": "res-af-link-tracking-sheet"
+        }
+      ],
+      "nicheHint": "Answer a how-to question {audience} ask about {problem}. Include a free or no-purchase option so the post helps everyone.",
+      "stageHints": {
+        "idea": "How-tos are a gentle way to build an audience before you have many reviews.",
+        "started": "Turn a common question from your comments into a full post.",
+        "some_traction": "Write a how-to that leads naturally to the product that converts.",
+        "already_earning": "Create a how-to for buyers who already own your top product."
+      }
+    },
+    {
+      "day": 20,
+      "week": 3,
+      "theme": "Start an Email List or Following",
+      "missionTitle": "Set up a simple way for readers to come back.",
+      "goal": "Create a free email signup or a clear follow call to action.",
+      "minutes": 40,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-20",
+      "tasks": [
+        {
+          "id": "af-20-t1",
+          "title": "Watch the Day 20 lesson",
+          "description": "Platforms change, but readers who choose to hear from you stay. Learn the simplest way to start a list."
+        },
+        {
+          "id": "af-20-t2",
+          "title": "Pick the tool",
+          "description": "Use the free plan of an email tool, or your platform's own follow or subscribe feature.",
+          "resourceId": "res-af-email-list-starter"
+        },
+        {
+          "id": "af-20-t3",
+          "title": "Create a small freebie",
+          "description": "Offer something useful, such as a buying checklist or a comparison cheat sheet.",
+          "resourceId": "res-af-email-list-starter"
+        },
+        {
+          "id": "af-20-t4",
+          "title": "Add the signup",
+          "description": "Put the signup or follow call to action at the end of your best posts."
+        },
+        {
+          "id": "af-20-t5",
+          "title": "Write a welcome message",
+          "description": "Say who you are, what you will send and how often. Include your disclosure policy.",
+          "resourceId": "res-af-email-list-starter"
+        }
+      ],
+      "nicheHint": "Make the freebie a short buying checklist for {audience} dealing with {problem}.",
+      "stageHints": {
+        "idea": "Even five subscribers is a start; they are people who chose to hear from you.",
+        "started": "Add a signup to every post you already published.",
+        "some_traction": "Put the signup on the post that earned a commission.",
+        "already_earning": "Write a welcome series that links your most helpful posts."
+      }
+    },
+    {
+      "day": 21,
+      "week": 3,
+      "theme": "Week 3 Review",
+      "missionTitle": "Read your numbers and choose what to improve.",
+      "goal": "Fill in your tracking sheet and pick one post to improve next week.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 150,
+      "lessonId": "afl-21",
+      "tasks": [
+        {
+          "id": "af-21-t1",
+          "title": "Watch the Day 21 lesson",
+          "description": "Learn to read views, clicks and commissions without overreacting to small numbers."
+        },
+        {
+          "id": "af-21-t2",
+          "title": "Update the sheet",
+          "description": "Copy views, clicks and any commissions for every post.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-21-t3",
+          "title": "Find the leader",
+          "description": "Note which post has the most clicks, even if the number is small.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-21-t4",
+          "title": "Spot the gap",
+          "description": "Find posts with views but no clicks; they are your best fix candidates."
+        },
+        {
+          "id": "af-21-t5",
+          "title": "Pick one to improve",
+          "description": "Choose one post to work on next week and write what you will change."
+        }
+      ],
+      "nicheHint": "Note which {problem} angle earned the most interest from {audience}. That is your best guess for what to make more of.",
+      "stageHints": {
+        "idea": "Small numbers are normal in week 3; look for any signal, not big results.",
+        "started": "Compare clicks on posts with links done right against older posts.",
+        "some_traction": "Calculate roughly how many clicks it took to earn one commission.",
+        "already_earning": "Compare this month's clicks per post with last month's."
+      }
+    },
+    {
+      "day": 22,
+      "week": 4,
+      "theme": "Improve Posts That Get Clicks",
+      "missionTitle": "Make your best-clicked post even more useful.",
+      "goal": "Update your top post with clearer picks, fresh details and a better call to action.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-22",
+      "tasks": [
+        {
+          "id": "af-22-t1",
+          "title": "Watch the Day 22 lesson",
+          "description": "The fastest growth often comes from improving what already works. Learn what to update first."
+        },
+        {
+          "id": "af-22-t2",
+          "title": "Open your top post",
+          "description": "Pick the post with the most clicks in your sheet.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-22-t3",
+          "title": "Make the answer clearer",
+          "description": "Add a quick summary, a comparison table or a clearer verdict near the top.",
+          "resourceId": "res-af-comparison-template"
+        },
+        {
+          "id": "af-22-t4",
+          "title": "Refresh the details",
+          "description": "Check that products are still available and descriptions are current."
+        },
+        {
+          "id": "af-22-t5",
+          "title": "Improve the call to action",
+          "description": "Make the link text say what happens, such as \"Check current price\", with the disclosure still nearby.",
+          "resourceId": "res-af-disclosure-checklist"
+        }
+      ],
+      "nicheHint": "Re-read your top post as someone from {audience} in a hurry to solve {problem}. Make the answer visible within ten seconds.",
+      "stageHints": {
+        "idea": "If no post has clicks yet, improve the one with the most views.",
+        "started": "Improve the post that got your first clicks.",
+        "some_traction": "Improve the post that earned a commission first.",
+        "already_earning": "Update your top three earners, starting with the oldest."
+      }
+    },
+    {
+      "day": 23,
+      "week": 4,
+      "theme": "Fix Views Without Clicks",
+      "missionTitle": "Find out why a post with readers is not getting clicks.",
+      "goal": "Make two changes to a post that gets views but few clicks.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-23",
+      "tasks": [
+        {
+          "id": "af-23-t1",
+          "title": "Watch the Day 23 lesson",
+          "description": "Views without clicks usually mean the post does not match buying intent or the next step is unclear."
+        },
+        {
+          "id": "af-23-t2",
+          "title": "Pick the post",
+          "description": "Choose a post with views but few or no clicks from your sheet.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-23-t3",
+          "title": "Check the intent",
+          "description": "Ask whether readers came to learn or to buy. A learning post may need a softer, more relevant recommendation."
+        },
+        {
+          "id": "af-23-t4",
+          "title": "Check link placement",
+          "description": "Make sure links appear where readers make a decision, not only at the very end."
+        },
+        {
+          "id": "af-23-t5",
+          "title": "Change two things",
+          "description": "Make two clear changes and note them in your sheet so you can compare next week.",
+          "resourceId": "res-af-link-tracking-sheet"
+        }
+      ],
+      "nicheHint": "Ask whether the post shows {audience} which product fits their version of {problem}. If not, add a short \"which one should I pick\" section.",
+      "stageHints": {
+        "idea": "Some posts are meant to build trust, not clicks, and that is fine.",
+        "started": "Add a clear recommendation section to your most-viewed post.",
+        "some_traction": "Copy the structure of your converting post into this one.",
+        "already_earning": "Test a clearer comparison table on a high-traffic, low-click post."
+      }
+    },
+    {
+      "day": 24,
+      "week": 4,
+      "theme": "Repurpose Your Best Post",
+      "missionTitle": "Turn your best post into more content on your main platform.",
+      "goal": "Create three new pieces from one post that already works.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-24",
+      "tasks": [
+        {
+          "id": "af-24-t1",
+          "title": "Watch the Day 24 lesson",
+          "description": "Learn how to get more from one good idea without spreading yourself across many platforms."
+        },
+        {
+          "id": "af-24-t2",
+          "title": "Pick the post",
+          "description": "Choose the post with the most clicks or views.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-24-t3",
+          "title": "Find three angles",
+          "description": "Pull out a quick tip, a common mistake and a short comparison from it."
+        },
+        {
+          "id": "af-24-t4",
+          "title": "Create the pieces",
+          "description": "Make three new posts, pins, videos or emails for your main platform.",
+          "resourceId": "res-af-posting-schedule"
+        },
+        {
+          "id": "af-24-t5",
+          "title": "Link back",
+          "description": "Point each piece to the original post, following your platform's link rules."
+        }
+      ],
+      "nicheHint": "Turn each angle into something {audience} can use in under a minute to make progress on {problem}.",
+      "stageHints": {
+        "idea": "Repurposing is the easiest way to keep your schedule on busy days.",
+        "started": "Repurpose your most-viewed post, even if it has few clicks.",
+        "some_traction": "Repurpose the post that earned your commission.",
+        "already_earning": "Repurpose your top earner for the format you post most often."
+      }
+    },
+    {
+      "day": 25,
+      "week": 4,
+      "theme": "Send Your First Email",
+      "missionTitle": "Send a helpful email or update to your list or followers.",
+      "goal": "Send one email or update that helps first and links second.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-25",
+      "tasks": [
+        {
+          "id": "af-25-t1",
+          "title": "Watch the Day 25 lesson",
+          "description": "Learn how to write emails that people look forward to, with honest recommendations and clear disclosure."
+        },
+        {
+          "id": "af-25-t2",
+          "title": "Pick a helpful topic",
+          "description": "Choose one tip, mistake or question from your recent posts.",
+          "resourceId": "res-af-email-list-starter"
+        },
+        {
+          "id": "af-25-t3",
+          "title": "Write it short",
+          "description": "Share the tip in a few short paragraphs, then point to the full post.",
+          "resourceId": "res-af-email-list-starter"
+        },
+        {
+          "id": "af-25-t4",
+          "title": "Disclose any links",
+          "description": "If the email has affiliate links, say so clearly. Check your program allows links in email.",
+          "resourceId": "res-af-disclosure-checklist"
+        },
+        {
+          "id": "af-25-t5",
+          "title": "Send it",
+          "description": "Send it, even if your list is tiny. Note how many people opened and clicked.",
+          "resourceId": "res-af-link-tracking-sheet"
+        }
+      ],
+      "nicheHint": "Send {audience} one quick tip for {problem} they can use today, then link to your post for the rest.",
+      "stageHints": {
+        "idea": "If you have no subscribers yet, post the same message to your followers.",
+        "started": "Send a round-up of your best posts so far.",
+        "some_traction": "Share the honest review that converted and why you recommend it.",
+        "already_earning": "Send a seasonal or timely update about products your readers already like."
+      }
+    },
+    {
+      "day": 26,
+      "week": 4,
+      "theme": "Refresh and Fix",
+      "missionTitle": "Keep your published content accurate and working.",
+      "goal": "Check every link, price mention and product in your published posts.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-26",
+      "tasks": [
+        {
+          "id": "af-26-t1",
+          "title": "Watch the Day 26 lesson",
+          "description": "Out-of-date posts lose trust and commissions. Learn a quick maintenance routine."
+        },
+        {
+          "id": "af-26-t2",
+          "title": "Check every link",
+          "description": "Click each affiliate link and fix any that are broken or point to unavailable products.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-26-t3",
+          "title": "Update prices and specs",
+          "description": "Replace exact prices with \"check current price\" or update them if your program allows price mentions."
+        },
+        {
+          "id": "af-26-t4",
+          "title": "Swap discontinued products",
+          "description": "Replace discontinued items with honest alternatives and say what changed.",
+          "resourceId": "res-af-trust-checklist"
+        },
+        {
+          "id": "af-26-t5",
+          "title": "Re-check program rules",
+          "description": "Make sure each link still follows the program's current terms.",
+          "resourceId": "res-af-program-finder"
+        }
+      ],
+      "nicheHint": "Check that every product you recommend to {audience} for {problem} is still available and still the right pick.",
+      "stageHints": {
+        "idea": "With only a few posts, this check takes minutes; build the habit now.",
+        "started": "Fix older posts first; they are most likely to have broken links.",
+        "some_traction": "Check the posts that send clicks first.",
+        "already_earning": "Schedule a monthly link check for your top earners."
+      }
+    },
+    {
+      "day": 27,
+      "week": 4,
+      "theme": "Engage Honestly",
+      "missionTitle": "Build relationships by replying to comments and questions.",
+      "goal": "Reply to every comment and question and note recurring topics.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-27",
+      "tasks": [
+        {
+          "id": "af-27-t1",
+          "title": "Watch the Day 27 lesson",
+          "description": "Real conversations build trust. Learn to help without pushing links or spamming communities."
+        },
+        {
+          "id": "af-27-t2",
+          "title": "Reply to comments",
+          "description": "Answer every comment on your posts with a helpful, personal reply."
+        },
+        {
+          "id": "af-27-t3",
+          "title": "Collect questions",
+          "description": "Write down repeated questions; they are future posts.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-27-t4",
+          "title": "Help in communities",
+          "description": "Join one or two communities and answer questions without links unless they are welcome and allowed."
+        },
+        {
+          "id": "af-27-t5",
+          "title": "Avoid shortcuts",
+          "description": "Do not ask people to click links as a favour, trade clicks or post fake reviews. These break program rules.",
+          "resourceId": "res-af-trust-checklist"
+        }
+      ],
+      "nicheHint": "Answer questions from {audience} about {problem} fully. A genuinely helpful reply makes people curious about the rest of your content.",
+      "stageHints": {
+        "idea": "No comments yet? Answer questions in a community you belong to instead.",
+        "started": "Reply to old comments you missed.",
+        "some_traction": "Ask readers what they want reviewed next.",
+        "already_earning": "Thank buyers who share their experience, and ask permission to quote them."
+      }
+    },
+    {
+      "day": 28,
+      "week": 4,
+      "theme": "Plan Your Content Pipeline",
+      "missionTitle": "Plan the next ten posts from what you learned.",
+      "goal": "Fill your posting schedule with ten ideas ranked by buying intent.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-28",
+      "tasks": [
+        {
+          "id": "af-28-t1",
+          "title": "Watch the Day 28 lesson",
+          "description": "Learn to choose your next posts from your data and your readers' questions, not guesses."
+        },
+        {
+          "id": "af-28-t2",
+          "title": "Gather ideas",
+          "description": "Combine your search list, reader questions and notes from your tracking sheet.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-28-t3",
+          "title": "Rank by intent",
+          "description": "Put reviews, comparisons and \"best X for Y\" posts near the top.",
+          "resourceId": "res-af-search-ideas-worksheet"
+        },
+        {
+          "id": "af-28-t4",
+          "title": "Fill the schedule",
+          "description": "Add ten ideas to the next weeks of your posting schedule.",
+          "resourceId": "res-af-posting-schedule"
+        },
+        {
+          "id": "af-28-t5",
+          "title": "Plan updates too",
+          "description": "Add one update to an existing post for every three new posts."
+        }
+      ],
+      "nicheHint": "Plan posts for {audience} that each cover one buying decision related to {problem}, using {terms} in the titles.",
+      "stageHints": {
+        "idea": "Ten ideas is plenty; pick the five you can start fastest.",
+        "started": "Plan around the formats that got the most views.",
+        "some_traction": "Plan more posts close to the one that converted.",
+        "already_earning": "Plan a cluster of posts around your best-earning category."
+      }
+    },
+    {
+      "day": 29,
+      "week": 4,
+      "theme": "Protect Your Energy",
+      "missionTitle": "Set a sustainable pace so you keep going after Day 30.",
+      "goal": "Write a weekly routine you can keep for the next three months.",
+      "minutes": 25,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "afl-29",
+      "tasks": [
+        {
+          "id": "af-29-t1",
+          "title": "Watch the Day 29 lesson",
+          "description": "Affiliate income grows slowly. Learn how to avoid burnout and stay consistent while results build."
+        },
+        {
+          "id": "af-29-t2",
+          "title": "Look back",
+          "description": "List what drained you this month and what felt easy."
+        },
+        {
+          "id": "af-29-t3",
+          "title": "Trim the extras",
+          "description": "Drop one task that did not move your numbers.",
+          "resourceId": "res-af-posting-schedule"
+        },
+        {
+          "id": "af-29-t4",
+          "title": "Batch your work",
+          "description": "Group research, writing and publishing into separate sessions.",
+          "resourceId": "res-af-posting-schedule"
+        },
+        {
+          "id": "af-29-t5",
+          "title": "Set a minimum",
+          "description": "Choose the smallest weekly output that still counts, such as one post and one update."
+        }
+      ],
+      "nicheHint": "Remember that {audience} need practical, honest help with {problem}, not perfection. A steady pace helps them more than a burst.",
+      "stageHints": {
+        "idea": "Keep going even if you have not earned yet; most commissions come after months of posting.",
+        "started": "Choose a pace you can keep alongside the rest of your life.",
+        "some_traction": "Protect time for the posts that earn, and drop low-value tasks.",
+        "already_earning": "Decide what to batch or simplify so growth does not cost your energy."
+      }
+    },
+    {
+      "day": 30,
+      "week": 4,
+      "theme": "Day 30 Review",
+      "missionTitle": "Review your month and set your plan for the next 30 days.",
+      "goal": "Write your Day 30 review and next month's main goal.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 300,
+      "lessonId": "afl-30",
+      "tasks": [
+        {
+          "id": "af-30-t1",
+          "title": "Watch the Day 30 lesson",
+          "description": "Look back at what you built, what the numbers say and what to do next."
+        },
+        {
+          "id": "af-30-t2",
+          "title": "Count your work",
+          "description": "Write how many posts you published, programs joined and updates made.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-30-t3",
+          "title": "Read the numbers",
+          "description": "Note total views, clicks and any commissions, plus your best post.",
+          "resourceId": "res-af-link-tracking-sheet"
+        },
+        {
+          "id": "af-30-t4",
+          "title": "Write three lessons",
+          "description": "What worked, what did not and what surprised you."
+        },
+        {
+          "id": "af-30-t5",
+          "title": "Set next month's goal",
+          "description": "Pick one focus: more posts, better posts, a bigger list or a new category.",
+          "resourceId": "res-af-posting-schedule"
+        }
+      ],
+      "nicheHint": "Decide whether next month is about reaching more {audience}, going deeper on {problem}, or covering a new product category they asked about.",
+      "stageHints": {
+        "idea": "If you published consistently with honest disclosures, you built the foundation that commissions grow from.",
+        "started": "Compare where you started with today; the habit is the hardest part.",
+        "some_traction": "Write which posts earned and plan how to create more like them.",
+        "already_earning": "Set a goal based on your best month and the posts that drove it."
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "id": "afl-01",
+      "title": "How Affiliate Content Earns",
+      "category": "Niche Strategy",
+      "path": "affiliate_content",
+      "duration": "8:20",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "A plain-English look at affiliate content: you help people choose, they buy through your disclosed link, and the store pays a small commission. You finish with your niche sentence and a 30-day goal.",
+      "learn": [
+        "How affiliate commissions work",
+        "Why a buying niche matters",
+        "Why goals you control matter in month one"
+      ],
+      "takeaways": [
+        "Pick a niche where people buy things",
+        "Write: I help [audience] choose [products]",
+        "Set a goal you control, like posts published"
+      ],
+      "resourceIds": [],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-02",
+      "title": "Spotting Buying Intent",
+      "category": "Niche Strategy",
+      "path": "affiliate_content",
+      "duration": "9:10",
+      "minutes": 9,
+      "hue": 35,
+      "summary": "Some topics are read for fun; others are researched before spending money. Learn to tell them apart using free searches.",
+      "learn": [
+        "What buying questions look like",
+        "Why existing reviews are a good sign",
+        "How price affects commission size"
+      ],
+      "takeaways": [
+        "Collect real buying questions",
+        "Mix low- and mid-priced products",
+        "Narrow the niche if questions are rare"
+      ],
+      "resourceIds": [
+        "res-af-search-ideas-worksheet"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-03",
+      "title": "Choosing One Platform",
+      "category": "Platforms",
+      "path": "affiliate_content",
+      "duration": "9:40",
+      "minutes": 9,
+      "hue": 35,
+      "summary": "Compare blogs, Pinterest, short videos, YouTube and newsletters for affiliate content, including how each handles links.",
+      "learn": [
+        "Strengths of each platform",
+        "How link rules differ",
+        "Why one platform beats five in month one"
+      ],
+      "takeaways": [
+        "Pick the format you can keep up weekly",
+        "Check link and disclosure rules",
+        "Commit for 30 days"
+      ],
+      "resourceIds": [],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-04",
+      "title": "Setting Up a Trustworthy Home Base",
+      "category": "Platforms",
+      "path": "affiliate_content",
+      "duration": "7:30",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Set up a clear profile, blog or newsletter with free tools, a plain bio and an honest about section.",
+      "learn": [
+        "What a clear bio says",
+        "Why an about section builds trust",
+        "Where your disclosure note belongs"
+      ],
+      "takeaways": [
+        "Use free tools to start",
+        "Name who you help and what you review",
+        "Explain how you choose products"
+      ],
+      "resourceIds": [
+        "res-af-trust-checklist",
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-05",
+      "title": "Where Affiliate Programs Come From",
+      "category": "Affiliate Programs",
+      "path": "affiliate_content",
+      "duration": "8:50",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Learn the three sources of programs: big retailers like Amazon Associates, brand programs, and networks like Impact or ShareASale.",
+      "learn": [
+        "How retailer, brand and network programs differ",
+        "What commission rate and cookie length mean",
+        "Why approval rules vary"
+      ],
+      "takeaways": [
+        "List at least six programs",
+        "Record terms in one sheet",
+        "Prefer products you have used or researched"
+      ],
+      "resourceIds": [
+        "res-af-program-finder"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-06",
+      "title": "Reading Affiliate Terms",
+      "category": "Affiliate Programs",
+      "path": "affiliate_content",
+      "duration": "7:50",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Affiliate terms decide where you may post links, what you may say and when you get paid. Learn what to look for before you publish.",
+      "learn": [
+        "Common link placement rules",
+        "Rules about prices, email and ads",
+        "What to do after a rejection"
+      ],
+      "takeaways": [
+        "Apply honestly",
+        "Note deadlines and restrictions",
+        "Reapply after you publish more"
+      ],
+      "resourceIds": [
+        "res-af-program-finder"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-07",
+      "title": "Disclosure Done Right",
+      "category": "Disclosure & Rules",
+      "path": "affiliate_content",
+      "duration": "8:30",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Always tell people when you may earn from a link: clearly, close to the link and in plain words, following FTC-style guidance and each platform's rules.",
+      "learn": [
+        "What a clear disclosure says",
+        "Where to place it",
+        "How platform labels work alongside your own words"
+      ],
+      "takeaways": [
+        "Disclose before or next to the first link",
+        "Use plain words, not jargon",
+        "Add educational notes for health or money topics"
+      ],
+      "resourceIds": [
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-08",
+      "title": "Finding What Buyers Search For",
+      "category": "Search Research",
+      "path": "affiliate_content",
+      "duration": "9:20",
+      "minutes": 9,
+      "hue": 35,
+      "summary": "Learn the four kinds of buyer searches: reviews, comparisons, \"best X for Y\" and how-tos, and find them with free autocomplete.",
+      "learn": [
+        "The four buyer search types",
+        "How to use autocomplete",
+        "How to check what already ranks"
+      ],
+      "takeaways": [
+        "Collect 20 search ideas",
+        "Group them by type",
+        "Favour specific searches"
+      ],
+      "resourceIds": [
+        "res-af-search-ideas-worksheet"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-09",
+      "title": "Anatomy of an Honest Review",
+      "category": "Reviews & Comparisons",
+      "path": "affiliate_content",
+      "duration": "10:15",
+      "minutes": 10,
+      "hue": 35,
+      "summary": "A good review says who the product is for, who it is not for and what it is really like to use. Outline yours with the template.",
+      "learn": [
+        "The sections of a useful review",
+        "How to review without owning the product",
+        "Why your own photos matter"
+      ],
+      "takeaways": [
+        "Start from real use when you can",
+        "Be transparent when you rely on research",
+        "Always include who should skip it"
+      ],
+      "resourceIds": [
+        "res-af-review-template",
+        "res-af-trust-checklist"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-10",
+      "title": "Publishing Your First Review",
+      "category": "Content Creation",
+      "path": "affiliate_content",
+      "duration": "8:40",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Finished beats perfect. Learn how to draft, check and publish your first review with links and a clear disclosure.",
+      "learn": [
+        "How to draft fast",
+        "Where links belong in a review",
+        "A final pre-publish check"
+      ],
+      "takeaways": [
+        "Include at least one honest con",
+        "Check disclosure on mobile",
+        "Publish, then improve later"
+      ],
+      "resourceIds": [
+        "res-af-review-template",
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-11",
+      "title": "A Posting Schedule You Can Keep",
+      "category": "Growth",
+      "path": "affiliate_content",
+      "duration": "8:10",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Consistency builds trust and search visibility. Pick a weekly rhythm you can keep for months.",
+      "learn": [
+        "Why consistency matters for affiliate content",
+        "How to block creation time",
+        "Backup ideas for busy days"
+      ],
+      "takeaways": [
+        "Start smaller than you think",
+        "Assign one idea per slot",
+        "Keep an easy backup post ready"
+      ],
+      "resourceIds": [
+        "res-af-posting-schedule",
+        "res-af-search-ideas-worksheet"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-12",
+      "title": "Writing Fair Comparisons",
+      "category": "Reviews & Comparisons",
+      "path": "affiliate_content",
+      "duration": "11:05",
+      "minutes": 11,
+      "hue": 35,
+      "summary": "Comparisons help buyers close to a decision. Compare the same points fairly and recommend by buyer type, not one winner for all.",
+      "learn": [
+        "How to pick a fair matchup",
+        "How to build a comparison table",
+        "How to recommend by buyer type"
+      ],
+      "takeaways": [
+        "Compare the same points for each product",
+        "Match each pick to a buyer",
+        "Say what you used and what you researched"
+      ],
+      "resourceIds": [
+        "res-af-comparison-template",
+        "res-af-trust-checklist"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-13",
+      "title": "Sharing Without Spamming",
+      "category": "Growth",
+      "path": "affiliate_content",
+      "duration": "7:10",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Learn to share content on your own channels and follow community rules, without dropping links where they are not welcome.",
+      "learn": [
+        "Where sharing is appropriate",
+        "Why link-dropping backfires",
+        "How to help first in communities"
+      ],
+      "takeaways": [
+        "Share on your own channels",
+        "Never drop links in others' comments or groups",
+        "Link only where welcome and allowed"
+      ],
+      "resourceIds": [
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-14",
+      "title": "Your Two-Week Check-in",
+      "category": "Tracking",
+      "path": "affiliate_content",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "A short review keeps small mistakes from piling up. Check links, disclosures and program status.",
+      "learn": [
+        "What to audit after two weeks",
+        "How to handle declined programs",
+        "How to resize a schedule"
+      ],
+      "takeaways": [
+        "List every post you published",
+        "Audit disclosures on mobile",
+        "Shrink the schedule rather than quit"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet",
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-15",
+      "title": "Building Trust That Lasts",
+      "category": "Trust",
+      "path": "affiliate_content",
+      "duration": "7:40",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Trust is why people buy through your link. Learn the habits that build it and the shortcuts that destroy it.",
+      "learn": [
+        "Why honest cons increase trust",
+        "What counts as real proof",
+        "Which shortcuts break program rules"
+      ],
+      "takeaways": [
+        "Only recommend what you would buy",
+        "Add real photos and honest downsides",
+        "Never post fake or paid-for reviews"
+      ],
+      "resourceIds": [
+        "res-af-trust-checklist"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-16",
+      "title": "Tracking Clicks Without Paid Tools",
+      "category": "Tracking",
+      "path": "affiliate_content",
+      "duration": "8:25",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Use tracking IDs, sub-IDs and platform analytics to see which posts send clicks, all with a free spreadsheet.",
+      "learn": [
+        "What tracking IDs and sub-IDs do",
+        "Where to find program reports",
+        "How to log results weekly"
+      ],
+      "takeaways": [
+        "Give each post its own tag where allowed",
+        "Check numbers once a week",
+        "Zero clicks early on is normal"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-17",
+      "title": "\"Best X for Y\" Posts",
+      "category": "Reviews & Comparisons",
+      "path": "affiliate_content",
+      "duration": "9:00",
+      "minutes": 9,
+      "hue": 35,
+      "summary": "These posts match how many people search before buying. Learn to make them specific and honest.",
+      "learn": [
+        "How to choose a specific Y",
+        "How to set clear criteria",
+        "Why a skip section helps"
+      ],
+      "takeaways": [
+        "Pick a narrow buyer or situation",
+        "Choose 3 to 5 picks that truly fit",
+        "Explain what you left out"
+      ],
+      "resourceIds": [
+        "res-af-best-for-outline"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-18",
+      "title": "Structuring a List Post",
+      "category": "Content Creation",
+      "path": "affiliate_content",
+      "duration": "7:20",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Busy readers need to find the right pick fast. Learn to structure a list post with a summary and clear picks.",
+      "learn": [
+        "Why a top summary helps",
+        "What each pick needs",
+        "How often to link"
+      ],
+      "takeaways": [
+        "Start with quick picks",
+        "Give each pick a pro, a con and a best-for",
+        "Disclose before the first link"
+      ],
+      "resourceIds": [
+        "res-af-best-for-outline",
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-19",
+      "title": "How-To Content That Builds Trust",
+      "category": "Content Creation",
+      "path": "affiliate_content",
+      "duration": "10:05",
+      "minutes": 10,
+      "hue": 35,
+      "summary": "How-tos build reach and trust. Mention products only where they genuinely help, and include free options.",
+      "learn": [
+        "How to pick a how-to question",
+        "When a product mention helps",
+        "Why free options build credibility"
+      ],
+      "takeaways": [
+        "Solve the problem fully",
+        "Link only where readers need it",
+        "Include a no-purchase option"
+      ],
+      "resourceIds": [
+        "res-af-search-ideas-worksheet",
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-20",
+      "title": "Starting Your Email List",
+      "category": "Email List",
+      "path": "affiliate_content",
+      "duration": "6:50",
+      "minutes": 6,
+      "hue": 35,
+      "summary": "Readers who choose to hear from you stay when platforms change. Start a list with a free tool and a small freebie.",
+      "learn": [
+        "How to choose a free email tool",
+        "What makes a good freebie",
+        "What a welcome message says"
+      ],
+      "takeaways": [
+        "Offer a buying checklist or cheat sheet",
+        "Add signups to your best posts",
+        "Explain what you will send"
+      ],
+      "resourceIds": [
+        "res-af-email-list-starter"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-21",
+      "title": "Reading Your Early Numbers",
+      "category": "Tracking",
+      "path": "affiliate_content",
+      "duration": "7:00",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Learn to read views, clicks and commissions calmly and find the post most worth improving.",
+      "learn": [
+        "Which numbers matter in month one",
+        "How to spot views without clicks",
+        "How to choose one thing to fix"
+      ],
+      "takeaways": [
+        "Update your sheet weekly",
+        "Look for signals, not big results",
+        "Pick one post to improve"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-22",
+      "title": "Improving What Already Works",
+      "category": "Growth",
+      "path": "affiliate_content",
+      "duration": "8:15",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Improving a post that already gets clicks is often the fastest win. Learn what to update first.",
+      "learn": [
+        "What to update in a top post",
+        "How to write clear link text",
+        "How to keep disclosures in place"
+      ],
+      "takeaways": [
+        "Start with your best-clicked post",
+        "Make the answer visible fast",
+        "Refresh details and availability"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet",
+        "res-af-comparison-template"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-23",
+      "title": "Fixing Views Without Clicks",
+      "category": "Growth",
+      "path": "affiliate_content",
+      "duration": "6:40",
+      "minutes": 6,
+      "hue": 35,
+      "summary": "Views without clicks usually mean a mismatch with buying intent or an unclear next step.",
+      "learn": [
+        "Learning intent versus buying intent",
+        "Where links work best",
+        "How to test changes"
+      ],
+      "takeaways": [
+        "Add a \"which one should I pick\" section",
+        "Place links where readers decide",
+        "Change two things and compare"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-24",
+      "title": "Repurposing One Good Idea",
+      "category": "Content Creation",
+      "path": "affiliate_content",
+      "duration": "9:30",
+      "minutes": 9,
+      "hue": 35,
+      "summary": "Get more from one good post without spreading yourself across many platforms.",
+      "learn": [
+        "How to find angles in one post",
+        "How to adapt to your platform's format",
+        "How to link back"
+      ],
+      "takeaways": [
+        "Pull out a tip, a mistake and a comparison",
+        "Stay on your main platform",
+        "Follow link rules when linking back"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet",
+        "res-af-posting-schedule"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-25",
+      "title": "Emails People Want to Open",
+      "category": "Email List",
+      "path": "affiliate_content",
+      "duration": "7:45",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Write short, helpful emails with honest recommendations and clear disclosure.",
+      "learn": [
+        "What to send in an early email",
+        "How to disclose in email",
+        "Which numbers to note"
+      ],
+      "takeaways": [
+        "Help first, link second",
+        "Check your program allows email links",
+        "Send even if the list is tiny"
+      ],
+      "resourceIds": [
+        "res-af-email-list-starter",
+        "res-af-disclosure-checklist"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-26",
+      "title": "Keeping Content Accurate",
+      "category": "Trust",
+      "path": "affiliate_content",
+      "duration": "8:35",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Out-of-date posts lose trust and commissions. Learn a quick routine for links, prices and discontinued products.",
+      "learn": [
+        "How to check links fast",
+        "How to handle prices safely",
+        "How to replace discontinued products"
+      ],
+      "takeaways": [
+        "Fix broken links first",
+        "Avoid stale exact prices",
+        "Say what changed and why"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet",
+        "res-af-trust-checklist"
+      ],
+      "instructor": "Priya Shah"
+    },
+    {
+      "id": "afl-27",
+      "title": "Engaging Without Spamming",
+      "category": "Trust",
+      "path": "affiliate_content",
+      "duration": "7:55",
+      "minutes": 7,
+      "hue": 35,
+      "summary": "Real conversations build trust. Help in comments and communities without pushing links.",
+      "learn": [
+        "How to reply in a way that helps",
+        "How to turn questions into posts",
+        "Which shortcuts break program rules"
+      ],
+      "takeaways": [
+        "Reply to every comment",
+        "Never trade clicks or post fake reviews",
+        "Link only when welcome and allowed"
+      ],
+      "resourceIds": [
+        "res-af-search-ideas-worksheet",
+        "res-af-trust-checklist"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-28",
+      "title": "Planning Your Next Ten Posts",
+      "category": "Search Research",
+      "path": "affiliate_content",
+      "duration": "8:05",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Choose your next posts from data and reader questions, not guesses.",
+      "learn": [
+        "How to combine data and questions",
+        "How to rank by buying intent",
+        "How to balance new posts and updates"
+      ],
+      "takeaways": [
+        "Gather ideas from three sources",
+        "Rank by intent",
+        "Plan one update per three new posts"
+      ],
+      "resourceIds": [
+        "res-af-search-ideas-worksheet",
+        "res-af-posting-schedule"
+      ],
+      "instructor": "Maya Collins"
+    },
+    {
+      "id": "afl-29",
+      "title": "Staying Consistent Without Burning Out",
+      "category": "Mindset",
+      "path": "affiliate_content",
+      "duration": "8:30",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Affiliate income grows slowly. Set a pace you can keep while results build.",
+      "learn": [
+        "Why affiliate income is slow at first",
+        "How batching saves energy",
+        "How to set a weekly minimum"
+      ],
+      "takeaways": [
+        "Drop tasks that do not move numbers",
+        "Batch similar work",
+        "Keep a minimum that still counts"
+      ],
+      "resourceIds": [
+        "res-af-posting-schedule"
+      ],
+      "instructor": "Theo Grant"
+    },
+    {
+      "id": "afl-30",
+      "title": "Your Day 30 Review",
+      "category": "Mindset",
+      "path": "affiliate_content",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 35,
+      "summary": "Look back at what you built, what the numbers say and what to focus on next month.",
+      "learn": [
+        "How to count your real progress",
+        "How to read a month of numbers",
+        "How to choose one focus"
+      ],
+      "takeaways": [
+        "Count posts, programs and updates",
+        "Write three lessons",
+        "Pick one focus for next month"
+      ],
+      "resourceIds": [
+        "res-af-link-tracking-sheet",
+        "res-af-posting-schedule"
+      ],
+      "instructor": "Theo Grant"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-af-program-finder",
+      "title": "Affiliate Program Finder",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "Find and compare affiliate programs for the products you want to recommend. Fill it in on Days 5 and 6.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "Where to look",
+          "body": [
+            "Big retailers your audience already buys from, such as Amazon Associates.",
+            "Brand programs: search \"[brand] affiliate program\" for products you use.",
+            "Networks such as Impact, ShareASale or Awin that list many brands."
+          ]
+        },
+        {
+          "heading": "What to record",
+          "body": [
+            "Commission rate and how it is paid.",
+            "Cookie length: how long after a click a purchase still counts.",
+            "Payout minimum and payment method."
+          ]
+        },
+        {
+          "heading": "Rules to check",
+          "body": [
+            "Where links may appear and whether email links are allowed.",
+            "Rules on prices, paid ads and brand names.",
+            "Any deadline for a first qualifying sale. Approval rules vary by program."
+          ]
+        },
+        {
+          "heading": "Decision",
+          "body": [
+            "Does the program cover products you would honestly recommend?",
+            "Are the rules workable on your platform?",
+            "If both are yes, apply. If not, keep looking."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-disclosure-checklist",
+      "title": "Disclosure Checklist",
+      "type": "Checklist",
+      "path": "affiliate_content",
+      "description": "Make every post clear about affiliate links, the way FTC-style guidance and platform rules expect.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Wording",
+          "body": [
+            "Use plain words: \"I may earn a commission if you buy through these links.\"",
+            "Avoid vague labels that readers may not understand.",
+            "Keep it short and easy to read."
+          ]
+        },
+        {
+          "heading": "Placement",
+          "body": [
+            "Put it before or right next to the first link.",
+            "Make it visible without clicking or scrolling to the bottom.",
+            "Repeat it in video captions or spoken at the start of videos."
+          ]
+        },
+        {
+          "heading": "Platform rules",
+          "body": [
+            "Turn on the platform's paid partnership or affiliate label where it exists.",
+            "Follow each affiliate program's required wording if it has one.",
+            "Check rules again when platforms update them."
+          ]
+        },
+        {
+          "heading": "Sensitive topics",
+          "body": [
+            "For health or money topics, add that your content is educational, not professional advice.",
+            "Never make medical or financial claims about a product.",
+            "Point readers to a qualified professional when it matters."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-review-template",
+      "title": "Honest Review Template",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "A simple structure for a review that helps readers decide, whether or not they buy.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Opening",
+          "body": [
+            "Who this product is for and the problem it solves.",
+            "Your quick verdict in one sentence.",
+            "Your disclosure before the first link."
+          ]
+        },
+        {
+          "heading": "What you tested",
+          "body": [
+            "How long and how you used it, or what research you did if you do not own it.",
+            "Your own photos, clips or screenshots."
+          ]
+        },
+        {
+          "heading": "Pros and cons",
+          "body": [
+            "Three real pros with specific details.",
+            "At least two real cons.",
+            "Who should skip it and what to choose instead."
+          ]
+        },
+        {
+          "heading": "Verdict",
+          "body": [
+            "Would you buy it again? Why or why not?",
+            "Link to the product and one alternative.",
+            "Invite questions in the comments."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-comparison-template",
+      "title": "Comparison Post Template",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "Compare two or three products fairly and match each one to the right buyer.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Quick answer",
+          "body": [
+            "One line per product: best for whom.",
+            "Your disclosure before the first link."
+          ]
+        },
+        {
+          "heading": "Comparison table",
+          "body": [
+            "Same rows for each product: price range, key features, best for, main drawback.",
+            "Use approximate prices or \"check current price\".",
+            "Mark which you used and which you researched."
+          ]
+        },
+        {
+          "heading": "Head to head",
+          "body": [
+            "Compare the points buyers care about most.",
+            "Be specific: numbers, sizes, real experiences.",
+            "Say where each product falls short."
+          ]
+        },
+        {
+          "heading": "Which should you pick?",
+          "body": [
+            "If you are [type of buyer], choose [product].",
+            "Explain what would change your recommendation."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-best-for-outline",
+      "title": "\"Best X for Y\" Outline",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "Plan a list post for a specific buyer or situation with honest picks and clear criteria.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Define the Y",
+          "body": [
+            "Name the buyer or situation, such as \"for beginners on a budget\".",
+            "List what matters most to that buyer.",
+            "Note what does not matter to them."
+          ]
+        },
+        {
+          "heading": "Quick picks",
+          "body": [
+            "3 to 5 products, each with a one-line reason.",
+            "Disclosure before the first link."
+          ]
+        },
+        {
+          "heading": "Each pick",
+          "body": [
+            "Why it is on the list.",
+            "One pro, one con and who should choose it.",
+            "Whether you used it or researched it."
+          ]
+        },
+        {
+          "heading": "What we left out",
+          "body": [
+            "Popular products you skipped and why.",
+            "How you will update the list over time."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-search-ideas-worksheet",
+      "title": "Search Ideas Worksheet",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "Collect and sort what people search for before they buy, using free tools.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "Collect",
+          "body": [
+            "Type each product into Google, YouTube and Pinterest search and copy the autocomplete suggestions.",
+            "Add \"best\", \"vs\", \"review\" and \"for beginners\" to each product.",
+            "Copy questions from Reddit threads and comments word for word."
+          ]
+        },
+        {
+          "heading": "Sort",
+          "body": [
+            "Reviews: \"[product] review\", \"is [product] worth it\".",
+            "Comparisons: \"[product A] vs [product B]\".",
+            "Best for: \"best [product] for [situation]\". How-tos: \"how to [task]\"."
+          ]
+        },
+        {
+          "heading": "Check",
+          "body": [
+            "Open the top results for three ideas.",
+            "Note what they cover and what they miss.",
+            "Note whether you can answer honestly from use or research."
+          ]
+        },
+        {
+          "heading": "Choose",
+          "body": [
+            "Pick three ideas with clear buying intent.",
+            "Add the rest to your posting schedule."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-link-tracking-sheet",
+      "title": "Link Tracking Sheet",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "One free spreadsheet to see which posts get clicks and commissions.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Columns",
+          "body": [
+            "Post title, platform and publish date.",
+            "Products linked and program used.",
+            "Tracking ID or sub-ID tag."
+          ]
+        },
+        {
+          "heading": "Weekly numbers",
+          "body": [
+            "Views or reads.",
+            "Link clicks from program reports.",
+            "Commissions, if any."
+          ]
+        },
+        {
+          "heading": "Patterns",
+          "body": [
+            "Which post has the most clicks?",
+            "Which posts have views but no clicks?",
+            "Which formats work best?"
+          ]
+        },
+        {
+          "heading": "Actions",
+          "body": [
+            "One post to improve next week.",
+            "One idea to make more of."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-posting-schedule",
+      "title": "Posting Schedule",
+      "type": "Template",
+      "path": "affiliate_content",
+      "description": "Plan a realistic weekly rhythm and fill it with your best search ideas.",
+      "minutes": 4,
+      "sections": [
+        {
+          "heading": "Rhythm",
+          "body": [
+            "How many posts per week you can keep for three months.",
+            "Which days you create and which days you publish."
+          ]
+        },
+        {
+          "heading": "Two-week plan",
+          "body": [
+            "One search idea per slot.",
+            "Mix reviews, comparisons, \"best X for Y\" and how-tos.",
+            "One update to an old post every few weeks."
+          ]
+        },
+        {
+          "heading": "Busy-day backup",
+          "body": [
+            "An easy post idea, such as a quick tip or a repurposed piece.",
+            "A rule: smaller is fine, skipping is not."
+          ]
+        },
+        {
+          "heading": "Batching",
+          "body": [
+            "Research in one session.",
+            "Write or film in another.",
+            "Publish and log links in a third."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-email-list-starter",
+      "title": "Email List Starter",
+      "type": "Guide",
+      "path": "affiliate_content",
+      "description": "Start a small email list with a free tool, a useful freebie and a friendly welcome.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Pick a tool",
+          "body": [
+            "Use the free plan of an email tool such as MailerLite, Kit or Beehiiv.",
+            "Or use your platform's own subscribe or follow feature.",
+            "Only add people who signed up themselves."
+          ]
+        },
+        {
+          "heading": "Freebie ideas",
+          "body": [
+            "A buying checklist for your niche.",
+            "A comparison cheat sheet.",
+            "A short \"what I would buy as a beginner\" guide."
+          ]
+        },
+        {
+          "heading": "Welcome message",
+          "body": [
+            "Who you are and who you help.",
+            "What you will send and how often.",
+            "Your disclosure policy for links."
+          ]
+        },
+        {
+          "heading": "Ongoing emails",
+          "body": [
+            "Help first with one tip or answer.",
+            "Link to a full post for the rest.",
+            "Check that each program allows links in email."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-af-trust-checklist",
+      "title": "Trust Checklist",
+      "type": "Checklist",
+      "path": "affiliate_content",
+      "description": "Make sure every recommendation is honest, useful and safe for your readers and your accounts.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Honest recommendations",
+          "body": [
+            "I only recommend things I would buy or have researched carefully.",
+            "I say clearly when I have not used a product myself.",
+            "I include real cons and who should skip it."
+          ]
+        },
+        {
+          "heading": "Real proof",
+          "body": [
+            "I use my own photos, clips or measurements where I can.",
+            "I do not copy other people's reviews or images.",
+            "I describe prices as approximate or link to the current price."
+          ]
+        },
+        {
+          "heading": "Never do",
+          "body": [
+            "Post fake reviews or reviews paid for by a brand without disclosing it.",
+            "Drop links in other people's comments or groups.",
+            "Ask people to click as a favour, trade clicks or use tricks like cookie stuffing."
+          ]
+        },
+        {
+          "heading": "Sensitive topics",
+          "body": [
+            "Health and money content is educational only.",
+            "No promises about results or income.",
+            "Readers are pointed to professionals when needed."
+          ]
+        }
+      ],
+      "link": null
+    }
+  ],
+  "achievements": [
+    {
+      "id": "af-first-mission",
+      "title": "First Step",
+      "description": "Complete your first daily mission.",
+      "icon": "checkmark.seal.fill",
+      "metric": "missions",
+      "target": 1
+    },
+    {
+      "id": "af-streak-7",
+      "title": "7-Day Streak",
+      "description": "Work on your content seven days in a row.",
+      "icon": "flame.fill",
+      "metric": "streak",
+      "target": 7
+    },
+    {
+      "id": "af-first-post",
+      "title": "First Post Live",
+      "description": "Publish your first post with a disclosed affiliate link.",
+      "icon": "doc.text.fill",
+      "metric": "postsPublished",
+      "target": 1
+    },
+    {
+      "id": "af-ten-posts",
+      "title": "Ten Posts",
+      "description": "Publish ten posts.",
+      "icon": "list.bullet.clipboard.fill",
+      "metric": "postsPublished",
+      "target": 10
+    },
+    {
+      "id": "af-steady-week",
+      "title": "Steady Week",
+      "description": "Publish three posts in one week.",
+      "icon": "calendar",
+      "metric": "postsThisWeek",
+      "target": 3
+    },
+    {
+      "id": "af-100-clicks",
+      "title": "First 100 Clicks",
+      "description": "Reach 100 affiliate link clicks.",
+      "icon": "chart.line.uptrend.xyaxis",
+      "metric": "linkClicks",
+      "target": 100
+    },
+    {
+      "id": "af-50-followers",
+      "title": "First 50 Followers",
+      "description": "Reach 50 followers or email subscribers.",
+      "icon": "person.3.fill",
+      "metric": "followers",
+      "target": 50
+    },
+    {
+      "id": "af-first-commission",
+      "title": "First Commission",
+      "description": "Earn your first affiliate commission.",
+      "icon": "dollarsign.circle.fill",
+      "metric": "affiliateIncome",
+      "target": 1,
+      "money": true
+    }
+  ],
+  "coach": {
+    "suggestedPrompts": [
+      "What products should I promote?",
+      "Which affiliate programs should I join?",
+      "How do I disclose affiliate links?",
+      "Nobody clicks my links yet.",
+      "How do I get traffic without ads?",
+      "Which platform should I use?"
+    ],
+    "tips": [
+      "Pick a niche where people research before they buy, not just one you find interesting.",
+      "Buying questions like \"which is better\" are a strong sign your niche can earn.",
+      "One platform done well beats five done badly in your first month.",
+      "A clear bio that names who you help builds trust in seconds.",
+      "Approval rules vary by program, so apply to a few and expect some rejections.",
+      "Read each program's terms before you publish a single link.",
+      "Disclose clearly and close to the link, every time.",
+      "Autocomplete is a free window into what buyers type before they purchase.",
+      "Your own photos and real experience are your biggest advantage.",
+      "Published and improvable beats perfect and unpublished.",
+      "A schedule you can keep beats an ambitious one you abandon.",
+      "Recommend by buyer type instead of naming one winner for everyone.",
+      "Share on your own channels; never drop links in other people's spaces.",
+      "A short weekly check catches broken links and missing disclosures early.",
+      "Honest cons make your pros believable.",
+      "Give each post its own tracking tag so you know what works.",
+      "The narrower the \"for Y\", the easier the post is to write honestly.",
+      "Put a quick summary at the top; busy buyers will thank you.",
+      "Helpful how-tos build the trust that later reviews depend on.",
+      "An email list is the audience no platform change can take away.",
+      "Small numbers in month one are normal; look for any signal.",
+      "Improving a post that already gets clicks is often your fastest win.",
+      "Views without clicks usually mean the next step is unclear.",
+      "One good idea can become several posts on the same platform.",
+      "Help first in emails, link second.",
+      "Out-of-date links quietly cost you trust and commissions.",
+      "Fake reviews and click trading can get your accounts closed.",
+      "Plan posts from your data and reader questions, not guesses.",
+      "Affiliate income grows slowly; a steady pace wins.",
+      "Count what you built this month, not only what you earned."
+    ],
+    "replies": [
+      {
+        "id": "afr-what-to-promote",
+        "keywords": [
+          "what to promote",
+          "which products",
+          "what product",
+          "product ideas",
+          "what should i recommend",
+          "no idea",
+          "ideas",
+          "what to review"
+        ],
+        "text": {
+          "affiliate_content": "The best first products to promote are ones you already use or know well, in a niche where people research before buying.\n\n1. List ten products you own and use in your niche.\n2. Search each one with \"review\" or \"vs\" and see if people ask about it.\n3. Pick the two or three where you have a real, honest opinion.\n\nNext step: write one sentence on why you would recommend each pick, and to whom."
+        },
+        "followUps": [
+          "How do I find programs for these products?",
+          "Can I review something I do not own?",
+          "What should my first post be?"
+        ]
+      },
+      {
+        "id": "afr-programs",
+        "keywords": [
+          "which programs",
+          "affiliate program",
+          "join",
+          "apply",
+          "network",
+          "impact",
+          "shareasale",
+          "approval"
+        ],
+        "text": {
+          "affiliate_content": "Start with two or three programs that cover products you would honestly recommend.\n\n1. Check big retailers your audience buys from, such as Amazon Associates.\n2. Search \"[brand] affiliate program\" for brands you use.\n3. Look at networks such as Impact or ShareASale for more brands.\n\nApproval rules vary, and some programs want existing content first. If you are declined, publish a few posts and reapply.\n\nNext step: fill in the Affiliate Program Finder for six programs."
+        },
+        "followUps": [
+          "What should I check in the terms?",
+          "Amazon or brand programs?",
+          "What if I get rejected?"
+        ]
+      },
+      {
+        "id": "afr-disclosure",
+        "keywords": [
+          "disclosure",
+          "disclose",
+          "ftc",
+          "legal",
+          "do i have to say",
+          "sponsored",
+          "label",
+          "rules"
+        ],
+        "text": {
+          "affiliate_content": "Always tell people when you may earn from a link. Make it clear, plain and close to the link.\n\n1. Use simple words: \"I may earn a commission if you buy through these links.\"\n2. Put it before or right next to the first link, not hidden at the bottom.\n3. Turn on your platform's paid partnership or affiliate label where it exists, and follow each program's wording rules.\n\nThis is general guidance, not legal advice, and rules differ by country.\n\nNext step: open the Disclosure Checklist and check your latest post."
+        },
+        "followUps": [
+          "Where do I put it in a video?",
+          "Do I disclose in emails too?",
+          "What about health products?"
+        ]
+      },
+      {
+        "id": "afr-no-clicks",
+        "keywords": [
+          "no clicks",
+          "nobody clicks",
+          "zero clicks",
+          "no one clicks",
+          "not clicking",
+          "no traffic",
+          "no views",
+          "nothing happening"
+        ],
+        "text": {
+          "affiliate_content": "No clicks in the first weeks is very common. Affiliate content usually takes time to be found.\n\n1. Check your posts answer buyer searches like reviews, comparisons or \"best X for Y\".\n2. Make sure links appear where readers make a decision, with clear link text.\n3. Keep publishing on schedule; each post is another way to be found.\n\nNext step: pick your most-viewed post and add a short \"which one should I pick\" section."
+        },
+        "followUps": [
+          "How do I get more traffic?",
+          "Where should links go?",
+          "How long does this usually take?"
+        ]
+      },
+      {
+        "id": "afr-clicks-no-sales",
+        "keywords": [
+          "clicks but no sales",
+          "no sales",
+          "no commission",
+          "no conversions",
+          "nobody buys",
+          "clicks no money",
+          "not converting",
+          "zero commission"
+        ],
+        "text": {
+          "affiliate_content": "Clicks without sales usually mean the reader was not ready to buy, or the product was not the right fit.\n\n1. Check whether the post matches buying intent or just curiosity.\n2. Make sure you recommend the right product for the right buyer, with honest cons.\n3. Check your links go to the exact product and that it is in stock.\n\nCommissions can lag behind clicks, so give it a few weeks before changing everything.\n\nNext step: open your tracking sheet and compare clicks on your top three posts."
+        },
+        "followUps": [
+          "How do I improve a post?",
+          "Should I change programs?",
+          "How do I build more trust?"
+        ]
+      },
+      {
+        "id": "afr-platform",
+        "keywords": [
+          "which platform",
+          "blog or",
+          "pinterest",
+          "youtube",
+          "tiktok",
+          "newsletter",
+          "short videos",
+          "where should i post"
+        ],
+        "text": {
+          "affiliate_content": "Pick the one platform you can publish on every week for months.\n\n1. Blog: slower to start, strong with search.\n2. Pinterest: visual and link-friendly.\n3. Short videos: fast reach, usually links in bio.\n4. YouTube: long shelf life for reviews.\n5. Newsletter: direct trust with readers.\n\nCheck each platform's link and affiliate rules before choosing.\n\nNext step: choose one and commit to it for 30 days."
+        },
+        "followUps": [
+          "Can I post on two platforms?",
+          "Which one is fastest?",
+          "How often should I post?"
+        ]
+      },
+      {
+        "id": "afr-amazon-vs-brand",
+        "keywords": [
+          "amazon",
+          "amazon associates",
+          "brand program",
+          "amazon or",
+          "commission rate",
+          "cookie",
+          "which pays more",
+          "direct program"
+        ],
+        "text": {
+          "affiliate_content": "Both can work, and many people use a mix.\n\n1. Big retailers like Amazon are familiar to buyers and cover many products, but rates are often low and cookies short.\n2. Brand programs may pay more per sale and offer longer cookies, but cover fewer products.\n3. Rules differ, so read each one's terms before linking.\n\nNext step: for your top three products, compare the retailer and brand program terms in your finder sheet."
+        },
+        "followUps": [
+          "What is a cookie length?",
+          "What should I check in the terms?",
+          "Which programs should I join?"
+        ]
+      },
+      {
+        "id": "afr-honesty",
+        "keywords": [
+          "honest",
+          "honesty",
+          "returns",
+          "refund",
+          "bad product",
+          "negative review",
+          "cons",
+          "would not buy"
+        ],
+        "text": {
+          "affiliate_content": "Honesty is what makes people trust your links.\n\n1. Only recommend things you would buy or have researched carefully.\n2. Always include real cons and who should skip the product.\n3. If a product disappoints you or readers report problems, update the post and say what changed.\n\nIf buyers return a product, the commission on it may be reversed. That is one more reason to recommend only what fits.\n\nNext step: add two honest cons to your latest review."
+        },
+        "followUps": [
+          "Can I review something I do not own?",
+          "How do I build trust?",
+          "What should I never do?"
+        ]
+      },
+      {
+        "id": "afr-without-owning",
+        "keywords": [
+          "do not own",
+          "don't own",
+          "without buying",
+          "never used",
+          "without owning",
+          "can't afford",
+          "research based",
+          "not tried"
+        ],
+        "text": {
+          "affiliate_content": "You can write about products you have not used, as long as you are transparent and do the research.\n\n1. Say clearly that you have not used it yourself.\n2. Lean on specs, manuals, official information and patterns in many owner reviews.\n3. Compare it with products you have used, if you can.\n\nNever pretend you tested something you did not. A research-based comparison can still be very helpful.\n\nNext step: write a comparison that mixes one product you own with two you researched."
+        },
+        "followUps": [
+          "How do I write a fair comparison?",
+          "What counts as real proof?",
+          "How do I build trust?"
+        ]
+      },
+      {
+        "id": "afr-traffic",
+        "keywords": [
+          "traffic",
+          "get views",
+          "more readers",
+          "visitors",
+          "get found",
+          "seo",
+          "grow",
+          "reach"
+        ],
+        "text": {
+          "affiliate_content": "Traffic for affiliate content mostly comes from being found when people search, plus steady posting.\n\n1. Build posts around buyer searches from autocomplete.\n2. Use clear titles with the words people type.\n3. Publish on a steady schedule and update posts that already get views.\n\nShare on your own channels, but never drop links in other people's comments or groups.\n\nNext step: add five new ideas to your Search Ideas Worksheet."
+        },
+        "followUps": [
+          "How often should I post?",
+          "Should I share in groups?",
+          "How do I improve an old post?"
+        ]
+      },
+      {
+        "id": "afr-email",
+        "keywords": [
+          "email list",
+          "newsletter",
+          "subscribers",
+          "mailing list",
+          "email",
+          "freebie",
+          "lead magnet",
+          "followers"
+        ],
+        "text": {
+          "affiliate_content": "An email list keeps readers even when platforms change.\n\n1. Start with the free plan of an email tool or your platform's subscribe feature.\n2. Offer a small freebie, such as a buying checklist.\n3. Send helpful emails first, then link to posts, and disclose any affiliate links.\n\nCheck that each program allows links in email before including them.\n\nNext step: open the Email List Starter and pick a freebie idea."
+        },
+        "followUps": [
+          "What should my first email say?",
+          "How often should I email?",
+          "Can I put affiliate links in emails?"
+        ]
+      },
+      {
+        "id": "afr-burnout",
+        "keywords": [
+          "burnout",
+          "tired",
+          "give up",
+          "quit",
+          "overwhelmed",
+          "no motivation",
+          "too slow",
+          "exhausted"
+        ],
+        "text": {
+          "affiliate_content": "Affiliate income usually grows slowly, so feeling tired or stuck is common.\n\n1. Shrink your schedule to the smallest output that still counts.\n2. Batch research, writing and publishing into separate sessions.\n3. Count what you built: posts, programs and updates, not only income.\n\nNext step: write your weekly minimum, such as one post and one update, and protect that time."
+        },
+        "followUps": [
+          "How do I batch my work?",
+          "What should I do today?",
+          "Is this normal?"
+        ]
+      },
+      {
+        "id": "afr-spam",
+        "keywords": [
+          "comments",
+          "groups",
+          "drop links",
+          "share links",
+          "spam",
+          "click my link",
+          "click trading",
+          "promote in groups"
+        ],
+        "text": {
+          "affiliate_content": "Dropping links in comments, groups or DMs usually gets them removed and can break program and platform rules.\n\n1. Share on your own profile, blog, list or page.\n2. In communities, answer questions fully and only link when it is welcome and allowed.\n3. Never ask people to click as a favour or trade clicks.\n\nNext step: reply helpfully to one question in your niche without a link."
+        },
+        "followUps": [
+          "How do I get traffic instead?",
+          "How do I build trust?",
+          "Where can I share my posts?"
+        ]
+      }
+    ],
+    "fallback": {
+      "id": "afr-fallback",
+      "keywords": [],
+      "text": {
+        "affiliate_content": "Good question. Tell me a bit more so I can be specific: your niche, which platform you use and what you are trying to improve.\n\nUntil then, the rule that fixes most early affiliate problems is simple: publish one more honest, helpful post with a clear disclosure. Steady publishing teaches more than a week of planning.\n\nNext step: open Today's Mission and finish the first task, then come back with details."
+      },
+      "followUps": [
+        "What should I do today?",
+        "What should I promote?",
+        "How do I get my first commission?"
+      ]
+    }
+  }
+}

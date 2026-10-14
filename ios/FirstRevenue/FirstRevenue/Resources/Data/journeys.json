@@ -723,46 +723,505 @@
     {
       "id": "affiliate_content",
       "version": 1,
-      "status": "coming_soon",
-      "label": "Affiliate content",
+      "status": "active",
+      "label": "Earn with affiliate content",
       "shortLabel": "Affiliate content",
-      "description": "Recommend products you use and earn a commission on sales.",
+      "description": "Publish honest reviews, comparisons and how-tos about products you use, and earn a commission when readers buy through your links.",
       "icon": "link",
       "hue": 35,
-      "track": null,
-      "planId": null,
-      "primaryAction": "",
-      "modules": [],
-      "metrics": [],
-      "achievementIds": [],
-      "monetizationStages": [],
+      "track": "affiliate_content",
+      "planId": "affiliate-content-30-day-v1",
+      "primaryAction": "Publish your next helpful post",
+      "modules": [
+        "programs",
+        "research",
+        "content",
+        "publishing",
+        "analytics",
+        "monetization"
+      ],
+      "metrics": [
+        "postsPublished",
+        "postsThisWeek",
+        "linkClicks",
+        "affiliateIncome",
+        "followers"
+      ],
+      "achievementIds": [
+        "first-step",
+        "three-day",
+        "seven-day",
+        "mission-master",
+        "lesson-lover",
+        "finisher"
+      ],
+      "monetizationStages": [
+        "joinPrograms",
+        "firstCommission",
+        "doubleDown",
+        "diversify"
+      ],
       "requiresProspects": false,
       "requiresDeals": false,
-      "goalOptions": [],
-      "checkinMetrics": [],
-      "quickActions": []
+      "goalOptions": [
+        {
+          "label": "Publish 10 helpful posts",
+          "metric": "postsPublished",
+          "target": 10
+        },
+        {
+          "label": "Get 100 link clicks",
+          "metric": "linkClicks",
+          "target": 100
+        },
+        {
+          "label": "Earn my first $10 in commissions",
+          "metric": "affiliateIncome",
+          "target": 10,
+          "money": true
+        },
+        {
+          "label": "Earn my first $100",
+          "metric": "affiliateIncome",
+          "target": 100,
+          "money": true
+        }
+      ],
+      "checkinMetrics": [
+        "postsThisWeek",
+        "linkClicks"
+      ],
+      "quickActions": [
+        "content",
+        "analytics",
+        "monetization",
+        "resources"
+      ],
+      "workspace": {
+        "title": "Your Content",
+        "navLabel": "Content",
+        "icon": "link",
+        "tabs": {
+          "content": "Posts",
+          "analytics": "Clicks",
+          "monetization": "Commissions"
+        },
+        "itemNoun": "post",
+        "itemNounPlural": "posts",
+        "addLabel": "Add a Post Idea",
+        "newItemTitle": "New post idea",
+        "titlePlaceholder": "e.g. Best budget blenders for smoothies",
+        "emptyTitle": "No post ideas yet",
+        "formats": [
+          "Review",
+          "Comparison",
+          "Best-of list",
+          "How-to"
+        ],
+        "stages": [
+          {
+            "stage": "idea",
+            "label": "Idea",
+            "icon": "lightbulb.fill",
+            "nextAction": "Research it"
+          },
+          {
+            "stage": "researched",
+            "label": "Researched",
+            "icon": "magnifyingglass",
+            "nextAction": "Draft it"
+          },
+          {
+            "stage": "drafted",
+            "label": "Drafted",
+            "icon": "doc.text.fill",
+            "nextAction": "Add links and disclosure"
+          },
+          {
+            "stage": "linked",
+            "label": "Links added",
+            "icon": "link",
+            "nextAction": "Publish it"
+          },
+          {
+            "stage": "published",
+            "label": "Published",
+            "icon": "checkmark.seal.fill",
+            "nextAction": "Track its clicks"
+          }
+        ],
+        "doneStage": "published",
+        "doneMetric": "postsPublished",
+        "weeklyMetric": "postsThisWeek",
+        "doneTitle": "Mark as published?",
+        "doneConfirm": "It's live with disclosed links",
+        "doneToast": "Published. Check its clicks in a few days.",
+        "doneNoticeFirst": "Your first post is live",
+        "doneNotice": "Post {n} is live",
+        "logSource": "your affiliate dashboards",
+        "logHint": "Open your affiliate dashboards and your platform's analytics, then copy the totals. Leave anything you can't find empty.",
+        "logMetrics": [
+          "linkClicks",
+          "followers"
+        ],
+        "guide": [
+          {
+            "icon": "cursorarrow.click.2",
+            "title": "Link clicks",
+            "body": "Few clicks means readers don't trust or don't notice the recommendation. Put your pick near the top and say why."
+          },
+          {
+            "icon": "cart.fill",
+            "title": "Clicks but no sales",
+            "body": "The product or price may not match the reader. Compare options for different budgets."
+          },
+          {
+            "icon": "person.3.fill",
+            "title": "Followers",
+            "body": "People who come back buy more. An email list or a following beats one-off visits."
+          }
+        ],
+        "incomeMetric": "affiliateIncome",
+        "incomeTitle": "Commissions",
+        "incomeHint": "Log commissions once they're approved or paid. The first one often comes from a comparison post.",
+        "incomeSources": [
+          "Amazon Associates",
+          "Brand program",
+          "Affiliate network",
+          "Other"
+        ],
+        "stagesTitle": "Your affiliate stage",
+        "headline": [
+          "postsPublished",
+          "affiliateIncome"
+        ],
+        "milestones": [
+          {
+            "title": "First Post Published",
+            "icon": "checkmark.seal.fill",
+            "metric": "postsPublished",
+            "target": 1
+          },
+          {
+            "title": "3 Posts in a Week",
+            "icon": "calendar.badge.clock",
+            "metric": "postsThisWeek",
+            "target": 3
+          },
+          {
+            "title": "10 Posts",
+            "icon": "square.stack.fill",
+            "metric": "postsPublished",
+            "target": 10
+          },
+          {
+            "title": "First 100 Clicks",
+            "icon": "cursorarrow.click.2",
+            "metric": "linkClicks",
+            "target": 100
+          },
+          {
+            "title": "First $10 in Commissions",
+            "icon": "dollarsign.circle.fill",
+            "metric": "affiliateIncome",
+            "target": 10,
+            "money": true
+          }
+        ],
+        "checkin": {
+          "title": "How many posts did you publish this week?",
+          "subtitle": "Prefilled from your content board.",
+          "label": "Posts this week",
+          "accomplishedHint": "e.g. Published my first comparison post with disclosed links",
+          "difficultHint": "e.g. Choosing which products to recommend",
+          "improveHint": "e.g. Put my top pick higher up",
+          "quickPicks": [
+            "Publish on schedule",
+            "Clearer recommendations",
+            "More comparison posts",
+            "Grow my email list",
+            "Join a brand program"
+          ]
+        },
+        "coachGate": "Get instant, practical answers about programs, honest reviews, disclosure, traffic and commissions, tailored to your niche.",
+        "sampleTitles": [
+          "Best {topic} picks for beginners",
+          "{Topic}: budget vs premium compared",
+          "My honest {topic} review after a month",
+          "How to choose your first {topic} gear",
+          "{Topic} tools I actually use"
+        ],
+        "sampleNumbers": [
+          {
+            "metric": "linkClicks",
+            "value": 34,
+            "daysAgo": 5
+          },
+          {
+            "metric": "followers",
+            "value": 20,
+            "daysAgo": 5
+          },
+          {
+            "metric": "linkClicks",
+            "value": 96,
+            "daysAgo": 1
+          },
+          {
+            "metric": "followers",
+            "value": 48,
+            "daysAgo": 1
+          }
+        ]
+      }
     },
     {
       "id": "creator_brand",
       "version": 1,
-      "status": "coming_soon",
-      "label": "Creator brand",
+      "status": "active",
+      "label": "Build your creator brand",
       "shortLabel": "Creator brand",
-      "description": "Grow a personal brand across social platforms and monetize your audience.",
+      "description": "Grow a personal brand on one platform around what you know, then earn your first money from small brand deals, UGC or paid shoutouts.",
       "icon": "person.crop.square.fill",
       "hue": 320,
-      "track": null,
-      "planId": null,
-      "primaryAction": "",
-      "modules": [],
-      "metrics": [],
-      "achievementIds": [],
-      "monetizationStages": [],
+      "track": "creator_brand",
+      "planId": "creator-brand-30-day-v1",
+      "primaryAction": "Post your next piece",
+      "modules": [
+        "brand",
+        "content",
+        "publishing",
+        "community",
+        "analytics",
+        "brandDeals"
+      ],
+      "metrics": [
+        "postsPublished",
+        "postsThisWeek",
+        "followers",
+        "engagementRate",
+        "brandIncome"
+      ],
+      "achievementIds": [
+        "first-step",
+        "three-day",
+        "seven-day",
+        "mission-master",
+        "lesson-lover",
+        "finisher"
+      ],
+      "monetizationStages": [
+        "findVoice",
+        "stayConsistent",
+        "buildCommunity",
+        "brandDeals"
+      ],
       "requiresProspects": false,
       "requiresDeals": false,
-      "goalOptions": [],
-      "checkinMetrics": [],
-      "quickActions": []
+      "goalOptions": [
+        {
+          "label": "Post 20 times this month",
+          "metric": "postsPublished",
+          "target": 20
+        },
+        {
+          "label": "Reach 500 followers",
+          "metric": "followers",
+          "target": 500
+        },
+        {
+          "label": "Reach 1,000 followers",
+          "metric": "followers",
+          "target": 1000
+        },
+        {
+          "label": "Earn my first $50 from a brand",
+          "metric": "brandIncome",
+          "target": 50,
+          "money": true
+        }
+      ],
+      "checkinMetrics": [
+        "postsThisWeek",
+        "followers"
+      ],
+      "quickActions": [
+        "content",
+        "analytics",
+        "monetization",
+        "resources"
+      ],
+      "workspace": {
+        "title": "Your Brand",
+        "navLabel": "Brand",
+        "icon": "person.crop.square.fill",
+        "tabs": {
+          "content": "Posts",
+          "analytics": "Growth",
+          "monetization": "Brand deals"
+        },
+        "itemNoun": "post",
+        "itemNounPlural": "posts",
+        "addLabel": "Add a Post Idea",
+        "newItemTitle": "New post idea",
+        "titlePlaceholder": "e.g. 3 things I wish I knew before…",
+        "emptyTitle": "No post ideas yet",
+        "formats": [
+          "Video",
+          "Carousel",
+          "Photo",
+          "Text post"
+        ],
+        "stages": [
+          {
+            "stage": "idea",
+            "label": "Idea",
+            "icon": "lightbulb.fill",
+            "nextAction": "Write the hook"
+          },
+          {
+            "stage": "hooked",
+            "label": "Hook written",
+            "icon": "text.bubble.fill",
+            "nextAction": "Create it"
+          },
+          {
+            "stage": "created",
+            "label": "Created",
+            "icon": "camera.fill",
+            "nextAction": "Post it"
+          },
+          {
+            "stage": "posted",
+            "label": "Posted",
+            "icon": "checkmark.seal.fill",
+            "nextAction": "Reply to comments"
+          }
+        ],
+        "doneStage": "posted",
+        "doneMetric": "postsPublished",
+        "weeklyMetric": "postsThisWeek",
+        "doneTitle": "Mark as posted?",
+        "doneConfirm": "It's live",
+        "doneToast": "Posted. Reply to every comment in the first hour.",
+        "doneNoticeFirst": "Your first post is live",
+        "doneNotice": "Post {n} is live",
+        "logSource": "your platform's insights",
+        "logHint": "Open your platform's insights or analytics and copy your follower count and engagement rate. Leave anything you can't find empty.",
+        "logMetrics": [
+          "followers",
+          "engagementRate"
+        ],
+        "guide": [
+          {
+            "icon": "person.3.fill",
+            "title": "Followers",
+            "body": "Growth comes in bursts. Look at which posts brought people in and make more like them."
+          },
+          {
+            "icon": "heart.fill",
+            "title": "Engagement rate",
+            "body": "Saves, shares and comments matter more than likes. Strong hooks and clear takeaways raise it."
+          },
+          {
+            "icon": "calendar",
+            "title": "Consistency",
+            "body": "A steady schedule you can keep beats bursts of posting followed by silence."
+          }
+        ],
+        "incomeMetric": "brandIncome",
+        "incomeTitle": "Brand income",
+        "incomeHint": "Log money from brand deals, UGC gigs or paid shoutouts once it's paid. Always disclose paid posts.",
+        "incomeSources": [
+          "Brand deal",
+          "UGC gig",
+          "Paid shoutout",
+          "Other"
+        ],
+        "stagesTitle": "Your creator stage",
+        "headline": [
+          "postsPublished",
+          "followers"
+        ],
+        "milestones": [
+          {
+            "title": "First Post",
+            "icon": "checkmark.seal.fill",
+            "metric": "postsPublished",
+            "target": 1
+          },
+          {
+            "title": "5 Posts in a Week",
+            "icon": "calendar.badge.clock",
+            "metric": "postsThisWeek",
+            "target": 5
+          },
+          {
+            "title": "20 Posts",
+            "icon": "square.stack.fill",
+            "metric": "postsPublished",
+            "target": 20
+          },
+          {
+            "title": "First 500 Followers",
+            "icon": "person.3.fill",
+            "metric": "followers",
+            "target": 500
+          },
+          {
+            "title": "First $50 from Brands",
+            "icon": "dollarsign.circle.fill",
+            "metric": "brandIncome",
+            "target": 50,
+            "money": true
+          }
+        ],
+        "checkin": {
+          "title": "How many times did you post this week?",
+          "subtitle": "Prefilled from your content board.",
+          "label": "Posts this week",
+          "accomplishedHint": "e.g. Posted five times and replied to every comment",
+          "difficultHint": "e.g. Running out of ideas",
+          "improveHint": "e.g. Stronger first line",
+          "quickPicks": [
+            "Post on schedule",
+            "Stronger hooks",
+            "Reply to every comment",
+            "Collab with a peer",
+            "Build my media kit"
+          ]
+        },
+        "coachGate": "Get instant, practical answers about content, hooks, growth, brand deals and pricing, tailored to your niche.",
+        "sampleTitles": [
+          "3 {topic} mistakes I made so you don't",
+          "My {topic} routine, start to finish",
+          "{Topic} myths, debunked",
+          "What I'd tell a {topic} beginner",
+          "A day of {topic}, behind the scenes"
+        ],
+        "sampleNumbers": [
+          {
+            "metric": "followers",
+            "value": 120,
+            "daysAgo": 5
+          },
+          {
+            "metric": "engagementRate",
+            "value": 3.2,
+            "daysAgo": 5
+          },
+          {
+            "metric": "followers",
+            "value": 210,
+            "daysAgo": 1
+          },
+          {
+            "metric": "engagementRate",
+            "value": 4.6,
+            "daysAgo": 1
+          }
+        ]
+      }
     }
   ],
   "metrics": {
@@ -921,6 +1380,56 @@
       "kind": "latest",
       "format": "number",
       "hint": "Log your email list size"
+    },
+    "postsPublished": {
+      "label": "Posts published",
+      "icon": "checkmark.seal.fill",
+      "kind": "count",
+      "format": "number",
+      "hint": "Publish a post from your board"
+    },
+    "postsThisWeek": {
+      "label": "Posts this week",
+      "icon": "calendar.badge.clock",
+      "kind": "weekly",
+      "format": "number",
+      "hint": "Posts in the last 7 days",
+      "of": "postsPublished"
+    },
+    "linkClicks": {
+      "label": "Link clicks",
+      "icon": "cursorarrow.click.2",
+      "kind": "latest",
+      "format": "number",
+      "hint": "Log clicks from your affiliate dashboards"
+    },
+    "affiliateIncome": {
+      "label": "Commissions",
+      "icon": "dollarsign.circle.fill",
+      "kind": "sum",
+      "format": "money",
+      "hint": "Log approved commissions"
+    },
+    "followers": {
+      "label": "Followers",
+      "icon": "person.3.fill",
+      "kind": "latest",
+      "format": "number",
+      "hint": "Log your follower count"
+    },
+    "engagementRate": {
+      "label": "Engagement rate",
+      "icon": "heart.fill",
+      "kind": "latest",
+      "format": "percent",
+      "hint": "Log your engagement rate from insights"
+    },
+    "brandIncome": {
+      "label": "Brand income",
+      "icon": "dollarsign.circle.fill",
+      "kind": "sum",
+      "format": "money",
+      "hint": "Log brand deals, UGC and shoutouts"
     }
   },
   "monetization": [
@@ -1034,6 +1543,115 @@
         "Add a bundle or a bigger version",
         "Turn reviews into social proof",
         "Send your list something useful every week"
+      ]
+    },
+    {
+      "id": "joinPrograms",
+      "title": "Join the right programs",
+      "summary": "Pick programs for products your audience already buys, and learn each one's rules before posting links.",
+      "readyWhen": [
+        "You know the 5 products your niche buys most",
+        "You've read each program's link and disclosure rules"
+      ],
+      "actions": [
+        "Apply to one big program and one brand program",
+        "Note commission rates and cookie windows",
+        "Add a clear disclosure template to every post"
+      ]
+    },
+    {
+      "id": "firstCommission",
+      "title": "First commission",
+      "summary": "Your first commission usually comes from a comparison or 'best for' post that answers a buying question.",
+      "readyWhen": [
+        "You have 5+ published posts with links",
+        "Some posts get clicks"
+      ],
+      "actions": [
+        "Write one comparison post per week",
+        "Put your top pick near the top",
+        "Check which links get clicks"
+      ]
+    },
+    {
+      "id": "doubleDown",
+      "title": "Double down",
+      "summary": "Find the posts that earn and make more like them.",
+      "readyWhen": [
+        "One post earns more than the rest",
+        "You know which products convert"
+      ],
+      "actions": [
+        "Update winning posts every month",
+        "Write related posts that link to them",
+        "Ask brands for a higher rate once you send sales"
+      ]
+    },
+    {
+      "id": "diversify",
+      "title": "Diversify",
+      "summary": "Don't depend on one program. Add brand partnerships, an email list and your own small product.",
+      "readyWhen": [
+        "Commissions come in every month"
+      ],
+      "actions": [
+        "Join a second network",
+        "Grow an email list of recommendations",
+        "Test a small product of your own"
+      ]
+    },
+    {
+      "id": "findVoice",
+      "title": "Find your voice",
+      "summary": "Know who you post for and what they get from you. Three content pillars keep you focused.",
+      "readyWhen": [
+        "You can describe your audience in one sentence",
+        "You have three pillars"
+      ],
+      "actions": [
+        "Write your brand statement",
+        "Pick three pillars",
+        "Study 10 creators in your niche"
+      ]
+    },
+    {
+      "id": "stayConsistent",
+      "title": "Stay consistent",
+      "summary": "Growth follows a schedule you can keep. Batch ideas and repurpose one idea into several posts.",
+      "readyWhen": [
+        "You've posted on schedule for 2 weeks"
+      ],
+      "actions": [
+        "Plan a 2-week calendar",
+        "Batch-create on one day",
+        "Repurpose your best post"
+      ]
+    },
+    {
+      "id": "buildCommunity",
+      "title": "Build community",
+      "summary": "Followers become a community when you talk with them. Brands notice engaged audiences, not just big ones.",
+      "readyWhen": [
+        "People comment and share regularly"
+      ],
+      "actions": [
+        "Reply to every comment",
+        "Collaborate with a peer",
+        "Ask your audience what they want next"
+      ]
+    },
+    {
+      "id": "brandDeals",
+      "title": "Brand deals",
+      "summary": "Small brands pay for honest content and UGC. A media kit and a clear rate make you easy to say yes to.",
+      "readyWhen": [
+        "You have a media kit",
+        "Your engagement is steady"
+      ],
+      "actions": [
+        "Make a one-page media kit",
+        "Pitch 5 small brands you already use",
+        "Always disclose paid posts with #ad or the platform's tools"
       ]
     }
   ],
@@ -1711,6 +2329,16 @@
           "title": "What could you help people with?",
           "subtitle": "A topic you know well, even a little. Pick one below or type your own.",
           "placeholder": "e.g. meal planning for busy parents"
+        },
+        "affiliate_content": {
+          "title": "What kind of products could you recommend?",
+          "subtitle": "Things you use, love or know a lot about. Pick one below or type your own.",
+          "placeholder": "e.g. home coffee gear"
+        },
+        "creator_brand": {
+          "title": "What do you want to be known for?",
+          "subtitle": "The topic people will follow you for. Pick one below or type your own.",
+          "placeholder": "e.g. budget travel in Europe"
         }
       }
     },
@@ -1886,7 +2514,8 @@
       "required": true,
       "mascotLine": "Comfort matters more than gear.",
       "methods": [
-        "youtube_owned_channel"
+        "youtube_owned_channel",
+        "creator_brand"
       ],
       "summary": "On camera"
     },
@@ -2231,6 +2860,237 @@
       "summary": "Audience"
     },
     {
+      "key": "affiliateStatus",
+      "icon": "link",
+      "title": "Have you tried affiliate links before?",
+      "subtitle": "Any experience counts.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "Not yet",
+          "icon": "sparkles",
+          "hint": "We'll start from scratch together",
+          "stage": "idea"
+        },
+        {
+          "value": "posting",
+          "label": "I post, but no links yet",
+          "icon": "doc.text.fill",
+          "hint": "Content first — nice",
+          "stage": "started"
+        },
+        {
+          "value": "some",
+          "label": "I've earned a little",
+          "icon": "dollarsign.circle",
+          "hint": "A few commissions so far",
+          "stage": "some_traction"
+        },
+        {
+          "value": "regular",
+          "label": "I earn commissions regularly",
+          "icon": "dollarsign.circle.fill",
+          "hint": "Ready to grow it",
+          "stage": "already_earning"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Honest recommendations win.",
+      "methods": [
+        "affiliate_content"
+      ],
+      "summary": "Experience"
+    },
+    {
+      "key": "affiliatePlatform",
+      "icon": "square.stack.fill",
+      "title": "Where would you like to share recommendations?",
+      "subtitle": "Pick one to start. You can add more later.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "blog",
+          "label": "A blog",
+          "icon": "doc.text.fill",
+          "hint": "Great for search traffic",
+          "planNote": "Blog first: write posts that answer 'best X for Y' searches."
+        },
+        {
+          "value": "pinterest",
+          "label": "Pinterest",
+          "icon": "pin.fill",
+          "hint": "Pins that lead to your posts",
+          "planNote": "Pinterest first: make 3–5 pins for every post you publish."
+        },
+        {
+          "value": "shortvideo",
+          "label": "Short videos",
+          "icon": "play.rectangle.fill",
+          "hint": "TikTok, Reels or Shorts",
+          "planNote": "Short videos first: put links in your bio or link page, and disclose in every caption."
+        },
+        {
+          "value": "youtube",
+          "label": "YouTube reviews",
+          "icon": "play.tv.fill",
+          "hint": "Longer reviews and comparisons",
+          "planNote": "YouTube first: comparison videos with links in the description."
+        },
+        {
+          "value": "newsletter",
+          "label": "A newsletter",
+          "icon": "envelope.fill",
+          "hint": "Recommendations by email",
+          "planNote": "Newsletter first: share one useful pick per email."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "One platform done well beats five done badly.",
+      "methods": [
+        "affiliate_content"
+      ],
+      "summary": "Platform"
+    },
+    {
+      "key": "creatorStatus",
+      "icon": "person.crop.square.fill",
+      "title": "Where's your account at right now?",
+      "subtitle": "No judgement — everyone starts at zero.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "I haven't started",
+          "icon": "sparkles",
+          "hint": "We'll set it up together",
+          "stage": "idea"
+        },
+        {
+          "value": "occasional",
+          "label": "I post now and then",
+          "icon": "calendar",
+          "hint": "Ready to be consistent",
+          "stage": "started"
+        },
+        {
+          "value": "growing",
+          "label": "I'm growing",
+          "icon": "chart.line.uptrend.xyaxis",
+          "hint": "Followers are coming in",
+          "stage": "some_traction"
+        },
+        {
+          "value": "earning",
+          "label": "I've had brand deals",
+          "icon": "dollarsign.circle.fill",
+          "hint": "Ready for more",
+          "stage": "already_earning"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Every creator started with zero followers.",
+      "methods": [
+        "creator_brand"
+      ],
+      "summary": "Account"
+    },
+    {
+      "key": "creatorPlatform",
+      "icon": "square.stack.fill",
+      "title": "Which platform feels most like you?",
+      "subtitle": "Pick your main one. We'll focus there first.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "instagram",
+          "label": "Instagram",
+          "icon": "camera.fill",
+          "hint": null
+        },
+        {
+          "value": "tiktok",
+          "label": "TikTok",
+          "icon": "play.rectangle.fill",
+          "hint": null
+        },
+        {
+          "value": "linkedin",
+          "label": "LinkedIn",
+          "icon": "briefcase.fill",
+          "hint": null,
+          "planNote": "LinkedIn first: text posts and carousels about your work and lessons learned."
+        },
+        {
+          "value": "x",
+          "label": "X",
+          "icon": "text.bubble.fill",
+          "hint": null,
+          "planNote": "X first: short, frequent posts and threads."
+        },
+        {
+          "value": "shorts",
+          "label": "YouTube Shorts",
+          "icon": "play.tv.fill",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Pick the one you already enjoy scrolling.",
+      "methods": [
+        "creator_brand"
+      ],
+      "summary": "Platform"
+    },
+    {
+      "key": "contentStyle",
+      "icon": "sparkles",
+      "title": "What kind of posts sound most like you?",
+      "subtitle": "Go with your gut. You can mix later.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "teach",
+          "label": "Teaching",
+          "icon": "lightbulb.fill",
+          "hint": "Tips, how-tos, lessons",
+          "planNote": "Teaching style: every post should leave people with one useful takeaway."
+        },
+        {
+          "value": "entertain",
+          "label": "Entertaining",
+          "icon": "face.smiling",
+          "hint": "Funny, relatable, trends",
+          "planNote": "Entertaining style: lean on trends and relatable moments, tied back to your topic."
+        },
+        {
+          "value": "story",
+          "label": "Personal stories",
+          "icon": "book.fill",
+          "hint": "Your journey and experiences",
+          "planNote": "Story style: share what happened, what you learned, and what's next."
+        },
+        {
+          "value": "bts",
+          "label": "Behind the scenes",
+          "icon": "camera.aperture",
+          "hint": "Show your process",
+          "planNote": "Behind-the-scenes style: show the work, not just the result."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Your personality is your edge.",
+      "methods": [
+        "creator_brand"
+      ],
+      "summary": "Style"
+    },
+    {
       "key": "weeklyTime",
       "icon": "clock.fill",
       "title": "How much time can you set aside each week?",
@@ -2563,6 +3423,98 @@
               "hint": null
             }
           ]
+        },
+        "affiliate_content": {
+          "options": [
+            {
+              "value": "Writing",
+              "label": "Writing",
+              "icon": "pencil",
+              "hint": null
+            },
+            {
+              "value": "Research",
+              "label": "Research",
+              "icon": "magnifyingglass",
+              "hint": null
+            },
+            {
+              "value": "Photography",
+              "label": "Photography",
+              "icon": "camera.fill",
+              "hint": null
+            },
+            {
+              "value": "Video editing",
+              "label": "Video editing",
+              "icon": "film.fill",
+              "hint": null
+            },
+            {
+              "value": "Social media",
+              "label": "Social media",
+              "icon": "bubble.left.and.bubble.right.fill",
+              "hint": null
+            },
+            {
+              "value": "Marketing",
+              "label": "Marketing",
+              "icon": "megaphone.fill",
+              "hint": null
+            },
+            {
+              "value": "None yet",
+              "label": "Nothing yet, I'm new",
+              "icon": "sparkles",
+              "hint": null
+            }
+          ]
+        },
+        "creator_brand": {
+          "options": [
+            {
+              "value": "Speaking on camera",
+              "label": "Speaking on camera",
+              "icon": "person.wave.2.fill",
+              "hint": null
+            },
+            {
+              "value": "Video editing",
+              "label": "Video editing",
+              "icon": "film.fill",
+              "hint": null
+            },
+            {
+              "value": "Photography",
+              "label": "Photography",
+              "icon": "camera.fill",
+              "hint": null
+            },
+            {
+              "value": "Writing",
+              "label": "Writing",
+              "icon": "pencil",
+              "hint": null
+            },
+            {
+              "value": "Graphic design",
+              "label": "Graphic design",
+              "icon": "paintbrush.fill",
+              "hint": null
+            },
+            {
+              "value": "Social media",
+              "label": "Social media",
+              "icon": "bubble.left.and.bubble.right.fill",
+              "hint": null
+            },
+            {
+              "value": "None yet",
+              "label": "Nothing yet, I'm new",
+              "icon": "sparkles",
+              "hint": null
+            }
+          ]
         }
       }
     },
@@ -2615,7 +3567,8 @@
       "mascotLine": "Gear never made anyone consistent.",
       "methods": [
         "youtube_owned_channel",
-        "digital_products"
+        "digital_products",
+        "creator_brand"
       ]
     },
     {
