@@ -31,7 +31,7 @@ struct SplashView: View {
                 }
                 .padding(.top, 32)
                 .opacity(appeared ? 1 : 0).offset(y: appeared ? 0 : 12)
-                Text("Your first client starts here.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 10)
+                Text("Your first online income starts here.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 10)
                     .opacity(appeared ? 1 : 0)
                 ProgressBar(value: progress, height: 4, label: "Loading Vaulten").frame(width: 160).padding(.top, 40).opacity(appeared ? 1 : 0)
             }
@@ -124,7 +124,7 @@ private struct AuthScaffold<Content: View, Footer: View>: View {
 
 struct WelcomeView: View {
     @Binding var path: [AuthRoute]
-    private let points = [("calendar.badge.checkmark", "One clear mission every day"), ("sparkles", "An AI coach for every question"), ("text.bubble", "Outreach written with you")]
+    private let points = [("calendar.badge.checkmark", "One clear mission every day"), ("sparkles", "An AI coach for every question"), ("map.fill", "A plan made for how you want to earn")]
 
     var body: some View {
         AuthScaffold {
@@ -138,7 +138,7 @@ struct WelcomeView: View {
                     .padding(.top, 64)
                 (Text("Earn your first ").foregroundStyle(Theme.ink) + Text("money online.").foregroundStyle(Theme.textGradient))
                     .font(.system(size: 38, weight: .heavy)).multilineTextAlignment(.center).padding(.top, Space.xl)
-                Text("No experience required. Pick a path. Follow the plan. Take action every day.")
+                Text("No experience required. Tell us how you want to earn, follow your plan, and take one step every day.")
                     .font(.body).foregroundStyle(Theme.muted).multilineTextAlignment(.center).padding(.top, Space.m)
                 VStack(spacing: 10) {
                     ForEach(Array(points.enumerated()), id: \.offset) { i, p in
@@ -255,7 +255,7 @@ private struct FormErrorBanner: View {
     }
 }
 
-/// The offline demo (Alex on Day 7) stays one tap away for showing the app without an account.
+/// The offline demo stays one tap away: it runs onboarding, then shows Day 7 of the journey picked.
 private struct DemoButton: View {
     var disabled = false
     @Environment(AppStore.self) private var store
@@ -268,7 +268,7 @@ private struct DemoButton: View {
             }
             Button { Haptics.tap(); store.startDemo() } label: { Label("Try the Demo", systemImage: "play.circle") }
                 .buttonStyle(.fr(.secondary, size: .lg, full: true)).disabled(disabled)
-            Text("Explore with a sample account on Day 7. Nothing is saved to the server.")
+            Text("Answer a few questions, then explore your journey on Day 7 with sample progress. Nothing is saved to the server.")
                 .font(.footnote).foregroundStyle(Theme.faint).multilineTextAlignment(.center)
         }
     }

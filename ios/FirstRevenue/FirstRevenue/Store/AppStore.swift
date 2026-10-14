@@ -40,6 +40,8 @@ struct Snapshot: Codable {
     var pathId: PathID = .clipping
     /// Nil until onboarding finishes (and in saves from before journeys, which `migrate` fills in).
     var journey: JourneyState?
+    /// The offline demo: onboarding runs as usual, then sample progress is filled in for the chosen journey.
+    var isDemo: Bool?
     var subscription = Subscription()
     var progress: [PathID: PathProgress] = [.clipping: .init(), .gbp: .init()]
     var tasks: [String: TaskState] = [:]
@@ -147,37 +149,6 @@ final class AppStore {
         return Snapshot(user: user)
     }
 
-    /// Alex Carter on Day 7 — the returning-user demo account.
-    static func demo() -> Snapshot {
-        var s = fresh()
-        let d = MockData.shared
-        s.authed = true
-        s.onboarded = true
-        s.user = d.user
-        s.answers = d.answers
-        s.pathId = .clipping
-        s.subscription = Subscription(status: .active, plan: "yearly", renews: Date.daysFromNow(359))
-        s.progress = [.clipping: PathProgress(currentDay: 7, completedDays: [1, 2, 3, 4, 5, 6]), .gbp: PathProgress()]
-        for day in 1...6 { for t in MockData.day(.clipping, day)?.tasks ?? [] { s.tasks[t.id] = .done } }
-        for t in (MockData.day(.clipping, 7)?.tasks ?? []).prefix(3) { s.tasks[t.id] = .done }
-        s.completedLessons = ["clip-01", "clip-02", "clip-03", "clip-04", "clip-05", "gen-01"]
-        s.savedLessons = ["clip-04", "gen-02"]
-        s.recentLessons = ["clip-06", "clip-05", "gen-01"]
-        s.savedResources = ["res-cold-outreach", "res-pricing-calculator"]
-        s.xp = 650
-        s.streak = 6
-        s.longestStreak = 6
-        s.activeDays = (1...6).map { Date.daysAgo($0).dayKey }
-        s.prospects = d.prospects.filter { $0.path == .clipping }
-        s.deals = d.deals
-        s.notifications = d.notifications
-        s.conversations = d.coach.conversations
-        s.recentSearches = ["outreach template", "pricing", "follow-up"]
-        let answers = JourneyAnswers(earningMethod: .youtubeServices, youtubeMode: "services", niche: "Fitness YouTubers", startingStage: .idea, weeklyTime: "5-10 hours", budget: "Under $50", skills: d.user.skills, equipment: ["Smartphone", "Computer"], goal: "$500")
-        s.journey = JourneyState(activeId: .youtubeServices, enrollments: [.youtubeServices: enrollment(.youtubeServices, answers: answers, startedAt: Date.daysAgo(6))])
-        return s
-    }
-
     /// Saves from before journeys only knew a service path: map it to its service journey, keeping all progress.
     static func migrate(_ s: inout Snapshot) {
         guard s.onboarded, s.journey == nil else { return }
@@ -257,8 +228,13 @@ final class AppStore {
     // MARK: Auth
 
     /// Offline demo: Alex Carter on Day 7, no account.
+    /// The demo asks the same onboarding questions as a real account, so it shows the journey the visitor
+    /// picks (own channel, creator services, freelance) instead of one fixed sample account.
     func startDemo() {
-        s = AppStore.demo()
+        var snap = AppStore.fresh()
+        snap.authed = true
+        snap.isDemo = true
+        s = snap
         tab = .home; paths = [:]
         Monitoring.track("demo_started")
     }
@@ -327,7 +303,11 @@ final class AppStore {
         s.user.time = a.weeklyTime
         s.user.goal = e.goal.label
         if e.goal.metric == .revenue { s.user.goalAmount = e.goal.target }
-        notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
+        if s.isDemo == true {
+            seedDemo()
+        } else {
+            notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
+        }
         tab = .home; paths = [:]
         Monitoring.track("onboarding_completed", ["journey": a.earningMethod.rawValue, "starting_stage": e.startingStage.rawValue, "niche_source": e.niche.source.rawValue, "weekly_time": a.weeklyTime, "goal": e.goal.label])
     }
@@ -671,9 +651,68 @@ final class AppStore {
         s.activeDays = (0..<(target - 1)).map { Date.daysAgo($0 + 1).dayKey }
     }
 
+    /// Rebuilds the demo for the journey the visitor is on, or reruns onboarding if there is none.
     func resetDemo() {
-        s = AppStore.demo()
-        tab = .home; paths = [:]; cover = nil
+        let answers = enrollment?.answers
+        let name = s.answers.name
+        startDemo()
+        s.answers.name = name
+        if let answers { startJourney(answers) }
+        cover = nil
+    }
+
+    /// Day 7 of the chosen journey with believable sample data, so every journey's screens have something in them.
+    private func seedDemo() {
+        guard let track = journey.track else { return }
+        let d = MockData.shared
+        let plan = MockData.plan(track)
+        s.user.email = d.user.email
+        s.subscription = Subscription(status: .active, plan: "yearly", renews: Date.daysFromNow(359))
+        s.progress[track] = PathProgress(currentDay: 7, completedDays: Array(1...6))
+        for day in 1...6 { for t in MockData.day(track, day)?.tasks ?? [] { s.tasks[t.id] = .done } }
+        for t in (MockData.day(track, 7)?.tasks ?? []).prefix(3) { s.tasks[t.id] = .done }
+        s.completedLessons = plan.prefix(5).map(\.lessonId)
+        s.recentLessons = Array(plan.prefix(6).map(\.lessonId).reversed().prefix(3))
+        s.xp = 650
+        s.streak = 6
+        s.longestStreak = 6
+        s.activeDays = (1...6).map { Date.daysAgo($0).dayKey }
+        let version = niche?.version ?? 1
+        updateEnrollment { e in for day in 1...6 { e.completedDayNiche[day] = version } }
+
+        if journey.sellsServices {
+            s.prospects = d.prospects.filter { $0.path == track }
+            s.deals = d.deals.filter { $0.path == track }
+            if track == .clipping {
+                s.notifications = d.notifications
+                s.conversations = d.coach.conversations
+                s.recentSearches = ["outreach template", "pricing", "follow-up"]
+            }
+            return
+        }
+
+        // Own channel: three published videos, two in progress, and a week of YouTube Studio numbers.
+        let topic = niche?.normalizedLabel.lowercased() ?? "your topic"
+        let format = enrollment?.answers.answer("videoFormat") == "shorts" ? "Short" : "Long-form"
+        let items: [(String, ContentStage, Int)] = [
+            ("5 beginner mistakes in \(topic)", .published, 6),
+            ("\(topic.prefix(1).uppercased() + topic.dropFirst()) for complete beginners", .published, 4),
+            ("What I wish I knew about \(topic)", .published, 1),
+            ("Your top \(topic) questions, answered", .edited, 0),
+            ("The \(topic) tools I actually use", .idea, 0),
+        ]
+        updateEnrollment { e in
+            for (title, stage, daysAgo) in items {
+                let id = UID.make("v")
+                let published = stage == .published ? Date.daysAgo(daysAgo) : nil
+                e.contentItems.append(ContentItem(id: id, title: title, format: format, stage: stage, notes: "", link: "", createdAt: Date.daysAgo(daysAgo + 2), publishedAt: published))
+                if let published { e.metricEvents.append(MetricEvent(id: UID.make("me"), key: .videosPublished, value: 1, date: published, refId: id)) }
+            }
+            let studio: [(StatMetric, Double, Int)] = [(.subscribers, 18, 5), (.watchTime, 140, 5), (.subscribers, 42, 1), (.watchTime, 310, 1), (.clickThroughRate, 4.1, 1), (.returningViewers, 12, 1)]
+            e.metricEvents += studio.map { MetricEvent(id: UID.make("me"), key: $0.0, value: $0.1, date: Date.daysAgo($0.2)) }
+        }
+        notify("play.rectangle.fill", "Video 3 is live", "“What I wish I knew about \(topic)” is published. Check its click-through rate in 48 hours.", "/channel/analytics")
+        notify("person.3.fill", "42 subscribers", "You've more than doubled since last week. Keep your upload schedule.", "/channel/analytics")
     }
 
     private func event(_ kind: String, _ text: String) -> ContactEvent { ContactEvent(id: UID.make("e"), kind: kind, text: text, date: Date()) }

@@ -205,8 +205,8 @@ struct SettingsView: View {
         switch d {
         case .subState: "Switch states to preview the paywall, manage and expired screens."
         case .jump: "Earlier days are marked complete so the plan looks realistic."
-        case .jump30: "Days 1–29 will be marked complete on your current path. You can undo this with Reset demo data."
-        case .reset: "This replaces everything with the original demo account (Alex Carter, Day 7). Anything you added will be lost."
+        case .jump30: "Days 1–29 will be marked complete on your current journey. You can undo this with Reset demo data."
+        case .reset: "This puts your journey back to the sample Day 7. Anything you added will be lost."
         }
     }
 
@@ -228,7 +228,7 @@ struct SettingsView: View {
         case .reset:
             Button("Reset everything", role: .destructive) {
                 store.resetDemo()
-                store.showToast("Demo data reset — welcome back, Alex")
+                store.showToast("Demo data reset")
             }
             Button("Cancel", role: .cancel) {}
         }
