@@ -133,7 +133,11 @@ struct OnboardingFlow: View {
         .scrollDismissesKeyboard(.interactively)
     }
 
-    private var title: String { step.title }
+    /// "{name}" in catalog copy becomes the user's first name ("Nice to meet you, {name}!" → "Nice to meet you!" without one).
+    private var title: String {
+        let name = store.s.answers.name.trimmingCharacters(in: .whitespaces)
+        return name.isEmpty ? step.title.replacingOccurrences(of: ", {name}", with: "") : step.title.replacingOccurrences(of: "{name}", with: name)
+    }
     private var subtitle: String {
         key == "nicheDetail" ? "“\(answers.niche)” is broad. \(step.subtitle)" : step.subtitle
     }

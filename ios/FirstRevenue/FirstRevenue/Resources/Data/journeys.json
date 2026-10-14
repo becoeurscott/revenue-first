@@ -1094,85 +1094,85 @@
     {
       "key": "name",
       "icon": "hand.wave.fill",
-      "title": "What should we call you?",
-      "subtitle": "Just your first name is fine.",
+      "title": "First things first — what's your name?",
+      "subtitle": "Just your first name. It's how I'll cheer you on.",
       "kind": "text",
       "options": null,
       "placeholder": "Your first name",
       "required": true,
-      "mascotLine": "Hi! I'm Penny. Let's set up your journey."
+      "mascotLine": "Hey! I'm Penny. I'll be with you every step."
     },
     {
       "key": "earningMethod",
       "icon": "arrow.triangle.branch",
-      "title": "How do you want to make money?",
-      "subtitle": "This shapes your whole plan. You can add another method later.",
+      "title": "Nice to meet you, {name}! How would you like to earn?",
+      "subtitle": "Pick the one that excites you most. You can always add another later.",
       "kind": "single",
       "options": [
         {
           "value": "youtube",
           "label": "YouTube",
           "icon": "play.rectangle.fill",
-          "hint": "Your own channel, or services for creators"
+          "hint": "Grow your own channel, or help creators grow theirs"
         },
         {
           "value": "freelance_services",
           "label": "Freelance services",
           "icon": "briefcase.fill",
-          "hint": "Paid work for businesses"
+          "hint": "Get paid to help businesses"
         },
         {
           "value": "digital_products",
           "label": "Digital products",
           "icon": "doc.richtext.fill",
-          "hint": "Templates, guides or small courses"
+          "hint": "Sell templates, guides or mini-courses"
         },
         {
           "value": "affiliate_content",
           "label": "Affiliate content",
           "icon": "link",
-          "hint": "Recommend products for a commission"
+          "hint": "Earn by recommending things you love"
         },
         {
           "value": "creator_brand",
           "label": "Creator brand",
           "icon": "person.crop.square.fill",
-          "hint": "Grow a personal brand on social"
+          "hint": "Build a following around you"
         },
         {
           "value": "unknown",
-          "label": "I'm not sure yet",
+          "label": "Not sure yet",
           "icon": "questionmark.circle.fill",
-          "hint": "We'll show you what you can start today"
+          "hint": "That's okay — I'll show you what you can start today"
         }
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "There's no wrong answer here."
+      "mascotLine": "No wrong answers here, promise."
     },
     {
       "key": "youtubeMode",
       "icon": "play.rectangle.fill",
-      "title": "Do you want to grow your own channel, or provide services to YouTube creators?",
-      "subtitle": "They are different journeys: one builds your audience, the other finds paying creators.",
+      "title": "YouTube, great pick! Which sounds more like you?",
+      "subtitle": "Both can work. One builds your own audience, the other helps creators who'll pay you.",
       "kind": "single",
       "options": [
         {
           "value": "own_channel",
-          "label": "Grow my own channel",
+          "label": "I want my own channel",
           "icon": "person.crop.rectangle.fill",
-          "hint": "Publish videos, build an audience, monetize over time"
+          "hint": "Make videos, build an audience, earn over time"
         },
         {
           "value": "services",
-          "label": "Provide services to creators",
+          "label": "I want to help creators",
           "icon": "scissors",
-          "hint": "Clips, editing and channel help for paying creators"
+          "hint": "Get paid for clips, editing and channel help"
         }
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Both work. They just work differently.",
+      "mascotLine": "Both are great. They just feel different.",
       "showIf": {
         "key": "earningMethod",
         "anyOf": [
@@ -1183,8 +1183,8 @@
     {
       "key": "niche",
       "icon": "scope",
-      "title": "What's your niche?",
-      "subtitle": "The subject, audience or industry you'll focus on. Be as specific as you can.",
+      "title": "What do you love talking about?",
+      "subtitle": "Pick a topic below or type your own. The more specific, the better I can help.",
       "kind": "text",
       "options": null,
       "placeholder": "e.g. beginner home workouts",
@@ -1192,18 +1192,18 @@
       "mascotLine": "Specific beats broad, every time.",
       "variants": {
         "youtube_owned_channel": {
-          "title": "What will your channel be about?",
-          "subtitle": "The topic and the viewers you want to reach. Be as specific as you can.",
+          "title": "What would your channel be about?",
+          "subtitle": "Think of a topic you could happily talk about for months. Pick one below or type your own.",
           "placeholder": "e.g. beginner home workouts"
         },
         "youtube_services": {
-          "title": "Which creators do you want to work with?",
-          "subtitle": "The kind of channels you'd serve, e.g. fitness YouTubers or business podcasts.",
+          "title": "Which creators would you love to help?",
+          "subtitle": "Think about channels you already watch. Pick a topic below or type your own.",
           "placeholder": "e.g. fitness YouTubers"
         },
         "freelance_services": {
-          "title": "What kind of businesses will you serve?",
-          "subtitle": "An industry or type of business, e.g. dentists, cafes or plumbers.",
+          "title": "Which kind of businesses would you like to help?",
+          "subtitle": "Cafés, dentists, gyms, plumbers… whatever feels right to you.",
           "placeholder": "e.g. dentists in Austin"
         }
       }
@@ -1211,33 +1211,33 @@
     {
       "key": "nicheDetail",
       "icon": "scope",
-      "title": "Narrow it down a little",
-      "subtitle": "Who exactly is it for, or what exactly is it about? One short phrase is enough.",
+      "title": "Love it! Can we zoom in a little?",
+      "subtitle": "Who exactly is it for, or what's it about? A few words is plenty.",
       "kind": "text",
       "options": null,
       "placeholder": "e.g. busy parents who cook on a budget",
       "required": true,
-      "mascotLine": "A narrower niche makes every step easier."
+      "mascotLine": "A little focus makes everything easier."
     },
     {
       "key": "channelStatus",
       "icon": "play.rectangle.fill",
       "title": "Do you already have a YouTube channel?",
-      "subtitle": "We'll skip what you've already done.",
+      "subtitle": "No pressure either way — I'll skip what you've already done.",
       "kind": "single",
       "options": [
         {
           "value": "none",
           "label": "Not yet",
           "icon": "plus.circle.fill",
-          "hint": "We'll set it up in week 1",
+          "hint": "No worries, we'll set it up together in week 1",
           "stage": "idea"
         },
         {
           "value": "few_videos",
-          "label": "Yes, a few videos",
+          "label": "Yes, I've posted a few videos",
           "icon": "film.stack.fill",
-          "hint": "Uploaded, but no real traction yet",
+          "hint": "They're up, but haven't taken off yet",
           "stage": "started"
         },
         {
@@ -1251,13 +1251,13 @@
           "value": "earning",
           "label": "Yes, and it already earns",
           "icon": "dollarsign.circle.fill",
-          "hint": "Affiliates, sponsors, products or ads",
+          "hint": "From affiliates, sponsors, products or ads",
           "stage": "already_earning"
         }
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Starting from zero is completely fine.",
+      "mascotLine": "Starting from zero is totally fine.",
       "methods": [
         "youtube_owned_channel"
       ],
@@ -1266,8 +1266,8 @@
     {
       "key": "subscribers",
       "icon": "person.3.fill",
-      "title": "Roughly how many subscribers?",
-      "subtitle": "A rough number is enough.",
+      "title": "How many subscribers do you have, roughly?",
+      "subtitle": "A ballpark is perfect.",
       "kind": "single",
       "options": [
         {
@@ -1278,20 +1278,20 @@
         },
         {
           "value": "100_1k",
-          "label": "100 – 1,000",
+          "label": "100 to 1,000",
           "icon": "person.2.fill",
           "hint": null
         },
         {
           "value": "1k_10k",
-          "label": "1,000 – 10,000",
+          "label": "1,000 to 10,000",
           "icon": "person.3.fill",
           "hint": null,
           "planNote": "With 1,000+ subscribers, check your Partner Program progress in YouTube Studio > Earn."
         },
         {
           "value": "10k_plus",
-          "label": "10,000+",
+          "label": "10,000 or more",
           "icon": "person.3.sequence.fill",
           "hint": null,
           "planNote": "At your size, sponsorships and your own product deserve focus alongside publishing."
@@ -1299,7 +1299,7 @@
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Every channel starts at zero.",
+      "mascotLine": "Every channel started at zero.",
       "methods": [
         "youtube_owned_channel"
       ],
@@ -1314,29 +1314,29 @@
     {
       "key": "videoFormat",
       "icon": "film.fill",
-      "title": "What do you want to make?",
-      "subtitle": "You can change this later.",
+      "title": "What kind of videos sound fun to make?",
+      "subtitle": "Go with your gut. You can switch anytime.",
       "kind": "single",
       "options": [
         {
           "value": "long",
-          "label": "Long videos",
+          "label": "Longer videos",
           "icon": "play.rectangle.fill",
-          "hint": "8–15 minutes, searchable topics",
+          "hint": "Usually 8–15 minutes, great for search",
           "planNote": "Long-form first: one well-packaged video a week beats three rushed ones."
         },
         {
           "value": "shorts",
           "label": "Shorts",
           "icon": "iphone",
-          "hint": "Under 60 seconds, fast to make",
+          "hint": "Under a minute, quick to make",
           "planNote": "Shorts-first: wherever a mission says video, make a Short; long videos are optional."
         },
         {
           "value": "both",
-          "label": "Both",
+          "label": "A bit of both",
           "icon": "rectangle.on.rectangle",
-          "hint": "A long video, then Shorts cut from it",
+          "hint": "One longer video, then a few Shorts from it",
           "planNote": "One long video a week, then cut 2–3 Shorts from it."
         }
       ],
@@ -1351,28 +1351,28 @@
     {
       "key": "onCamera",
       "icon": "person.crop.square.fill",
-      "title": "How do you want to appear?",
-      "subtitle": "Plenty of channels never show a face.",
+      "title": "How do you feel about being on camera?",
+      "subtitle": "Lots of successful channels never show a face, so pick what feels comfortable.",
       "kind": "single",
       "options": [
         {
           "value": "face",
-          "label": "On camera",
+          "label": "Happy to be on camera",
           "icon": "person.wave.2.fill",
-          "hint": "You talk to the viewer"
+          "hint": "You talk straight to your viewers"
         },
         {
           "value": "voice",
-          "label": "Voice only",
+          "label": "Voice only, please",
           "icon": "mic.fill",
-          "hint": "Narrate over screen, slides or b-roll",
+          "hint": "You narrate over screens, slides or footage",
           "planNote": "Voice-only: narrate over screen recordings, slides or b-roll; skip on-camera practice."
         },
         {
           "value": "faceless",
-          "label": "Faceless",
+          "label": "I'd rather stay hidden",
           "icon": "eye.slash.fill",
-          "hint": "Text, stock footage, screen recordings",
+          "hint": "Text, stock footage or screen recordings",
           "planNote": "Faceless: on-camera tasks become screen-recording, b-roll or text tasks."
         }
       ],
@@ -1387,40 +1387,40 @@
     {
       "key": "serviceType",
       "icon": "briefcase.fill",
-      "title": "What do you want to offer creators?",
-      "subtitle": "Your plan starts with the offer creators say yes to fastest.",
+      "title": "What would you enjoy helping creators with?",
+      "subtitle": "Pick your favorite. I'll start your plan with what creators say yes to fastest.",
       "kind": "single",
       "options": [
         {
           "value": "clips",
-          "label": "Short clips from long videos",
+          "label": "Cutting short clips from long videos",
           "icon": "scissors",
-          "hint": "Fastest to sell — the plan starts here"
+          "hint": "The easiest first sale — your plan starts here"
         },
         {
           "value": "editing",
-          "label": "Full video editing",
+          "label": "Editing full videos",
           "icon": "film.fill",
           "hint": null,
           "planNote": "Lead with a clip pack as the easy first sale, then offer full editing once a creator trusts you."
         },
         {
           "value": "thumbnails",
-          "label": "Thumbnails",
+          "label": "Designing thumbnails",
           "icon": "photo.fill",
           "hint": null,
           "planNote": "Add a thumbnail sample to every pitch and sell thumbnail packs alongside your first clip pack."
         },
         {
           "value": "scripts",
-          "label": "Scripts and research",
+          "label": "Writing scripts and research",
           "icon": "text.alignleft",
           "hint": null,
           "planNote": "Use clip packs as the entry offer and pitch scripts once you know the creator's style."
         },
         {
           "value": "management",
-          "label": "Channel management",
+          "label": "Running their channel",
           "icon": "slider.horizontal.3",
           "hint": null,
           "planNote": "Start with one clip pack, then grow into managing uploads, titles and analytics."
@@ -1428,7 +1428,7 @@
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Start narrow; widen later.",
+      "mascotLine": "Start small, grow later.",
       "methods": [
         "youtube_services"
       ],
@@ -1437,13 +1437,13 @@
     {
       "key": "clientLocation",
       "icon": "mappin.and.ellipse",
-      "title": "Where are your clients?",
-      "subtitle": "Both work for Google Business Profile services.",
+      "title": "Where would you like your clients to be?",
+      "subtitle": "Both work great — you can fix Google profiles from anywhere.",
       "kind": "single",
       "options": [
         {
           "value": "local",
-          "label": "Near me",
+          "label": "Close to home",
           "icon": "building.2.fill",
           "hint": "Businesses in my city or area"
         },
@@ -1451,7 +1451,7 @@
           "value": "anywhere",
           "label": "Anywhere online",
           "icon": "globe",
-          "hint": "Any city, remotely",
+          "hint": "Any city, working remotely",
           "planNote": "Google profiles can be fixed remotely: target businesses in any city with weak profiles."
         }
       ],
@@ -1466,34 +1466,34 @@
     {
       "key": "clientStatus",
       "icon": "person.2.fill",
-      "title": "Have you worked with a creator before?",
-      "subtitle": "Paid or free, it all counts.",
+      "title": "Have you helped a creator before?",
+      "subtitle": "Paid or free, it all counts!",
       "kind": "single",
       "options": [
         {
           "value": "none",
           "label": "Not yet",
           "icon": "circle.dashed",
-          "hint": "No samples or clients yet",
+          "hint": "That's exactly where most people start",
           "stage": "idea"
         },
         {
           "value": "samples",
-          "label": "I've done free samples",
+          "label": "Yes, for free",
           "icon": "gift.fill",
-          "hint": "Work to show, nobody paid yet",
+          "hint": "I have work to show, just no paying clients yet",
           "stage": "started"
         },
         {
           "value": "few",
-          "label": "1–2 paid clients",
+          "label": "Yes, 1 or 2 paid clients",
           "icon": "person.fill.checkmark",
-          "hint": "Some paid work",
+          "hint": "I've been paid a little",
           "stage": "some_traction"
         },
         {
           "value": "regular",
-          "label": "I have regular clients",
+          "label": "Yes, I have regular clients",
           "icon": "person.3.fill",
           "hint": "Steady paid work",
           "stage": "already_earning"
@@ -1508,7 +1508,7 @@
       ],
       "variants": {
         "freelance_services": {
-          "title": "Have you worked with a business before?"
+          "title": "Have you helped a business before?"
         }
       },
       "summary": "Experience"
@@ -1516,25 +1516,25 @@
     {
       "key": "portfolio",
       "icon": "rectangle.stack.fill",
-      "title": "Do you have work you can show?",
-      "subtitle": "A sample beats any promise.",
+      "title": "Do you have any work you could show someone?",
+      "subtitle": "Even one example helps a lot.",
       "kind": "single",
       "options": [
         {
           "value": "yes",
-          "label": "Yes, a portfolio",
+          "label": "Yes, a whole portfolio",
           "icon": "checkmark.seal.fill",
           "hint": null
         },
         {
           "value": "some",
-          "label": "A few samples",
+          "label": "A few examples",
           "icon": "square.stack.fill",
           "hint": null
         },
         {
           "value": "no",
-          "label": "Nothing yet",
+          "label": "Not yet",
           "icon": "circle.dashed",
           "hint": null,
           "planNote": "No samples yet: make one free sample before you contact anyone."
@@ -1542,7 +1542,7 @@
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Proof first, pitch second.",
+      "mascotLine": "Showing beats telling.",
       "methods": [
         "youtube_services",
         "freelance_services"
@@ -1559,26 +1559,26 @@
     {
       "key": "outreachComfort",
       "icon": "bubble.left.and.bubble.right.fill",
-      "title": "How do you feel about messaging people you don't know?",
-      "subtitle": "Honest answers get a better plan.",
+      "title": "How do you feel about reaching out to people you don't know?",
+      "subtitle": "Totally normal to feel nervous. Your answer just helps me pace things.",
       "kind": "single",
       "options": [
         {
           "value": "fine",
-          "label": "Comfortable",
+          "label": "I'm comfortable with it",
           "icon": "hand.thumbsup.fill",
           "hint": null
         },
         {
           "value": "nervous",
-          "label": "Nervous, but willing",
+          "label": "A bit nervous, but I'll try",
           "icon": "heart.fill",
           "hint": null,
           "planNote": "Use the message templates word for word until outreach feels natural."
         },
         {
           "value": "avoid",
-          "label": "I'd rather not",
+          "label": "I'd rather avoid it for now",
           "icon": "hand.raised.fill",
           "hint": null,
           "planNote": "Lead with free samples and comments before direct messages; calls stay optional."
@@ -1586,7 +1586,7 @@
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Nervous is normal.",
+      "mascotLine": "Nervous is normal. You've got this.",
       "methods": [
         "youtube_services",
         "freelance_services"
@@ -1596,80 +1596,80 @@
     {
       "key": "weeklyTime",
       "icon": "clock.fill",
-      "title": "How much time can you give each week?",
-      "subtitle": "Be honest. A plan you can keep beats an ambitious one.",
+      "title": "How much time can you set aside each week?",
+      "subtitle": "Be kind to yourself. A plan you can keep beats a big one.",
       "kind": "single",
       "options": [
         {
           "value": "Under 3 hours",
           "label": "Under 3 hours",
           "icon": "clock",
-          "hint": null
+          "hint": "A little each day"
         },
         {
           "value": "3-5 hours",
-          "label": "3–5 hours",
+          "label": "3 to 5 hours",
           "icon": "clock",
           "hint": null
         },
         {
           "value": "5-10 hours",
-          "label": "5–10 hours",
+          "label": "5 to 10 hours",
           "icon": "clock.fill",
           "hint": null
         },
         {
           "value": "10+ hours",
-          "label": "10+ hours",
+          "label": "More than 10 hours",
           "icon": "clock.badge.checkmark.fill",
           "hint": null
         }
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "Consistency matters more than hours."
+      "mascotLine": "Little and often wins."
     },
     {
       "key": "budget",
       "icon": "creditcard.fill",
-      "title": "What's your starting budget?",
-      "subtitle": "Every journey here can start with free tools.",
+      "title": "Are you planning to spend anything to start?",
+      "subtitle": "Totally fine if not. Everything here can start with free tools.",
       "kind": "single",
       "options": [
         {
           "value": "$0",
-          "label": "$0",
+          "label": "Nothing for now",
           "icon": "0.circle.fill",
           "hint": "Free tools only"
         },
         {
           "value": "Under $50",
-          "label": "Under $50",
+          "label": "Less than $50",
           "icon": "dollarsign.circle",
           "hint": null
         },
         {
           "value": "$50-$200",
-          "label": "$50–$200",
+          "label": "$50 to $200",
           "icon": "dollarsign.circle.fill",
           "hint": null
         },
         {
           "value": "$200+",
-          "label": "$200+",
+          "label": "More than $200",
           "icon": "banknote.fill",
           "hint": null
         }
       ],
       "placeholder": null,
       "required": true,
-      "mascotLine": "No debt, no expensive courses. Ever."
+      "mascotLine": "No debt, no pricey courses. Ever."
     },
     {
       "key": "skills",
       "icon": "wrench.and.screwdriver.fill",
-      "title": "What skills do you already have?",
-      "subtitle": "Pick everything that applies.",
+      "title": "What are you already good at?",
+      "subtitle": "Tap everything that fits. Nothing yet? That's fine too!",
       "kind": "multi",
       "options": [
         {
@@ -1722,7 +1722,7 @@
         },
         {
           "value": "None yet",
-          "label": "None yet",
+          "label": "Nothing yet, I'm new",
           "icon": "sparkles",
           "hint": null
         }
@@ -1771,7 +1771,7 @@
             },
             {
               "value": "None yet",
-              "label": "None yet",
+              "label": "Nothing yet, I'm new",
               "icon": "sparkles",
               "hint": null
             }
@@ -1817,7 +1817,7 @@
             },
             {
               "value": "None yet",
-              "label": "None yet",
+              "label": "Nothing yet, I'm new",
               "icon": "sparkles",
               "hint": null
             }
@@ -1869,7 +1869,7 @@
             },
             {
               "value": "None yet",
-              "label": "None yet",
+              "label": "Nothing yet, I'm new",
               "icon": "sparkles",
               "hint": null
             }
@@ -1880,8 +1880,8 @@
     {
       "key": "equipment",
       "icon": "camera.fill",
-      "title": "What equipment do you have?",
-      "subtitle": "A phone is enough to start. We plan around what you have.",
+      "title": "What do you have to work with?",
+      "subtitle": "A phone is honestly enough to start. I'll plan around what you have.",
       "kind": "multi",
       "options": [
         {
@@ -1916,7 +1916,7 @@
         },
         {
           "value": "None of these",
-          "label": "None of these",
+          "label": "None of these yet",
           "icon": "xmark.circle",
           "hint": null
         }
@@ -1932,7 +1932,7 @@
       "key": "location",
       "icon": "mappin.and.ellipse",
       "title": "Which city are you in?",
-      "subtitle": "Optional. We'll suggest nearby businesses and local prices.",
+      "subtitle": "Optional, but it helps me suggest nearby businesses and fair local prices.",
       "kind": "text",
       "options": null,
       "placeholder": "City or country",
@@ -1951,13 +1951,13 @@
     {
       "key": "goal",
       "icon": "target",
-      "title": "What's your first goal?",
-      "subtitle": "Pick the milestone you want to reach first.",
+      "title": "Last one! What would you love to reach first?",
+      "subtitle": "Pick the win that would make you proud.",
       "kind": "goal",
       "options": null,
       "placeholder": null,
       "required": true,
-      "mascotLine": "Last one. Let's build your plan."
+      "mascotLine": "Almost there — let's build your plan!"
     }
   ]
 }
