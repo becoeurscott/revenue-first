@@ -438,10 +438,6 @@ When these move behind Vaulten, the server should build this context from the ac
 
 Notification templates need a `journeyIds: EarningMethod[] | null` filter, so service reminders ("follow up with 3 prospects") never reach a channel or product person. Copy can use `{itemNoun}` from the workspace and the niche placeholders.
 
-### 6.7 Demo
-
-The demo is local only: the app seeds sample data on the device and skips the paywall. The backend needs nothing. **Never** send demo data to the server; the app gates every call behind `!isDemo`.
-
 ---
 
 ## 7. Missions and progress per enrollment
