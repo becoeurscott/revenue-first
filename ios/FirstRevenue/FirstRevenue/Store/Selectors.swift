@@ -123,8 +123,8 @@ extension AppStore {
         )
     }
 
-    /// Free plan (paywall skipped): only Day 1 is open.
-    func isDayPremiumLocked(_ day: Int) -> Bool { !isPremium && day > 1 }
+    /// Explore mode: without a subscription every mission is a preview; starting one opens the paywall.
+    func isDayPremiumLocked(_ day: Int) -> Bool { !isPremium }
 
     /// Why a future day is still hidden.
     func lockReason(_ day: Int) -> String {
@@ -167,7 +167,8 @@ extension AppStore {
         return st
     }
 
-    var isPremium: Bool { s.subscription.status == .active }
+    /// RevenueCat is authoritative; the local flag backs the prototype controls in Settings.
+    var isPremium: Bool { s.subscription.status == .active || RevenueCatService.shared.isPro }
     var unreadCount: Int { s.notifications.filter { !$0.read }.count }
     var isOffline: Bool { s.settings.offline }
 

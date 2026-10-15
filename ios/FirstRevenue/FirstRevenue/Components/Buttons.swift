@@ -62,6 +62,65 @@ extension ButtonStyle where Self == FRButtonStyle {
     }
 }
 
+/// Playful 3D button: a darker bottom edge that the face sinks into when pressed, with a springy bounce
+/// and a light haptic. `.chunky()` is the main call to action; `.chunky(.option(selected:))` is an answer.
+struct ChunkyButtonStyle: ButtonStyle {
+    enum Kind: Equatable { case primary, option(selected: Bool) }
+    var kind: Kind = .primary
+    var height: CGFloat = 58
+    @Environment(\.isEnabled) private var isEnabled
+
+    private var depth: CGFloat { 5 }
+    private var selected: Bool { if case .option(let s) = kind { s } else { false } }
+
+    func makeBody(configuration: Configuration) -> some View {
+        let pressed = configuration.isPressed
+        let shape = RoundedRectangle(cornerRadius: 20, style: .continuous)
+        configuration.label
+            .font(kind == .primary ? .play(20, .heavy) : .play(18, .semibold))
+            .foregroundStyle(kind == .primary || selected ? .white : Theme.ink)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 18)
+            .frame(maxWidth: .infinity, minHeight: height)
+            .background(shape.fill(face))
+            .overlay(shape.strokeBorder(border, lineWidth: 2))
+            .offset(y: pressed ? depth : 0)
+            .background(shape.fill(edge).offset(y: depth))
+            .padding(.bottom, depth)
+            .opacity(isEnabled ? 1 : 0.45)
+            .scaleEffect(pressed ? 0.98 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.55), value: pressed)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: selected)
+            .contentShape(shape)
+            .onChange(of: pressed) { _, down in if down { Haptics.select(); SFX.tap.play(volume: 0.5) } }
+    }
+
+    private var face: AnyShapeStyle {
+        switch kind {
+        case .primary: AnyShapeStyle(Theme.brandGradient)
+        case .option(let s): s ? AnyShapeStyle(Theme.brand500.opacity(0.55)) : AnyShapeStyle(Theme.surface2)
+        }
+    }
+    private var edge: Color {
+        switch kind {
+        case .primary: Theme.brand600.opacity(0.9)
+        case .option(let s): s ? Theme.brand600 : Theme.line
+        }
+    }
+    private var border: Color {
+        switch kind {
+        case .primary: .white.opacity(0.08)
+        case .option(let s): s ? Theme.brand300.opacity(0.9) : Theme.line
+        }
+    }
+}
+
+extension ButtonStyle where Self == ChunkyButtonStyle {
+    static func chunky(_ kind: ChunkyButtonStyle.Kind = .primary, height: CGFloat = 58) -> ChunkyButtonStyle {
+        ChunkyButtonStyle(kind: kind, height: height)
+    }
+}
+
 /// Button with a spinner state.
 struct LoadingLabel: View {
     let title: String

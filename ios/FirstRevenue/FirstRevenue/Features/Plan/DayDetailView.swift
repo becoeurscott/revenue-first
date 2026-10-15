@@ -44,6 +44,7 @@ private struct DayDetailContent: View {
                 header.fadeUp(0)
                 stats.fadeUp(1)
                 goal.fadeUp(2)
+                ProgramBriefCard(day: plan.day).fadeUp(2)
                 MissionNicheCard(plan: plan).fadeUp(2)
                 checklist.fadeUp(3)
             } trailing: {

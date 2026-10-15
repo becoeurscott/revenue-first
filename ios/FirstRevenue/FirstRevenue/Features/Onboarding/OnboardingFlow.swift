@@ -1,4 +1,5 @@
 import SwiftUI
+import RevenueCatUI
 
 /// Journey setup for every account: earning method (with the YouTube follow-up), niche, starting stage
 /// and constraints. Real accounts on a service journey then answer the backend questionnaire, which enrolls
@@ -6,15 +7,17 @@ import SwiftUI
 struct OnboardingFlow: View {
     @Environment(AppStore.self) private var store
 
-    enum Phase: Equatable { case questions, pickJourney, comingSoon(EarningMethod), analysis, results, server }
+    enum Phase: Equatable { case questions, pickJourney, comingSoon(EarningMethod), analysis, results, unlocking, server }
 
     @State private var phase: Phase = .questions
     @State private var answers = JourneyAnswers()
     /// Raw earning-method option ("youtube" is resolved by the follow-up question).
     @State private var choice = ""
-    @State private var key = "name"
+    @State private var key = "welcome"
     @State private var forward = true
     @State private var autoAdvance: Task<Void, Never>?
+    /// Written during the analysis step: Week 1 only until the user pays.
+    @State private var program: GeneratedProgram?
 
     private var method: EarningMethod? { Journeys.method(choice: choice, youtubeMode: answers.youtubeMode) }
     private var config: JourneyConfig? { method.flatMap(Journeys.config) }
@@ -43,15 +46,28 @@ struct OnboardingFlow: View {
             case .questions: questions
             case .pickJourney: PickJourneyView { picked in pick(picked) } onBack: { go(.questions, key: "earningMethod") }
             case .comingSoon(let m): comingSoon(m)
-            case .analysis: AnalysisView(niche: answers.niche) { withAnimation(.easeInOut) { phase = .results } }.transition(.opacity)
+            case .analysis:
+                AnalysisView(niche: answers.niche, track: config?.track, work: writePreview) { withAnimation(.easeInOut) { phase = .results } }
+                    .overlay(alignment: .topLeading) { OnboardingBackButton { go(.questions, key: steps.last?.key ?? "goal") } }
+                    .transition(.opacity)
             case .results:
                 if let config {
-                    JourneyResultsView(config: config, answers: answers, onStart: start, onEditNiche: { go(.questions, key: "niche") }, onChangeMethod: { go(.questions, key: "earningMethod") })
+                    JourneyResultsView(config: config, answers: answers, program: program, onStart: { start() }, onUnlocked: { withAnimation(.easeInOut) { phase = .unlocking } },
+                                       onEditNiche: { go(.questions, key: "niche") }, onChangeMethod: { go(.questions, key: "earningMethod") },
+                                       onBack: { go(.questions, key: steps.last?.key ?? "goal") })
                         .transition(.opacity)
+                }
+            case .unlocking:
+                if let config {
+                    ProgramUnlockFlow(weekTitles: weekTitles(config), write: writeFull, finishLabel: "Start Day 1") { full in
+                        program = full ?? program
+                        start(unlocked: true)
+                    }
+                    .transition(.opacity)
                 }
             case .server:
                 if let config {
-                    ServerOnboardingFlow(journey: config, onEnrolled: { day in store.startJourney(answers, day: day) }, onChangeMethod: { go(.questions, key: "earningMethod") })
+                    ServerOnboardingFlow(journey: config, onEnrolled: { day in store.startJourney(answers, day: day, program: program) }, onChangeMethod: { go(.questions, key: "earningMethod") })
                 }
             }
         }
@@ -60,7 +76,9 @@ struct OnboardingFlow: View {
     // MARK: Questions
 
     private var isValid: Bool {
+        if step.key == "ageRange" && value("ageRange") == "under_18" { return false }
         switch step.kind {
+        case "info": return true
         case "multi": return !selectedMulti.isEmpty
         case "text":
             let v = text(step.key).trimmingCharacters(in: .whitespaces)
@@ -71,41 +89,54 @@ struct OnboardingFlow: View {
 
     private var questions: some View {
         VStack(spacing: 0) {
-            VStack(spacing: Space.m) {
-                ProgressBar(value: max(Double(position) / Double(steps.count), 0.04), height: 6, label: "Onboarding progress")
-                HStack {
-                    Button(action: back) {
-                        HStack(spacing: 4) { Image(systemName: "chevron.left").font(.caption.weight(.bold)); Text("Back") }
-                            .font(.footnote.weight(.semibold)).foregroundStyle(Theme.inkSoft)
-                            .padding(.horizontal, 12).frame(height: 36)
-                            .background(Capsule().fill(Theme.surface)).overlay(Capsule().strokeBorder(Theme.line))
-                    }
-                    .frame(minHeight: 44)
-                    Spacer()
-                    Text("\(position + 1) / \(steps.count)").font(.footnote.weight(.semibold)).monospacedDigit().foregroundStyle(Theme.brand300)
-                        .accessibilityLabel("Step \(position + 1) of \(steps.count)")
+            HStack(spacing: 10) {
+                Button(action: back) {
+                    Image(systemName: "chevron.left").font(.system(size: 20, weight: .bold)).foregroundStyle(Theme.inkSoft)
+                        .frame(width: 44, height: 44)
                 }
+                .accessibilityLabel("Back")
+                ChunkyProgress(value: max(Double(position + 1) / Double(steps.count), 0.06))
+                    .accessibilityLabel("Step \(position + 1) of \(steps.count)")
+                Button {
+                    Haptics.tap()
+                    let muted = !(store.s.settings.voiceMuted ?? false)
+                    store.s.settings.voiceMuted = muted
+                    if muted { Voice.shared.stop() } else { speak() }
+                } label: {
+                    Image(systemName: store.s.settings.voiceMuted == true ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                        .font(.system(size: 18, weight: .semibold)).foregroundStyle(Theme.inkSoft)
+                        .frame(width: 44, height: 44)
+                        .contentTransition(.symbolEffect(.replace))
+                }
+                .accessibilityLabel(store.s.settings.voiceMuted == true ? "Turn voice on" : "Mute voice")
             }
-            .padding(.horizontal, Space.xl).padding(.top, Space.s)
+            .padding(.horizontal, Space.m).padding(.top, Space.s)
 
             stepView.id(key).transition(slide).frame(maxHeight: .infinity, alignment: .top)
         }
-        .frame(maxWidth: 520)
+        .frame(maxWidth: 560)
         .frame(maxWidth: .infinity)
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 4) {
-                Button(action: next) {
-                    Label(key == steps.last?.key ? "Build My Plan" : "Continue", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
-                }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
-                .disabled(!isValid)
-                if !step.required { Text("Optional — you can skip this one.").font(.caption).foregroundStyle(Theme.faint) }
+            VStack(spacing: 6) {
+                Button(action: next) { Text(key == steps.last?.key ? "Build My Plan" : "Continue") }
+                    .buttonStyle(.chunky())
+                    .disabled(!isValid)
+                if !step.required { Text("Optional — you can skip this one.").font(.play(13, .medium)).foregroundStyle(Theme.faint) }
             }
-            .frame(maxWidth: 520)
+            .frame(maxWidth: 560)
             .padding(.horizontal, Space.xl).padding(.bottom, Space.s).padding(.top, Space.m)
             .background(LinearGradient(colors: [Theme.bg.opacity(0), Theme.bg], startPoint: .top, endPoint: .center))
         }
         .background(Theme.bg.ignoresSafeArea())
+        .onChange(of: key, initial: true) { _, _ in speak() }
+        .onDisappear { Voice.shared.stop() }
+    }
+
+    /// Vault reads the step: a recording for this journey if there is one, else the general one.
+    private func speak() {
+        var names = ["onb-\(key)"]
+        if let method { names.insert("onb-\(key)-\(method.rawValue)", at: 0) }
+        Voice.shared.play(names, muted: store.s.settings.voiceMuted == true)
     }
 
     private var slide: AnyTransition {
@@ -115,16 +146,23 @@ struct OnboardingFlow: View {
     private var stepView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top) {
-                    MascotView(mood: key == "goal" ? .excited : position % 3 == 2 ? .wink : .happy, size: 76, say: step.mascotLine, float: false, bubbleSide: .trailing)
-                    Spacer()
+                if step.illustration == "hello" {
+                    // The welcome screen's big mascot speaks the line itself.
+                    QuestionBubble(text: title, tail: false).padding(.top, Space.xl)
+                } else {
+                    HStack(alignment: .center, spacing: 6) {
+                        MascotView(mood: key == "goal" ? .excited : position % 3 == 2 ? .wink : .happy, size: 96, float: false)
+                            .scaleEffect(Voice.shared.speaking ? 1.05 : 1, anchor: .bottom)
+                            .animation(Voice.shared.speaking ? .easeInOut(duration: 0.32).repeatForever(autoreverses: true) : .snappy, value: Voice.shared.speaking)
+                        QuestionBubble(text: title)
+                    }
+                    .padding(.top, Space.l)
                 }
-                .padding(.top, Space.l)
-                SymbolTile(icon: step.icon, size: 36).padding(.top, Space.l)
-                Text(title).font(.system(size: 26, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .accessibilityAddTraits(.isHeader)
-                Text(subtitle).font(.callout).foregroundStyle(Theme.muted).padding(.top, Space.s)
+                if !subtitle.isEmpty {
+                    Text(subtitle).font(.play(16, .medium)).foregroundStyle(Theme.muted)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, Space.l)
+                }
                 input.padding(.top, Space.xl)
             }
             .padding(.horizontal, Space.xl)
@@ -144,6 +182,10 @@ struct OnboardingFlow: View {
 
     @ViewBuilder private var input: some View {
         switch step.kind {
+        case "info":
+            OnboardingIllustration(name: step.illustration ?? "", config: config)
+        case "slider":
+            ChoiceSlider(options: step.options ?? [], value: value(step.key)) { setValue(step.key, $0) }
         case "text":
             VStack(alignment: .leading, spacing: Space.m) {
                 OnboardingTextField(text: binding(step.key), placeholder: step.placeholder ?? "", contentType: step.key == "name" ? .givenName : nil, onSubmit: { if isValid { next() } })
@@ -157,23 +199,31 @@ struct OnboardingFlow: View {
                 }
             }
         case "multi":
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 10)], spacing: 10) {
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
                 ForEach(Array((step.options ?? []).enumerated()), id: \.element.value) { i, o in
                     OptionCard(option: o, multi: true, selected: selectedMulti.contains(o.value)) { toggle(o.value) }.fadeUp(i)
                 }
             }
         case "goal":
-            VStack(spacing: 10) {
+            VStack(spacing: 12) {
                 ForEach(Array((config?.goalOptions ?? []).enumerated()), id: \.element.label) { i, g in
                     let option = JourneyQuestionOption(value: g.label, label: g.label, icon: g.isMoney ? "dollarsign.circle.fill" : Journeys.metric(g.metric).icon, hint: nil)
                     OptionCard(option: option, multi: false, selected: answers.goal == g.label) { choose(g.label) }.fadeUp(i)
                 }
             }
         default:
-            VStack(spacing: 10) {
+            VStack(spacing: 12) {
                 ForEach(Array((step.options ?? []).enumerated()), id: \.element.value) { i, o in
                     OptionCard(option: o, multi: false, selected: value(step.key) == o.value) { choose(o.value) }.fadeUp(i)
                 }
+            }
+            if step.key == "ageRange" && value("ageRange") == "under_18" {
+                Label("Vaulten is for adults 18 and over, because it involves payments, contracts and selling online. Come back when you're 18. We'd love to have you then.", systemImage: "heart.fill")
+                    .font(.play(15, .medium)).foregroundStyle(Theme.inkSoft)
+                    .padding(Space.l)
+                    .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Theme.surface))
+                    .padding(.top, Space.l)
+                    .transition(.opacity)
             }
         }
     }
@@ -302,7 +352,10 @@ struct OnboardingFlow: View {
         autoAdvance?.cancel()
         forward = false
         let list = steps
-        guard let i = list.firstIndex(where: { $0.key == key }), i > 0 else { store.logout(); return }
+        guard let i = list.firstIndex(where: { $0.key == key }), i > 0 else {
+            if store.s.account == nil { store.leaveGuest() } else { store.logout() }
+            return
+        }
         withAnimation(.snappy) { key = list[i - 1].key }
     }
 
@@ -325,14 +378,42 @@ struct OnboardingFlow: View {
         withAnimation(.snappy) { phase = .questions }
     }
 
-    private func start() {
+    private func start(unlocked: Bool = false) {
         guard let config else { return }
         answers.earningMethod = config.id
         if store.s.account != nil && config.sellsServices {
             withAnimation(.easeInOut) { phase = .server }
         } else {
-            store.startJourney(answers)
+            store.startJourney(answers, program: program, programUnlocked: unlocked)
         }
+    }
+
+    // MARK: Program
+
+    /// The enrollment these answers will create, so the program can be written before the user commits.
+    private var draft: JourneyEnrollment? {
+        guard let method, Journeys.config(method)?.isActive == true else { return nil }
+        var a = answers
+        a.earningMethod = method
+        return AppStore.enrollment(method, answers: a)
+    }
+
+    /// Week 1 and the program header; the paid weeks are never written here.
+    private func writePreview() async {
+        guard let draft else { return }
+        program = await ProgramGenerator.preview(for: draft, name: store.s.answers.name)
+    }
+
+    /// Days 8–30, only after a purchase or restore made the account Premium.
+    private func writeFull() async -> GeneratedProgram? {
+        guard store.isPremium, let draft else { return program }
+        let preview: GeneratedProgram
+        if let program { preview = program } else { preview = await ProgramGenerator.preview(for: draft, name: store.s.answers.name) }
+        return await ProgramGenerator.complete(preview, for: draft, name: store.s.answers.name)
+    }
+
+    private func weekTitles(_ config: JourneyConfig) -> [Int: String] {
+        Dictionary((config.track.map(MockData.path)?.weeks ?? []).map { ($0.week, $0.title) }, uniquingKeysWith: { a, _ in a })
     }
 
     private func comingSoon(_ m: EarningMethod) -> some View {
@@ -398,16 +479,23 @@ private struct PickJourneyView: View {
 private struct JourneyResultsView: View {
     let config: JourneyConfig
     let answers: JourneyAnswers
+    let program: GeneratedProgram?
     let onStart: () -> Void
+    /// Premium is active (bought or restored here): unlock and write the rest of the program.
+    let onUnlocked: () -> Void
     let onEditNiche: () -> Void
     let onChangeMethod: () -> Void
+    /// Back to the last question, answers kept.
+    let onBack: () -> Void
     @Environment(AppStore.self) private var store
     @State private var paywall = false
     @State private var plan = "yearly"
     @State private var loading = false
+    /// Guests create their account here, then the plan is saved and the flow continues.
+    @State private var createAccount = false
 
+    private var isGuest: Bool { store.s.account == nil }
     private var niche: NicheContext { NicheResolver.resolve(answers.niche, detail: answers.nicheDetail, method: config.id) }
-    private var path: PathInfo? { config.track.map(MockData.path) }
     private var serverService: Bool { store.s.account != nil && config.sellsServices }
 
     var body: some View {
@@ -434,22 +522,16 @@ private struct JourneyResultsView: View {
                 .shadow(color: Theme.brand600.opacity(0.35), radius: 24, y: 10)
                 .fadeUp(1)
 
-                nicheCard.fadeUp(2)
-                setupCard.fadeUp(2)
-
-                if let path {
+                if let program {
                     VStack(alignment: .leading, spacing: Space.m) {
-                        Text("Your first steps").font(.section).foregroundStyle(Theme.ink)
-                        ForEach(Array(path.firstTasks.enumerated()), id: \.offset) { i, t in
-                            HStack(alignment: .top, spacing: 12) {
-                                Text("\(i + 1)").font(.caption.weight(.bold)).foregroundStyle(Theme.brand300).frame(width: 24, height: 24).background(Circle().fill(Theme.brand500.opacity(0.15)))
-                                Text(t).font(.subheadline).foregroundStyle(Theme.inkSoft)
-                            }
-                        }
+                        Text("Your 30-day program").font(.section).foregroundStyle(Theme.ink).padding(.top, Space.s)
+                        ProgramOverview(program: program, unlocked: store.isPremium) { paywall = true }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .card().fadeUp(3)
+                    .fadeUp(2)
                 }
+                nicheCard.fadeUp(3)
+                setupCard.fadeUp(3)
+
 
                 VStack(alignment: .leading, spacing: Space.m) {
                     Text("What you'll track").font(.section).foregroundStyle(Theme.ink)
@@ -457,6 +539,10 @@ private struct JourneyResultsView: View {
                         ForEach(config.metrics, id: \.self) { m in Badge(Journeys.metric(m).label, tone: .brand, systemImage: Journeys.metric(m).icon) }
                     }
                     Text("First goal: \(answers.goal)").font(.footnote).foregroundStyle(Theme.faint)
+                    Label {
+                        Text("Honest timeline: \(MonthCoach.timeline(config.id)) Each month after the first, you get a new plan built from your results.")
+                    } icon: { Image(systemName: "clock.fill") }
+                    .font(.footnote).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .card().fadeUp(4)
@@ -468,17 +554,43 @@ private struct JourneyResultsView: View {
         }
         .background(Theme.bg.ignoresSafeArea())
         .overlay { ConfettiView(count: 50) }
+        .overlay(alignment: .topLeading) { OnboardingBackButton(action: onBack) }
         .safeAreaInset(edge: .bottom) {
             BottomBar {
-                Button { serverService || store.isPremium ? onStart() : (paywall = true) } label: {
-                    Label("Start My 30-Day Journey", systemImage: "arrow.right").labelStyle(TrailingIconLabel())
+                Button {
+                    if isGuest { createAccount = true }
+                    else if store.isPremium && !serverService { onUnlocked() }
+                    else if serverService || store.isPremium { onStart() }
+                    else {
+                        // Save the plan, then offer the subscription over the app (closing it leads to the offers, then explore).
+                        onStart()
+                        store.paywallFeature = "your plan"
+                    }
+                } label: {
+                    Text(isGuest ? "Save My Plan" : store.isPremium || serverService ? "Start My 30-Day Program" : "Unlock My Full Program")
                 }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
+                .buttonStyle(.chunky())
+                if isGuest {
+                    Text("Create a free account to keep your plan.").font(.play(13, .medium)).foregroundStyle(Theme.faint)
+                }
                 Button { onChangeMethod() } label: { Label("Change Earning Method", systemImage: "arrow.triangle.branch") }
                     .buttonStyle(.fr(.ghost, full: true))
             }
         }
         .sheet(isPresented: $paywall) { journeyPaywall }
+        .sheet(isPresented: $createAccount) { CreateAccountSheet() }
+        // The account now exists: save the plan (enroll) and continue to the subscription.
+        .onChange(of: store.s.account?.id) { _, id in
+            guard id != nil else { return }
+            createAccount = false
+            guard !store.s.onboarded else { return }
+            Monitoring.track("account_created_after_onboarding", ["journey": config.id.rawValue])
+            if store.isPremium { onUnlocked() } else {
+                onStart()
+                // Account created and plan saved: now offer the subscription (closing it leads to explore mode).
+                store.paywallFeature = "your plan"
+            }
+        }
     }
 
     private var nicheCard: some View {
@@ -528,27 +640,12 @@ private struct JourneyResultsView: View {
     }
 
     private var journeyPaywall: some View {
-        VStack(alignment: .leading, spacing: Space.l) {
-            Text("Start your journey with Premium").font(.title2).foregroundStyle(Theme.ink).padding(.top, Space.xl)
-            Text("Your full 30-day program, AI Coach, lessons and every tool.").font(.subheadline).foregroundStyle(Theme.muted)
-            PlanPicker(selection: $plan).padding(.top, Space.s)
-            Spacer()
-            Button {
-                mockCheckout(store: store, plan: plan, loading: $loading) {
-                    paywall = false
-                    store.showToast("Premium unlocked")
-                    onStart()
-                }
-            } label: { LoadingLabel(title: "Start Premium", systemImage: "crown.fill", loading: loading) }
-            .buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(loading)
-            Button("Maybe later — look around first") { paywall = false; onStart() }
-                .buttonStyle(.fr(.ghost, full: true)).disabled(loading)
-            Text("Prototype checkout — no payment is taken.").font(.caption).foregroundStyle(Theme.faint).frame(maxWidth: .infinity)
+        VStack(spacing: 0) {
+            // Closing the paywall still saves the plan: the user explores the app until they start.
+            PlanPaywallView(onUnlocked: { paywall = false; onUnlocked() }, onClose: { paywall = false; onStart() })
+                .interactiveDismissDisabled()
         }
-        .padding(.horizontal, Space.xl)
         .background(Theme.bgSunken.ignoresSafeArea())
-        .presentationDetents([.fraction(0.72), .large])
-        .presentationDragIndicator(.visible)
     }
 }
 
@@ -583,97 +680,204 @@ private struct OptionCard: View {
 
     var body: some View {
         Button(action: action) {
-            Group { if multi { tile } else { row } }
-                .background(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).fill(selected ? Theme.brand500.opacity(0.15) : Theme.surface))
-                .overlay(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).strokeBorder(selected ? Theme.brand500.opacity(0.6) : Theme.line))
-                .shadow(color: selected ? Theme.brand600.opacity(0.25) : .clear, radius: 10, y: 4)
-                .animation(.snappy, value: selected)
+            VStack(spacing: 3) {
+                HStack(spacing: 10) {
+                    Image(systemName: option.icon).font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(selected ? .white : Theme.brand300)
+                    Text(option.label).lineLimit(2).minimumScaleFactor(0.85)
+                }
+                if let hint = option.hint, !multi {
+                    Text(hint).font(.play(13, .medium)).foregroundStyle(selected ? .white.opacity(0.85) : Theme.muted)
+                        .lineLimit(2)
+                }
+            }
+            .padding(.vertical, 10)
         }
-        .buttonStyle(.pressable)
+        .buttonStyle(.chunky(.option(selected: selected), height: multi ? 72 : 64))
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(selected ? .isSelected : [])
     }
+}
 
-    private var row: some View {
-        HStack(spacing: 14) {
-            SymbolTile(icon: option.icon, tint: selected ? Theme.brand300 : Theme.muted, size: 36)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(option.label).font(.body.weight(.semibold)).foregroundStyle(Theme.ink).multilineTextAlignment(.leading)
-                if let hint = option.hint { Text(hint).font(.footnote).foregroundStyle(Theme.muted).multilineTextAlignment(.leading) }
+/// The question, spoken by the mascot: a rounded bubble with a tail pointing at it.
+private struct QuestionBubble: View {
+    let text: String
+    var tail = true
+    var body: some View {
+        Text(text)
+            .font(.play(21, .bold))
+            .foregroundStyle(Theme.ink)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.horizontal, 18).padding(.vertical, 14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Theme.surface))
+            .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(Theme.line, lineWidth: 2))
+            .overlay(alignment: .leading) {
+                if tail {
+                BubbleTail().fill(Theme.surface)
+                    .overlay(BubbleTail().stroke(Theme.line, lineWidth: 2))
+                    .frame(width: 12, height: 18)
+                    .offset(x: -10)
+                }
             }
-            Spacer(minLength: 4)
-            check
-        }
-        .padding(.horizontal, 16).padding(.vertical, 12)
-        .frame(minHeight: 60)
+            .accessibilityAddTraits(.isHeader)
     }
+}
 
-    private var tile: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack { SymbolTile(icon: option.icon, tint: selected ? Theme.brand300 : Theme.muted, size: 34); Spacer(); check }
-            Text(option.label).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
-                .lineLimit(2).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: 0)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, minHeight: 96, alignment: .topLeading)
+private struct BubbleTail: Shape {
+    func path(in r: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: r.maxX, y: r.minY))
+        p.addLine(to: CGPoint(x: r.minX, y: r.midY))
+        p.addLine(to: CGPoint(x: r.maxX, y: r.maxY))
+        return p
     }
+}
 
-    private var check: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: multi ? 7 : 12).strokeBorder(selected ? .clear : Theme.lineStrong, lineWidth: 1.5)
-            if selected {
-                RoundedRectangle(cornerRadius: multi ? 7 : 12).fill(Theme.brandGradient)
-                Image(systemName: "checkmark").font(.caption.weight(.heavy)).foregroundStyle(.white).transition(.scale)
+/// Thick rounded progress bar with a soft highlight, like a game level meter.
+private struct ChunkyProgress: View {
+    let value: Double
+    var body: some View {
+        GeometryReader { g in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Theme.surface2)
+                Capsule().fill(Theme.brandGradient)
+                    .frame(width: max(g.size.width * value, 18))
+                    .overlay(alignment: .top) {
+                        Capsule().fill(.white.opacity(0.35)).frame(height: 3).padding(.horizontal, 8).padding(.top, 3)
+                    }
+                    .animation(.spring(response: 0.5, dampingFraction: 0.7), value: value)
             }
         }
-        .frame(width: 24, height: 24)
+        .frame(height: 16)
     }
 }
 
 private struct AnalysisView: View {
     let niche: String
+    let track: PathID?
+    /// Writes Week 1 of the program; the last step waits for it.
+    let work: () async -> Void
     let onDone: () -> Void
     @State private var step = 0
     private var labels: [String] {
-        ["Reading your niche: \(niche)", "Matching missions to your starting point", "Fitting the plan to your weekly time", "Picking the tools and numbers you'll track"]
+        ["Let me build your plan…", "Reading your niche: \(niche)", "Matching missions to where you start", "Fitting it to your weekly time", "Writing your first missions"]
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer()
-            ProgressRing(value: Double(step) / Double(labels.count), size: 230, lineWidth: 6, label: "Building your plan") {
-                MascotView(mood: step >= labels.count ? .excited : .thinking, size: 150, interactive: false)
+            HStack(alignment: .center, spacing: 6) {
+                MascotView(mood: step >= labels.count ? .excited : .thinking, size: 96, interactive: false, float: false)
+                QuestionBubble(text: labels[min(step, labels.count - 1)])
+                    .id(step)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96, anchor: .leading)))
             }
-            Text("Building your Vaulten plan…").font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).multilineTextAlignment(.center).padding(.top, Space.xxl)
-            VStack(alignment: .leading, spacing: 14) {
-                ForEach(Array(labels.enumerated()), id: \.offset) { i, label in
-                    HStack(spacing: 12) {
-                        ZStack {
-                            Circle().fill(i < step ? Theme.success.opacity(0.15) : Theme.surface2).frame(width: 26, height: 26)
-                            if i < step { Image(systemName: "checkmark").font(.caption.weight(.heavy)).foregroundStyle(Theme.success).transition(.scale) }
-                            else if i == step { ProgressView().controlSize(.mini) }
-                        }
-                        Text(label).font(.callout).foregroundStyle(i < step ? Theme.ink : i == step ? Theme.muted : Theme.faint).lineLimit(1)
-                    }
-                    .opacity(i > step ? 0.5 : 1)
-                }
-            }
+            .padding(.horizontal, Space.xl)
             .padding(.top, Space.xl)
-            Spacer(); Spacer()
+
+            LessonWall(track: track)
+                .frame(maxHeight: .infinity)
+                .padding(.top, Space.l)
+                .accessibilityHidden(true)
+
+            ChunkyProgress(value: max(Double(step) / Double(labels.count), 0.06))
+                .padding(.horizontal, Space.xl)
+                .padding(.bottom, Space.xl)
+                .accessibilityLabel("Building your plan")
         }
-        .padding(.horizontal, Space.xl)
         .frame(maxWidth: .infinity)
         .background(Theme.bg.ignoresSafeArea())
         .task {
-            for i in 1...labels.count {
-                try? await Task.sleep(for: .milliseconds(750))
+            async let written: Void = work()
+            for i in 1..<labels.count {
+                try? await Task.sleep(for: .milliseconds(900))
                 withAnimation(.snappy) { step = i }
                 Haptics.select()
             }
+            await written
+            try? await Task.sleep(for: .milliseconds(500))
+            withAnimation(.snappy) { step = labels.count }
             try? await Task.sleep(for: .milliseconds(400))
             Haptics.notify(.success)
             onDone()
         }
+    }
+}
+
+/// Columns of the journey's real lesson cards gliding up and down, with soft faded edges.
+private struct LessonWall: View {
+    let track: PathID?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private var lessons: [Lesson] {
+        let list = track.map { MockData.lessons(for: $0) } ?? []
+        return list.isEmpty ? Array(MockData.allLessons.prefix(18)) : list
+    }
+
+    var body: some View {
+        let all = lessons
+        let columns = 3
+        TimelineView(.animation(paused: reduceMotion)) { context in
+            let t = context.date.timeIntervalSinceReferenceDate
+            GeometryReader { g in
+                let width = (g.size.width - CGFloat(columns + 1) * 12) / CGFloat(columns)
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(0..<columns, id: \.self) { c in
+                        let items = stride(from: c, to: all.count, by: columns).map { all[$0] }
+                        let cardHeight = width * 1.3
+                        let loop = CGFloat(max(items.count, 1)) * (cardHeight + 12)
+                        let speed = 18.0 + Double(c) * 6
+                        let raw = CGFloat((t * speed).truncatingRemainder(dividingBy: Double(loop)))
+                        let shift = c.isMultiple(of: 2) ? -raw : raw - loop
+                        VStack(spacing: 12) {
+                            ForEach(0..<2, id: \.self) { _ in
+                                ForEach(items) { LessonTile(lesson: $0, width: width, height: cardHeight) }
+                            }
+                        }
+                        .offset(y: shift)
+                    }
+                }
+                .padding(.horizontal, 12)
+            }
+            .clipped()
+        }
+        .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.12), .init(color: .black, location: 0.88), .init(color: .clear, location: 1)], startPoint: .top, endPoint: .bottom))
+    }
+}
+
+private struct LessonTile: View {
+    let lesson: Lesson
+    let width: CGFloat
+    let height: CGFloat
+
+    var body: some View {
+        let color = Color(hue: lesson.hue / 360, saturation: 0.55, brightness: 0.75)
+        VStack(alignment: .leading, spacing: 6) {
+            Image(systemName: "play.fill").font(.system(size: 12, weight: .bold)).foregroundStyle(.white.opacity(0.9))
+                .frame(width: 26, height: 26).background(Circle().fill(.white.opacity(0.18)))
+            Spacer(minLength: 0)
+            Text(lesson.title).font(.play(14, .heavy)).foregroundStyle(.white)
+                .lineLimit(4).minimumScaleFactor(0.8)
+            Text(lesson.category.uppercased()).font(.play(10, .bold)).foregroundStyle(.white.opacity(0.75)).lineLimit(1)
+        }
+        .padding(12)
+        .frame(width: width, height: height, alignment: .topLeading)
+        .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(LinearGradient(colors: [color, color.mix(with: .black, by: 0.35)], startPoint: .topLeading, endPoint: .bottomTrailing)))
+        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(.white.opacity(0.12)))
+    }
+}
+
+/// Back chevron for the full-screen onboarding steps (building the plan, the plan itself).
+private struct OnboardingBackButton: View {
+    let action: () -> Void
+    var body: some View {
+        Button { Haptics.tap(); action() } label: {
+            Image(systemName: "chevron.left").font(.system(size: 20, weight: .bold)).foregroundStyle(Theme.inkSoft)
+                .frame(width: 44, height: 44)
+                .background(Circle().fill(Theme.surface.opacity(0.85)))
+        }
+        .accessibilityLabel("Back")
+        .padding(.leading, Space.m)
+        .padding(.top, Space.xs)
     }
 }

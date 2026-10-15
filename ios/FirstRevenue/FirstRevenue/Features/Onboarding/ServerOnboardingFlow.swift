@@ -1,4 +1,5 @@
 import SwiftUI
+import RevenueCatUI
 
 /// Backend questionnaire for real accounts on a service journey: questions come from the API, each answer
 /// is saved as the user goes (so it resumes on another device), and choosing the journey's path enrolls the
@@ -354,26 +355,12 @@ private struct ServerResultsView: View {
     }
 
     private var journeyPaywall: some View {
-        VStack(alignment: .leading, spacing: Space.l) {
-            Text("Start your journey with Premium").font(.title2).foregroundStyle(Theme.ink).padding(.top, Space.xl)
-            Text("Your full 30-day program, AI Coach, lessons and every tool.").font(.subheadline).foregroundStyle(Theme.muted)
-            PlanPicker(selection: $plan).padding(.top, Space.s)
-            Spacer()
-            Button {
-                mockCheckout(store: store, plan: plan, loading: $loading) {
-                    paywall = false
-                    store.showToast("Premium unlocked")
-                    enroll()
-                }
-            } label: { LoadingLabel(title: "Start Premium", systemImage: "crown.fill", loading: loading) }
-            .buttonStyle(.fr(.primary, size: .lg, full: true)).disabled(loading)
-            Button("Maybe later — start with Day 1") { paywall = false; enroll() }
-                .buttonStyle(.fr(.ghost, full: true)).disabled(loading)
+        VStack(spacing: 0) {
+            PlanPaywallView(onUnlocked: { paywall = false; store.showToast("Premium unlocked"); enroll() },
+                            onClose: { paywall = false; enroll() })
+                .interactiveDismissDisabled()
         }
-        .padding(.horizontal, Space.xl)
         .background(Theme.bgSunken.ignoresSafeArea())
-        .presentationDetents([.fraction(0.72), .large])
-        .presentationDragIndicator(.visible)
     }
 
     /// Records the choice on the server, then opens the app on that path.

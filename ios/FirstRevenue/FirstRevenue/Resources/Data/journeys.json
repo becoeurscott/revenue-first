@@ -2211,6 +2211,18 @@
   ],
   "onboarding": [
     {
+      "key": "welcome",
+      "icon": "hand.wave.fill",
+      "title": "Hey! I'm Vault. Let's find your first income together.",
+      "subtitle": "A few quick questions, then I'll build a plan made just for you.",
+      "kind": "info",
+      "options": null,
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Hey! I'm Vault.",
+      "illustration": "hello"
+    },
+    {
       "key": "name",
       "icon": "hand.wave.fill",
       "title": "First things first — what's your name?",
@@ -2219,7 +2231,103 @@
       "options": null,
       "placeholder": "Your first name",
       "required": true,
-      "mascotLine": "Hey! I'm Penny. I'll be with you every step."
+      "mascotLine": "Hey! I'm Vault. I'll be with you every step."
+    },
+    {
+      "key": "heardFrom",
+      "icon": "megaphone.fill",
+      "title": "How did you hear about Vaulten?",
+      "subtitle": "Just curious. It helps us reach more people like you.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "instagram",
+          "label": "Instagram",
+          "icon": "camera.fill",
+          "hint": null
+        },
+        {
+          "value": "tiktok",
+          "label": "TikTok",
+          "icon": "music.note",
+          "hint": null
+        },
+        {
+          "value": "youtube",
+          "label": "YouTube",
+          "icon": "play.rectangle.fill",
+          "hint": null
+        },
+        {
+          "value": "friends",
+          "label": "Friends or family",
+          "icon": "person.2.fill",
+          "hint": null
+        },
+        {
+          "value": "search",
+          "label": "Google or App Store",
+          "icon": "magnifyingglass",
+          "hint": null
+        },
+        {
+          "value": "other",
+          "label": "Somewhere else",
+          "icon": "ellipsis.circle.fill",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Just curious!"
+    },
+    {
+      "key": "ageRange",
+      "icon": "person.crop.circle.fill",
+      "title": "How old are you, {name}?",
+      "subtitle": "Vaulten is built for adults starting their first online income.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "under_18",
+          "label": "Under 18",
+          "icon": "person.fill",
+          "hint": null
+        },
+        {
+          "value": "18_24",
+          "label": "18 to 24",
+          "icon": "person.fill",
+          "hint": null
+        },
+        {
+          "value": "25_34",
+          "label": "25 to 34",
+          "icon": "person.fill",
+          "hint": null
+        },
+        {
+          "value": "35_44",
+          "label": "35 to 44",
+          "icon": "person.fill",
+          "hint": null
+        },
+        {
+          "value": "45_plus",
+          "label": "45 or older",
+          "icon": "person.fill",
+          "hint": null
+        },
+        {
+          "value": "prefer_not",
+          "label": "Prefer not to say",
+          "icon": "hand.raised.fill",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "No wrong answers."
     },
     {
       "key": "earningMethod",
@@ -2298,6 +2406,18 @@
           "youtube"
         ]
       }
+    },
+    {
+      "key": "valueMissions",
+      "icon": "checklist",
+      "title": "Every day you'll get one clear mission, written for your niche.",
+      "subtitle": "15 to 45 minutes, no theory overload. Just the next step that moves you toward your first income.",
+      "kind": "info",
+      "options": null,
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "One step a day.",
+      "illustration": "missions"
     },
     {
       "key": "niche",
@@ -3091,11 +3211,23 @@
       "summary": "Style"
     },
     {
+      "key": "valueCoach",
+      "icon": "sparkles",
+      "title": "And whenever you're stuck, you can ask me anything.",
+      "subtitle": "Your coach knows your journey, your niche and where you are in the plan.",
+      "kind": "info",
+      "options": null,
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Ask me anything!",
+      "illustration": "coach"
+    },
+    {
       "key": "weeklyTime",
       "icon": "clock.fill",
       "title": "How much time can you set aside each week?",
       "subtitle": "Be kind to yourself. A plan you can keep beats a big one.",
-      "kind": "single",
+      "kind": "slider",
       "options": [
         {
           "value": "Under 3 hours",

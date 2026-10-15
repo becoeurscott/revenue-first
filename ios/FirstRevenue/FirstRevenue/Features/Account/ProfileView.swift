@@ -142,15 +142,7 @@ struct ProfileView: View {
         }
     }
 
-    private var subscriptionDetail: String {
-        let sub = store.s.subscription
-        let planName = MockData.shared.subscription.plans.first { $0.id == sub.plan }?.name
-        switch sub.status {
-        case .active: return "Premium\(planName.map { " · \($0)" } ?? "") · Active"
-        case .expired: return "Premium · Expired"
-        case .none: return "Free plan"
-        }
-    }
+    private var subscriptionDetail: String { RevenueCatService.shared.planLabel }
 }
 
 // MARK: Goals sheet

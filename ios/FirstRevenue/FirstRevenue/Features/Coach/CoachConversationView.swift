@@ -19,7 +19,7 @@ struct CoachConversationView: View {
                 onSend: { send($0) },
                 onRetry: { withAnimation { failed = false }; attempt += 1 }
             )
-            .task(id: "\(c.messages.last?.id ?? "none")-\(attempt)") { await respond() }
+            .task(id: "\(c.messages.last?.id ?? "none")-\(attempt)-\(CoachMeter.shared.usage?.isSpent == true)") { await respond() }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { confirmDelete = true } label: { Image(systemName: "trash") }
@@ -47,8 +47,34 @@ struct CoachConversationView: View {
     // MARK: Reply (driven by state, so it survives navigation)
 
     private func respond() async {
-        guard store.isPremium, let last = conversation?.messages.last, last.isUser else { return }
+        guard store.canUseCoach, let c = conversation, let last = c.messages.last, last.isUser else { return }
         failed = false
+        if CoachAPI.isAvailable {
+            // The server counts the message; a spent allowance shows the upgrade card instead of an answer.
+            guard CoachMeter.shared.usage?.isSpent != true else { return }
+            do {
+                let answer = try await CoachAPI.reply(to: c.messages, conversationId: id, store: store)
+                guard !Task.isCancelled else { return }
+                CoachMeter.shared.update(answer.usage)
+                withAnimation(.snappy) { store.addChatMessage(id, from: "coach", answer.text) }
+                Haptics.soft()
+            } catch CoachAPI.Failure.limitReached(let usage) {
+                withAnimation(.snappy) { CoachMeter.shared.update(usage) }
+                Haptics.notify(.warning)
+            } catch let failure as CoachAPI.Failure where failure.meansUnavailable {
+                guard !Task.isCancelled else { return }
+                let reply = CoachEngine.reply(to: last.text, path: store.s.pathId).text
+                withAnimation(.snappy) { store.addChatMessage(id, from: "coach", reply) }
+                Haptics.soft()
+            } catch {
+                guard !Task.isCancelled else { return }
+                withAnimation(.snappy) { failed = true }
+                Haptics.notify(.error)
+            }
+            return
+        }
+        // Without the AI endpoint (or signed out), Premium keeps the built-in coach answers.
+        guard store.isPremium else { return }
         let reply = CoachEngine.reply(to: last.text, path: store.s.pathId).text
         try? await Task.sleep(for: CoachEngine.typingDelay(for: reply))
         guard !Task.isCancelled else { return }
@@ -86,7 +112,8 @@ private struct CoachThreadScreen: View {
 
     private var messages: [ChatMessage] { conversation.messages }
     private var awaiting: Bool { messages.last?.isUser == true }
-    private var typing: Bool { awaiting && !failed && store.isPremium }
+    private var spent: CoachUsage? { CoachAPI.isAvailable ? CoachMeter.shared.usage.flatMap { $0.isSpent ? $0 : nil } : nil }
+    private var typing: Bool { awaiting && !failed && spent == nil && store.canUseCoach }
 
     private var followUps: [String] {
         guard let last = messages.last, !last.isUser else { return [] }
@@ -97,9 +124,7 @@ private struct CoachThreadScreen: View {
     var body: some View {
         ScrollViewReader { proxy in
             Screen(title: conversation.title) {
-                PremiumGate(feature: "AI Coach", message: store.journey.coachGateMessage) {
-                    thread
-                }
+                if store.canUseCoach { thread } else { LockedView(feature: "AI Coach", message: store.journey.coachGateMessage) }
             }
             .defaultScrollAnchor(.bottom)
             .onAppear { scrollToBottom(proxy, animated: false) }
@@ -108,8 +133,8 @@ private struct CoachThreadScreen: View {
             .onChange(of: failed) { _, _ in scrollToBottom(proxy) }
         }
         .safeAreaInset(edge: .bottom) {
-            if store.isPremium {
-                CoachComposerBar(placeholder: typing ? "Coach is typing…" : "Reply to your coach…", disabled: typing, onSend: onSend)
+            if store.canUseCoach {
+                CoachInputArea(placeholder: typing ? "Coach is typing…" : "Reply to your coach…", disabled: typing, onSend: onSend)
             }
         }
     }

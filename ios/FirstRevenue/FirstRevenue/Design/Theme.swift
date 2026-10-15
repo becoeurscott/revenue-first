@@ -88,6 +88,8 @@ extension Font {
     static let meta = Font.system(.footnote).weight(.medium)
     static let eyebrow = Font.system(.caption).weight(.bold)
     static func number(_ size: CGFloat) -> Font { .system(size: size, weight: .heavy, design: .rounded).monospacedDigit() }
+    /// Playful, rounded type for onboarding, paywalls and big moments.
+    static func play(_ size: CGFloat, _ weight: Font.Weight = .bold) -> Font { .system(size: size, weight: weight, design: .rounded) }
 }
 
 extension Animation {

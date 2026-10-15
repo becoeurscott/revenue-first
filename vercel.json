@@ -18,6 +18,9 @@
     },
     "api/niche-profiles/resolve.ts": {
       "maxDuration": 60
+    },
+    "api/program.ts": {
+      "maxDuration": 240
     }
   }
 }

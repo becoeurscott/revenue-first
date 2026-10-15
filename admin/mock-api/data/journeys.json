@@ -1,0 +1,1963 @@
+{
+  "catalogVersion": 1,
+  "journeys": [
+    {
+      "id": "youtube_owned_channel",
+      "version": 1,
+      "status": "active",
+      "label": "Grow your own YouTube channel",
+      "shortLabel": "Own YouTube channel",
+      "description": "Build, publish and grow your own channel, then add income in the order that fits your stage: affiliate links, sponsorships, products, and later the YouTube Partner Program.",
+      "icon": "play.rectangle.fill",
+      "hue": 0,
+      "track": "youtube_owned",
+      "planId": "youtube-owned-30-day-v1",
+      "primaryAction": "Publish your next video",
+      "modules": [
+        "channel",
+        "audience",
+        "ideas",
+        "script",
+        "production",
+        "publishing",
+        "analytics",
+        "monetization"
+      ],
+      "metrics": [
+        "videosPublished",
+        "uploadsThisWeek",
+        "watchTime",
+        "subscribers",
+        "clickThroughRate",
+        "returningViewers"
+      ],
+      "achievementIds": [
+        "first-step",
+        "three-day",
+        "seven-day",
+        "mission-master",
+        "lesson-lover",
+        "finisher"
+      ],
+      "monetizationStages": [
+        "buildAudience",
+        "affiliateOffers",
+        "sponsorshipReadiness",
+        "youtubePartnerProgram"
+      ],
+      "requiresProspects": false,
+      "requiresDeals": false,
+      "goalOptions": [
+        {
+          "label": "Publish my first 10 videos",
+          "metric": "videosPublished",
+          "target": 10
+        },
+        {
+          "label": "Reach 100 subscribers",
+          "metric": "subscribers",
+          "target": 100
+        },
+        {
+          "label": "Reach 1,000 subscribers",
+          "metric": "subscribers",
+          "target": 1000
+        },
+        {
+          "label": "Earn my first $100 from the channel",
+          "metric": "channelIncome",
+          "target": 100,
+          "money": true
+        }
+      ],
+      "checkinMetrics": [
+        "uploadsThisWeek",
+        "subscribers"
+      ],
+      "quickActions": [
+        "content",
+        "analytics",
+        "monetization",
+        "resources"
+      ]
+    },
+    {
+      "id": "youtube_services",
+      "version": 1,
+      "status": "active",
+      "label": "Services for YouTube creators",
+      "shortLabel": "YouTube creator services",
+      "description": "Do paid work for creators. You start with done-for-you short-form clips cut from their long videos, then grow into editing and channel help.",
+      "icon": "scissors",
+      "hue": 265,
+      "track": "clipping",
+      "planId": "clipping-30-day-v1",
+      "primaryAction": "Contact your next creator",
+      "modules": [
+        "offer",
+        "proof",
+        "prospects",
+        "outreach",
+        "followups",
+        "delivery",
+        "pricing",
+        "revenue"
+      ],
+      "metrics": [
+        "prospects",
+        "contacted",
+        "replies",
+        "clients",
+        "revenue"
+      ],
+      "achievementIds": [
+        "first-step",
+        "three-day",
+        "seven-day",
+        "mission-master",
+        "first-prospect",
+        "ten-prospects",
+        "first-reply",
+        "first-client",
+        "club-100",
+        "club-500",
+        "lesson-lover",
+        "finisher"
+      ],
+      "monetizationStages": [],
+      "requiresProspects": true,
+      "requiresDeals": true,
+      "goalOptions": [
+        {
+          "label": "$50",
+          "metric": "revenue",
+          "target": 50,
+          "money": true
+        },
+        {
+          "label": "$100",
+          "metric": "revenue",
+          "target": 100,
+          "money": true
+        },
+        {
+          "label": "$250",
+          "metric": "revenue",
+          "target": 250,
+          "money": true
+        },
+        {
+          "label": "$500",
+          "metric": "revenue",
+          "target": 500,
+          "money": true
+        },
+        {
+          "label": "$1,000+",
+          "metric": "revenue",
+          "target": 1000,
+          "money": true
+        }
+      ],
+      "checkinMetrics": [
+        "contacted",
+        "replies"
+      ],
+      "quickActions": [
+        "prospects",
+        "pricing",
+        "revenue",
+        "resources"
+      ]
+    },
+    {
+      "id": "freelance_services",
+      "version": 1,
+      "status": "active",
+      "label": "Freelance services for businesses",
+      "shortLabel": "Freelance services",
+      "description": "Do paid work for businesses. Your starting offer is Google Business Profile setup and optimization for local businesses in your niche — a service any beginner can deliver in a week.",
+      "icon": "briefcase.fill",
+      "hue": 210,
+      "track": "gbp",
+      "planId": "gbp-30-day-v1",
+      "primaryAction": "Contact your next business",
+      "modules": [
+        "offer",
+        "proof",
+        "prospects",
+        "outreach",
+        "followups",
+        "delivery",
+        "pricing",
+        "revenue"
+      ],
+      "metrics": [
+        "prospects",
+        "contacted",
+        "replies",
+        "clients",
+        "revenue"
+      ],
+      "achievementIds": [
+        "first-step",
+        "three-day",
+        "seven-day",
+        "mission-master",
+        "first-prospect",
+        "ten-prospects",
+        "first-reply",
+        "first-client",
+        "club-100",
+        "club-500",
+        "lesson-lover",
+        "finisher"
+      ],
+      "monetizationStages": [],
+      "requiresProspects": true,
+      "requiresDeals": true,
+      "goalOptions": [
+        {
+          "label": "$50",
+          "metric": "revenue",
+          "target": 50,
+          "money": true
+        },
+        {
+          "label": "$100",
+          "metric": "revenue",
+          "target": 100,
+          "money": true
+        },
+        {
+          "label": "$250",
+          "metric": "revenue",
+          "target": 250,
+          "money": true
+        },
+        {
+          "label": "$500",
+          "metric": "revenue",
+          "target": 500,
+          "money": true
+        },
+        {
+          "label": "$1,000+",
+          "metric": "revenue",
+          "target": 1000,
+          "money": true
+        }
+      ],
+      "checkinMetrics": [
+        "contacted",
+        "replies"
+      ],
+      "quickActions": [
+        "prospects",
+        "pricing",
+        "revenue",
+        "resources"
+      ]
+    },
+    {
+      "id": "digital_products",
+      "version": 1,
+      "status": "coming_soon",
+      "label": "Digital products",
+      "shortLabel": "Digital products",
+      "description": "Create and sell templates, guides or small courses.",
+      "icon": "doc.richtext.fill",
+      "hue": 150,
+      "track": null,
+      "planId": null,
+      "primaryAction": "",
+      "modules": [],
+      "metrics": [],
+      "achievementIds": [],
+      "monetizationStages": [],
+      "requiresProspects": false,
+      "requiresDeals": false,
+      "goalOptions": [],
+      "checkinMetrics": [],
+      "quickActions": []
+    },
+    {
+      "id": "affiliate_content",
+      "version": 1,
+      "status": "coming_soon",
+      "label": "Affiliate content",
+      "shortLabel": "Affiliate content",
+      "description": "Recommend products you use and earn a commission on sales.",
+      "icon": "link",
+      "hue": 35,
+      "track": null,
+      "planId": null,
+      "primaryAction": "",
+      "modules": [],
+      "metrics": [],
+      "achievementIds": [],
+      "monetizationStages": [],
+      "requiresProspects": false,
+      "requiresDeals": false,
+      "goalOptions": [],
+      "checkinMetrics": [],
+      "quickActions": []
+    },
+    {
+      "id": "creator_brand",
+      "version": 1,
+      "status": "coming_soon",
+      "label": "Creator brand",
+      "shortLabel": "Creator brand",
+      "description": "Grow a personal brand across social platforms and monetize your audience.",
+      "icon": "person.crop.square.fill",
+      "hue": 320,
+      "track": null,
+      "planId": null,
+      "primaryAction": "",
+      "modules": [],
+      "metrics": [],
+      "achievementIds": [],
+      "monetizationStages": [],
+      "requiresProspects": false,
+      "requiresDeals": false,
+      "goalOptions": [],
+      "checkinMetrics": [],
+      "quickActions": []
+    }
+  ],
+  "metrics": {
+    "missions": {
+      "label": "Missions done",
+      "icon": "checkmark.seal.fill",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Complete daily missions"
+    },
+    "daysCompleted": {
+      "label": "Days completed",
+      "icon": "calendar",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Finish your 30-day plan"
+    },
+    "lessons": {
+      "label": "Lessons watched",
+      "icon": "play.rectangle.fill",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Watch your unlocked lessons"
+    },
+    "streak": {
+      "label": "Day streak",
+      "icon": "flame.fill",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Show up every day"
+    },
+    "prospects": {
+      "label": "Prospects",
+      "icon": "person.2.fill",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Add potential clients to your list"
+    },
+    "contacted": {
+      "label": "Prospects contacted",
+      "icon": "paperplane.fill",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Send personalised outreach"
+    },
+    "replies": {
+      "label": "Replies",
+      "icon": "bubble.left.and.bubble.right.fill",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Get a reply from a prospect"
+    },
+    "clients": {
+      "label": "Clients won",
+      "icon": "person.crop.circle.badge.checkmark",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Turn a prospect into a paying client"
+    },
+    "revenue": {
+      "label": "Revenue earned",
+      "icon": "dollarsign.circle.fill",
+      "kind": "derived",
+      "format": "money",
+      "hint": "Collect a client payment"
+    },
+    "videosPublished": {
+      "label": "Videos published",
+      "icon": "play.rectangle.fill",
+      "kind": "count",
+      "format": "number",
+      "hint": "Publish a video from your content board"
+    },
+    "uploadsThisWeek": {
+      "label": "Uploads this week",
+      "icon": "calendar.badge.clock",
+      "kind": "derived",
+      "format": "number",
+      "hint": "Publish on your weekly schedule"
+    },
+    "watchTime": {
+      "label": "Watch time",
+      "icon": "clock.fill",
+      "kind": "latest",
+      "format": "minutes",
+      "hint": "Log your watch time from YouTube Studio"
+    },
+    "subscribers": {
+      "label": "Subscribers",
+      "icon": "person.3.fill",
+      "kind": "latest",
+      "format": "number",
+      "hint": "Log your subscriber count from YouTube Studio"
+    },
+    "clickThroughRate": {
+      "label": "Click-through rate",
+      "icon": "cursorarrow.click.2",
+      "kind": "latest",
+      "format": "percent",
+      "hint": "Log impressions click-through rate from YouTube Studio"
+    },
+    "returningViewers": {
+      "label": "Returning viewers",
+      "icon": "arrow.triangle.2.circlepath",
+      "kind": "latest",
+      "format": "percent",
+      "hint": "Log the share of returning viewers from YouTube Studio"
+    },
+    "channelIncome": {
+      "label": "Channel income",
+      "icon": "dollarsign.circle.fill",
+      "kind": "sum",
+      "format": "money",
+      "hint": "Log income from affiliates, sponsors, products or ads"
+    }
+  },
+  "monetization": [
+    {
+      "id": "buildAudience",
+      "title": "Build an audience",
+      "summary": "Income follows trust. Right now the job is a steady publishing rhythm and learning what your viewers click and keep watching.",
+      "readyWhen": [
+        "You publish on a schedule you can keep",
+        "You know which of your videos brought new viewers"
+      ],
+      "actions": [
+        "Publish on your planned cadence for four weeks",
+        "Reply to every comment in the first 24 hours",
+        "Review click-through rate and average view duration weekly"
+      ]
+    },
+    {
+      "id": "affiliateOffers",
+      "title": "Affiliate offers",
+      "summary": "Recommend tools or products you really use and earn a commission. It works with a small audience because buyers are already searching.",
+      "readyWhen": [
+        "Viewers ask what you use",
+        "You have videos that review, compare or teach with a product"
+      ],
+      "actions": [
+        "List the products you already use in your videos",
+        "Join their affiliate programs and add links to relevant descriptions",
+        "Disclose every affiliate link clearly, in the video and the description"
+      ]
+    },
+    {
+      "id": "sponsorshipReadiness",
+      "title": "Sponsorship readiness",
+      "summary": "Brands pay for a defined, engaged audience, not only a big one. Prepare the proof before you pitch anyone.",
+      "readyWhen": [
+        "Your views are consistent from video to video",
+        "You can describe your audience in one sentence"
+      ],
+      "actions": [
+        "Make a one-page media kit: audience, recent views, topics",
+        "List five brands your viewers already use",
+        "Set a simple rate you can explain"
+      ]
+    },
+    {
+      "id": "youtubePartnerProgram",
+      "title": "YouTube Partner Program",
+      "summary": "Ads and memberships come through the Partner Program. Eligibility rules change, so always check the current requirements in YouTube Studio under Earn.",
+      "readyWhen": [
+        "YouTube Studio shows you are close to eligibility",
+        "Your channel follows the monetization policies"
+      ],
+      "actions": [
+        "Open YouTube Studio > Earn and note your progress",
+        "Review the monetization policies for your niche",
+        "Keep publishing; ads add to income you already built"
+      ]
+    }
+  ],
+  "contentStages": [
+    {
+      "stage": "idea",
+      "label": "Idea",
+      "icon": "lightbulb.fill",
+      "nextAction": "Research it"
+    },
+    {
+      "stage": "researched",
+      "label": "Researched",
+      "icon": "magnifyingglass",
+      "nextAction": "Write the script"
+    },
+    {
+      "stage": "scripted",
+      "label": "Scripted",
+      "icon": "text.alignleft",
+      "nextAction": "Record it"
+    },
+    {
+      "stage": "recorded",
+      "label": "Recorded",
+      "icon": "video.fill",
+      "nextAction": "Edit it"
+    },
+    {
+      "stage": "edited",
+      "label": "Edited",
+      "icon": "scissors",
+      "nextAction": "Publish it"
+    },
+    {
+      "stage": "published",
+      "label": "Published",
+      "icon": "checkmark.seal.fill",
+      "nextAction": "Review its analytics"
+    }
+  ],
+  "universalLessonIds": [
+    "men-01",
+    "men-02",
+    "men-03"
+  ],
+  "universalResourceIds": [
+    "res-mentor-checklist"
+  ],
+  "broadNicheTerms": [
+    "business",
+    "money",
+    "make money",
+    "online",
+    "content",
+    "youtube",
+    "videos",
+    "vlog",
+    "vlogs",
+    "lifestyle",
+    "entertainment",
+    "general",
+    "anything",
+    "everything",
+    "stuff",
+    "marketing",
+    "social media",
+    "creators",
+    "businesses",
+    "people"
+  ],
+  "niches": [
+    {
+      "keywords": [
+        "fitness",
+        "workout",
+        "gym",
+        "exercise",
+        "yoga",
+        "pilates",
+        "running",
+        "calisthenics"
+      ],
+      "label": "Fitness",
+      "audience": "people who want to get fitter at home or in the gym",
+      "problemOrDesire": "simple routines they can stick to",
+      "allowedClaims": [
+        "general fitness education",
+        "sharing your own routine and results"
+      ],
+      "restrictedTopics": [
+        "diagnosing injuries",
+        "medical or weight-loss guarantees",
+        "supplement health claims"
+      ],
+      "exampleTerms": [
+        "home workout",
+        "beginner routine",
+        "mobility"
+      ],
+      "monetizationOptions": [
+        "affiliate links for equipment you use",
+        "workout plan downloads",
+        "sponsorships from fitness brands"
+      ],
+      "cautionNote": "Keep it educational: no injury diagnosis or guaranteed results, and suggest a professional for medical questions."
+    },
+    {
+      "keywords": [
+        "gaming",
+        "game",
+        "games",
+        "esports",
+        "minecraft",
+        "fortnite",
+        "roblox",
+        "speedrun"
+      ],
+      "label": "Gaming",
+      "audience": "players looking to improve or be entertained",
+      "problemOrDesire": "getting better at a game or finding what to play next",
+      "allowedClaims": [
+        "tips, guides and commentary"
+      ],
+      "restrictedTopics": [
+        "cheats that break game rules",
+        "gambling and loot-box promotion to minors"
+      ],
+      "exampleTerms": [
+        "beginner guide",
+        "tier list",
+        "best settings"
+      ],
+      "monetizationOptions": [
+        "affiliate links for gear",
+        "sponsorships from game studios and gear brands",
+        "channel memberships"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "beauty",
+        "makeup",
+        "skincare",
+        "skin care",
+        "hair",
+        "nails",
+        "cosmetics"
+      ],
+      "label": "Beauty",
+      "audience": "people building a simple beauty or skincare routine",
+      "problemOrDesire": "products and routines that work for their skin, hair or budget",
+      "allowedClaims": [
+        "personal experience with products",
+        "routine walkthroughs"
+      ],
+      "restrictedTopics": [
+        "treating skin conditions",
+        "medical claims about ingredients"
+      ],
+      "exampleTerms": [
+        "skincare routine",
+        "drugstore makeup",
+        "product review"
+      ],
+      "monetizationOptions": [
+        "affiliate links for products you use",
+        "brand sponsorships",
+        "digital routine guides"
+      ],
+      "cautionNote": "Share experience, not treatment: send skin conditions to a dermatologist."
+    },
+    {
+      "keywords": [
+        "finance",
+        "money management",
+        "budget",
+        "budgeting",
+        "investing",
+        "personal finance",
+        "saving",
+        "crypto",
+        "stocks",
+        "debt"
+      ],
+      "label": "Personal finance",
+      "audience": "people trying to get their money organised",
+      "problemOrDesire": "budgeting, saving and understanding their options",
+      "allowedClaims": [
+        "general financial education",
+        "sharing your own budgeting system"
+      ],
+      "restrictedTopics": [
+        "personalised investment advice",
+        "guaranteed returns",
+        "promoting specific securities or crypto as sure bets"
+      ],
+      "exampleTerms": [
+        "budget plan",
+        "emergency fund",
+        "saving tips"
+      ],
+      "monetizationOptions": [
+        "affiliate links for budgeting tools",
+        "spreadsheet templates",
+        "sponsorships from finance apps"
+      ],
+      "cautionNote": "Educational only: no personalised investment advice or promised returns, and add a not-financial-advice note."
+    },
+    {
+      "keywords": [
+        "education",
+        "teaching",
+        "tutoring",
+        "study",
+        "studying",
+        "math",
+        "science",
+        "language",
+        "languages",
+        "exam"
+      ],
+      "label": "Education",
+      "audience": "learners trying to understand a subject or pass an exam",
+      "problemOrDesire": "a clear explanation of the part they are stuck on",
+      "allowedClaims": [
+        "explanations and study methods"
+      ],
+      "restrictedTopics": [
+        "promising grades or exam results"
+      ],
+      "exampleTerms": [
+        "explained simply",
+        "study tips",
+        "practice problems"
+      ],
+      "monetizationOptions": [
+        "study guide downloads",
+        "affiliate links for learning tools",
+        "tutoring sessions"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "food",
+        "cooking",
+        "recipes",
+        "recipe",
+        "baking",
+        "meal prep",
+        "vegan",
+        "kitchen"
+      ],
+      "label": "Food and cooking",
+      "audience": "home cooks who want reliable recipes",
+      "problemOrDesire": "tasty meals that fit their time, budget or diet",
+      "allowedClaims": [
+        "recipes and techniques"
+      ],
+      "restrictedTopics": [
+        "medical diet claims",
+        "allergy safety guarantees"
+      ],
+      "exampleTerms": [
+        "easy recipe",
+        "meal prep",
+        "budget meals"
+      ],
+      "monetizationOptions": [
+        "affiliate links for kitchen tools",
+        "recipe ebooks",
+        "food brand sponsorships"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "travel",
+        "traveling",
+        "travelling",
+        "backpacking",
+        "trips",
+        "tourism"
+      ],
+      "label": "Travel",
+      "audience": "people planning trips on a budget",
+      "problemOrDesire": "knowing where to go, what it costs and how to plan",
+      "allowedClaims": [
+        "itineraries and personal experience"
+      ],
+      "restrictedTopics": [
+        "visa or legal guarantees"
+      ],
+      "exampleTerms": [
+        "travel guide",
+        "itinerary",
+        "budget travel"
+      ],
+      "monetizationOptions": [
+        "booking affiliate links",
+        "itinerary downloads",
+        "tourism sponsorships"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "fashion",
+        "style",
+        "outfits",
+        "clothing",
+        "streetwear",
+        "thrifting"
+      ],
+      "label": "Fashion and style",
+      "audience": "people who want to dress better on their budget",
+      "problemOrDesire": "outfits that suit them without overspending",
+      "allowedClaims": [
+        "styling ideas and reviews"
+      ],
+      "restrictedTopics": [],
+      "exampleTerms": [
+        "outfit ideas",
+        "capsule wardrobe",
+        "thrift haul"
+      ],
+      "monetizationOptions": [
+        "affiliate links for clothing",
+        "brand sponsorships",
+        "style guides"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "real estate",
+        "realtor",
+        "property",
+        "properties",
+        "housing",
+        "home buying",
+        "renting"
+      ],
+      "label": "Real estate",
+      "audience": "local buyers, sellers and renters",
+      "problemOrDesire": "understanding the local market and the steps of a move",
+      "allowedClaims": [
+        "market education and local guides"
+      ],
+      "restrictedTopics": [
+        "legal or mortgage advice",
+        "promised property value gains"
+      ],
+      "exampleTerms": [
+        "first-time buyer",
+        "neighborhood guide",
+        "market update"
+      ],
+      "monetizationOptions": [
+        "referral partnerships",
+        "local business sponsorships",
+        "lead magnets for agents"
+      ],
+      "cautionNote": "Stay educational: no legal or mortgage advice, and point people to licensed professionals."
+    },
+    {
+      "keywords": [
+        "tech",
+        "technology",
+        "gadgets",
+        "software",
+        "coding",
+        "programming",
+        "ai",
+        "apps",
+        "phones"
+      ],
+      "label": "Technology",
+      "audience": "people choosing or learning tech",
+      "problemOrDesire": "picking the right tool and learning to use it",
+      "allowedClaims": [
+        "reviews, tutorials and comparisons"
+      ],
+      "restrictedTopics": [
+        "hacking or bypassing security"
+      ],
+      "exampleTerms": [
+        "tutorial",
+        "review",
+        "best apps"
+      ],
+      "monetizationOptions": [
+        "affiliate links for gear and software",
+        "tech sponsorships",
+        "course or template sales"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "health",
+        "wellness",
+        "nutrition",
+        "diet",
+        "mental health",
+        "sleep",
+        "medical"
+      ],
+      "label": "Health and wellness",
+      "audience": "people trying to build healthier habits",
+      "problemOrDesire": "small habits they can keep",
+      "allowedClaims": [
+        "general wellness education",
+        "sharing your own habits"
+      ],
+      "restrictedTopics": [
+        "diagnosis or treatment",
+        "cure or guaranteed result claims",
+        "replacing professional care"
+      ],
+      "exampleTerms": [
+        "healthy habits",
+        "routine",
+        "beginner tips"
+      ],
+      "monetizationOptions": [
+        "affiliate links for products you use",
+        "habit trackers or guides",
+        "wellness brand sponsorships"
+      ],
+      "cautionNote": "Educational only: never diagnose or promise outcomes, and tell viewers to consult a professional."
+    },
+    {
+      "keywords": [
+        "parenting",
+        "parents",
+        "moms",
+        "dads",
+        "baby",
+        "toddlers",
+        "kids",
+        "family"
+      ],
+      "label": "Parenting",
+      "audience": "parents of young children",
+      "problemOrDesire": "practical routines and less stress at home",
+      "allowedClaims": [
+        "personal experience and practical tips"
+      ],
+      "restrictedTopics": [
+        "medical advice for children",
+        "showing children without care for their privacy"
+      ],
+      "exampleTerms": [
+        "toddler routine",
+        "parenting tips",
+        "family organisation"
+      ],
+      "monetizationOptions": [
+        "affiliate links for family products",
+        "printables",
+        "family brand sponsorships"
+      ],
+      "cautionNote": "Protect your children's privacy, and send health questions to a pediatrician."
+    },
+    {
+      "keywords": [
+        "music",
+        "guitar",
+        "piano",
+        "singing",
+        "producing",
+        "beats",
+        "musician"
+      ],
+      "label": "Music",
+      "audience": "people learning an instrument or making music",
+      "problemOrDesire": "progress they can hear",
+      "allowedClaims": [
+        "lessons, covers and production tips"
+      ],
+      "restrictedTopics": [
+        "using copyrighted songs without permission"
+      ],
+      "exampleTerms": [
+        "beginner lesson",
+        "chord progression",
+        "home studio"
+      ],
+      "monetizationOptions": [
+        "affiliate links for gear",
+        "sample packs or lessons",
+        "music brand sponsorships"
+      ],
+      "cautionNote": "Check music rights before you use other people's songs."
+    },
+    {
+      "keywords": [
+        "sports",
+        "football",
+        "soccer",
+        "basketball",
+        "tennis",
+        "golf",
+        "cricket",
+        "boxing"
+      ],
+      "label": "Sports",
+      "audience": "fans and amateur players",
+      "problemOrDesire": "analysis they trust or skills they can practise",
+      "allowedClaims": [
+        "analysis, drills and commentary"
+      ],
+      "restrictedTopics": [
+        "betting promotion",
+        "unlicensed match footage"
+      ],
+      "exampleTerms": [
+        "drills",
+        "match analysis",
+        "training tips"
+      ],
+      "monetizationOptions": [
+        "affiliate links for gear",
+        "training plans",
+        "sports brand sponsorships"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "local business",
+        "local businesses",
+        "restaurants",
+        "dentists",
+        "salons",
+        "plumbers",
+        "contractors",
+        "shops",
+        "cafes"
+      ],
+      "label": "Local businesses",
+      "audience": "owners of local service businesses",
+      "problemOrDesire": "more customers finding and choosing them",
+      "allowedClaims": [
+        "profile and visibility improvements"
+      ],
+      "restrictedTopics": [
+        "fake reviews",
+        "guaranteed ranking positions"
+      ],
+      "exampleTerms": [
+        "Google Maps",
+        "reviews",
+        "local search"
+      ],
+      "monetizationOptions": [
+        "setup fees",
+        "monthly maintenance"
+      ],
+      "cautionNote": null
+    },
+    {
+      "keywords": [
+        "podcast",
+        "podcasts",
+        "podcasters",
+        "streamers",
+        "youtubers",
+        "creators",
+        "coaches"
+      ],
+      "label": "Podcasters and creators",
+      "audience": "creators who publish long-form content",
+      "problemOrDesire": "more reach from what they already record",
+      "allowedClaims": [
+        "clip and editing quality"
+      ],
+      "restrictedTopics": [
+        "guaranteed views or virality"
+      ],
+      "exampleTerms": [
+        "short clips",
+        "highlights",
+        "Shorts"
+      ],
+      "monetizationOptions": [
+        "per-clip packages",
+        "monthly retainers"
+      ],
+      "cautionNote": null
+    }
+  ],
+  "onboarding": [
+    {
+      "key": "name",
+      "icon": "hand.wave.fill",
+      "title": "First things first — what's your name?",
+      "subtitle": "Just your first name. It's how I'll cheer you on.",
+      "kind": "text",
+      "options": null,
+      "placeholder": "Your first name",
+      "required": true,
+      "mascotLine": "Hey! I'm Penny. I'll be with you every step."
+    },
+    {
+      "key": "earningMethod",
+      "icon": "arrow.triangle.branch",
+      "title": "Nice to meet you, {name}! How would you like to earn?",
+      "subtitle": "Pick the one that excites you most. You can always add another later.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "youtube",
+          "label": "YouTube",
+          "icon": "play.rectangle.fill",
+          "hint": "Grow your own channel, or help creators grow theirs"
+        },
+        {
+          "value": "freelance_services",
+          "label": "Freelance services",
+          "icon": "briefcase.fill",
+          "hint": "Get paid to help businesses"
+        },
+        {
+          "value": "digital_products",
+          "label": "Digital products",
+          "icon": "doc.richtext.fill",
+          "hint": "Sell templates, guides or mini-courses"
+        },
+        {
+          "value": "affiliate_content",
+          "label": "Affiliate content",
+          "icon": "link",
+          "hint": "Earn by recommending things you love"
+        },
+        {
+          "value": "creator_brand",
+          "label": "Creator brand",
+          "icon": "person.crop.square.fill",
+          "hint": "Build a following around you"
+        },
+        {
+          "value": "unknown",
+          "label": "Not sure yet",
+          "icon": "questionmark.circle.fill",
+          "hint": "That's okay — I'll show you what you can start today"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "No wrong answers here, promise."
+    },
+    {
+      "key": "youtubeMode",
+      "icon": "play.rectangle.fill",
+      "title": "YouTube, great pick! Which sounds more like you?",
+      "subtitle": "Both can work. One builds your own audience, the other helps creators who'll pay you.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "own_channel",
+          "label": "I want my own channel",
+          "icon": "person.crop.rectangle.fill",
+          "hint": "Make videos, build an audience, earn over time"
+        },
+        {
+          "value": "services",
+          "label": "I want to help creators",
+          "icon": "scissors",
+          "hint": "Get paid for clips, editing and channel help"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Both are great. They just feel different.",
+      "showIf": {
+        "key": "earningMethod",
+        "anyOf": [
+          "youtube"
+        ]
+      }
+    },
+    {
+      "key": "niche",
+      "icon": "scope",
+      "title": "What do you love talking about?",
+      "subtitle": "Pick a topic below or type your own. The more specific, the better I can help.",
+      "kind": "text",
+      "options": null,
+      "placeholder": "e.g. beginner home workouts",
+      "required": true,
+      "mascotLine": "Specific beats broad, every time.",
+      "variants": {
+        "youtube_owned_channel": {
+          "title": "What would your channel be about?",
+          "subtitle": "Think of a topic you could happily talk about for months. Pick one below or type your own.",
+          "placeholder": "e.g. beginner home workouts"
+        },
+        "youtube_services": {
+          "title": "Which creators would you love to help?",
+          "subtitle": "Think about channels you already watch. Pick a topic below or type your own.",
+          "placeholder": "e.g. fitness YouTubers"
+        },
+        "freelance_services": {
+          "title": "Which kind of businesses would you like to help?",
+          "subtitle": "Cafés, dentists, gyms, plumbers… whatever feels right to you.",
+          "placeholder": "e.g. dentists in Austin"
+        }
+      }
+    },
+    {
+      "key": "nicheDetail",
+      "icon": "scope",
+      "title": "Love it! Can we zoom in a little?",
+      "subtitle": "Who exactly is it for, or what's it about? A few words is plenty.",
+      "kind": "text",
+      "options": null,
+      "placeholder": "e.g. busy parents who cook on a budget",
+      "required": true,
+      "mascotLine": "A little focus makes everything easier."
+    },
+    {
+      "key": "channelStatus",
+      "icon": "play.rectangle.fill",
+      "title": "Do you already have a YouTube channel?",
+      "subtitle": "No pressure either way — I'll skip what you've already done.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "Not yet",
+          "icon": "plus.circle.fill",
+          "hint": "No worries, we'll set it up together in week 1",
+          "stage": "idea"
+        },
+        {
+          "value": "few_videos",
+          "label": "Yes, I've posted a few videos",
+          "icon": "film.stack.fill",
+          "hint": "They're up, but haven't taken off yet",
+          "stage": "started"
+        },
+        {
+          "value": "growing",
+          "label": "Yes, and it's growing",
+          "icon": "chart.line.uptrend.xyaxis",
+          "hint": "Views and subscribers are coming in",
+          "stage": "some_traction"
+        },
+        {
+          "value": "earning",
+          "label": "Yes, and it already earns",
+          "icon": "dollarsign.circle.fill",
+          "hint": "From affiliates, sponsors, products or ads",
+          "stage": "already_earning"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Starting from zero is totally fine.",
+      "methods": [
+        "youtube_owned_channel"
+      ],
+      "summary": "Channel"
+    },
+    {
+      "key": "subscribers",
+      "icon": "person.3.fill",
+      "title": "How many subscribers do you have, roughly?",
+      "subtitle": "A ballpark is perfect.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "under_100",
+          "label": "Under 100",
+          "icon": "person.fill",
+          "hint": null
+        },
+        {
+          "value": "100_1k",
+          "label": "100 to 1,000",
+          "icon": "person.2.fill",
+          "hint": null
+        },
+        {
+          "value": "1k_10k",
+          "label": "1,000 to 10,000",
+          "icon": "person.3.fill",
+          "hint": null,
+          "planNote": "With 1,000+ subscribers, check your Partner Program progress in YouTube Studio > Earn."
+        },
+        {
+          "value": "10k_plus",
+          "label": "10,000 or more",
+          "icon": "person.3.sequence.fill",
+          "hint": null,
+          "planNote": "At your size, sponsorships and your own product deserve focus alongside publishing."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Every channel started at zero.",
+      "methods": [
+        "youtube_owned_channel"
+      ],
+      "showIf": {
+        "key": "channelStatus",
+        "noneOf": [
+          "none"
+        ]
+      },
+      "summary": "Subscribers"
+    },
+    {
+      "key": "videoFormat",
+      "icon": "film.fill",
+      "title": "What kind of videos sound fun to make?",
+      "subtitle": "Go with your gut. You can switch anytime.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "long",
+          "label": "Longer videos",
+          "icon": "play.rectangle.fill",
+          "hint": "Usually 8–15 minutes, great for search",
+          "planNote": "Long-form first: one well-packaged video a week beats three rushed ones."
+        },
+        {
+          "value": "shorts",
+          "label": "Shorts",
+          "icon": "iphone",
+          "hint": "Under a minute, quick to make",
+          "planNote": "Shorts-first: wherever a mission says video, make a Short; long videos are optional."
+        },
+        {
+          "value": "both",
+          "label": "A bit of both",
+          "icon": "rectangle.on.rectangle",
+          "hint": "One longer video, then a few Shorts from it",
+          "planNote": "One long video a week, then cut 2–3 Shorts from it."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Pick what you'd enjoy making for months.",
+      "methods": [
+        "youtube_owned_channel"
+      ],
+      "summary": "Format"
+    },
+    {
+      "key": "onCamera",
+      "icon": "person.crop.square.fill",
+      "title": "How do you feel about being on camera?",
+      "subtitle": "Lots of successful channels never show a face, so pick what feels comfortable.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "face",
+          "label": "Happy to be on camera",
+          "icon": "person.wave.2.fill",
+          "hint": "You talk straight to your viewers"
+        },
+        {
+          "value": "voice",
+          "label": "Voice only, please",
+          "icon": "mic.fill",
+          "hint": "You narrate over screens, slides or footage",
+          "planNote": "Voice-only: narrate over screen recordings, slides or b-roll; skip on-camera practice."
+        },
+        {
+          "value": "faceless",
+          "label": "I'd rather stay hidden",
+          "icon": "eye.slash.fill",
+          "hint": "Text, stock footage or screen recordings",
+          "planNote": "Faceless: on-camera tasks become screen-recording, b-roll or text tasks."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Comfort matters more than gear.",
+      "methods": [
+        "youtube_owned_channel"
+      ],
+      "summary": "On camera"
+    },
+    {
+      "key": "serviceType",
+      "icon": "briefcase.fill",
+      "title": "What would you enjoy helping creators with?",
+      "subtitle": "Pick your favorite. I'll start your plan with what creators say yes to fastest.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "clips",
+          "label": "Cutting short clips from long videos",
+          "icon": "scissors",
+          "hint": "The easiest first sale — your plan starts here"
+        },
+        {
+          "value": "editing",
+          "label": "Editing full videos",
+          "icon": "film.fill",
+          "hint": null,
+          "planNote": "Lead with a clip pack as the easy first sale, then offer full editing once a creator trusts you."
+        },
+        {
+          "value": "thumbnails",
+          "label": "Designing thumbnails",
+          "icon": "photo.fill",
+          "hint": null,
+          "planNote": "Add a thumbnail sample to every pitch and sell thumbnail packs alongside your first clip pack."
+        },
+        {
+          "value": "scripts",
+          "label": "Writing scripts and research",
+          "icon": "text.alignleft",
+          "hint": null,
+          "planNote": "Use clip packs as the entry offer and pitch scripts once you know the creator's style."
+        },
+        {
+          "value": "management",
+          "label": "Running their channel",
+          "icon": "slider.horizontal.3",
+          "hint": null,
+          "planNote": "Start with one clip pack, then grow into managing uploads, titles and analytics."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Start small, grow later.",
+      "methods": [
+        "youtube_services"
+      ],
+      "summary": "Offer"
+    },
+    {
+      "key": "clientLocation",
+      "icon": "mappin.and.ellipse",
+      "title": "Where would you like your clients to be?",
+      "subtitle": "Both work great — you can fix Google profiles from anywhere.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "local",
+          "label": "Close to home",
+          "icon": "building.2.fill",
+          "hint": "Businesses in my city or area"
+        },
+        {
+          "value": "anywhere",
+          "label": "Anywhere online",
+          "icon": "globe",
+          "hint": "Any city, working remotely",
+          "planNote": "Google profiles can be fixed remotely: target businesses in any city with weak profiles."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Local can be a superpower.",
+      "methods": [
+        "freelance_services"
+      ],
+      "summary": "Clients"
+    },
+    {
+      "key": "clientStatus",
+      "icon": "person.2.fill",
+      "title": "Have you helped a creator before?",
+      "subtitle": "Paid or free, it all counts!",
+      "kind": "single",
+      "options": [
+        {
+          "value": "none",
+          "label": "Not yet",
+          "icon": "circle.dashed",
+          "hint": "That's exactly where most people start",
+          "stage": "idea"
+        },
+        {
+          "value": "samples",
+          "label": "Yes, for free",
+          "icon": "gift.fill",
+          "hint": "I have work to show, just no paying clients yet",
+          "stage": "started"
+        },
+        {
+          "value": "few",
+          "label": "Yes, 1 or 2 paid clients",
+          "icon": "person.fill.checkmark",
+          "hint": "I've been paid a little",
+          "stage": "some_traction"
+        },
+        {
+          "value": "regular",
+          "label": "Yes, I have regular clients",
+          "icon": "person.3.fill",
+          "hint": "Steady paid work",
+          "stage": "already_earning"
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Everyone's first client was once a stranger.",
+      "methods": [
+        "youtube_services",
+        "freelance_services"
+      ],
+      "variants": {
+        "freelance_services": {
+          "title": "Have you helped a business before?"
+        }
+      },
+      "summary": "Experience"
+    },
+    {
+      "key": "portfolio",
+      "icon": "rectangle.stack.fill",
+      "title": "Do you have any work you could show someone?",
+      "subtitle": "Even one example helps a lot.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, a whole portfolio",
+          "icon": "checkmark.seal.fill",
+          "hint": null
+        },
+        {
+          "value": "some",
+          "label": "A few examples",
+          "icon": "square.stack.fill",
+          "hint": null
+        },
+        {
+          "value": "no",
+          "label": "Not yet",
+          "icon": "circle.dashed",
+          "hint": null,
+          "planNote": "No samples yet: make one free sample before you contact anyone."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Showing beats telling.",
+      "methods": [
+        "youtube_services",
+        "freelance_services"
+      ],
+      "showIf": {
+        "key": "clientStatus",
+        "anyOf": [
+          "none",
+          "samples"
+        ]
+      },
+      "summary": "Samples"
+    },
+    {
+      "key": "outreachComfort",
+      "icon": "bubble.left.and.bubble.right.fill",
+      "title": "How do you feel about reaching out to people you don't know?",
+      "subtitle": "Totally normal to feel nervous. Your answer just helps me pace things.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "fine",
+          "label": "I'm comfortable with it",
+          "icon": "hand.thumbsup.fill",
+          "hint": null
+        },
+        {
+          "value": "nervous",
+          "label": "A bit nervous, but I'll try",
+          "icon": "heart.fill",
+          "hint": null,
+          "planNote": "Use the message templates word for word until outreach feels natural."
+        },
+        {
+          "value": "avoid",
+          "label": "I'd rather avoid it for now",
+          "icon": "hand.raised.fill",
+          "hint": null,
+          "planNote": "Lead with free samples and comments before direct messages; calls stay optional."
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Nervous is normal. You've got this.",
+      "methods": [
+        "youtube_services",
+        "freelance_services"
+      ],
+      "summary": "Outreach"
+    },
+    {
+      "key": "weeklyTime",
+      "icon": "clock.fill",
+      "title": "How much time can you set aside each week?",
+      "subtitle": "Be kind to yourself. A plan you can keep beats a big one.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "Under 3 hours",
+          "label": "Under 3 hours",
+          "icon": "clock",
+          "hint": "A little each day"
+        },
+        {
+          "value": "3-5 hours",
+          "label": "3 to 5 hours",
+          "icon": "clock",
+          "hint": null
+        },
+        {
+          "value": "5-10 hours",
+          "label": "5 to 10 hours",
+          "icon": "clock.fill",
+          "hint": null
+        },
+        {
+          "value": "10+ hours",
+          "label": "More than 10 hours",
+          "icon": "clock.badge.checkmark.fill",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Little and often wins."
+    },
+    {
+      "key": "budget",
+      "icon": "creditcard.fill",
+      "title": "Are you planning to spend anything to start?",
+      "subtitle": "Totally fine if not. Everything here can start with free tools.",
+      "kind": "single",
+      "options": [
+        {
+          "value": "$0",
+          "label": "Nothing for now",
+          "icon": "0.circle.fill",
+          "hint": "Free tools only"
+        },
+        {
+          "value": "Under $50",
+          "label": "Less than $50",
+          "icon": "dollarsign.circle",
+          "hint": null
+        },
+        {
+          "value": "$50-$200",
+          "label": "$50 to $200",
+          "icon": "dollarsign.circle.fill",
+          "hint": null
+        },
+        {
+          "value": "$200+",
+          "label": "More than $200",
+          "icon": "banknote.fill",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "No debt, no pricey courses. Ever."
+    },
+    {
+      "key": "skills",
+      "icon": "wrench.and.screwdriver.fill",
+      "title": "What are you already good at?",
+      "subtitle": "Tap everything that fits. Nothing yet? That's fine too!",
+      "kind": "multi",
+      "options": [
+        {
+          "value": "Video editing",
+          "label": "Video editing",
+          "icon": "film.fill",
+          "hint": null
+        },
+        {
+          "value": "Writing",
+          "label": "Writing",
+          "icon": "pencil",
+          "hint": null
+        },
+        {
+          "value": "Speaking on camera",
+          "label": "Speaking on camera",
+          "icon": "person.wave.2.fill",
+          "hint": null
+        },
+        {
+          "value": "Graphic design",
+          "label": "Graphic design",
+          "icon": "paintbrush.fill",
+          "hint": null
+        },
+        {
+          "value": "Social media",
+          "label": "Social media",
+          "icon": "bubble.left.and.bubble.right.fill",
+          "hint": null
+        },
+        {
+          "value": "Sales",
+          "label": "Sales",
+          "icon": "person.2.fill",
+          "hint": null
+        },
+        {
+          "value": "Research",
+          "label": "Research",
+          "icon": "magnifyingglass",
+          "hint": null
+        },
+        {
+          "value": "Customer service",
+          "label": "Customer service",
+          "icon": "headphones",
+          "hint": null
+        },
+        {
+          "value": "None yet",
+          "label": "Nothing yet, I'm new",
+          "icon": "sparkles",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Everyone starts somewhere.",
+      "variants": {
+        "youtube_owned_channel": {
+          "options": [
+            {
+              "value": "Speaking on camera",
+              "label": "Speaking on camera",
+              "icon": "person.wave.2.fill",
+              "hint": null
+            },
+            {
+              "value": "Video editing",
+              "label": "Video editing",
+              "icon": "film.fill",
+              "hint": null
+            },
+            {
+              "value": "Writing",
+              "label": "Writing",
+              "icon": "pencil",
+              "hint": null
+            },
+            {
+              "value": "Graphic design",
+              "label": "Graphic design",
+              "icon": "paintbrush.fill",
+              "hint": null
+            },
+            {
+              "value": "Research",
+              "label": "Research",
+              "icon": "magnifyingglass",
+              "hint": null
+            },
+            {
+              "value": "Social media",
+              "label": "Social media",
+              "icon": "bubble.left.and.bubble.right.fill",
+              "hint": null
+            },
+            {
+              "value": "None yet",
+              "label": "Nothing yet, I'm new",
+              "icon": "sparkles",
+              "hint": null
+            }
+          ]
+        },
+        "youtube_services": {
+          "options": [
+            {
+              "value": "Video editing",
+              "label": "Video editing",
+              "icon": "film.fill",
+              "hint": null
+            },
+            {
+              "value": "Graphic design",
+              "label": "Graphic design",
+              "icon": "paintbrush.fill",
+              "hint": null
+            },
+            {
+              "value": "Writing",
+              "label": "Writing",
+              "icon": "pencil",
+              "hint": null
+            },
+            {
+              "value": "Research",
+              "label": "Research",
+              "icon": "magnifyingglass",
+              "hint": null
+            },
+            {
+              "value": "Social media",
+              "label": "Social media",
+              "icon": "bubble.left.and.bubble.right.fill",
+              "hint": null
+            },
+            {
+              "value": "Sales",
+              "label": "Sales",
+              "icon": "person.2.fill",
+              "hint": null
+            },
+            {
+              "value": "None yet",
+              "label": "Nothing yet, I'm new",
+              "icon": "sparkles",
+              "hint": null
+            }
+          ]
+        },
+        "freelance_services": {
+          "options": [
+            {
+              "value": "Sales",
+              "label": "Sales",
+              "icon": "person.2.fill",
+              "hint": null
+            },
+            {
+              "value": "Customer service",
+              "label": "Customer service",
+              "icon": "headphones",
+              "hint": null
+            },
+            {
+              "value": "Marketing",
+              "label": "Marketing",
+              "icon": "megaphone.fill",
+              "hint": null
+            },
+            {
+              "value": "Writing",
+              "label": "Writing",
+              "icon": "pencil",
+              "hint": null
+            },
+            {
+              "value": "Photography",
+              "label": "Photography",
+              "icon": "camera.fill",
+              "hint": null
+            },
+            {
+              "value": "Web design",
+              "label": "Web design",
+              "icon": "globe",
+              "hint": null
+            },
+            {
+              "value": "Research",
+              "label": "Research",
+              "icon": "magnifyingglass",
+              "hint": null
+            },
+            {
+              "value": "None yet",
+              "label": "Nothing yet, I'm new",
+              "icon": "sparkles",
+              "hint": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "equipment",
+      "icon": "camera.fill",
+      "title": "What do you have to work with?",
+      "subtitle": "A phone is honestly enough to start. I'll plan around what you have.",
+      "kind": "multi",
+      "options": [
+        {
+          "value": "Smartphone",
+          "label": "Smartphone",
+          "icon": "iphone",
+          "hint": null
+        },
+        {
+          "value": "Computer",
+          "label": "Computer",
+          "icon": "laptopcomputer",
+          "hint": null
+        },
+        {
+          "value": "Microphone",
+          "label": "Microphone",
+          "icon": "mic.fill",
+          "hint": null
+        },
+        {
+          "value": "Camera",
+          "label": "Camera",
+          "icon": "camera.fill",
+          "hint": null
+        },
+        {
+          "value": "Lighting",
+          "label": "Lighting",
+          "icon": "lightbulb.max.fill",
+          "hint": null
+        },
+        {
+          "value": "None of these",
+          "label": "None of these yet",
+          "icon": "xmark.circle",
+          "hint": null
+        }
+      ],
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Gear never made anyone consistent.",
+      "methods": [
+        "youtube_owned_channel"
+      ]
+    },
+    {
+      "key": "location",
+      "icon": "mappin.and.ellipse",
+      "title": "Which city are you in?",
+      "subtitle": "Optional, but it helps me suggest nearby businesses and fair local prices.",
+      "kind": "text",
+      "options": null,
+      "placeholder": "City or country",
+      "required": false,
+      "mascotLine": "Local can be a superpower.",
+      "methods": [
+        "freelance_services"
+      ],
+      "showIf": {
+        "key": "clientLocation",
+        "anyOf": [
+          "local"
+        ]
+      }
+    },
+    {
+      "key": "goal",
+      "icon": "target",
+      "title": "Last one! What would you love to reach first?",
+      "subtitle": "Pick the win that would make you proud.",
+      "kind": "goal",
+      "options": null,
+      "placeholder": null,
+      "required": true,
+      "mascotLine": "Almost there — let's build your plan!"
+    }
+  ]
+}

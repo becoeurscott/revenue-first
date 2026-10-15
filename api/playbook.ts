@@ -1,7 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { z } from 'zod'
-import { JOURNEYS, MODEL, clip, describeContext, flushPostHog, getClient, methodology, trackGeneration, json, readAiObservability, readContext, sameOrigin } from './_lib/shared.js'
+import { JOURNEYS, clip, describeContext, flushPostHog, methodology, trackGeneration, json, readAiObservability, readContext, sameOrigin } from './_lib/shared.js'
+import { LlmError, MODELS, complete, llmConfigured, llmErrorResponse } from './_lib/llm.js'
 
 const PlaybookSchema = z.object({
   niche: z.string().describe('The niche, cleaned up, e.g. "Fitness YouTubers"'),
@@ -50,8 +49,7 @@ interface PlanDay {
 
 export async function POST(req: Request): Promise<Response> {
   if (!sameOrigin(req)) return json({ error: 'forbidden' }, 403)
-  const client = getClient()
-  if (!client) return json({ error: 'ai_not_configured' }, 503)
+  if (!llmConfigured()) return json({ error: 'ai_not_configured' }, 503)
 
   const body = (await req.json().catch(() => null)) as { context?: unknown; plan?: unknown; ai?: unknown } | null
   const ctx = readContext(body?.context)
@@ -59,6 +57,8 @@ export async function POST(req: Request): Promise<Response> {
   if (ctx === 'unsupported') return json({ error: 'unsupported_journey' }, 400)
   if (!ctx || !ai) return json({ error: 'bad_request' }, 400)
   const sellsServices = JOURNEYS[ctx.journeyId].sellsServices
+  // The playbook only has service and own-channel shapes; other journeys get their plan from /api/program.
+  if (!sellsServices && ctx.journeyId !== 'youtube_owned_channel') return json({ error: 'unsupported_journey' }, 400)
   const plan: PlanDay[] = Array.isArray(body?.plan)
     ? body.plan.slice(0, 30).map((d: Record<string, unknown>, i: number) => ({ day: Number(d.day) || i + 1, theme: clip(d.theme, 80), mission: clip(d.mission, 160) }))
     : []
@@ -74,22 +74,21 @@ export async function POST(req: Request): Promise<Response> {
 
   const startedAt = Date.now()
   try {
-    const response = await client.beta.messages.parse({
-      model: MODEL,
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      max_tokens: 16000,
-      output_config: { effort: 'medium', format: zodOutputFormat(sellsServices ? PlaybookSchema : ChannelPlaybookSchema) },
-      system: [{ type: 'text', text: methodology(ctx.journeyId), cache_control: { type: 'ephemeral' } }],
+    const response = await complete<Playbook | ChannelPlaybook>({
+      model: MODELS.smart,
+      maxTokens: 16000,
+      schema: sellsServices ? { name: 'service_playbook', zod: PlaybookSchema } : { name: 'channel_playbook', zod: ChannelPlaybookSchema },
+      system: [{ text: methodology(ctx.journeyId), cache: true }],
       messages: [{ role: 'user', content: request }],
     })
     trackGeneration(ai, 'playbook', response, startedAt)
-    if (response.stop_reason === 'refusal') return json({ error: 'refused' }, 422)
-    if (!response.parsed_output) return json({ error: 'bad_output' }, 502)
-    return json({ kind: sellsServices ? 'service' : 'channel', journeyId: ctx.journeyId, journeyVersion: ctx.journeyVersion, playbook: response.parsed_output })
+    if (!response.parsed) return json({ error: 'bad_output' }, 502)
+    return json({ kind: sellsServices ? 'service' : 'channel', journeyId: ctx.journeyId, journeyVersion: ctx.journeyVersion, playbook: response.parsed })
   } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) return json({ error: 'busy' }, 429)
-    if (error instanceof Anthropic.APIError) return json({ error: 'upstream', status: error.status }, 502)
+    if (error instanceof LlmError) {
+      const r = llmErrorResponse(error)
+      return json(r.body, r.status)
+    }
     throw error
   } finally {
     await flushPostHog()

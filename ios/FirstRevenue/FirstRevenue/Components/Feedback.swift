@@ -107,6 +107,8 @@ struct SkeletonList: View {
 /// Lightweight confetti burst. Decorative only; skipped with Reduce Motion.
 struct ConfettiView: View {
     var count = 70
+    /// Plays the celebration jingle with the confetti.
+    var sound = true
     @State private var start = Date()
     @State private var pieces: [Piece] = []
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -140,6 +142,7 @@ struct ConfettiView: View {
             .accessibilityHidden(true)
             .onAppear {
                 start = Date()
+                if sound { SFX.success.play() }
                 pieces = (0..<count).map { i in
                     Piece(x: .random(in: 0.08...0.92), drift: .random(in: -1...1), spin: .random(in: -540...540), delay: .random(in: 0...0.5), size: .random(in: 6...12), speed: .random(in: 0.6...1.4), color: Self.colors[i % Self.colors.count], round: Bool.random())
                 }

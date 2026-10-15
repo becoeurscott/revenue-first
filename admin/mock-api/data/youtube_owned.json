@@ -1,0 +1,2900 @@
+{
+  "path": {
+    "id": "youtube_owned",
+    "slug": "youtube-owned-channel",
+    "name": "Your Own YouTube Channel",
+    "tagline": "Build a channel around one audience and publish your way to your first channel income.",
+    "icon": "play.rectangle.fill",
+    "hue": 0,
+    "description": "You pick one audience, learn what they search for, and publish videos that answer it, using only a phone and free tools. Over 30 days you build a repeatable process for ideas, recording, editing and packaging, then read your analytics to improve each upload. Income on your own channel builds slowly, so the goal is a working system, real audience signal and one honest first income attempt.",
+    "difficulty": "Beginner",
+    "objective": "Publish consistently for 30 days, build a repeatable production process, learn from your analytics and make one stage-appropriate first income attempt, such as an affiliate link for a product you really use.",
+    "service": "Your own channel and audience",
+    "typicalPrice": "Affiliate and sponsor income first; ads come later",
+    "skills": [
+      "Audience research",
+      "Hooks and scripting",
+      "Phone recording",
+      "Video editing",
+      "Titles and thumbnails",
+      "Reading analytics"
+    ],
+    "firstTasks": [
+      "Write down who your channel is for and the problem it helps them with",
+      "Set up your channel name, profile picture, banner and About text",
+      "Collect 20 video ideas from search autocomplete and comments on similar channels",
+      "Script, record and publish your first video by Day 12"
+    ],
+    "workflow": [
+      "Pick a topic from your idea bank that your audience is already searching for",
+      "Write a short script with a strong hook, a clear promise and one call to action",
+      "Record on your phone with good light and clear audio",
+      "Edit in a free editor, cutting pauses and adding simple captions",
+      "Package it with a clear title and a readable thumbnail, then publish",
+      "Reply to comments and turn one section into a Short",
+      "Review analytics weekly and feed what you learn into the next video"
+    ],
+    "weeks": [
+      {
+        "week": 1,
+        "title": "Foundations",
+        "focus": [
+          "Channel goal and audience",
+          "Audience research",
+          "Idea bank and format"
+        ]
+      },
+      {
+        "week": 2,
+        "title": "First Uploads",
+        "focus": [
+          "Scripting and hooks",
+          "Recording and editing",
+          "Packaging and publishing"
+        ]
+      },
+      {
+        "week": 3,
+        "title": "Consistency & Community",
+        "focus": [
+          "Shorts",
+          "Community",
+          "Analytics and iteration"
+        ]
+      },
+      {
+        "week": 4,
+        "title": "Growth & First Income",
+        "focus": [
+          "Batching",
+          "Stage-appropriate monetization",
+          "Next 30-day plan"
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "YouTube Studio",
+        "purpose": "Upload, schedule, reply to comments and read analytics",
+        "cost": "Free"
+      },
+      {
+        "name": "CapCut",
+        "purpose": "Edit long-form videos and Shorts on your phone or computer",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "DaVinci Resolve",
+        "purpose": "Edit long-form videos on a computer with more control",
+        "cost": "Free"
+      },
+      {
+        "name": "Canva",
+        "purpose": "Design thumbnails, your banner and a simple media kit",
+        "cost": "Free, optional paid plan"
+      },
+      {
+        "name": "Google Trends",
+        "purpose": "Compare topic interest over time, with a YouTube Search filter",
+        "cost": "Free"
+      },
+      {
+        "name": "Google Docs",
+        "purpose": "Write scripts and keep your idea bank in one place",
+        "cost": "Free"
+      }
+    ]
+  },
+  "lessonCategories": [
+    "Channel Strategy",
+    "Audience Research",
+    "Ideas & Topics",
+    "Scripting",
+    "Production",
+    "Packaging",
+    "Publishing",
+    "Community",
+    "Analytics",
+    "Monetization",
+    "Mindset"
+  ],
+  "plan": [
+    {
+      "day": 1,
+      "week": 1,
+      "theme": "Define Your Channel",
+      "missionTitle": "Decide who your channel is for and what it helps them do.",
+      "goal": "Write a one-sentence channel promise and your 30-day goal.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-01",
+      "tasks": [
+        {
+          "id": "yo-01-t1",
+          "title": "Watch the Day 1 lesson",
+          "description": "See how an owned channel grows: one audience, one problem, steady uploads and patient learning from your analytics."
+        },
+        {
+          "id": "yo-01-t2",
+          "title": "Name your audience",
+          "description": "Write who you want to help in plain words. Be specific enough that one person could read it and think \"that is me\"."
+        },
+        {
+          "id": "yo-01-t3",
+          "title": "Write your channel promise",
+          "description": "Use this shape: \"I help [audience] with [problem] through [type of video].\" Keep it to one sentence."
+        },
+        {
+          "id": "yo-01-t4",
+          "title": "Set your 30-day goal",
+          "description": "Choose a process goal you control, such as \"publish 6 videos and 6 Shorts\". View counts are not in your control yet."
+        },
+        {
+          "id": "yo-01-t5",
+          "title": "Block your daily slot",
+          "description": "Pick a fixed 30 to 60 minute slot for the next 30 days and put it in your calendar."
+        }
+      ],
+      "nicheHint": "Draft your promise as: I help {audience} with {problem} through {niche} videos. If it feels too broad, narrow the audience before you narrow the topic.",
+      "stageHints": {
+        "idea": "Write your promise from scratch and pick the audience you understand best.",
+        "started": "Read your existing uploads and write the promise that best describes the videos that already got a reaction.",
+        "some_traction": "Check which videos bring most of your viewers and make sure your promise matches them.",
+        "already_earning": "Write the promise around the audience that already pays attention, and note which videos led to income."
+      }
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "theme": "Set Up Your Channel",
+      "missionTitle": "Set up a clean channel that tells a new viewer what it is about in five seconds.",
+      "goal": "Finish your name, profile picture, banner and About section.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-02",
+      "tasks": [
+        {
+          "id": "yo-02-t1",
+          "title": "Choose a channel name",
+          "description": "Pick something short, easy to spell and easy to say out loud. Your own name plus a topic word works well."
+        },
+        {
+          "id": "yo-02-t2",
+          "title": "Create a profile picture and banner",
+          "description": "Use Canva's free YouTube banner size. Put your promise on the banner in large text that reads on a phone.",
+          "resourceId": "res-yt-channel-setup"
+        },
+        {
+          "id": "yo-02-t3",
+          "title": "Write your About section",
+          "description": "Two or three sentences: who it is for, what they will learn and how often you upload."
+        },
+        {
+          "id": "yo-02-t4",
+          "title": "Check it on your phone",
+          "description": "Open your channel in the YouTube app. If the banner text is hard to read, make it bigger."
+        }
+      ],
+      "nicheHint": "Put your promise for {audience} on the banner and use one or two of these words in your About text: {terms}.",
+      "stageHints": {
+        "idea": "Create the channel today using the checklist; it takes less than an hour.",
+        "started": "Refresh your banner and About text so they match the promise you wrote on Day 1.",
+        "some_traction": "Update your banner and About text to reflect what your best-performing videos are about.",
+        "already_earning": "Add a short line in your About text about who to contact for brand partnerships and check your links work."
+      }
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "theme": "Listen to Your Audience",
+      "missionTitle": "Find out what your audience types into search and asks in comments.",
+      "goal": "Collect 15 real questions your audience is asking.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-03",
+      "tasks": [
+        {
+          "id": "yo-03-t1",
+          "title": "Use search autocomplete",
+          "description": "Type your topic into the YouTube search bar, then add words like \"how to\", \"why\", \"best\" and each letter of the alphabet. Save the suggestions.",
+          "resourceId": "res-yt-audience-research"
+        },
+        {
+          "id": "yo-03-t2",
+          "title": "Read comments on similar channels",
+          "description": "Open five recent videos from channels near your size in your topic. Copy questions and complaints viewers leave in the comments."
+        },
+        {
+          "id": "yo-03-t3",
+          "title": "Note the exact words",
+          "description": "Write questions in the viewer's words, not yours. These words become your titles later."
+        },
+        {
+          "id": "yo-03-t4",
+          "title": "Highlight repeat questions",
+          "description": "Mark any question you saw more than once. Repeat questions are your strongest topics."
+        }
+      ],
+      "nicheHint": "Search for {terms} and look for questions from {audience} about {problem}. Save at least 15 in their exact wording.",
+      "stageHints": {
+        "idea": "Do the full research from scratch; this is the base for your first ten videos.",
+        "started": "Compare what you find to your existing uploads and note the questions you have not answered yet.",
+        "some_traction": "Look for follow-up questions in your own comments as well as on similar channels.",
+        "already_earning": "Add a column for questions that hint at a product or tool your viewers want help choosing."
+      }
+    },
+    {
+      "day": 4,
+      "week": 1,
+      "theme": "Find Rising Topics",
+      "missionTitle": "Use Google Trends to see which of your topics hold steady interest.",
+      "goal": "Pick five strong topics from your research.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-04",
+      "tasks": [
+        {
+          "id": "yo-04-t1",
+          "title": "Open Google Trends",
+          "description": "Set the search filter to YouTube Search and the time range to the past 12 months."
+        },
+        {
+          "id": "yo-04-t2",
+          "title": "Compare your topics",
+          "description": "Enter up to five topic phrases from yesterday's list and compare them. Note which ones are steady, rising or seasonal.",
+          "resourceId": "res-yt-audience-research"
+        },
+        {
+          "id": "yo-04-t3",
+          "title": "Score each topic",
+          "description": "Give each topic a score out of 3 for interest, your knowledge and how easy it is to film with what you have."
+        },
+        {
+          "id": "yo-04-t4",
+          "title": "Choose your top five",
+          "description": "Keep the five highest-scoring topics. These are the pillars your first videos come from."
+        }
+      ],
+      "nicheHint": "Compare phrases like {terms} in Google Trends. Prefer topics where {audience} keeps searching all year over short spikes.",
+      "stageHints": {
+        "idea": "Choose topics you can film at home this month with a phone.",
+        "started": "Check whether your best existing video sits on a steady topic and plan more around it.",
+        "some_traction": "Look for seasonal peaks coming up in the next two months and plan to publish before them.",
+        "already_earning": "Favor topics where viewers are deciding what to buy or use, since those suit affiliate links later."
+      }
+    },
+    {
+      "day": 5,
+      "week": 1,
+      "theme": "Build Your Idea Bank",
+      "missionTitle": "Turn your research into 20 specific video ideas.",
+      "goal": "Fill your idea bank with 20 ideas, each with a working title.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-05",
+      "tasks": [
+        {
+          "id": "yo-05-t1",
+          "title": "Open the idea bank template",
+          "description": "Copy it into Google Docs or Sheets so you can add to it every week.",
+          "resourceId": "res-yt-idea-bank"
+        },
+        {
+          "id": "yo-05-t2",
+          "title": "Write 20 ideas",
+          "description": "Each idea answers one question for one viewer. \"Beginner mistakes\" is a topic; \"5 mistakes that make your first week harder\" is an idea."
+        },
+        {
+          "id": "yo-05-t3",
+          "title": "Give each a working title",
+          "description": "Write the title a viewer would click. It will change later, but it keeps the idea focused."
+        },
+        {
+          "id": "yo-05-t4",
+          "title": "Mark your first three",
+          "description": "Pick three ideas that are easy to film and answer a repeat question. These are videos 1, 2 and 3."
+        }
+      ],
+      "nicheHint": "Write ideas that solve one part of {problem} for {audience}. Use the words people search, like {terms}, in the working titles.",
+      "stageHints": {
+        "idea": "Aim for 20 ideas now so you never start a recording day without a topic.",
+        "started": "Add 20 new ideas and mark any old upload worth remaking with better packaging.",
+        "some_traction": "Build at least five ideas as follow-ups to your best-performing videos.",
+        "already_earning": "Include a few ideas that compare or review tools your audience asks about."
+      }
+    },
+    {
+      "day": 6,
+      "week": 1,
+      "theme": "Choose Your Format",
+      "missionTitle": "Decide between long-form, Shorts or both based on your time and equipment.",
+      "goal": "Commit to one format plan for the next three weeks.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-06",
+      "tasks": [
+        {
+          "id": "yo-06-t1",
+          "title": "Count your real weekly hours",
+          "description": "Be honest. A simple long-form video can take several hours for a beginner; a Short takes less."
+        },
+        {
+          "id": "yo-06-t2",
+          "title": "Check your equipment",
+          "description": "A phone, a quiet room and a window are enough. Note what you have, not what you wish you had."
+        },
+        {
+          "id": "yo-06-t3",
+          "title": "Pick your format plan",
+          "description": "Low time: Shorts plus one long video every two weeks. More time: one long video a week plus two Shorts cut from it."
+        },
+        {
+          "id": "yo-06-t4",
+          "title": "Watch three examples",
+          "description": "Find three videos in your format from small channels and note their length, pacing and style."
+        }
+      ],
+      "nicheHint": "Look at how small channels serving {audience} use long-form and Shorts, then choose the mix you can keep up in {niche}.",
+      "stageHints": {
+        "idea": "Start with the simplest plan you can repeat, even if it feels small.",
+        "started": "Look at which format your uploads did better in and lean into it.",
+        "some_traction": "Keep your main format and add the other as a support, such as Shorts that point to long videos.",
+        "already_earning": "Protect the format that earns and test the second format only if your schedule has room."
+      }
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "theme": "Plan Your First Video",
+      "missionTitle": "Turn your first idea into a simple outline you can film.",
+      "goal": "Finish a one-page outline for video 1.",
+      "minutes": 30,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-07",
+      "tasks": [
+        {
+          "id": "yo-07-t1",
+          "title": "Review your week",
+          "description": "Reread your promise, research and idea bank. Make sure video 1 fits the promise."
+        },
+        {
+          "id": "yo-07-t2",
+          "title": "Outline the video",
+          "description": "Write three to five key points in the order a beginner needs them.",
+          "resourceId": "res-yt-script-template"
+        },
+        {
+          "id": "yo-07-t3",
+          "title": "Decide the one takeaway",
+          "description": "Write the one thing a viewer should remember. Everything in the video supports it."
+        },
+        {
+          "id": "yo-07-t4",
+          "title": "Schedule filming",
+          "description": "Put a recording slot for Day 9 in your calendar now."
+        }
+      ],
+      "nicheHint": "Outline a video that helps {audience} with one specific part of {problem}, not the whole thing.",
+      "stageHints": {
+        "idea": "Choose the easiest idea from your top three so you finish it.",
+        "started": "Choose an idea that answers a question your current viewers already asked.",
+        "some_traction": "Plan a follow-up to your best video so returning viewers have a reason to click.",
+        "already_earning": "Plan a video where a tool or product you really use fits naturally, without forcing it."
+      }
+    },
+    {
+      "day": 8,
+      "week": 2,
+      "theme": "Hooks and Scripts",
+      "missionTitle": "Write the script for your first video, starting with a strong hook.",
+      "goal": "Finish a full script with hook, promise, content and call to action.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-08",
+      "tasks": [
+        {
+          "id": "yo-08-t1",
+          "title": "Watch the Day 8 lesson",
+          "description": "Learn why the first 15 to 30 seconds decide whether people stay."
+        },
+        {
+          "id": "yo-08-t2",
+          "title": "Write three hooks",
+          "description": "Try a question, a surprising result and a common mistake. Pick the one you would click.",
+          "resourceId": "res-yt-script-template"
+        },
+        {
+          "id": "yo-08-t3",
+          "title": "Write the promise line",
+          "description": "Tell the viewer what they will get by the end. One sentence."
+        },
+        {
+          "id": "yo-08-t4",
+          "title": "Write the main content",
+          "description": "Turn your outline into short spoken sentences. Read it out loud and cut anything you stumble on."
+        },
+        {
+          "id": "yo-08-t5",
+          "title": "Add one call to action",
+          "description": "Ask for one thing only, such as watching a related video or leaving a question in the comments."
+        }
+      ],
+      "nicheHint": "Open with the problem {audience} feels most, in their words, then promise a clear result tied to {problem}.",
+      "stageHints": {
+        "idea": "Write a full script for video 1; it removes most of the stress on recording day.",
+        "started": "Compare your new hook to the openings of your older uploads and note what changed.",
+        "some_traction": "Check where viewers dropped off in your top video and write a hook that avoids that early slowdown.",
+        "already_earning": "Write the script so any product mention comes after the viewer already got value."
+      }
+    },
+    {
+      "day": 9,
+      "week": 2,
+      "theme": "Record on Your Phone",
+      "missionTitle": "Record your first video on your phone with good light and clear sound.",
+      "goal": "Get usable footage of the full script.",
+      "minutes": 45,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-09",
+      "tasks": [
+        {
+          "id": "yo-09-t1",
+          "title": "Set up your light",
+          "description": "Face a window during the day. Avoid having a bright window behind you.",
+          "resourceId": "res-yt-recording-checklist"
+        },
+        {
+          "id": "yo-09-t2",
+          "title": "Fix your audio",
+          "description": "Record in the quietest, softest room you have. Close windows and get close to the phone, or use wired earphones with a mic."
+        },
+        {
+          "id": "yo-09-t3",
+          "title": "Do a 20-second test",
+          "description": "Record a test, play it back with headphones and fix light or sound before the full take."
+        },
+        {
+          "id": "yo-09-t4",
+          "title": "Record in short sections",
+          "description": "Record one point at a time. If you trip on a line, pause and say it again; you will cut it later."
+        }
+      ],
+      "nicheHint": "Film a setup that suits {niche}: a talking head, hands-on demo or screen recording, whichever shows the solution to {problem} best.",
+      "stageHints": {
+        "idea": "Record with your phone as it is; good light and sound matter more than the camera.",
+        "started": "Watch one old upload and fix the single biggest light or sound issue before filming.",
+        "some_traction": "Record an extra 30 seconds of b-roll so editing feels more dynamic.",
+        "already_earning": "Batch-record the intro for two videos while your setup is ready."
+      }
+    },
+    {
+      "day": 10,
+      "week": 2,
+      "theme": "Edit With Free Tools",
+      "missionTitle": "Edit your first video in a free editor.",
+      "goal": "Export a finished first cut.",
+      "minutes": 60,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-10",
+      "tasks": [
+        {
+          "id": "yo-10-t1",
+          "title": "Import and cut",
+          "description": "Bring your footage into CapCut or DaVinci Resolve. Cut silences, mistakes and repeated lines."
+        },
+        {
+          "id": "yo-10-t2",
+          "title": "Tighten the opening",
+          "description": "Make sure the hook starts in the first seconds with no greeting before it."
+        },
+        {
+          "id": "yo-10-t3",
+          "title": "Add simple text and captions",
+          "description": "Use auto captions, then fix any wrong words. Keep text short and readable on a phone."
+        },
+        {
+          "id": "yo-10-t4",
+          "title": "Check audio levels",
+          "description": "Your voice should be clear and steady. Keep any music quiet and use only music you have the right to use."
+        },
+        {
+          "id": "yo-10-t5",
+          "title": "Export",
+          "description": "Export at the resolution you recorded in. Save the project file in case you need changes."
+        }
+      ],
+      "nicheHint": "Add on-screen text for key terms like {terms} so viewers who watch without sound still follow.",
+      "stageHints": {
+        "idea": "Aim for done, not perfect; your edit skills grow with every video.",
+        "started": "Edit faster than last time by cutting pauses first and adding extras last.",
+        "some_traction": "Add pattern changes, like a zoom or b-roll, near the spots where viewers dropped before.",
+        "already_earning": "Set up a reusable project template so edits take less time each week."
+      }
+    },
+    {
+      "day": 11,
+      "week": 2,
+      "theme": "Titles and Thumbnails",
+      "missionTitle": "Package your first video so the right viewers want to click.",
+      "goal": "Choose a final title and design one thumbnail.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-11",
+      "tasks": [
+        {
+          "id": "yo-11-t1",
+          "title": "Write ten titles",
+          "description": "Write ten options using your audience's words. Keep the strongest one clear before clever.",
+          "resourceId": "res-yt-packaging-checklist"
+        },
+        {
+          "id": "yo-11-t2",
+          "title": "Sketch the thumbnail idea",
+          "description": "One subject, one feeling, and three words or fewer of text."
+        },
+        {
+          "id": "yo-11-t3",
+          "title": "Design it in Canva",
+          "description": "Use the YouTube thumbnail size, big contrast and a face or a clear object. Check it at phone size."
+        },
+        {
+          "id": "yo-11-t4",
+          "title": "Test it next to others",
+          "description": "Place your thumbnail next to search results for your topic. If it disappears, simplify it."
+        }
+      ],
+      "nicheHint": "Write titles that name the result {audience} wants and use one search phrase from {terms}.",
+      "stageHints": {
+        "idea": "Spend real time here; packaging decides whether anyone sees your first video.",
+        "started": "Write a new title and thumbnail for your weakest old upload while you are at it.",
+        "some_traction": "Compare your best and worst click-through rate videos and copy what the best one does.",
+        "already_earning": "Keep thumbnails honest; trust matters more once viewers rely on your recommendations."
+      }
+    },
+    {
+      "day": 12,
+      "week": 2,
+      "theme": "Publish Your First Video",
+      "missionTitle": "Upload and publish your first video.",
+      "goal": "Video 1 is live on your channel.",
+      "minutes": 35,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-12",
+      "tasks": [
+        {
+          "id": "yo-12-t1",
+          "title": "Upload in YouTube Studio",
+          "description": "Add your title, thumbnail and a description whose first two lines say what the viewer will learn."
+        },
+        {
+          "id": "yo-12-t2",
+          "title": "Add chapters and an end screen",
+          "description": "Add timestamps in the description for chapters and an end screen pointing to your channel or another video."
+        },
+        {
+          "id": "yo-12-t3",
+          "title": "Choose the right settings",
+          "description": "Set the audience setting honestly, add a few relevant tags and pick a category."
+        },
+        {
+          "id": "yo-12-t4",
+          "title": "Publish and share once",
+          "description": "Publish, then share it with one group or person who would genuinely find it useful."
+        }
+      ],
+      "nicheHint": "In the description, explain in plain words how the video helps {audience} with {problem}.",
+      "stageHints": {
+        "idea": "Publish today even if it feels unfinished; the first upload teaches you more than any lesson.",
+        "started": "Publish and compare the first 48 hours to your past uploads, not to other channels.",
+        "some_traction": "Publish at the time your audience is most active, shown in YouTube Studio analytics.",
+        "already_earning": "Publish and pin a comment that points to your most useful resource for this topic."
+      }
+    },
+    {
+      "day": 13,
+      "week": 2,
+      "theme": "Set Your Cadence",
+      "missionTitle": "Choose a publishing schedule you can keep for months, not days.",
+      "goal": "A written schedule with dates for the next three uploads.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-13",
+      "tasks": [
+        {
+          "id": "yo-13-t1",
+          "title": "Look at your real time",
+          "description": "Use how long video 1 took to estimate each upload. Most beginners underestimate by a lot."
+        },
+        {
+          "id": "yo-13-t2",
+          "title": "Pick a cadence",
+          "description": "One long video a week, or one every two weeks plus Shorts. Consistent beats frequent.",
+          "resourceId": "res-yt-publishing-planner"
+        },
+        {
+          "id": "yo-13-t3",
+          "title": "Put dates in your calendar",
+          "description": "Block script, record, edit and publish days for the next three uploads."
+        },
+        {
+          "id": "yo-13-t4",
+          "title": "Tell your viewers",
+          "description": "Add your upload rhythm to your About section or banner."
+        }
+      ],
+      "nicheHint": "Choose a rhythm that fits {niche} and your week; {audience} will come back more for reliable uploads than for sudden bursts.",
+      "stageHints": {
+        "idea": "Pick the slowest schedule you could keep even in a busy week.",
+        "started": "Restart with a schedule you can keep, even if you posted irregularly before.",
+        "some_traction": "Hold your current cadence and add Shorts only if your schedule allows it.",
+        "already_earning": "Keep the cadence steady and plan which uploads will include partner or affiliate mentions."
+      }
+    },
+    {
+      "day": 14,
+      "week": 2,
+      "theme": "Second Upload",
+      "missionTitle": "Script, record, edit and publish your second video.",
+      "goal": "Video 2 is live.",
+      "minutes": 60,
+      "difficulty": "Beginner",
+      "xp": 150,
+      "lessonId": "yt-14",
+      "tasks": [
+        {
+          "id": "yo-14-t1",
+          "title": "Pick video 2 from your idea bank",
+          "description": "Choose one of the three ideas you marked on Day 5.",
+          "resourceId": "res-yt-idea-bank"
+        },
+        {
+          "id": "yo-14-t2",
+          "title": "Script and record",
+          "description": "Use the same template and setup. It should feel faster than last time.",
+          "resourceId": "res-yt-script-template"
+        },
+        {
+          "id": "yo-14-t3",
+          "title": "Edit and package",
+          "description": "Edit, then write titles and a thumbnail using the checklist."
+        },
+        {
+          "id": "yo-14-t4",
+          "title": "Publish and link",
+          "description": "Publish it and add an end screen that points to video 1."
+        }
+      ],
+      "nicheHint": "Make video 2 a close neighbor of video 1 so viewers interested in {problem} have a next video to watch.",
+      "stageHints": {
+        "idea": "Finish and publish; two videos make your channel look active to new visitors.",
+        "started": "Publish and note which step took longest so you can fix it next week.",
+        "some_traction": "Publish a follow-up to your best video and link the two with end screens.",
+        "already_earning": "Publish and check that every affiliate or partner link in older descriptions still works."
+      }
+    },
+    {
+      "day": 15,
+      "week": 3,
+      "theme": "Shorts That Feed Long-Form",
+      "missionTitle": "Cut Shorts from your long videos that make viewers want the full version.",
+      "goal": "Publish two Shorts cut from your videos.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-15",
+      "tasks": [
+        {
+          "id": "yo-15-t1",
+          "title": "Find two strong moments",
+          "description": "Look for a tip, a surprising line or a quick result in videos 1 and 2."
+        },
+        {
+          "id": "yo-15-t2",
+          "title": "Reframe to vertical",
+          "description": "Use CapCut to crop to vertical, add captions and start on the strongest sentence."
+        },
+        {
+          "id": "yo-15-t3",
+          "title": "Link to the full video",
+          "description": "Use the related video option in the Shorts upload so viewers can jump to the long version."
+        },
+        {
+          "id": "yo-15-t4",
+          "title": "Publish both Shorts",
+          "description": "Publish one today and schedule one for later this week."
+        }
+      ],
+      "nicheHint": "Pick moments where {audience} gets one quick win on {problem}, and use a search phrase like {terms} in the Short's title.",
+      "stageHints": {
+        "idea": "If you only have one video, make two Shorts from it.",
+        "started": "Turn your best older section into a Short and link it to the full video.",
+        "some_traction": "Make Shorts from your top retention moments, shown in the retention graph.",
+        "already_earning": "Use Shorts to point to the videos where your affiliate or product links live."
+      }
+    },
+    {
+      "day": 16,
+      "week": 3,
+      "theme": "Build Community",
+      "missionTitle": "Turn viewers into a community by replying and starting conversations.",
+      "goal": "Reply to every comment and pin a question on each video.",
+      "minutes": 25,
+      "difficulty": "Beginner",
+      "xp": 100,
+      "lessonId": "yt-16",
+      "tasks": [
+        {
+          "id": "yo-16-t1",
+          "title": "Reply to every comment",
+          "description": "Thank people by name and answer questions fully. Early replies show viewers there is a real person here."
+        },
+        {
+          "id": "yo-16-t2",
+          "title": "Pin a question",
+          "description": "Pin a comment on each video that asks viewers about their own situation."
+        },
+        {
+          "id": "yo-16-t3",
+          "title": "Collect new ideas",
+          "description": "Copy any question from comments into your idea bank.",
+          "resourceId": "res-yt-idea-bank"
+        },
+        {
+          "id": "yo-16-t4",
+          "title": "Check the Community tab",
+          "description": "If it is available on your channel, post a simple poll asking what viewers want next."
+        }
+      ],
+      "nicheHint": "Pin a question that invites {audience} to share where they are stuck with {problem}.",
+      "stageHints": {
+        "idea": "If you have no comments yet, leave thoughtful comments on similar small channels as a viewer, not as an ad.",
+        "started": "Reply to every comment, including old ones you missed.",
+        "some_traction": "Heart and reply to comments from returning viewers to make them feel seen.",
+        "already_earning": "Ask viewers which tools or products they want you to review next."
+      }
+    },
+    {
+      "day": 17,
+      "week": 3,
+      "theme": "Script and Record Video 3",
+      "missionTitle": "Script and record your third video in one session.",
+      "goal": "Video 3 script and footage are done.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-17",
+      "tasks": [
+        {
+          "id": "yo-17-t1",
+          "title": "Choose the topic",
+          "description": "Pick the idea that came up most in comments or research."
+        },
+        {
+          "id": "yo-17-t2",
+          "title": "Write the script",
+          "description": "Try a different hook style than videos 1 and 2.",
+          "resourceId": "res-yt-script-template"
+        },
+        {
+          "id": "yo-17-t3",
+          "title": "Record",
+          "description": "Use your recording checklist and record in sections.",
+          "resourceId": "res-yt-recording-checklist"
+        },
+        {
+          "id": "yo-17-t4",
+          "title": "Note what was easier",
+          "description": "Write one thing that got easier and one thing that still slows you down."
+        }
+      ],
+      "nicheHint": "Answer the most repeated question from {audience} about {problem}.",
+      "stageHints": {
+        "idea": "Keep using the same setup; consistency in setup saves time.",
+        "started": "Try one upgrade, such as a better angle or cleaner background.",
+        "some_traction": "Record a longer, deeper video on your strongest topic.",
+        "already_earning": "Record an honest review or tutorial of a tool you use, focused on viewer value."
+      }
+    },
+    {
+      "day": 18,
+      "week": 3,
+      "theme": "Publish Video 3",
+      "missionTitle": "Edit, package and publish your third video.",
+      "goal": "Video 3 is live with a pinned comment.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-18",
+      "tasks": [
+        {
+          "id": "yo-18-t1",
+          "title": "Edit",
+          "description": "Cut pauses first, then add captions and simple text."
+        },
+        {
+          "id": "yo-18-t2",
+          "title": "Package",
+          "description": "Write ten titles and design one thumbnail.",
+          "resourceId": "res-yt-packaging-checklist"
+        },
+        {
+          "id": "yo-18-t3",
+          "title": "Publish",
+          "description": "Add chapters, an end screen and a pinned question."
+        },
+        {
+          "id": "yo-18-t4",
+          "title": "Update older videos",
+          "description": "Add an end screen or card on videos 1 and 2 pointing to video 3."
+        }
+      ],
+      "nicheHint": "Use a title that names the result {audience} wants and includes a phrase from {terms}.",
+      "stageHints": {
+        "idea": "Publish; three videos give viewers a reason to subscribe.",
+        "started": "Publish and check that all your videos now link to each other.",
+        "some_traction": "Publish and create a playlist around this topic.",
+        "already_earning": "Publish and review your description template so disclosures and links are consistent."
+      }
+    },
+    {
+      "day": 19,
+      "week": 3,
+      "theme": "Read Your Analytics",
+      "missionTitle": "Review your first analytics and learn what they are telling you.",
+      "goal": "Write three insights from YouTube Studio.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-19",
+      "tasks": [
+        {
+          "id": "yo-19-t1",
+          "title": "Open YouTube Studio analytics",
+          "description": "Look at the Content tab for each video.",
+          "resourceId": "res-yt-analytics-guide"
+        },
+        {
+          "id": "yo-19-t2",
+          "title": "Check click-through rate",
+          "description": "Impressions click-through rate shows how often people who saw your thumbnail clicked. Compare your own videos to each other."
+        },
+        {
+          "id": "yo-19-t3",
+          "title": "Check average view duration and retention",
+          "description": "Find where viewers leave. A sharp early drop usually means the hook or opening is slow."
+        },
+        {
+          "id": "yo-19-t4",
+          "title": "Check traffic sources and returning viewers",
+          "description": "See whether views came from search, browse, Shorts or external links, and how many viewers came back."
+        },
+        {
+          "id": "yo-19-t5",
+          "title": "Write three insights",
+          "description": "One about packaging, one about retention, one about where viewers come from."
+        }
+      ],
+      "nicheHint": "Ask which video made {audience} stay longest and which topic around {problem} got the most clicks.",
+      "stageHints": {
+        "idea": "If you have very few views, focus on retention; small numbers still show where people leave.",
+        "started": "Compare your three newest videos to your older ones.",
+        "some_traction": "Look at returning viewers and the videos that bring them back.",
+        "already_earning": "Compare which videos drive clicks on your links, not only views."
+      }
+    },
+    {
+      "day": 20,
+      "week": 3,
+      "theme": "Improve Your Packaging",
+      "missionTitle": "Use what you learned to improve the title or thumbnail of one video.",
+      "goal": "Update packaging on your weakest video.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-20",
+      "tasks": [
+        {
+          "id": "yo-20-t1",
+          "title": "Pick the weakest video",
+          "description": "Choose the one with the lowest click-through rate or impressions that are not turning into views.",
+          "resourceId": "res-yt-analytics-guide"
+        },
+        {
+          "id": "yo-20-t2",
+          "title": "Write a new title",
+          "description": "Make the benefit clearer or add the search phrase viewers use.",
+          "resourceId": "res-yt-packaging-checklist"
+        },
+        {
+          "id": "yo-20-t3",
+          "title": "Make a new thumbnail",
+          "description": "Simplify it: fewer words, bigger subject, stronger contrast."
+        },
+        {
+          "id": "yo-20-t4",
+          "title": "Log the change",
+          "description": "Note the date and the old numbers so you can compare in a week."
+        }
+      ],
+      "nicheHint": "Make the benefit for {audience} obvious in under three words on the thumbnail.",
+      "stageHints": {
+        "idea": "If you have only one or two videos, practice by redesigning a thumbnail and keeping the better one.",
+        "started": "Update the packaging on your weakest upload and compare in a week.",
+        "some_traction": "Use YouTube Studio's thumbnail testing if it is available to you, or change one element at a time.",
+        "already_earning": "Improve packaging on videos that already earn so more viewers see them."
+      }
+    },
+    {
+      "day": 21,
+      "week": 3,
+      "theme": "Batch Your Production",
+      "missionTitle": "Script and record two videos in one session to stay ahead.",
+      "goal": "Two scripts done and at least one video recorded.",
+      "minutes": 60,
+      "difficulty": "Intermediate",
+      "xp": 150,
+      "lessonId": "yt-21",
+      "tasks": [
+        {
+          "id": "yo-21-t1",
+          "title": "Pick two ideas",
+          "description": "Choose two related ideas so research overlaps.",
+          "resourceId": "res-yt-idea-bank"
+        },
+        {
+          "id": "yo-21-t2",
+          "title": "Write both scripts",
+          "description": "Write both hooks first, then both bodies.",
+          "resourceId": "res-yt-script-template"
+        },
+        {
+          "id": "yo-21-t3",
+          "title": "Record both",
+          "description": "Change your shirt or angle between them if you want them to feel different.",
+          "resourceId": "res-yt-recording-checklist"
+        },
+        {
+          "id": "yo-21-t4",
+          "title": "Schedule publish dates",
+          "description": "Add both to your publishing planner.",
+          "resourceId": "res-yt-publishing-planner"
+        }
+      ],
+      "nicheHint": "Batch two related videos for {audience}, such as a beginner and a next-step video about {problem}.",
+      "stageHints": {
+        "idea": "Batch just two scripts if recording two in one day is too much.",
+        "started": "Batch two videos so next week does not depend on a perfect day.",
+        "some_traction": "Batch three videos and plan Shorts from each.",
+        "already_earning": "Batch videos around the topics that earn and schedule them ahead."
+      }
+    },
+    {
+      "day": 22,
+      "week": 4,
+      "theme": "Publish Video 4 and Shorts",
+      "missionTitle": "Publish your batched video and the Shorts cut from it.",
+      "goal": "Video 4 and one Short are live.",
+      "minutes": 45,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-22",
+      "tasks": [
+        {
+          "id": "yo-22-t1",
+          "title": "Edit the batched video",
+          "description": "Edit using your project template."
+        },
+        {
+          "id": "yo-22-t2",
+          "title": "Package and publish",
+          "description": "Use the packaging checklist, then publish on your planned date.",
+          "resourceId": "res-yt-packaging-checklist"
+        },
+        {
+          "id": "yo-22-t3",
+          "title": "Cut one Short",
+          "description": "Turn the best moment into a Short linked to the full video."
+        },
+        {
+          "id": "yo-22-t4",
+          "title": "Reply to comments",
+          "description": "Reply to every comment within a day."
+        }
+      ],
+      "nicheHint": "Use a Short to give {audience} one quick win, then point them to the full video on {problem}.",
+      "stageHints": {
+        "idea": "Publish; four uploads in one month is a real foundation.",
+        "started": "Publish and notice how much faster this one went.",
+        "some_traction": "Publish and add the video to a playlist so viewers keep watching.",
+        "already_earning": "Publish and include any relevant affiliate links with clear disclosure."
+      }
+    },
+    {
+      "day": 23,
+      "week": 4,
+      "theme": "Map Your Monetization",
+      "missionTitle": "Learn the realistic income options for your channel's stage.",
+      "goal": "Pick one first income attempt for this month.",
+      "minutes": 30,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-23",
+      "tasks": [
+        {
+          "id": "yo-23-t1",
+          "title": "Watch the Day 23 lesson",
+          "description": "See the order income usually arrives on an owned channel: affiliate links and small sponsorships often come before ad revenue."
+        },
+        {
+          "id": "yo-23-t2",
+          "title": "Check YouTube Partner Program eligibility",
+          "description": "Open YouTube Studio > Earn and read the current eligibility requirements. Do not rely on numbers you heard elsewhere; they change."
+        },
+        {
+          "id": "yo-23-t3",
+          "title": "List what you already use",
+          "description": "Write down products and tools you genuinely use and would recommend."
+        },
+        {
+          "id": "yo-23-t4",
+          "title": "Pick one first attempt",
+          "description": "Choose one: an affiliate link, a sponsorship-ready media kit or validating a digital product idea."
+        }
+      ],
+      "nicheHint": "List tools or products that genuinely help {audience} with {problem}. Only include things you have used yourself.",
+      "stageHints": {
+        "idea": "Write the plan only; publishing and learning come before income at this stage.",
+        "started": "Pick one affiliate product you already use and plan where it fits.",
+        "some_traction": "Check YouTube Studio > Earn and prepare a simple media kit.",
+        "already_earning": "Review which income source works best and pick one new one to test."
+      }
+    },
+    {
+      "day": 24,
+      "week": 4,
+      "theme": "Affiliate Links Done Right",
+      "missionTitle": "Set up one affiliate link with proper disclosure.",
+      "goal": "One affiliate link added with a clear disclosure.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-24",
+      "tasks": [
+        {
+          "id": "yo-24-t1",
+          "title": "Find an affiliate program",
+          "description": "Check if a product you use has an affiliate program and read its rules.",
+          "resourceId": "res-yt-affiliate-guide"
+        },
+        {
+          "id": "yo-24-t2",
+          "title": "Write your disclosure",
+          "description": "Add a plain disclosure near the link, such as \"This is an affiliate link. I may earn a commission at no extra cost to you.\""
+        },
+        {
+          "id": "yo-24-t3",
+          "title": "Turn on the paid promotion setting when it applies",
+          "description": "If a video includes paid promotion, tick the paid promotion box in the upload settings."
+        },
+        {
+          "id": "yo-24-t4",
+          "title": "Add the link to a relevant video",
+          "description": "Put it only on a video where it genuinely helps the viewer."
+        }
+      ],
+      "nicheHint": "Recommend one product you really use that helps {audience} with {problem}, and explain who it is not right for.",
+      "stageHints": {
+        "idea": "Learn the rules and save the disclosure template for later.",
+        "started": "Add one affiliate link to the video where it fits best.",
+        "some_traction": "Add links to your top videos and track clicks.",
+        "already_earning": "Audit all existing links and disclosures for accuracy."
+      }
+    },
+    {
+      "day": 25,
+      "week": 4,
+      "theme": "Publish a Helpful Product Video",
+      "missionTitle": "Publish a video that genuinely helps viewers choose or use a tool.",
+      "goal": "Video 5 is live with an honest recommendation.",
+      "minutes": 60,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-25",
+      "tasks": [
+        {
+          "id": "yo-25-t1",
+          "title": "Script an honest review or tutorial",
+          "description": "Cover who it is for, who it is not for and what you wish you knew first.",
+          "resourceId": "res-yt-script-template"
+        },
+        {
+          "id": "yo-25-t2",
+          "title": "Record and edit",
+          "description": "Show the product in use instead of reading features."
+        },
+        {
+          "id": "yo-25-t3",
+          "title": "Add the disclosure",
+          "description": "Mention the affiliate link in the video and the description.",
+          "resourceId": "res-yt-affiliate-guide"
+        },
+        {
+          "id": "yo-25-t4",
+          "title": "Publish",
+          "description": "Publish and pin a comment answering a common question about it."
+        }
+      ],
+      "nicheHint": "Show how the product helps {audience} with {problem} in real use, including limits.",
+      "stageHints": {
+        "idea": "Make a tutorial on a free tool instead if you have nothing to recommend yet.",
+        "started": "Publish your first honest recommendation video.",
+        "some_traction": "Publish a comparison video between two tools you have used.",
+        "already_earning": "Publish and compare its click-through on links to your other videos."
+      }
+    },
+    {
+      "day": 26,
+      "week": 4,
+      "theme": "Get Sponsorship Ready",
+      "missionTitle": "Create a simple media kit and audience snapshot.",
+      "goal": "A one-page media kit saved as a PDF.",
+      "minutes": 40,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-26",
+      "tasks": [
+        {
+          "id": "yo-26-t1",
+          "title": "Write your audience snapshot",
+          "description": "Use YouTube Studio's audience tab to describe who watches, where they are and what they like.",
+          "resourceId": "res-yt-media-kit"
+        },
+        {
+          "id": "yo-26-t2",
+          "title": "Build the media kit in Canva",
+          "description": "Include your promise, audience snapshot, top videos and how to contact you.",
+          "resourceId": "res-yt-media-kit"
+        },
+        {
+          "id": "yo-26-t3",
+          "title": "Add a business email",
+          "description": "Add a contact email to your channel's About section."
+        },
+        {
+          "id": "yo-26-t4",
+          "title": "Decide your standards",
+          "description": "Write which kinds of brands you will and will not work with."
+        }
+      ],
+      "nicheHint": "Describe {audience} and the {niche} topics your channel covers so a relevant brand can see the fit quickly.",
+      "stageHints": {
+        "idea": "Draft the media kit now and update it when you have more data.",
+        "started": "Build the media kit with your best videos so far.",
+        "some_traction": "Build the kit and add your returning viewer numbers.",
+        "already_earning": "Update your kit with recent results and partnership examples."
+      }
+    },
+    {
+      "day": 27,
+      "week": 4,
+      "theme": "Validate a Digital Product Idea",
+      "missionTitle": "Test whether viewers want a simple digital product before making it.",
+      "goal": "One product idea tested with your audience.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-27",
+      "tasks": [
+        {
+          "id": "yo-27-t1",
+          "title": "Find the repeated need",
+          "description": "Look at comments and your idea bank for a question people ask again and again.",
+          "resourceId": "res-yt-idea-bank"
+        },
+        {
+          "id": "yo-27-t2",
+          "title": "Shape a small product idea",
+          "description": "A checklist, template or guide that solves one part of the problem."
+        },
+        {
+          "id": "yo-27-t3",
+          "title": "Ask your viewers",
+          "description": "Post a poll in the Community tab if available, or ask in a pinned comment."
+        },
+        {
+          "id": "yo-27-t4",
+          "title": "Write down the result",
+          "description": "Note how many people said yes and what they asked for. Do not build it yet."
+        }
+      ],
+      "nicheHint": "Think of a simple checklist or template that helps {audience} with one step of {problem}.",
+      "stageHints": {
+        "idea": "Write the idea down and revisit it once you have regular viewers.",
+        "started": "Ask your current viewers in a pinned comment.",
+        "some_traction": "Run a poll and collect specific feedback.",
+        "already_earning": "Test a premium version of your most-requested resource."
+      }
+    },
+    {
+      "day": 28,
+      "week": 4,
+      "theme": "Second Analytics Review",
+      "missionTitle": "Review a month of data and double down on what works.",
+      "goal": "Three decisions for next month based on data.",
+      "minutes": 35,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-28",
+      "tasks": [
+        {
+          "id": "yo-28-t1",
+          "title": "Compare all uploads",
+          "description": "Use the analytics guide to compare click-through rate, average view duration and returning viewers.",
+          "resourceId": "res-yt-analytics-guide"
+        },
+        {
+          "id": "yo-28-t2",
+          "title": "Check the packaging change",
+          "description": "Compare the video you updated on Day 20 to its old numbers."
+        },
+        {
+          "id": "yo-28-t3",
+          "title": "Find your best topic",
+          "description": "Look for the topic with the best mix of clicks and watch time."
+        },
+        {
+          "id": "yo-28-t4",
+          "title": "Make three decisions",
+          "description": "One topic to repeat, one thing to stop and one experiment to try."
+        }
+      ],
+      "nicheHint": "Find which topic around {problem} kept {audience} watching longest and plan more of it.",
+      "stageHints": {
+        "idea": "Focus on what you learned about your process, not only numbers.",
+        "started": "Compare your new videos to your older ones.",
+        "some_traction": "Look at subscribers gained per video and returning viewers.",
+        "already_earning": "Look at which videos drive income and which drive growth."
+      }
+    },
+    {
+      "day": 29,
+      "week": 4,
+      "theme": "Publish and Plan Ahead",
+      "missionTitle": "Publish another upload and fill your next month's content calendar.",
+      "goal": "Video 6 is live and next month has dates.",
+      "minutes": 50,
+      "difficulty": "Intermediate",
+      "xp": 100,
+      "lessonId": "yt-29",
+      "tasks": [
+        {
+          "id": "yo-29-t1",
+          "title": "Publish your second batched video",
+          "description": "Edit, package and publish it.",
+          "resourceId": "res-yt-packaging-checklist"
+        },
+        {
+          "id": "yo-29-t2",
+          "title": "Cut a Short",
+          "description": "Turn one moment into a Short linked to the full video."
+        },
+        {
+          "id": "yo-29-t3",
+          "title": "Fill next month's calendar",
+          "description": "Assign ideas from your bank to dates in your planner.",
+          "resourceId": "res-yt-publishing-planner"
+        },
+        {
+          "id": "yo-29-t4",
+          "title": "Plan Shorts",
+          "description": "Plan at least one Short for each long video."
+        }
+      ],
+      "nicheHint": "Plan next month around the topics {audience} responded to most, using phrases like {terms}.",
+      "stageHints": {
+        "idea": "Publish and plan only the next two weeks if a month feels like too much.",
+        "started": "Publish and plan a full month of uploads.",
+        "some_traction": "Publish and plan a series around your strongest topic.",
+        "already_earning": "Publish and plan income-related videos alongside growth videos."
+      }
+    },
+    {
+      "day": 30,
+      "week": 4,
+      "theme": "Your 30-Day Review",
+      "missionTitle": "Review your month and set the plan for the next 30 days.",
+      "goal": "A written review and next-30-day plan.",
+      "minutes": 40,
+      "difficulty": "Beginner",
+      "xp": 300,
+      "lessonId": "yt-30",
+      "tasks": [
+        {
+          "id": "yo-30-t1",
+          "title": "Count what you did",
+          "description": "Count videos, Shorts, comments replied to and hours worked."
+        },
+        {
+          "id": "yo-30-t2",
+          "title": "Review your analytics",
+          "description": "Write your best video, best topic and biggest lesson.",
+          "resourceId": "res-yt-analytics-guide"
+        },
+        {
+          "id": "yo-30-t3",
+          "title": "Review your income attempt",
+          "description": "Write what you tried, what happened and what you will do next."
+        },
+        {
+          "id": "yo-30-t4",
+          "title": "Set the next 30-day goal",
+          "description": "Choose a process goal you control, such as the number of uploads and one new skill.",
+          "resourceId": "res-yt-publishing-planner"
+        }
+      ],
+      "nicheHint": "Write your next 30-day goal for serving {audience} in {niche}, focused on the topics that worked.",
+      "stageHints": {
+        "idea": "If you are still planning, commit to publishing your first video in the next seven days.",
+        "started": "Celebrate your uploads and set a cadence for next month.",
+        "some_traction": "Set a growth goal around returning viewers and one new format.",
+        "already_earning": "Set a goal for one new income source and keep your publishing steady."
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "id": "yt-01",
+      "title": "How an Owned Channel Grows",
+      "category": "Channel Strategy",
+      "path": "youtube_owned",
+      "duration": "8:40",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "A plain-English look at how a channel grows: one audience, one problem, steady uploads and learning from each video. You finish with your channel promise and a 30-day process goal.",
+      "learn": [
+        "Why a narrow audience grows faster than a broad one",
+        "How to write a one-sentence channel promise",
+        "Why process goals beat view goals in month one"
+      ],
+      "takeaways": [
+        "Name one audience you understand",
+        "Write your promise as: I help [audience] with [problem]",
+        "Set a goal you control, like a number of uploads"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-02",
+      "title": "Set Up a Channel That Explains Itself",
+      "category": "Channel Strategy",
+      "path": "youtube_owned",
+      "duration": "7:15",
+      "minutes": 7,
+      "hue": 0,
+      "summary": "Your channel page is a first impression. Learn how to choose a name, banner and About text that tell a new visitor what they get in five seconds.",
+      "learn": [
+        "What makes a channel name easy to remember",
+        "How to design a banner that reads on a phone",
+        "What to write in your About section"
+      ],
+      "takeaways": [
+        "Short and easy to say beats clever",
+        "Put your promise on the banner",
+        "Tell visitors how often you upload"
+      ],
+      "resourceIds": [
+        "res-yt-channel-setup"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-03",
+      "title": "Research What Viewers Search For",
+      "category": "Audience Research",
+      "path": "youtube_owned",
+      "duration": "9:30",
+      "minutes": 9,
+      "hue": 0,
+      "summary": "Search autocomplete and comments on similar channels show you exactly what your audience wants. Learn how to collect their questions in their own words.",
+      "learn": [
+        "How to mine YouTube search autocomplete",
+        "How to read comments for real questions",
+        "Why exact wording matters for titles"
+      ],
+      "takeaways": [
+        "Collect questions in the viewer's words",
+        "Repeat questions are your strongest topics",
+        "Study channels near your size, not only the biggest"
+      ],
+      "resourceIds": [
+        "res-yt-audience-research"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-04",
+      "title": "Use Google Trends Without Overthinking It",
+      "category": "Audience Research",
+      "path": "youtube_owned",
+      "duration": "6:50",
+      "minutes": 6,
+      "hue": 0,
+      "summary": "Google Trends shows whether interest in a topic is steady, rising or seasonal. Learn how to use its YouTube Search filter to choose topics that last.",
+      "learn": [
+        "How to set Trends to YouTube Search",
+        "How to compare several topics at once",
+        "How to spot seasonal topics and plan ahead"
+      ],
+      "takeaways": [
+        "Prefer steady interest over short spikes",
+        "Score topics on interest, knowledge and ease",
+        "Trends shows direction, not exact search numbers"
+      ],
+      "resourceIds": [
+        "res-yt-audience-research"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-05",
+      "title": "Turn Topics Into Video Ideas",
+      "category": "Ideas & Topics",
+      "path": "youtube_owned",
+      "duration": "8:05",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "A topic is broad; an idea answers one question for one viewer. Learn to build a 20-idea bank so you never start a filming day without a plan.",
+      "learn": [
+        "The difference between a topic and an idea",
+        "How to write a working title for each idea",
+        "How to choose your first three videos"
+      ],
+      "takeaways": [
+        "Each idea answers one question",
+        "Keep your idea bank in one shared doc",
+        "Add new ideas from comments every week"
+      ],
+      "resourceIds": [
+        "res-yt-idea-bank"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-06",
+      "title": "Long-Form, Shorts or Both",
+      "category": "Channel Strategy",
+      "path": "youtube_owned",
+      "duration": "7:40",
+      "minutes": 7,
+      "hue": 0,
+      "summary": "Choose a format plan that matches your real time and equipment. Learn how long-form videos and Shorts work together on a small channel.",
+      "learn": [
+        "What each format is good at",
+        "How much time each format really takes",
+        "How Shorts can point viewers to long videos"
+      ],
+      "takeaways": [
+        "Choose the plan you can repeat",
+        "A phone and a window are enough to start",
+        "Use one format as the main one and the other as support"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-07",
+      "title": "Outline Before You Film",
+      "category": "Scripting",
+      "path": "youtube_owned",
+      "duration": "6:30",
+      "minutes": 6,
+      "hue": 0,
+      "summary": "A simple outline saves hours of rambling on camera. Learn how to pick one takeaway and order your points the way a beginner needs them.",
+      "learn": [
+        "How to choose one main takeaway",
+        "How to order points for a beginner",
+        "Why outlines make recording calmer"
+      ],
+      "takeaways": [
+        "One video, one takeaway",
+        "Three to five points is plenty",
+        "Schedule your recording slot now"
+      ],
+      "resourceIds": [
+        "res-yt-script-template"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-08",
+      "title": "Hooks That Hold Attention",
+      "category": "Scripting",
+      "path": "youtube_owned",
+      "duration": "10:10",
+      "minutes": 10,
+      "hue": 0,
+      "summary": "The first seconds decide whether people stay. Learn three hook styles and a simple script structure: hook, promise, content and call to action.",
+      "learn": [
+        "Three hook styles that work in any niche",
+        "How to write a clear promise line",
+        "How to end with one call to action"
+      ],
+      "takeaways": [
+        "Start with the problem, not a greeting",
+        "Read your script out loud and cut stumbles",
+        "Ask for only one thing at the end"
+      ],
+      "resourceIds": [
+        "res-yt-script-template"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-09",
+      "title": "Record Great Video on a Phone",
+      "category": "Production",
+      "path": "youtube_owned",
+      "duration": "9:00",
+      "minutes": 9,
+      "hue": 0,
+      "summary": "Light and sound matter more than the camera. Learn how to set up window light, get clear audio and record in short sections.",
+      "learn": [
+        "How to use window light",
+        "How to get clear audio in an ordinary room",
+        "Why you should record in short sections"
+      ],
+      "takeaways": [
+        "Face the window, never sit in front of it",
+        "Always do a short test and listen back",
+        "Mistakes are fine; you will cut them"
+      ],
+      "resourceIds": [
+        "res-yt-recording-checklist"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-10",
+      "title": "Edit With Free Tools",
+      "category": "Production",
+      "path": "youtube_owned",
+      "duration": "11:20",
+      "minutes": 11,
+      "hue": 0,
+      "summary": "Edit a full video in CapCut or DaVinci Resolve. Learn the order that keeps editing fast: cut first, then captions, then extras.",
+      "learn": [
+        "The fastest editing order for beginners",
+        "How to tighten the first seconds",
+        "How to use auto captions and fix them"
+      ],
+      "takeaways": [
+        "Cut silences and repeats first",
+        "Only use music you have the right to use",
+        "Save a project template for next time"
+      ],
+      "resourceIds": [],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-11",
+      "title": "Titles and Thumbnails That Get Clicked",
+      "category": "Packaging",
+      "path": "youtube_owned",
+      "duration": "10:45",
+      "minutes": 10,
+      "hue": 0,
+      "summary": "Packaging decides whether anyone sees your video. Learn how to write titles in your viewers' words and design thumbnails that read at phone size.",
+      "learn": [
+        "How to write ten titles and choose one",
+        "What makes a thumbnail readable at small size",
+        "How to test your thumbnail next to others"
+      ],
+      "takeaways": [
+        "Clear beats clever",
+        "Three words or fewer on the thumbnail",
+        "Keep packaging honest to the video"
+      ],
+      "resourceIds": [
+        "res-yt-packaging-checklist"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-12",
+      "title": "Publish Your First Video",
+      "category": "Publishing",
+      "path": "youtube_owned",
+      "duration": "8:15",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "Walk through a full upload in YouTube Studio: description, chapters, end screen, settings and your first share.",
+      "learn": [
+        "What to put in the first two lines of a description",
+        "How to add chapters and an end screen",
+        "Which upload settings to check"
+      ],
+      "takeaways": [
+        "Done and live beats perfect and private",
+        "Chapters help viewers and search",
+        "Share once with people who genuinely care"
+      ],
+      "resourceIds": [],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-13",
+      "title": "A Schedule You Can Keep",
+      "category": "Publishing",
+      "path": "youtube_owned",
+      "duration": "6:40",
+      "minutes": 6,
+      "hue": 0,
+      "summary": "Consistency beats frequency. Learn how to set a publishing cadence based on how long your videos really take.",
+      "learn": [
+        "How to estimate your real production time",
+        "Common cadences for beginners",
+        "How to tell viewers your schedule"
+      ],
+      "takeaways": [
+        "Pick the slowest schedule you can always keep",
+        "Block each production step in your calendar",
+        "Reliable uploads bring viewers back"
+      ],
+      "resourceIds": [
+        "res-yt-publishing-planner"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-14",
+      "title": "Your Second Video Is Easier",
+      "category": "Mindset",
+      "path": "youtube_owned",
+      "duration": "5:50",
+      "minutes": 5,
+      "hue": 0,
+      "summary": "The second upload is where most channels stop. Learn how to keep going and why repetition is the skill.",
+      "learn": [
+        "Why the second upload feels harder emotionally",
+        "How to reuse your process",
+        "How to link videos together"
+      ],
+      "takeaways": [
+        "Repetition builds skill faster than research",
+        "Link each new video to the last",
+        "Compare yourself to your past, not to others"
+      ],
+      "resourceIds": [
+        "res-yt-idea-bank"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-15",
+      "title": "Shorts That Feed Long-Form",
+      "category": "Production",
+      "path": "youtube_owned",
+      "duration": "8:30",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "Learn how to cut Shorts from your long videos and link them back so new viewers find your full content.",
+      "learn": [
+        "How to find Short-worthy moments",
+        "How to reframe and caption for vertical",
+        "How to link a Short to a long video"
+      ],
+      "takeaways": [
+        "Start on the strongest sentence",
+        "One quick win per Short",
+        "Always point to the full video"
+      ],
+      "resourceIds": [],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-16",
+      "title": "Build a Community From Day One",
+      "category": "Community",
+      "path": "youtube_owned",
+      "duration": "7:05",
+      "minutes": 7,
+      "hue": 0,
+      "summary": "Early comments are gold. Learn how to reply, pin questions and turn viewer questions into new videos.",
+      "learn": [
+        "Why early replies matter",
+        "How to write a pinned question",
+        "How to use comments as an idea source"
+      ],
+      "takeaways": [
+        "Reply to every comment",
+        "Pin a question on each video",
+        "Copy viewer questions into your idea bank"
+      ],
+      "resourceIds": [
+        "res-yt-idea-bank"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-17",
+      "title": "Getting Faster at Production",
+      "category": "Production",
+      "path": "youtube_owned",
+      "duration": "6:55",
+      "minutes": 6,
+      "hue": 0,
+      "summary": "Learn small habits that cut production time: reusable setups, templates and recording in sections.",
+      "learn": [
+        "How to keep a fixed recording setup",
+        "How to try new hook styles",
+        "How to note what slows you down"
+      ],
+      "takeaways": [
+        "Same setup, less setup time",
+        "Change one thing at a time",
+        "Track the slowest step and fix it"
+      ],
+      "resourceIds": [
+        "res-yt-script-template",
+        "res-yt-recording-checklist"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-18",
+      "title": "Connect Your Videos",
+      "category": "Publishing",
+      "path": "youtube_owned",
+      "duration": "6:20",
+      "minutes": 6,
+      "hue": 0,
+      "summary": "Use end screens, cards and playlists so viewers move from one video to the next.",
+      "learn": [
+        "How end screens and cards work",
+        "How to build a simple playlist",
+        "Why linking videos increases watch time"
+      ],
+      "takeaways": [
+        "Every video should point to another",
+        "Group related videos in playlists",
+        "Update old videos when you publish new ones"
+      ],
+      "resourceIds": [
+        "res-yt-packaging-checklist"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-19",
+      "title": "Read Your Analytics",
+      "category": "Analytics",
+      "path": "youtube_owned",
+      "duration": "11:00",
+      "minutes": 11,
+      "hue": 0,
+      "summary": "Learn the handful of numbers that matter early: click-through rate, average view duration, retention, traffic sources and returning viewers.",
+      "learn": [
+        "What click-through rate tells you",
+        "How to read a retention graph",
+        "Where traffic sources and returning viewers fit"
+      ],
+      "takeaways": [
+        "Compare your videos to each other, not to others",
+        "Early drops point to the hook",
+        "Small numbers still show patterns"
+      ],
+      "resourceIds": [
+        "res-yt-analytics-guide"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-20",
+      "title": "Improve Packaging With Data",
+      "category": "Packaging",
+      "path": "youtube_owned",
+      "duration": "7:30",
+      "minutes": 7,
+      "hue": 0,
+      "summary": "Use your analytics to improve a title or thumbnail on an existing video, and log the change so you learn from it.",
+      "learn": [
+        "How to pick the video to fix",
+        "What to change first",
+        "How to measure the result fairly"
+      ],
+      "takeaways": [
+        "Change one element at a time",
+        "Write down the old numbers first",
+        "Give a change about a week before judging"
+      ],
+      "resourceIds": [
+        "res-yt-analytics-guide",
+        "res-yt-packaging-checklist"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-21",
+      "title": "Batch Production",
+      "category": "Production",
+      "path": "youtube_owned",
+      "duration": "8:50",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "Script and record several videos in one session so a busy week does not break your schedule.",
+      "learn": [
+        "How to batch scripts",
+        "How to batch recording",
+        "How to schedule ahead in YouTube Studio"
+      ],
+      "takeaways": [
+        "Batch related ideas so research overlaps",
+        "Two videos ahead removes most stress",
+        "Schedule uploads instead of rushing them"
+      ],
+      "resourceIds": [
+        "res-yt-publishing-planner"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-22",
+      "title": "Keep Momentum in Week Four",
+      "category": "Mindset",
+      "path": "youtube_owned",
+      "duration": "5:40",
+      "minutes": 5,
+      "hue": 0,
+      "summary": "Week four is where routines become habits. Learn how to keep shipping while you start thinking about income.",
+      "learn": [
+        "Why momentum matters more than any single video",
+        "How to use Shorts to stay visible",
+        "How to reply quickly without burning out"
+      ],
+      "takeaways": [
+        "Ship on your planned date",
+        "Use templates to save energy",
+        "Rest is part of the schedule"
+      ],
+      "resourceIds": [
+        "res-yt-packaging-checklist"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-23",
+      "title": "How Channel Income Really Arrives",
+      "category": "Monetization",
+      "path": "youtube_owned",
+      "duration": "10:20",
+      "minutes": 10,
+      "hue": 0,
+      "summary": "A realistic map of channel income: affiliate links, sponsorships, digital products and the YouTube Partner Program. Income usually takes months, and the order varies by channel.",
+      "learn": [
+        "The main income sources for a channel",
+        "Why ad revenue often comes later",
+        "Where to check current Partner Program eligibility"
+      ],
+      "takeaways": [
+        "Check current requirements in YouTube Studio > Earn",
+        "Pick one first income attempt, not five",
+        "Nothing here is guaranteed; process comes first"
+      ],
+      "resourceIds": [],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-24",
+      "title": "Affiliate Links With Proper Disclosure",
+      "category": "Monetization",
+      "path": "youtube_owned",
+      "duration": "9:10",
+      "minutes": 9,
+      "hue": 0,
+      "summary": "Learn how affiliate links work, how to disclose them clearly and how to recommend only what genuinely helps. Includes a note on health, finance and legal topics.",
+      "learn": [
+        "How affiliate programs work",
+        "How to write a clear disclosure",
+        "When to use the paid promotion setting"
+      ],
+      "takeaways": [
+        "Only recommend what you use",
+        "Disclose in the video and the description",
+        "In health, finance or legal topics, stay educational and avoid professional claims"
+      ],
+      "resourceIds": [
+        "res-yt-affiliate-guide"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-25",
+      "title": "Honest Recommendation Videos",
+      "category": "Monetization",
+      "path": "youtube_owned",
+      "duration": "8:25",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "Make reviews and tutorials that viewers trust: who it is for, who it is not for and how it works in real use.",
+      "learn": [
+        "How to structure an honest review",
+        "How to show instead of tell",
+        "How to handle limits and downsides"
+      ],
+      "takeaways": [
+        "Trust is worth more than one sale",
+        "Show real use, not feature lists",
+        "Say who should skip it"
+      ],
+      "resourceIds": [
+        "res-yt-affiliate-guide"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-26",
+      "title": "Get Sponsorship Ready",
+      "category": "Monetization",
+      "path": "youtube_owned",
+      "duration": "8:45",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "Brands look for a clear audience fit. Learn how to build a one-page media kit and an honest audience snapshot.",
+      "learn": [
+        "What goes in a media kit",
+        "How to describe your audience honestly",
+        "How to set your own brand standards"
+      ],
+      "takeaways": [
+        "One page is enough",
+        "Use real numbers from YouTube Studio only",
+        "Decide what you will not promote"
+      ],
+      "resourceIds": [
+        "res-yt-media-kit"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-27",
+      "title": "Validate a Digital Product",
+      "category": "Monetization",
+      "path": "youtube_owned",
+      "duration": "7:50",
+      "minutes": 7,
+      "hue": 0,
+      "summary": "Before building a product, check that viewers want it. Learn how to spot a repeated need and test it with a poll or pinned comment.",
+      "learn": [
+        "How to spot a repeated need",
+        "What makes a simple first product",
+        "How to ask viewers without pressure"
+      ],
+      "takeaways": [
+        "Ask before you build",
+        "Start small: a checklist or template",
+        "Write down real responses, not hopes"
+      ],
+      "resourceIds": [
+        "res-yt-idea-bank"
+      ],
+      "instructor": "Jordan Ellis"
+    },
+    {
+      "id": "yt-28",
+      "title": "Your Monthly Analytics Review",
+      "category": "Analytics",
+      "path": "youtube_owned",
+      "duration": "9:35",
+      "minutes": 9,
+      "hue": 0,
+      "summary": "Review a month of data and turn it into three decisions: one thing to repeat, one to stop and one experiment.",
+      "learn": [
+        "How to compare a month of uploads",
+        "How to judge a packaging change",
+        "How to turn data into decisions"
+      ],
+      "takeaways": [
+        "Repeat what works",
+        "Stop what does not",
+        "Run one experiment at a time"
+      ],
+      "resourceIds": [
+        "res-yt-analytics-guide"
+      ],
+      "instructor": "Priya Raman"
+    },
+    {
+      "id": "yt-29",
+      "title": "Plan a Month of Content",
+      "category": "Publishing",
+      "path": "youtube_owned",
+      "duration": "7:20",
+      "minutes": 7,
+      "hue": 0,
+      "summary": "Turn your idea bank and analytics into a month of publishing dates, with Shorts planned for each long video.",
+      "learn": [
+        "How to assign ideas to dates",
+        "How to plan Shorts alongside long videos",
+        "How to leave buffer weeks"
+      ],
+      "takeaways": [
+        "Plan from data, not guesses",
+        "Every long video gets at least one Short",
+        "Leave room for life"
+      ],
+      "resourceIds": [
+        "res-yt-publishing-planner"
+      ],
+      "instructor": "Marcus Bell"
+    },
+    {
+      "id": "yt-30",
+      "title": "Your 30-Day Review",
+      "category": "Mindset",
+      "path": "youtube_owned",
+      "duration": "8:00",
+      "minutes": 8,
+      "hue": 0,
+      "summary": "Look back at what you built, what you learned and what to do next. Set a next 30-day goal you control.",
+      "learn": [
+        "How to review a month honestly",
+        "How to judge your first income attempt",
+        "How to set your next goal"
+      ],
+      "takeaways": [
+        "Count what you shipped",
+        "Learning is a result",
+        "Set process goals for the next month"
+      ],
+      "resourceIds": [
+        "res-yt-analytics-guide",
+        "res-yt-publishing-planner"
+      ],
+      "instructor": "Jordan Ellis"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-yt-channel-setup",
+      "title": "Channel Setup Checklist",
+      "type": "Checklist",
+      "path": "youtube_owned",
+      "description": "Everything a new visitor needs to understand your channel in five seconds. Work through it once, then revisit it monthly.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Basics",
+          "body": [
+            "Channel name: short, easy to spell and easy to say out loud.",
+            "Profile picture: your face or a simple logo that reads at small size.",
+            "Handle: matches your channel name as closely as possible."
+          ]
+        },
+        {
+          "heading": "Banner",
+          "body": [
+            "Use Canva's free YouTube banner template.",
+            "Put your promise in large text inside the safe area so it shows on phones.",
+            "Add your upload rhythm, such as \"New videos every Thursday\"."
+          ]
+        },
+        {
+          "heading": "About section",
+          "body": [
+            "Line 1: who the channel is for.",
+            "Line 2: what they will learn or get.",
+            "Line 3: how often you upload and a contact email if you want brand messages."
+          ]
+        },
+        {
+          "heading": "Final check",
+          "body": [
+            "Open your channel in the YouTube app on your phone.",
+            "Ask a friend what your channel is about after five seconds.",
+            "Fix anything they could not tell you."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-audience-research",
+      "title": "Audience Research Worksheet",
+      "type": "Template",
+      "path": "youtube_owned",
+      "description": "A simple worksheet to collect real questions from search, comments and Google Trends before you choose topics.",
+      "minutes": 8,
+      "sections": [
+        {
+          "heading": "Search autocomplete",
+          "body": [
+            "Type your topic into YouTube search and save every suggestion.",
+            "Add \"how to\", \"why\", \"best\", \"vs\" and \"for beginners\" after your topic.",
+            "Try each letter of the alphabet after your topic for more suggestions."
+          ]
+        },
+        {
+          "heading": "Comments on similar channels",
+          "body": [
+            "Pick five channels close to your size in your topic.",
+            "Read comments on their three most recent videos.",
+            "Copy questions, complaints and requests in the viewer's exact words."
+          ]
+        },
+        {
+          "heading": "Google Trends",
+          "body": [
+            "Set the filter to YouTube Search and the range to 12 months.",
+            "Compare up to five topic phrases.",
+            "Mark each as steady, rising or seasonal."
+          ]
+        },
+        {
+          "heading": "Score and choose",
+          "body": [
+            "Score each topic 0 to 3 for interest, your knowledge and ease of filming.",
+            "Keep your top five topics as channel pillars.",
+            "Health, finance or legal topic? Plan to frame videos as education, not personal advice."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-idea-bank",
+      "title": "Idea Bank Template",
+      "type": "Template",
+      "path": "youtube_owned",
+      "description": "A living list of video ideas so you never start a filming day without a plan. Aim for 20 ideas and add new ones weekly.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Columns",
+          "body": [
+            "Idea: one question for one viewer.",
+            "Working title: the title a viewer would click.",
+            "Source: autocomplete, comment, Trends or your own experience.",
+            "Status: idea, scripted, recorded, published."
+          ]
+        },
+        {
+          "heading": "Good idea test",
+          "body": [
+            "Does it answer one specific question?",
+            "Could you film it this week with what you have?",
+            "Have you seen people ask for it more than once?"
+          ]
+        },
+        {
+          "heading": "Weekly habit",
+          "body": [
+            "Copy new questions from your comments every week.",
+            "Add follow-up ideas for your best-performing videos.",
+            "Move finished ideas to a published list with the link."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-script-template",
+      "title": "Video Script Template",
+      "type": "Script",
+      "path": "youtube_owned",
+      "description": "A four-part script structure that works in any niche: hook, promise, content and call to action.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "Hook (first 15 to 30 seconds)",
+          "body": [
+            "Question: \"Why does [common problem] keep happening?\"",
+            "Result: \"Here is how I [result] using [simple method].\"",
+            "Mistake: \"Most beginners make this mistake with [topic].\""
+          ]
+        },
+        {
+          "heading": "Promise",
+          "body": [
+            "\"By the end of this video you will know [specific outcome].\"",
+            "Keep it to one sentence and make it something the video actually delivers."
+          ]
+        },
+        {
+          "heading": "Content",
+          "body": [
+            "Three to five points, each with an example or demonstration.",
+            "Short spoken sentences. Read it out loud and cut anything you stumble on.",
+            "Add a quick recap before the end."
+          ]
+        },
+        {
+          "heading": "Call to action and sensitive topics",
+          "body": [
+            "Ask for one thing: watch a related video, comment a question or subscribe.",
+            "Health, finance or legal topics: say the video is educational, add a short disclaimer and suggest viewers consult a qualified professional for their situation."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-recording-checklist",
+      "title": "Phone Recording Checklist",
+      "type": "Checklist",
+      "path": "youtube_owned",
+      "description": "Get clean video and audio on a phone with no extra equipment. Run through it before every recording.",
+      "minutes": 4,
+      "sections": [
+        {
+          "heading": "Light",
+          "body": [
+            "Face a window during the day.",
+            "Never sit with a bright window behind you.",
+            "Turn off mixed-color overhead lights if they make your face look odd."
+          ]
+        },
+        {
+          "heading": "Audio",
+          "body": [
+            "Pick the quietest room with soft surfaces like curtains or a bed.",
+            "Close windows and turn off fans.",
+            "Stay close to the phone or use wired earphones with a mic."
+          ]
+        },
+        {
+          "heading": "Camera",
+          "body": [
+            "Clean the lens.",
+            "Use the back camera if you can; it is usually better quality.",
+            "Put the phone at eye level and use a stack of books if you have no tripod."
+          ]
+        },
+        {
+          "heading": "Before you hit record",
+          "body": [
+            "Record a 20-second test and listen with headphones.",
+            "Turn on Do Not Disturb.",
+            "Check you have enough storage and battery."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-packaging-checklist",
+      "title": "Title and Thumbnail Checklist",
+      "type": "Checklist",
+      "path": "youtube_owned",
+      "description": "Package each video so the right viewers want to click, without misleading anyone.",
+      "minutes": 5,
+      "sections": [
+        {
+          "heading": "Title",
+          "body": [
+            "Write ten options, then choose the clearest.",
+            "Use the words your viewers use in search.",
+            "Promise a result the video actually delivers."
+          ]
+        },
+        {
+          "heading": "Thumbnail",
+          "body": [
+            "One subject, one feeling, high contrast.",
+            "Three words or fewer of text, and not the same words as the title.",
+            "Check it at phone size next to other videos in your topic."
+          ]
+        },
+        {
+          "heading": "Before publishing",
+          "body": [
+            "Do the title and thumbnail tell one story together?",
+            "Would a viewer feel the video matched what they clicked?",
+            "Is the first line of the description a clear summary?"
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-analytics-guide",
+      "title": "Analytics Review Guide",
+      "type": "Guide",
+      "path": "youtube_owned",
+      "description": "A plain-English guide to the YouTube Studio numbers that matter early, and how to turn them into decisions.",
+      "minutes": 9,
+      "sections": [
+        {
+          "heading": "Where to look",
+          "body": [
+            "YouTube Studio > Analytics for the channel view.",
+            "Click a single video, then Analytics, for its own numbers.",
+            "Use the Content, Audience and Reach tabs."
+          ]
+        },
+        {
+          "heading": "What each number means",
+          "body": [
+            "Impressions click-through rate: how often people who saw your thumbnail clicked.",
+            "Average view duration and retention: how long people stayed and where they left.",
+            "Traffic sources: search, browse, Shorts feed, suggested or external.",
+            "Returning viewers: people who came back after watching before."
+          ]
+        },
+        {
+          "heading": "How to compare fairly",
+          "body": [
+            "Compare your own videos to each other, not to other channels.",
+            "Compare over the same time window, such as the first 7 days.",
+            "Small numbers still show patterns, but do not overreact to one video."
+          ]
+        },
+        {
+          "heading": "Turn it into decisions",
+          "body": [
+            "Low clicks: improve the title and thumbnail.",
+            "Early drop in retention: tighten the hook and opening.",
+            "Write one thing to repeat, one to stop and one experiment."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-publishing-planner",
+      "title": "Publishing Schedule Planner",
+      "type": "Template",
+      "path": "youtube_owned",
+      "description": "Plan a cadence you can keep and assign production steps to real dates.",
+      "minutes": 6,
+      "sections": [
+        {
+          "heading": "Estimate your time",
+          "body": [
+            "Write how long each step took on your last video: script, record, edit, package.",
+            "Add them up and add a buffer of about a third.",
+            "That total is your real time per video."
+          ]
+        },
+        {
+          "heading": "Pick a cadence",
+          "body": [
+            "Light: one long video every two weeks plus one Short a week.",
+            "Steady: one long video a week plus two Shorts.",
+            "Choose the one you could keep during a busy week."
+          ]
+        },
+        {
+          "heading": "Monthly calendar",
+          "body": [
+            "Assign one idea from your bank to each publish date.",
+            "Block script, record and edit days before each date.",
+            "Plan at least one Short from each long video and leave one buffer week."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-affiliate-guide",
+      "title": "Affiliate Disclosure and Link Guide",
+      "type": "Guide",
+      "path": "youtube_owned",
+      "description": "How to use affiliate links honestly, disclose them clearly and keep viewer trust.",
+      "minutes": 7,
+      "sections": [
+        {
+          "heading": "Before you add a link",
+          "body": [
+            "Only recommend products you have used yourself.",
+            "Read the affiliate program's rules, including where links may be shared.",
+            "Check that the product genuinely helps the audience of that video."
+          ]
+        },
+        {
+          "heading": "How to disclose",
+          "body": [
+            "Say it in the video near the mention: \"The link below is an affiliate link.\"",
+            "Add a plain line in the description above or next to the link.",
+            "If the video includes paid promotion, tick the paid promotion setting in YouTube Studio.",
+            "Follow the advertising disclosure rules in your country."
+          ]
+        },
+        {
+          "heading": "Sensitive topics",
+          "body": [
+            "Health, finance or legal products: stay educational and share your own experience only.",
+            "Do not make medical, financial or legal claims or promise results.",
+            "Suggest viewers consult a qualified professional for their situation."
+          ]
+        },
+        {
+          "heading": "Track and maintain",
+          "body": [
+            "Use the program's dashboard to see clicks.",
+            "Check links every month and remove dead ones.",
+            "Note which videos drive clicks so you plan more like them."
+          ]
+        }
+      ],
+      "link": null
+    },
+    {
+      "id": "res-yt-media-kit",
+      "title": "Media Kit Template",
+      "type": "Template",
+      "path": "youtube_owned",
+      "description": "A one-page media kit that shows brands who your audience is and what your channel covers, using real numbers only.",
+      "minutes": 8,
+      "sections": [
+        {
+          "heading": "Header",
+          "body": [
+            "Channel name, handle and channel promise.",
+            "One sentence about who you are and why you make these videos.",
+            "Contact email."
+          ]
+        },
+        {
+          "heading": "Audience snapshot",
+          "body": [
+            "Who watches: main age ranges, top countries and interests, from YouTube Studio's Audience tab.",
+            "Recent averages: views per video and average view duration over the last 28 or 90 days.",
+            "Returning viewers and subscribers gained in that period."
+          ]
+        },
+        {
+          "heading": "Content and fit",
+          "body": [
+            "Your three best videos with links.",
+            "Types of partnerships you offer, such as a dedicated video or an integrated mention.",
+            "Brands and products you will not promote."
+          ]
+        }
+      ],
+      "link": null
+    }
+  ],
+  "achievements": [
+    {
+      "id": "yt-first-mission",
+      "title": "First Step",
+      "description": "Complete your first daily mission.",
+      "icon": "checkmark.seal.fill",
+      "metric": "missions",
+      "target": 1
+    },
+    {
+      "id": "yt-streak-7",
+      "title": "7-Day Streak",
+      "description": "Work on your channel seven days in a row.",
+      "icon": "flame.fill",
+      "metric": "streak",
+      "target": 7
+    },
+    {
+      "id": "yt-first-video",
+      "title": "First Upload",
+      "description": "Publish your first video.",
+      "icon": "play.rectangle.fill",
+      "metric": "videosPublished",
+      "target": 1
+    },
+    {
+      "id": "yt-five-videos",
+      "title": "Five Videos Live",
+      "description": "Publish five videos on your channel.",
+      "icon": "video.fill",
+      "metric": "videosPublished",
+      "target": 5
+    },
+    {
+      "id": "yt-three-week",
+      "title": "Busy Week",
+      "description": "Publish three uploads in a single week, including Shorts.",
+      "icon": "calendar",
+      "metric": "uploadsThisWeek",
+      "target": 3
+    },
+    {
+      "id": "yt-watch-60",
+      "title": "First Hour Watched",
+      "description": "Reach 60 minutes of total watch time.",
+      "icon": "eye.fill",
+      "metric": "watchTime",
+      "target": 60
+    },
+    {
+      "id": "yt-100-subs",
+      "title": "First 100 Subscribers",
+      "description": "Reach 100 subscribers on your channel.",
+      "icon": "person.3.fill",
+      "metric": "subscribers",
+      "target": 100
+    },
+    {
+      "id": "yt-first-dollar",
+      "title": "First Channel Dollar",
+      "description": "Earn your first $1 from your channel.",
+      "icon": "dollarsign.circle.fill",
+      "metric": "channelIncome",
+      "target": 1,
+      "money": true
+    }
+  ],
+  "coach": {
+    "suggestedPrompts": [
+      "What should my next video be about?",
+      "My videos get almost no views.",
+      "How do I write a better hook?",
+      "I do not have time to post every week.",
+      "When can I start earning from my channel?",
+      "How do I read my analytics?"
+    ],
+    "tips": [
+      "Write one sentence that says who your channel is for and keep every video inside it.",
+      "Steal your titles from your viewers' own words in comments and search suggestions.",
+      "Start the video with the problem, not with a greeting.",
+      "Good light and clear audio matter more than an expensive camera.",
+      "Record in short sections so mistakes are easy to cut.",
+      "Cut silences first when editing; it is the fastest improvement you can make.",
+      "Write ten titles before choosing one.",
+      "Keep thumbnail text to three words or fewer.",
+      "Check your thumbnail at phone size next to other videos in your topic.",
+      "Publish on a schedule you could keep in your busiest week.",
+      "Compare each video to your own past videos, never to big channels.",
+      "Reply to every comment while your channel is small.",
+      "Pin a question on each video to start a conversation.",
+      "Copy every viewer question into your idea bank.",
+      "Cut at least one Short from each long video and link it back.",
+      "A sharp drop in the first 30 seconds usually means the hook needs work.",
+      "Low click-through rate is a packaging problem before it is a content problem.",
+      "Change one thing at a time so you know what made the difference.",
+      "Give a packaging change about a week before you judge it.",
+      "Batch two scripts at once so a busy week does not break your streak.",
+      "Use end screens and playlists so every video leads to another.",
+      "Only recommend products you have actually used.",
+      "Disclose affiliate links in the video and the description.",
+      "Check current Partner Program eligibility in YouTube Studio > Earn, not on forums.",
+      "Income on your own channel usually takes months; build the process first.",
+      "In health, finance or legal topics, stay educational and avoid professional claims.",
+      "Rest days are part of a schedule you can keep for a year.",
+      "Your tenth video will be much better than your first, so make the first one.",
+      "Returning viewers are a sign your channel is becoming a habit for someone.",
+      "Review your analytics weekly and write one decision each time."
+    ],
+    "replies": [
+      {
+        "id": "yo-ideas",
+        "keywords": [
+          "what to post",
+          "video ideas",
+          "ideas",
+          "next video",
+          "what should i make",
+          "topic",
+          "run out of ideas",
+          "no ideas"
+        ],
+        "text": {
+          "youtube_owned": "Your next video should answer a question your audience is already asking.\n\n1. Open your idea bank and look for questions you saw more than once.\n2. If it is thin, type your topic into YouTube search and note the autocomplete suggestions.\n3. Read comments on three similar small channels and copy repeat questions.\n\nNext step: pick one question and write a working title in the viewer's own words."
+        },
+        "followUps": [
+          "How do I use search autocomplete?",
+          "Can you help me write a working title?",
+          "How many ideas should I have?"
+        ]
+      },
+      {
+        "id": "yo-low-views",
+        "keywords": [
+          "low views",
+          "no views",
+          "few views",
+          "nobody watches",
+          "zero views",
+          "views are low",
+          "not getting views"
+        ],
+        "text": {
+          "youtube_owned": "Low views on a new channel are normal and they usually come down to packaging or topic, not your worth as a creator.\n\nCheck two numbers in YouTube Studio: impressions and click-through rate. Few impressions means the topic may not be searched much yet; low click-through means the title and thumbnail need work.\n\nNext step: pick your weakest video, write ten new titles and simplify the thumbnail, then compare in a week."
+        },
+        "followUps": [
+          "What is a good click-through rate?",
+          "How do I improve my thumbnail?",
+          "Should I delete low-view videos?"
+        ]
+      },
+      {
+        "id": "yo-subscribers",
+        "keywords": [
+          "no subscribers",
+          "subscribers",
+          "subs",
+          "get subscribers",
+          "nobody subscribes",
+          "grow subscribers"
+        ],
+        "text": {
+          "youtube_owned": "Subscribers follow when a viewer expects more videos they want. One video rarely does it; a clear promise and related videos do.\n\nMake sure your banner and About text say who the channel is for, and link each video to a related one with end screens.\n\nNext step: plan a follow-up to your best video so new viewers have a reason to stay."
+        },
+        "followUps": [
+          "How do I add end screens?",
+          "What should my channel promise be?",
+          "Should I ask people to subscribe?"
+        ]
+      },
+      {
+        "id": "yo-hooks",
+        "keywords": [
+          "hook",
+          "hooks",
+          "retention",
+          "people leave",
+          "drop off",
+          "intro",
+          "first seconds",
+          "audience retention"
+        ],
+        "text": {
+          "youtube_owned": "If viewers leave early, the opening is the first thing to fix.\n\nStart with the problem in the viewer's words, then promise a clear result in one sentence. Cut greetings and long intros before the hook.\n\nNext step: open the retention graph of your last video, find where the biggest early drop happens and rewrite that part for your next script."
+        },
+        "followUps": [
+          "Can you write three hooks for my next video?",
+          "How do I read the retention graph?",
+          "How long should my intro be?"
+        ]
+      },
+      {
+        "id": "yo-packaging",
+        "keywords": [
+          "title",
+          "titles",
+          "thumbnail",
+          "thumbnails",
+          "packaging",
+          "click",
+          "ctr",
+          "click-through"
+        ],
+        "text": {
+          "youtube_owned": "Title and thumbnail work as one message. The title says the result; the thumbnail shows the feeling or the subject.\n\nWrite ten titles in your audience's words and choose the clearest. Keep the thumbnail to one subject and three words or fewer, then check it at phone size next to other videos.\n\nNext step: tell me your video topic and I will help you draft ten titles."
+        },
+        "followUps": [
+          "How do I make a thumbnail in Canva?",
+          "Should my title match search terms?",
+          "Can I change a title after publishing?"
+        ]
+      },
+      {
+        "id": "yo-time",
+        "keywords": [
+          "no time",
+          "busy",
+          "consistency",
+          "consistent",
+          "schedule",
+          "how often",
+          "post every week",
+          "cadence"
+        ],
+        "text": {
+          "youtube_owned": "Consistency means a rhythm you can keep, not posting every day.\n\nEstimate how long your last video really took, then choose a cadence that fits your busiest week, such as one long video every two weeks plus a Short. Batch two scripts at once so one bad week does not break it.\n\nNext step: put your next three publish dates in your calendar today."
+        },
+        "followUps": [
+          "How do I batch videos?",
+          "Are Shorts enough on their own?",
+          "What if I miss a week?"
+        ]
+      },
+      {
+        "id": "yo-camera-shy",
+        "keywords": [
+          "camera shy",
+          "nervous",
+          "scared",
+          "awkward",
+          "hate my voice",
+          "on camera",
+          "show my face",
+          "faceless"
+        ],
+        "text": {
+          "youtube_owned": "Almost everyone feels awkward on camera at first, and it fades with repetition.\n\nYou can start without showing your face: screen recordings, hands-on demos or voiceover over b-roll all work in many niches. If you do show your face, record in short sections and remember you can cut every mistake.\n\nNext step: record a 60-second practice clip today that nobody else will see."
+        },
+        "followUps": [
+          "What can I film without my face?",
+          "How do I sound more natural?",
+          "Should I use a script or bullet points?"
+        ]
+      },
+      {
+        "id": "yo-editing",
+        "keywords": [
+          "editing",
+          "edit",
+          "capcut",
+          "davinci",
+          "editor",
+          "too long to edit",
+          "editing software"
+        ],
+        "text": {
+          "youtube_owned": "Free tools like CapCut and DaVinci Resolve are enough for a growing channel.\n\nEdit in this order: cut silences and mistakes, tighten the opening, add captions, then extras. Save your project as a template so next time starts faster.\n\nNext step: time your next edit and note which step took longest."
+        },
+        "followUps": [
+          "CapCut or DaVinci Resolve?",
+          "How do I add captions?",
+          "Can I use music in my videos?"
+        ]
+      },
+      {
+        "id": "yo-analytics",
+        "keywords": [
+          "analytics",
+          "watch time",
+          "average view duration",
+          "traffic sources",
+          "returning viewers",
+          "youtube studio",
+          "data",
+          "impressions"
+        ],
+        "text": {
+          "youtube_owned": "Start with four numbers in YouTube Studio: click-through rate, average view duration, traffic sources and returning viewers.\n\nCompare your own videos to each other over the same time window, not to other channels. Clicks point to packaging; early drop-off points to the hook.\n\nNext step: write one thing to repeat, one to stop and one experiment for your next video."
+        },
+        "followUps": [
+          "What is a good average view duration?",
+          "What are traffic sources?",
+          "How often should I check analytics?"
+        ]
+      },
+      {
+        "id": "yo-monetization",
+        "keywords": [
+          "monetize",
+          "monetization",
+          "make money",
+          "earn",
+          "partner program",
+          "ypp",
+          "ad revenue",
+          "when can i earn"
+        ],
+        "text": {
+          "youtube_owned": "Channel income usually takes months, and ads are often not the first source.\n\nCheck the current eligibility requirements in YouTube Studio > Earn, since they change. Meanwhile, the realistic first attempts are an affiliate link for something you really use, being sponsorship-ready with a simple media kit, or validating a small digital product idea.\n\nNext step: pick one first income attempt for this month and keep publishing."
+        },
+        "followUps": [
+          "How do affiliate links work?",
+          "How do I make a media kit?",
+          "What digital product could I make?"
+        ]
+      },
+      {
+        "id": "yo-affiliate",
+        "keywords": [
+          "affiliate",
+          "affiliate link",
+          "commission",
+          "disclosure",
+          "disclose",
+          "recommend a product"
+        ],
+        "text": {
+          "youtube_owned": "Affiliate links work best when you recommend something you actually use and explain who it is for and who it is not for.\n\nDisclose it in the video and the description, tick the paid promotion setting when it applies, and follow the advertising rules in your country. In health, finance or legal topics, stay educational and avoid professional claims.\n\nNext step: list three products you use and check whether they have an affiliate program."
+        },
+        "followUps": [
+          "What should my disclosure say?",
+          "Where do I put the link?",
+          "How do I find affiliate programs?"
+        ]
+      },
+      {
+        "id": "yo-sponsors",
+        "keywords": [
+          "sponsor",
+          "sponsorship",
+          "sponsors",
+          "brand deal",
+          "brands",
+          "media kit",
+          "partnership"
+        ],
+        "text": {
+          "youtube_owned": "Brands look for a clear audience fit more than big numbers.\n\nBuild a one-page media kit with your channel promise, an audience snapshot from YouTube Studio, your best three videos and a contact email. Use real numbers only and decide what you will not promote.\n\nNext step: draft your media kit in Canva today, even if your numbers are small."
+        },
+        "followUps": [
+          "What goes in a media kit?",
+          "How small is too small for sponsors?",
+          "How do I describe my audience?"
+        ]
+      },
+      {
+        "id": "yo-burnout",
+        "keywords": [
+          "burnout",
+          "burned out",
+          "tired",
+          "exhausted",
+          "give up",
+          "quit",
+          "motivation",
+          "overwhelmed"
+        ],
+        "text": {
+          "youtube_owned": "Feeling tired is a sign your schedule is too heavy, not that you are failing.\n\nSlow your cadence to something you could keep for a year, batch when you have energy and plan rest days. A slower channel that keeps going beats a fast one that stops.\n\nNext step: cut your schedule to the smallest version you can keep and write it down."
+        },
+        "followUps": [
+          "How do I make my schedule lighter?",
+          "Is it okay to take a break?",
+          "How do I stay motivated?"
+        ]
+      },
+      {
+        "id": "yo-comparison",
+        "keywords": [
+          "compare",
+          "comparing",
+          "big creators",
+          "big channels",
+          "everyone else",
+          "jealous",
+          "not good enough"
+        ],
+        "text": {
+          "youtube_owned": "Big channels are showing you their hundredth or thousandth video, not their first.\n\nCompare yourself only to your own past uploads: Is your hook clearer? Your audio cleaner? Your edit faster? That is real progress, even when numbers move slowly.\n\nNext step: write three things that improved between your first and latest video."
+        },
+        "followUps": [
+          "How do I measure my progress?",
+          "Should I copy big channels?",
+          "How long does growth take?"
+        ]
+      }
+    ],
+    "fallback": {
+      "id": "yo-fallback",
+      "keywords": [],
+      "text": {
+        "youtube_owned": "Good question. Tell me a bit more so I can be specific: what your channel is about, how many videos you have published and what you are trying to improve.\n\nUntil then, the rule that fixes most early channel problems is simple: publish the next video, then learn from it. One finished upload teaches more than a week of research.\n\nNext step: open Today's Mission and finish the first task, then come back with details."
+      },
+      "followUps": [
+        "What should I do today?",
+        "What should my next video be?",
+        "How do I get more views?"
+      ]
+    }
+  }
+}

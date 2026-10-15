@@ -1,24 +1,40 @@
 import SwiftUI
+import RevenueCatUI
 
 struct SubscriptionView: View {
     @Environment(AppStore.self) private var store
-    @State private var justSubscribed = false
+    @Environment(RevenueCatService.self) private var revenueCat
+    @State private var showCustomerCenter = false
 
     var body: some View {
-        let status = store.s.subscription.status
-        Group {
-            if justSubscribed && status == .active {
-                Screen(title: "Premium") { SubSuccessView() }
-                    .overlay { ConfettiView() }
-            } else if status == .active {
-                Screen(title: "Subscription") { SubManageView() }
-            } else {
-                Screen(title: status == .expired ? "Subscription" : "Premium") {
-                    SubPaywallView(expired: status == .expired) { withAnimation(.snappy) { justSubscribed = true } }
+        Screen(title: revenueCat.isPro ? "Subscription" : "Premium") {
+            if revenueCat.isPro {
+                VStack(spacing: Space.l) {
+                    Label("Vaulten Pro active", systemImage: "checkmark.seal.fill")
+                        .font(.title3.weight(.bold)).foregroundStyle(Theme.success)
+                    Text("Your premium access is active on this account.")
+                        .font(.callout).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+                    Button("Manage subscription") { showCustomerCenter = true }
+                        .buttonStyle(.fr(.secondary, full: true))
+                    Button("Refresh subscription status") {
+                        Task { await revenueCat.load() }
+                    }
+                    .buttonStyle(.fr(.ghost, full: true))
                 }
+                .frame(maxWidth: 520).frame(maxWidth: .infinity)
+            } else {
+                VStack(spacing: Space.l) {
+                    MascotView(mood: .happy, size: 120)
+                    Text("Start your plan").font(.play(26, .heavy)).foregroundStyle(Theme.ink)
+                    Text("Unlock your daily missions, the AI Coach and every tool. Free trial on selected plans.")
+                        .font(.play(16, .medium)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+                    Button { store.paywallFeature = "Premium" } label: { Text("See Plans") }.buttonStyle(.chunky())
+                }
+                .frame(maxWidth: 520).frame(maxWidth: .infinity)
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: status)
+        .task { await revenueCat.load() }
+        .sheet(isPresented: $showCustomerCenter) { CustomerCenterView() }
     }
 }
 
@@ -97,10 +113,13 @@ private struct SubHero: View {
                 .background(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).fill(Theme.warning.opacity(0.12)))
                 .overlay(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).strokeBorder(Theme.warning.opacity(0.3)))
         } else {
-            Image(systemName: "crown.fill")
-                .font(.system(size: 36, weight: .semibold)).foregroundStyle(.white)
-                .frame(width: 84, height: 84)
-                .background(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).fill(Theme.brandGradient))
+            LogoMark(size: 92)
+                .overlay(alignment: .bottomTrailing) {
+                    Image(systemName: "crown.fill").font(.system(size: 14, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 32, height: 32).background(Circle().fill(Theme.brandGradient))
+                        .overlay(Circle().strokeBorder(Theme.bg, lineWidth: 3))
+                        .offset(x: 8, y: 8)
+                }
                 .shadow(color: Theme.brand600.opacity(0.55), radius: 22, y: 8)
                 .offset(y: float ? -5 : 3)
                 .onAppear {

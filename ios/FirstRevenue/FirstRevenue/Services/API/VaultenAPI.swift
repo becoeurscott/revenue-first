@@ -9,6 +9,14 @@ enum VaultenConfig {
     static let baseURL = URL(string: "https://api.vaulten-staging.jerseycollection.shop/api/v1/")!
     static let platform = "ios"
     static var appVersion: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0" }
+    /// The AI endpoints live on the Vaulten backend (`/ai/coach`, `/ai/program`; spec: docs/api/ai-backend.md).
+    /// VAULTEN_AI_URL in the scheme points them at the Vercel functions instead (`/api/coach`, `/api/program`) for
+    /// local testing. When an endpoint is missing or not configured, the app falls back to on-device programs and
+    /// built-in coach answers.
+    private static let aiOverride = ProcessInfo.processInfo.environment["VAULTEN_AI_URL"].flatMap(URL.init(string:))
+    static let aiBaseURL: URL? = aiOverride ?? baseURL
+    /// "coach" → `ai/coach` on the backend, `api/coach` on the Vercel override.
+    static func aiPath(_ name: String) -> String { (aiOverride == nil ? "ai/" : "api/") + name }
 }
 
 struct FieldError: Decodable, Hashable {
@@ -88,6 +96,13 @@ actor VaultenAPI {
     func setSession(accessToken: String, refreshToken: String?) {
         self.accessToken = accessToken
         if let refreshToken { Keychain.save(refreshToken) }
+    }
+
+    /// The current access token (refreshed if needed), for our own endpoints that check it against the API.
+    func bearerToken() async throws -> String {
+        if accessToken == nil { try await refresh() }
+        guard let accessToken else { throw APIError.sessionExpired }
+        return accessToken
     }
 
     func clearSession() {

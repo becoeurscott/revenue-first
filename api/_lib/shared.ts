@@ -1,7 +1,5 @@
-import Anthropic from '@anthropic-ai/sdk'
 import { PostHog } from 'posthog-node'
 
-export const MODEL = 'claude-opus-5-5'
 
 const BASE_RULES = `Rules:
 - Be concrete and specific to the user's journey, niche, starting stage, time, budget and equipment. Name real platforms, real search queries, real wording.
@@ -46,6 +44,45 @@ How an owned channel actually grows for beginners (the approach you teach):
 6. Review numbers weekly in YouTube Studio and change one thing at a time (title, thumbnail, hook, topic).
 7. Monetize in stage order: build the audience, then affiliate links for products they really use (always disclosed), then sponsorship readiness (a simple media kit), then digital products, and the YouTube Partner Program when eligible. Never state Partner Program thresholds as fact; tell them to check the current requirements in YouTube Studio > Earn. Within 30 days the realistic goal is consistent publishing and a first small income attempt, not ad revenue.`,
   },
+  digital_products: {
+    label: 'Your first digital product',
+    sellsServices: false,
+    method: `The user makes and sells their OWN small digital product (guide, template, checklist, printable or mini-course). They have no clients and are not selling a service.
+
+How a first digital product actually sells for beginners (the approach you teach):
+1. One audience, one painful problem, one promise: "I help [audience] [get result] without [frustration]".
+2. Validate before building: real questions people ask online, what already sells for that problem and at what price.
+3. Small version 1 that can be finished in about a week with free tools and only licensed fonts and images.
+4. One selling platform (Gumroad, Payhip, Etsy, Stan, Ko-fi...), a clear sales page and an honest beginner price, usually $5-$30.
+5. A first sale attempt by Day 14: share it with the people it is for, then helpful content and a small email list that point to it.
+6. Read visits, conversion and buyer feedback; improve one thing at a time. Within 30 days the realistic goal is a launched product, real feedback and first sale attempts, not passive income.`,
+  },
+  affiliate_content: {
+    label: 'Affiliate content',
+    sellsServices: false,
+    method: `The user earns affiliate commissions by publishing honest reviews, comparisons and recommendations for products in their niche. They have no clients and are not selling a service.
+
+How affiliate content actually earns for beginners (the approach you teach):
+1. Pick a niche where people research before they buy, and one platform to publish on (short videos, a blog, Pinterest or YouTube).
+2. Join legitimate programs (Amazon Associates, brand programs, networks) and follow each program's rules.
+3. Content answers buying questions: "best X for Y", "X vs Y", honest reviews of products the user has used or researched properly.
+4. Always disclose affiliate links clearly. Never fake reviews, fake results or fake urgency.
+5. Publish consistently, track clicks and conversions per piece, and do more of what gets clicks.
+6. Within 30 days the realistic goal is a body of helpful content and a first click or commission, not a full income.`,
+  },
+  creator_brand: {
+    label: 'Personal creator brand',
+    sellsServices: false,
+    method: `The user grows a personal creator brand on social media (TikTok, Instagram, YouTube Shorts...) and earns from small brand deals, UGC gigs and later their own offer. They have no clients for a done-for-you service.
+
+How a beginner creator brand actually starts earning (the approach you teach):
+1. One clear niche and promise so a stranger knows in two seconds why to follow.
+2. Repeatable formats and a posting rhythm the user can keep; hooks in the first second.
+3. Engage with the community and similar creators every day; growth comes from consistency and replies.
+4. Build proof early: a simple media kit and 2-3 sample UGC videos, even before followers are high.
+5. Pitch small brands with a short, specific message; start with fair beginner rates and always disclose sponsored content.
+6. Within 30 days the realistic goal is a consistent account, a media kit and first pitches or a first small paid deal.`,
+  },
 } as const
 
 export type JourneyId = keyof typeof JOURNEYS
@@ -54,15 +91,7 @@ export type JourneyId = keyof typeof JOURNEYS
 export const methodology = (id: JourneyId) =>
   `You are the coach inside FirstRevenue, an app that takes complete beginners from zero to their first money online in 30 days. Each user follows one journey, chosen by how they want to earn.\n\nThis user's journey: ${JOURNEYS[id].label}.\n${JOURNEYS[id].method}\n\n${BASE_RULES}`
 
-let client: Anthropic | null = null
 let posthog: PostHog | null | undefined
-
-/** Null when no Claude credential is configured, so endpoints can return 503 and the app falls back. */
-export function getClient(): Anthropic | null {
-  if (!process.env.ANTHROPIC_API_KEY) return null
-  client ??= new Anthropic()
-  return client
-}
 
 function getPostHog(): PostHog | null {
   if (posthog !== undefined) return posthog
@@ -76,7 +105,7 @@ function getPostHog(): PostHog | null {
 /** Records one Claude call in PostHog LLM analytics (model, tokens, latency) — never the user's text. */
 export function trackGeneration(
   ai: AiObservabilityContext,
-  feature: 'coach' | 'playbook' | 'niche',
+  feature: 'coach' | 'playbook' | 'niche' | 'program',
   response: { model: string; stop_reason: string | null; usage: { input_tokens: number; output_tokens: number; cache_read_input_tokens?: number | null } },
   startedAt: number,
 ) {
@@ -86,7 +115,7 @@ export function trackGeneration(
     properties: {
       $ai_trace_id: ai.traceId,
       $ai_session_id: ai.sessionId,
-      $ai_provider: 'anthropic',
+      $ai_provider: 'openrouter',
       $ai_model: response.model,
       $ai_input_tokens: response.usage.input_tokens,
       $ai_output_tokens: response.usage.output_tokens,
@@ -158,6 +187,9 @@ export interface JourneyContext {
   currentDay: number | null
   currentMission: string
   metrics: Record<string, number>
+  /** Month of the journey (1 = the first 30-day plan) and what this month is aimed at, from the last review. */
+  month: number
+  focus: string
 }
 
 const strings = (v: unknown, max: number, n = 8) => (Array.isArray(v) ? v.slice(0, n).map((x) => clip(x, max).trim()).filter(Boolean) : [])
@@ -211,6 +243,8 @@ export function readContext(raw: unknown): JourneyContext | 'unsupported' | null
     currentDay: Number.isInteger(day) && day >= 1 && day <= 30 ? day : null,
     currentMission: clip(c.currentMission, 160),
     metrics,
+    month: Number.isInteger(Number(c.month)) && Number(c.month) >= 1 ? Math.min(Number(c.month), 120) : 1,
+    focus: clip(c.focus, 200),
   }
 }
 
@@ -232,6 +266,8 @@ export const describeContext = (c: JourneyContext) => {
     c.constraints.equipment.length ? `Equipment: ${c.constraints.equipment.join(', ')}` : '',
     c.constraints.location && `Location: ${c.constraints.location}`,
     c.goal && `First goal: ${c.goal}`,
+    c.month > 1 && `This is month ${c.month} of their journey; earlier months are done. Build on what they already did instead of repeating Month 1 basics.`,
+    c.focus && `This month's focus, from their last monthly review: ${c.focus}. Aim every day of the plan at it.`,
     c.currentDay && `Current day: ${c.currentDay} of 30${c.currentMission ? ` — ${c.currentMission}` : ''}`,
     Object.keys(c.metrics).length ? `Current numbers: ${Object.entries(c.metrics).map(([k, v]) => `${k} ${v}`).join(', ')}` : '',
   ]

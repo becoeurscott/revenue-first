@@ -1,6 +1,15 @@
 {
-  "originHash" : "dcecd1d39777fd1dc63c6be77b3d689bf543a16cfedd4129b28e610ceb87bf39",
+  "originHash" : "ab223e46966ff911118b43cda215ff9882e2fa1be419de921162cfbf1038f50b",
   "pins" : [
+    {
+      "identity" : "onesignal-xcframework",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OneSignal/OneSignal-XCFramework",
+      "state" : {
+        "revision" : "b380496932e5f1bf1c772c1a7b2ba1458906734f",
+        "version" : "5.8.0"
+      }
+    },
     {
       "identity" : "posthog-ios",
       "kind" : "remoteSourceControl",
@@ -8,6 +17,15 @@
       "state" : {
         "revision" : "835f624c2618d72d73650d0ed0029325232f5b0a",
         "version" : "3.92.0"
+      }
+    },
+    {
+      "identity" : "purchases-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RevenueCat/purchases-ios-spm.git",
+      "state" : {
+        "revision" : "1152c719f7b35f86d16a2d0053aba9d26972a962",
+        "version" : "5.94.0"
       }
     },
     {

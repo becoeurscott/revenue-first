@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/* Semantic tokens. Light values match the iOS Theme (violet brand, lavender bg). */
+@theme {
+  --color-primary: #7c3aed;
+  --color-primary-light: #efe9fe;
+  --color-primary-text: #6d28d9;
+  --color-accent: #6366f1;
+  --color-success: #16a34a;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  --color-violet: #a855f7;
+
+  --color-bg: #f6f5fb;
+  --color-card: #ffffff;
+  --color-sunken: #efedf7;
+  --color-fg: #0b0a14;
+  --color-muted: #5b5870;
+  --color-faint: #86839a;
+  --color-line: #e4e1ef;
+
+  --shadow-card: 0 1px 2px rgba(15, 10, 40, 0.04), 0 10px 30px -14px rgba(15, 10, 40, 0.14);
+  --radius-card: 1.25rem;
+}
+
+html[data-theme="dark"] {
+  --color-primary: #8b5cf6;
+  --color-primary-light: #241b3d;
+  --color-primary-text: #c4b5fd;
+  --color-bg: #0a0a0a;
+  --color-card: #151515;
+  --color-sunken: #1b1b1b;
+  --color-fg: #ffffff;
+  --color-muted: #a1a1aa;
+  --color-faint: #71717a;
+  --color-line: rgba(255, 255, 255, 0.09);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.6);
+}
+
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
+
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection { background: color-mix(in srgb, var(--color-primary) 25%, transparent); }
+* { scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+
+@utility card {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+@utility input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-sunken);
+  color: var(--color-fg);
+  font-size: 0.875rem;
+  outline: none;
+}
+.input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent); border-color: var(--color-primary); }
+.input:disabled { opacity: 0.5; }
+
+table.data th { position: sticky; top: 0; background: var(--color-card); z-index: 1; }

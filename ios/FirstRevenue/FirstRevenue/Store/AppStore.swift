@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import SwiftUI
+import RevenueCat
 
 enum TaskState: String, Codable, Hashable { case done, skipped }
 enum SubscriptionStatus: String, Codable, Hashable { case none, active, expired }
@@ -20,6 +21,8 @@ struct AppSettings: Codable, Hashable {
     var reminderTime = "9:00 AM"
     /// Kept so older saves decode; the switch was removed and is always reset to false.
     var offline = false
+    /// The onboarding voice is muted (nil in older saves = on).
+    var voiceMuted: Bool? = nil
 }
 
 struct Subscription: Codable, Hashable {
@@ -40,6 +43,12 @@ struct Snapshot: Codable {
     var pathId: PathID = .clipping
     /// Nil until onboarding finishes (and in saves from before journeys, which `migrate` fills in).
     var journey: JourneyState?
+    /// Onboarding as a guest: the account is created at the end, once the plan is ready.
+    var guest: Bool?
+    /// The 25% offer after the first paywall close has been shown.
+    var offerAShown: Bool?
+    /// When the 50% offer was first shown; it expires 24 hours later.
+    var offerBShownAt: Date?
     var subscription = Subscription()
     var progress: [PathID: PathProgress] = [.clipping: .init(), .gbp: .init()]
     var tasks: [String: TaskState] = [:]
@@ -73,11 +82,14 @@ struct Toast: Identifiable, Equatable {
 /// Screens presented full-screen, outside the tab bar.
 enum Cover: Identifiable, Hashable {
     case mission(Int), checkIn, complete
+    /// Premium just arrived: the unlock animation, then the rest of the program is written.
+    case programUnlock
     var id: String {
         switch self {
         case .mission(let d): "mission-\(d)"
         case .checkIn: "checkin"
         case .complete: "complete"
+        case .programUnlock: "program-unlock"
         }
     }
 }
@@ -100,6 +112,8 @@ final class AppStore {
     var cover: Cover?
     var toast: Toast?
     var paywallFeature: String?
+    /// The program write in flight, so the plan tab and the unlock screen share one run.
+    var programTask: Task<Void, Never>?
 
     private let fileURL: URL = {
         let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -114,7 +128,6 @@ final class AppStore {
         } else {
             s = AppStore.fresh()
         }
-        // A real account without a stored session can't call the API — send it back to sign-in.
         // Every session needs a real account with a stored token. Saves from the removed offline demo had
         // no account, so they start over at sign-in.
         if s.authed, s.account == nil { s = AppStore.fresh() }
@@ -232,8 +245,19 @@ final class AppStore {
     /// A real Vaulten session was created. The same account resumes its local progress;
     /// a different account starts fresh (the server is the source of truth for identity).
     func signedIn(_ user: AuthUser, enrollment: Enrollment? = nil) {
+        Task { await RevenueCatService.shared.identify(appUserID: user.id) }
         let name = [user.firstName, user.lastName].compactMap { $0 }.joined(separator: " ")
-        if s.account?.id == user.id {
+        if s.account == nil, s.guest == true {
+            // A guest finishing onboarding: keep everything they answered and attach the new account.
+            s.account = user
+            s.authed = true
+            s.guest = nil
+            if s.user.name.isEmpty { s.user.name = name }
+            s.user.email = user.email
+            if s.answers.name.isEmpty { s.answers.name = user.firstName ?? "" }
+            // An existing account that is already enrolled resumes it instead of the guest plan.
+            if let enrollment, let path = enrollment.path { applyEnrollment(path, day: enrollment.currentDay) }
+        } else if s.account?.id == user.id {
             s.account = user
             s.authed = true
             if let enrollment, let path = enrollment.path, !s.onboarded { applyEnrollment(path, day: enrollment.currentDay) }
@@ -250,6 +274,8 @@ final class AppStore {
         }
         tab = .home; paths = [:]
         Monitoring.identify(userId: user.id, path: s.onboarded ? s.pathId.rawValue : nil)
+        Push.identify(userId: user.id, path: s.onboarded ? s.pathId.rawValue : nil)
+        if s.onboarded && s.settings.push { Push.requestPermission() }
         Monitoring.track("signed_in")
     }
 
@@ -269,18 +295,32 @@ final class AppStore {
         s.progress[path] = p
     }
 
+    /// "Get started" on the welcome screen: onboarding first, account at the end.
+    func startGuest() {
+        s.guest = true
+        Monitoring.track("onboarding_started", ["as": "guest"])
+    }
+
+    /// Back out of guest onboarding to the welcome screen.
+    func leaveGuest() { s.guest = nil }
+
     func logout() {
         if s.account != nil { Task { await AuthAPI.logout() } }
+        Task { try? await Purchases.shared.logOut() }
         Monitoring.track("signed_out")
         Monitoring.reset()
+        Push.reset()
         s.authed = false; paths = [:]; cover = nil
     }
 
     // MARK: Journeys
 
-    /// End of onboarding: enrolls the chosen journey. `day` is the server's current day for enrolled accounts.
-    func startJourney(_ a: JourneyAnswers, day: Int = 1) {
-        let e = AppStore.enrollment(a.earningMethod, answers: a)
+    /// End of onboarding: enrolls the chosen journey. `day` is the server's current day for enrolled accounts;
+    /// `program` is the one written during onboarding (`programUnlocked` once its unlock animation has played).
+    func startJourney(_ a: JourneyAnswers, day: Int = 1, program: GeneratedProgram? = nil, programUnlocked: Bool = false) {
+        var e = AppStore.enrollment(a.earningMethod, answers: a)
+        e.program = program
+        if programUnlocked { e.programUnlocked = true }
         add(e)
         guard let track = journey.track else { return }
         s.onboarded = true
@@ -293,8 +333,9 @@ final class AppStore {
         s.user.time = a.weeklyTime
         s.user.goal = e.goal.label
         if e.goal.metric == .revenue { s.user.goalAmount = e.goal.target }
-        notify("paperplane.fill", "Your 30-day plan is ready", "Day 1 is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
+        notify("paperplane.fill", "Your 30-day plan is ready", "\(isPremium ? "Day 1" : "Week 1") is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
         tab = .home; paths = [:]
+        if s.settings.push { Push.requestPermission() }
         Monitoring.track("onboarding_completed", ["journey": a.earningMethod.rawValue, "starting_stage": e.startingStage.rawValue, "niche_source": e.niche.source.rawValue, "weekly_time": a.weeklyTime, "goal": e.goal.label])
     }
 
@@ -482,8 +523,8 @@ final class AppStore {
     }
 
     func advanceDay() {
-        guard isPremium else { paywallFeature = "the full 30-day plan"; return }
         var p = s.progress[s.pathId] ?? .init()
+        guard !isDayPremiumLocked(p.currentDay + 1) else { paywallFeature = "the full 30-day plan"; return }
         guard p.completedDays.contains(p.currentDay), p.currentDay < MockData.totalDays else { return }
         p.currentDay += 1
         s.progress[s.pathId] = p
@@ -586,6 +627,13 @@ final class AppStore {
     }
 
     // MARK: Notifications
+
+    /// A push the user tapped: keep it in the inbox (already read) and go to its screen.
+    func receivePush(_ push: OpenedPush) {
+        s.notifications.insert(AppNotification(id: UID.make("n"), icon: "bell.fill", title: push.title, body: push.body, date: Date(), read: true, link: push.link), at: 0)
+        guard s.authed else { return }
+        open(link: push.link)
+    }
 
     func notify(_ icon: String, _ title: String, _ body: String, _ link: String) {
         s.notifications.insert(AppNotification(id: UID.make("n"), icon: icon, title: title, body: body, date: Date(), read: false, link: link), at: 0)

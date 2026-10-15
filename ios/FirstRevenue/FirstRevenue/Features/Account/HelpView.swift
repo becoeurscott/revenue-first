@@ -319,8 +319,47 @@ private struct HelpTopicSheet: View {
 
 private enum HelpForms {
     static var subjects: [String] { HelpContent.topics.map(\.title) + ["Something else"] }
-    static func ticket() -> String { "FR-\(Int.random(in: 10000...99999))" }
     static let offlineMessage = "You're offline. Try again when you're connected."
+}
+
+/// What the user sees after sending: the real ticket, "saved, will send later", or the email fallback.
+private enum HelpOutcome: Hashable {
+    case sent(String), queued, email(URL?)
+
+    init(_ r: SupportResult) {
+        switch r {
+        case .sent(let t): self = .sent(t)
+        case .queued: self = .queued
+        case .useEmail(let url): self = .email(url)
+        }
+    }
+
+    var isSent: Bool { if case .sent = self { true } else { false } }
+}
+
+private struct HelpQueuedNote: View {
+    var body: some View {
+        Image(systemName: "tray.and.arrow.up.fill").font(.system(size: 44)).foregroundStyle(Theme.warning)
+        Text("Saved, not sent yet").font(.title2).foregroundStyle(Theme.ink)
+        Text("You're offline. We'll send it automatically the next time you open the app with a connection.")
+            .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 320)
+    }
+}
+
+private struct HelpEmailFallback: View {
+    let url: URL?
+    @Environment(\.openURL) private var openURL
+
+    var body: some View {
+        Image(systemName: "envelope.fill").font(.system(size: 44)).foregroundStyle(Theme.brand300)
+        Text("Send it by email").font(.title2).foregroundStyle(Theme.ink)
+        Text("We couldn't deliver it in the app right now. Your message is ready in an email to \(Support.supportEmail).")
+            .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 320)
+        if let url {
+            Button { openURL(url) } label: { Label("Open email", systemImage: "envelope") }
+                .buttonStyle(.fr(.primary, full: true))
+        }
+    }
 }
 
 private struct HelpContactForm: View {
@@ -330,13 +369,14 @@ private struct HelpContactForm: View {
     @State private var email = ""
     @State private var errors: [String: String] = [:]
     @State private var loading = false
-    @State private var ticket: String?
+    @State private var outcome: HelpOutcome?
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Group {
-            if let ticket { success(ticket).transition(.scale(scale: 0.96).combined(with: .opacity)) } else { form }
+            if let outcome { success(outcome).transition(.scale(scale: 0.96).combined(with: .opacity)) } else { form }
         }
-        .animation(.snappy, value: ticket)
+        .animation(.snappy, value: outcome)
         .onAppear { if email.isEmpty { email = store.s.user.email } }
     }
 
@@ -356,19 +396,25 @@ private struct HelpContactForm: View {
         .animation(.snappy, value: errors)
     }
 
-    private func success(_ ticket: String) -> some View {
+    @ViewBuilder private func success(_ outcome: HelpOutcome) -> some View {
         VStack(spacing: Space.m) {
-            Image(systemName: "checkmark.circle.fill").font(.system(size: 48)).foregroundStyle(Theme.success).symbolEffect(.bounce, value: ticket)
-            Text("Message sent").font(.title2).foregroundStyle(Theme.ink)
-            Text("We'll reply to \(email.trimmingCharacters(in: .whitespaces)).").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
-            HStack(spacing: Space.m) {
-                AccountFactTile(label: "Ticket", value: ticket)
-                AccountFactTile(label: "Expected reply", value: "Within 24 hours")
+            switch outcome {
+            case .sent(let ticket):
+                Image(systemName: "checkmark.circle.fill").font(.system(size: 48)).foregroundStyle(Theme.success).symbolEffect(.bounce, value: ticket)
+                Text("Message sent").font(.title2).foregroundStyle(Theme.ink)
+                Text("We'll reply to \(email.trimmingCharacters(in: .whitespaces)).").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+                HStack(spacing: Space.m) {
+                    AccountFactTile(label: "Ticket", value: ticket)
+                    AccountFactTile(label: "Expected reply", value: "Within 24 hours")
+                }
+                .padding(.top, Space.s)
+            case .queued:
+                HelpQueuedNote()
+            case .email(let url):
+                HelpEmailFallback(url: url)
             }
-            .padding(.top, Space.s)
-            Text("Demo only — no message was actually sent.").font(.caption).foregroundStyle(Theme.faint)
             Button("Send another message") {
-                self.ticket = nil
+                self.outcome = nil
                 message = ""
             }
             .buttonStyle(.fr(.secondary))
@@ -383,13 +429,14 @@ private struct HelpContactForm: View {
         if !AccountProfileOptions.isEmail(email.trimmingCharacters(in: .whitespaces)) { e["email"] = "Enter a valid email so we can reply." }
         errors = e
         guard e.isEmpty else { Haptics.notify(.error); return }
-        guard !store.isOffline else { store.showToast(HelpForms.offlineMessage, .error); return }
         loading = true
+        let m = SupportMessage.make(kind: .contact, email: email.trimmingCharacters(in: .whitespaces), message: message.trimmingCharacters(in: .whitespacesAndNewlines), category: subject)
         Task { @MainActor in
-            try? await Task.sleep(for: .seconds(1))
+            let result = await SupportAPI.submit(m, signedIn: store.s.account != nil)
             loading = false
-            Haptics.notify(.success)
-            ticket = HelpForms.ticket()
+            outcome = HelpOutcome(result)
+            Haptics.notify(outcome?.isSent == false ? .warning : .success)
+            if case .email(let url?) = outcome { openURL(url) }
         }
     }
 }
@@ -401,13 +448,14 @@ private struct HelpReportForm: View {
     @State private var diagnostics = true
     @State private var error: String?
     @State private var loading = false
-    @State private var ticket: String?
+    @State private var outcome: HelpOutcome?
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Group {
-            if let ticket { success(ticket).transition(.opacity.combined(with: .move(edge: .bottom))) } else { form }
+            if let outcome { success(outcome).transition(.opacity.combined(with: .move(edge: .bottom))) } else { form }
         }
-        .animation(.snappy, value: ticket)
+        .animation(.snappy, value: outcome)
     }
 
     private var form: some View {
@@ -435,7 +483,12 @@ private struct HelpReportForm: View {
 
     private var diagnosticsDetail: String {
         let p = store.program
-        return diagnostics ? "App 0.9 · \(p.path.name) · Day \(p.currentDay)" : "Only your description will be sent"
+        return diagnostics ? diagnosticInfo : "Only your description will be sent"
+    }
+
+    private var diagnosticInfo: String {
+        let p = store.program
+        return "App \(VaultenConfig.appVersion) · \(p.path.name) · Day \(p.currentDay) · \(RevenueCatService.shared.planLabel)"
     }
 
     private func chip(_ c: String) -> some View {
@@ -457,15 +510,21 @@ private struct HelpReportForm: View {
         .accessibilityAddTraits(on ? .isSelected : [])
     }
 
-    private func success(_ ticket: String) -> some View {
+    @ViewBuilder private func success(_ outcome: HelpOutcome) -> some View {
         VStack(spacing: Space.m) {
-            MascotView(mood: .love, size: 116, say: "Thank you!")
-            Text("Report received").font(.title2).foregroundStyle(Theme.ink)
-            Text("Reference \(ticket). \(diagnostics ? "Diagnostic info was attached, which helps us fix it faster." : "No diagnostic info was attached.")")
-                .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 320)
-            Text("Demo only — nothing was actually sent.").font(.caption).foregroundStyle(Theme.faint)
+            switch outcome {
+            case .sent(let ticket):
+                MascotView(mood: .love, size: 116, say: "Thank you!")
+                Text("Report received").font(.title2).foregroundStyle(Theme.ink)
+                Text("Reference \(ticket). \(diagnostics ? "Diagnostic info was attached, which helps us fix it faster." : "No diagnostic info was attached.")")
+                    .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 320)
+            case .queued:
+                HelpQueuedNote()
+            case .email(let url):
+                HelpEmailFallback(url: url)
+            }
             Button("Report another problem") {
-                self.ticket = nil
+                self.outcome = nil
                 category = nil
                 details = ""
             }
@@ -481,13 +540,15 @@ private struct HelpReportForm: View {
         guard category != nil else { error = "Pick the category that fits best."; Haptics.notify(.error); return }
         guard details.trimmingCharacters(in: .whitespacesAndNewlines).count >= 10 else { error = "Describe what happened — at least 10 characters."; Haptics.notify(.error); return }
         error = nil
-        guard !store.isOffline else { store.showToast(HelpForms.offlineMessage, .error); return }
         loading = true
+        let m = SupportMessage.make(kind: .problem, email: store.s.user.email, message: details.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    category: category, diagnostics: diagnostics ? diagnosticInfo : nil)
         Task { @MainActor in
-            try? await Task.sleep(for: .seconds(1))
+            let result = await SupportAPI.submit(m, signedIn: store.s.account != nil)
             loading = false
-            Haptics.notify(.success)
-            ticket = HelpForms.ticket()
+            outcome = HelpOutcome(result)
+            Haptics.notify(outcome?.isSent == false ? .warning : .success)
+            if case .email(let url?) = outcome { openURL(url) }
         }
     }
 }

@@ -4,74 +4,124 @@ import SwiftUI
 
 struct SplashView: View {
     let onFinish: () -> Void
-    @State private var progress = 0.0
-    @State private var appeared = false
-    @State private var spin = false
+    @State private var logoIn = false
+    @State private var textIn = false
+    @State private var glow = false
+    @State private var dot = 0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ZStack {
             Theme.bg.ignoresSafeArea()
-            Circle().fill(Theme.brand600.opacity(0.28)).frame(width: 460).blur(radius: 110)
-            Circle()
-                .strokeBorder(Theme.brand500.opacity(0.25), style: StrokeStyle(lineWidth: 1, dash: [4, 6]))
-                .frame(width: 290)
-                .overlay(alignment: .top) { Circle().fill(Theme.brand400).frame(width: 12).shadow(color: Theme.brand500, radius: 6).offset(y: -6) }
-                .overlay(alignment: .leading) { Circle().fill(Theme.accent).frame(width: 8).offset(x: -4) }
-                .overlay(alignment: .bottomTrailing) { Circle().fill(Theme.success).frame(width: 10).offset(x: -24, y: -14) }
-                .rotationEffect(.degrees(spin ? 360 : 0))
-                .offset(y: -70)
+            RadialGradient(colors: [Theme.brand600.opacity(glow ? 0.45 : 0.25), .clear], center: .center, startRadius: 0, endRadius: 360)
+                .ignoresSafeArea()
+                .accessibilityHidden(true)
 
             VStack(spacing: 0) {
-                MascotView(mood: progress > 0.85 ? .excited : .happy, size: 168, interactive: false)
-                    .scaleEffect(appeared ? 1 : 0.7).opacity(appeared ? 1 : 0)
-                HStack(spacing: 12) {
-                    LogoMark(size: 44)
-                    (Text("Vault").foregroundStyle(Theme.ink) + Text("en").foregroundStyle(Theme.textGradient))
-                        .font(.system(size: 32, weight: .heavy))
+                ZStack {
+                    RoundedRectangle(cornerRadius: 40, style: .continuous)
+                        .fill(Theme.brand500.opacity(0.45))
+                        .frame(width: 128, height: 128)
+                        .blur(radius: glow ? 36 : 22)
+                    LogoMark(size: 128)
                 }
-                .padding(.top, 32)
-                .opacity(appeared ? 1 : 0).offset(y: appeared ? 0 : 12)
-                Text("Your first online income starts here.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 10)
-                    .opacity(appeared ? 1 : 0)
-                ProgressBar(value: progress, height: 4, label: "Loading Vaulten").frame(width: 160).padding(.top, 40).opacity(appeared ? 1 : 0)
+                .scaleEffect(logoIn ? 1 : 0.82)
+                .opacity(logoIn ? 1 : 0)
+
+                (Text("Vault").foregroundStyle(Theme.ink) + Text("en").foregroundStyle(Theme.textGradient))
+                    .font(.system(size: 40, weight: .heavy))
+                    .padding(.top, 28)
+                    .opacity(textIn ? 1 : 0).offset(y: textIn ? 0 : 10)
+                Text("Your first online income starts here.")
+                    .font(.callout).foregroundStyle(Theme.muted)
+                    .padding(.top, 8)
+                    .opacity(textIn ? 1 : 0)
             }
-        }
-        .onAppear {
-            withAnimation(.spring(response: 0.7, dampingFraction: 0.7)) { appeared = true }
-            withAnimation(.linear(duration: 9).repeatForever(autoreverses: false)) { spin = true }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Vaulten. Your first online income starts here.")
+
+            VStack {
+                Spacer()
+                HStack(spacing: 8) {
+                    ForEach(0..<3) { i in
+                        Circle().fill(Theme.brand300)
+                            .frame(width: 7, height: 7)
+                            .opacity(dot == i ? 1 : 0.3)
+                            .scaleEffect(dot == i ? 1.15 : 1)
+                    }
+                }
+                .opacity(textIn ? 1 : 0)
+                .padding(.bottom, 64)
+                .accessibilityHidden(true)
+            }
         }
         .task {
-            for step in 1...12 {
-                try? await Task.sleep(for: .milliseconds(180))
-                progress = 1 - pow(1 - Double(step) / 12, 3)
+            if reduceMotion {
+                logoIn = true; textIn = true
+                try? await Task.sleep(for: .milliseconds(900))
+                onFinish()
+                return
             }
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.72)) { logoIn = true }
+            withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) { glow = true }
             try? await Task.sleep(for: .milliseconds(250))
+            withAnimation(.easeOut(duration: 0.45)) { textIn = true }
+            for step in 1...5 {
+                try? await Task.sleep(for: .milliseconds(230))
+                withAnimation(.easeInOut(duration: 0.2)) { dot = step % 3 }
+            }
             onFinish()
         }
     }
 }
 
+/// The Vaulten logo: the app icon artwork (Assets `Logo`), so the app and the home screen match.
 struct LogoMark: View {
     var size: CGFloat = 40
     var body: some View {
-        RoundedRectangle(cornerRadius: size * 0.28, style: .continuous)
-            .fill(Theme.brandGradient)
+        Image("Logo")
+            .resizable()
+            .interpolation(.high)
+            .scaledToFill()
             .frame(width: size, height: size)
-            .overlay {
-                GeometryReader { g in
-                    let s = g.size.width / 64
-                    ZStack {
-                        Path { p in
-                            p.move(to: CGPoint(x: 16 * s, y: 46 * s)); p.addLine(to: CGPoint(x: 27 * s, y: 33 * s))
-                            p.addLine(to: CGPoint(x: 35 * s, y: 39 * s)); p.addLine(to: CGPoint(x: 48 * s, y: 20 * s))
-                        }
-                        .stroke(.white, style: StrokeStyle(lineWidth: 6.5 * s, lineCap: .round, lineJoin: .round))
-                        Circle().fill(.white).frame(width: 9 * s).position(x: 48 * s, y: 20 * s)
-                    }
-                }
-            }
+            .clipShape(RoundedRectangle(cornerRadius: size * 0.28, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: size * 0.28, style: .continuous).strokeBorder(.white.opacity(0.12)))
             .shadow(color: Theme.brand600.opacity(0.35), radius: 8, y: 4)
             .accessibilityHidden(true)
+    }
+}
+
+/// Logo plus the "Vaulten" wordmark, for headers.
+struct BrandLockup: View {
+    var size: CGFloat = 36
+    var body: some View {
+        HStack(spacing: size * 0.3) {
+            LogoMark(size: size)
+            (Text("Vault").foregroundStyle(Theme.ink) + Text("en").foregroundStyle(Theme.textGradient))
+                .font(.system(size: size * 0.6, weight: .heavy))
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Vaulten")
+    }
+}
+
+/// Creating the account at the end of guest onboarding: sign-up first, log in one tap away.
+/// Dismisses itself once the account exists (RootView keeps the onboarding state through it).
+struct CreateAccountSheet: View {
+    @State private var path: [AuthRoute] = []
+    var body: some View {
+        NavigationStack(path: $path) {
+            SignupView(path: $path)
+                .navigationDestination(for: AuthRoute.self) { r in
+                    switch r {
+                    case .login: LoginView(path: $path)
+                    case .signup: SignupView(path: $path)
+                    case .forgot: ForgotPasswordView()
+                    case .verify(let email, let code): VerifyEmailView(path: $path, email: email, stagingCode: code)
+                    }
+                }
+        }
+        .presentationDragIndicator(.visible)
     }
 }
 
@@ -122,47 +172,119 @@ private struct AuthScaffold<Content: View, Footer: View>: View {
     }
 }
 
-struct WelcomeView: View {
-    @Binding var path: [AuthRoute]
-    private let points = [("calendar.badge.checkmark", "One clear mission every day"), ("sparkles", "An AI coach for every question"), ("map.fill", "A plan made for how you want to earn")]
+/// "By continuing you agree to the Terms of Use and Privacy Policy", readable, with both names tappable.
+struct LegalConsentText: View {
+    @State private var doc: AccountLegalDoc?
+
+    private var text: AttributedString {
+        var s = AttributedString("By continuing you agree to our ")
+        var terms = AttributedString("Terms of Use")
+        terms.link = URL(string: "vaulten-legal://terms")
+        terms.foregroundColor = Theme.brand300
+        terms.inlinePresentationIntent = .stronglyEmphasized
+        var privacy = AttributedString("Privacy Policy")
+        privacy.link = URL(string: "vaulten-legal://privacy")
+        privacy.foregroundColor = Theme.brand300
+        privacy.inlinePresentationIntent = .stronglyEmphasized
+        s += terms
+        s += AttributedString(" and ")
+        s += privacy
+        s += AttributedString(".")
+        return s
+    }
 
     var body: some View {
-        AuthScaffold {
-            HStack(spacing: 10) {
-                LogoMark(size: 36)
-                (Text("Vault").foregroundStyle(Theme.ink) + Text("en").foregroundStyle(Theme.textGradient)).font(.title3.weight(.heavy))
-            }
-            .padding(.top, Space.s)
-            VStack(spacing: 0) {
-                MascotView(mood: .wink, size: 150, say: "Tap me. I don't bite.", tapLines: ["30 days. One mission a day.", "Less theory. More action.", "Ready when you are!"])
-                    .padding(.top, 64)
-                (Text("Earn your first ").foregroundStyle(Theme.ink) + Text("money online.").foregroundStyle(Theme.textGradient))
-                    .font(.system(size: 38, weight: .heavy)).multilineTextAlignment(.center).padding(.top, Space.xl)
-                Text("No experience required. Tell us how you want to earn, follow your plan, and take one step every day.")
-                    .font(.body).foregroundStyle(Theme.muted).multilineTextAlignment(.center).padding(.top, Space.m)
-                VStack(spacing: 10) {
-                    ForEach(Array(points.enumerated()), id: \.offset) { i, p in
-                        HStack(spacing: 12) {
-                            Image(systemName: p.0).foregroundStyle(Theme.brand300).frame(width: 22)
-                            Text(p.1).font(.subheadline.weight(.medium)).foregroundStyle(Theme.inkSoft)
-                            Spacer()
-                        }
-                        .padding(.horizontal, 16).frame(height: 48)
-                        .background(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).fill(Theme.surface.opacity(0.7)))
-                        .overlay(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).strokeBorder(Theme.line))
-                        .fadeUp(i + 2)
-                    }
-                }
-                .padding(.top, Space.xl)
-            }
+        Text(text)
+            .font(.footnote)
+            .foregroundStyle(Theme.muted)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity)
-        } footer: {
-            Button { path.append(.signup) } label: { Label("Get Started", systemImage: "arrow.right").labelStyle(TrailingIconLabel()) }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
-            Button("I Already Have an Account") { path.append(.login) }
-                .buttonStyle(.fr(.ghost, size: .lg, full: true))
+            .padding(.vertical, 6)
+            .environment(\.openURL, OpenURLAction { url in
+                doc = url.host == "privacy" ? .privacy : .terms
+                return .handled
+            })
+            .sheet(item: $doc) { AccountLegalSheet(doc: $0) }
+    }
+}
+
+struct WelcomeView: View {
+    @Binding var path: [AuthRoute]
+    @Environment(AppStore.self) private var store
+    @State private var shown = false
+    @State private var bob = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Spacer(minLength: Space.l)
+            VStack(spacing: 2) {
+                Text("Hey!")
+                    .font(.system(size: 84, weight: .black, design: .rounded))
+                    .foregroundStyle(Theme.ink)
+                    .rotationEffect(.degrees(-3))
+                Text("Ready to earn?")
+                    .font(.system(size: 26, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Theme.textGradient)
+                    .rotationEffect(.degrees(-2))
+            }
+            .scaleEffect(shown ? 1 : 0.8).opacity(shown ? 1 : 0)
+            .accessibilityElement(children: .combine)
+
+            // Vault loops its clip while gently floating; the shadow breathes with it.
+            ZStack(alignment: .bottom) {
+                Ellipse()
+                    .fill(Theme.brand600.opacity(0.35))
+                    .frame(width: bob ? 120 : 160, height: 22)
+                    .blur(radius: 10)
+                    .offset(y: 6)
+                MascotView(mood: .happy, size: 250, tapLines: ["30 days. One mission a day.", "Less theory. More action.", "Ready when you are!"], float: false, entrance: .greeting)
+                    .offset(y: bob ? -14 : 0)
+            }
+            .padding(.top, Space.l)
+            .scaleEffect(shown ? 1 : 0.7).opacity(shown ? 1 : 0)
+
+            Spacer(minLength: Space.l)
+
+            VStack(spacing: Space.s) {
+                Text("Welcome to Vaulten")
+                    .font(.system(size: 30, weight: .heavy)).foregroundStyle(Theme.ink)
+                    .accessibilityAddTraits(.isHeader)
+                Text("Pick how you want to earn and get a step-by-step plan to your first money online.")
+                    .font(.body).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, Space.s)
+            .opacity(shown ? 1 : 0).offset(y: shown ? 0 : 16)
+
+            VStack(spacing: Space.m) {
+                Button { Haptics.tap(); store.startGuest() } label: { Text("Get Started") }
+                    .buttonStyle(.fr(.primary, size: .lg, full: true))
+                Button { path.append(.login) } label: {
+                    (Text("Already have an account? ").foregroundStyle(Theme.muted) + Text("Log in").foregroundStyle(Theme.brand300).fontWeight(.semibold))
+                        .font(.subheadline)
+                }
+                .frame(minHeight: 44)
+                LegalConsentText()
+            }
+            .padding(.top, Space.xl)
+            .opacity(shown ? 1 : 0)
+        }
+        .frame(maxWidth: 440)
+        .padding(.horizontal, Space.xl)
+        .padding(.bottom, Space.s)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            LinearGradient(colors: [Theme.brand500.opacity(0.55), Theme.brand600.opacity(0.18), Theme.bg], startPoint: .top, endPoint: .center)
+                .background(Theme.bg)
+                .ignoresSafeArea()
         }
         .toolbar(.hidden, for: .navigationBar)
+        .onAppear {
+            withAnimation(.spring(response: 0.7, dampingFraction: 0.75)) { shown = true }
+            guard !reduceMotion else { return }
+            withAnimation(.easeInOut(duration: 1.8).repeatForever(autoreverses: true)) { bob = true }
+        }
     }
 }
 
@@ -194,7 +316,8 @@ struct LoginView: View {
 
     var body: some View {
         AuthScaffold {
-            Text("Welcome back").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.l)
+            LogoMark(size: 48).padding(.top, Space.l)
+            Text("Welcome back").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
             Text("Pick up where you left off. Your streak is waiting.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 6)
             VStack(spacing: Space.l) {
                 FRTextField(label: "Email", text: $email, systemImage: "envelope", error: errors["email"], keyboard: .emailAddress, contentType: .emailAddress)
@@ -268,7 +391,8 @@ struct SignupView: View {
 
     var body: some View {
         AuthScaffold {
-            Text("Create your account").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.l)
+            LogoMark(size: 48).padding(.top, Space.l)
+            Text("Create your account").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
             Text("Two minutes from now you'll have a 30-day plan.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 6)
             VStack(spacing: Space.l) {
                 FRTextField(label: "Name", text: $name, placeholder: "Alex Carter", systemImage: "person", error: errors["name"], contentType: .name)
@@ -447,8 +571,9 @@ struct ForgotPasswordView: View {
 
     var body: some View {
         AuthScaffold {
+            LogoMark(size: 48).padding(.top, Space.l)
             if sent {
-                Text("Set a new password").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.l)
+                Text("Set a new password").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
                 (Text("If an account exists for ") + Text(email).fontWeight(.semibold).foregroundStyle(Theme.ink) + Text(", we sent it a 6-digit code."))
                     .font(.callout).foregroundStyle(Theme.muted).padding(.top, 6)
                 VStack(spacing: Space.l) {
@@ -461,7 +586,7 @@ struct ForgotPasswordView: View {
                 .padding(.top, Space.xxl)
                 .transition(.opacity)
             } else {
-                Text("Reset your password").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.l)
+                Text("Reset your password").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
                 Text("Enter your email and we'll send you a code to get back in.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 6)
                 VStack(spacing: Space.l) {
                     FRTextField(label: "Email", text: $email, placeholder: "you@example.com", systemImage: "envelope", error: error, keyboard: .emailAddress, contentType: .emailAddress)

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		F1A000000000000000000021 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = F1A000000000000000000025 /* Sentry */; };
 		F1A000000000000000000022 /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = F1A000000000000000000026 /* PostHog */; };
+		F1A000000000000000000027 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = F1A000000000000000000029 /* RevenueCat */; };
+		F1A000000000000000000028 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = F1A00000000000000000002A /* RevenueCatUI */; };
+		F1A00000000000000000002C /* OneSignalFramework in Frameworks */ = {isa = PBXBuildFile; productRef = F1A00000000000000000002E /* OneSignalFramework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 			files = (
 				F1A000000000000000000021 /* Sentry in Frameworks */,
 				F1A000000000000000000022 /* PostHog in Frameworks */,
+				F1A000000000000000000027 /* RevenueCat in Frameworks */,
+				F1A000000000000000000028 /* RevenueCatUI in Frameworks */,
+				F1A00000000000000000002C /* OneSignalFramework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +68,7 @@
 				F1A000000000000000000007 /* Sources */,
 				F1A000000000000000000003 /* Frameworks */,
 				F1A000000000000000000008 /* Resources */,
+				E25E832F7A02434CA3DD5FEF /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -74,6 +81,9 @@
 			packageProductDependencies = (
 				F1A000000000000000000025 /* Sentry */,
 				F1A000000000000000000026 /* PostHog */,
+				F1A000000000000000000029 /* RevenueCat */,
+				F1A00000000000000000002A /* RevenueCatUI */,
+				F1A00000000000000000002E /* OneSignalFramework */,
 			);
 			productName = FirstRevenue;
 			productReference = F1A000000000000000000001 /* FirstRevenue.app */;
@@ -106,6 +116,8 @@
 			packageReferences = (
 				F1A000000000000000000023 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				F1A000000000000000000024 /* XCRemoteSwiftPackageReference "posthog-ios" */,
+				F1A00000000000000000002B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+				F1A00000000000000000002D /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1A000000000000000000005 /* Products */;
@@ -192,7 +204,9 @@
 				DEVELOPMENT_TEAM = LGHS3SPMJ7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				CODE_SIGN_ENTITLEMENTS = FirstRevenue.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = Vaulten;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -208,6 +222,8 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
 			};
 			name = Debug;
 		};
@@ -221,7 +237,9 @@
 				DEVELOPMENT_TEAM = LGHS3SPMJ7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				CODE_SIGN_ENTITLEMENTS = FirstRevenue.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = Vaulten;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -237,6 +255,8 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
 			};
 			name = Release;
 		};
@@ -280,6 +300,22 @@
 				minimumVersion = 3.92.0;
 			};
 		};
+		F1A00000000000000000002B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.27.1;
+			};
+		};
+		F1A00000000000000000002D /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OneSignal/OneSignal-XCFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -293,7 +329,59 @@
 			package = F1A000000000000000000024 /* XCRemoteSwiftPackageReference "posthog-ios" */;
 			productName = PostHog;
 		};
+		F1A000000000000000000029 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A00000000000000000002B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		F1A00000000000000000002A /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A00000000000000000002B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
+		};
+		F1A00000000000000000002E /* OneSignalFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A00000000000000000002D /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
+			productName = OneSignalFramework;
+		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E25E832F7A02434CA3DD5FEF /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.
+cd \"$PROJECT_DIR\"
+
+SENTRY_CLI=$(command -v sentry-cli || true)
+if [ -z \"$SENTRY_CLI\" ] && [ -x \"$PROJECT_DIR/../../node_modules/.bin/sentry-cli\" ]; then
+  SENTRY_CLI=\"$PROJECT_DIR/../../node_modules/.bin/sentry-cli\"
+fi
+
+if [ -n \"$SENTRY_CLI\" ]; then
+  export SENTRY_ORG=nexus-od
+  export SENTRY_PROJECT=apple-ios
+  ERROR=$(\"$SENTRY_CLI\" debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)
+  if [ ! $? -eq 0 ]; then
+    echo \"warning: sentry-cli - $ERROR\"
+  fi
+else
+  echo \"warning: sentry-cli not installed. Run npm install from /Users/annybabeni/Desktop/revenue or install sentry-cli globally.\"
+fi
+";
+			name = "Upload Debug Symbols to Sentry";
+		};
+/* End PBXShellScriptBuildPhase section */
 	};
 	rootObject = F1A000000000000000000009 /* Project object */;
 }

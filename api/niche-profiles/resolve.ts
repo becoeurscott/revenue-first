@@ -1,7 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { z } from 'zod'
-import { JOURNEYS, MODEL, clip, flushPostHog, getClient, isJourneyId, json, readAiObservability, sameOrigin, trackGeneration } from '../_lib/shared.js'
+import { JOURNEYS, clip, flushPostHog, isJourneyId, json, readAiObservability, sameOrigin, trackGeneration } from '../_lib/shared.js'
+import { LlmError, MODELS, complete, llmConfigured, llmErrorResponse } from '../_lib/llm.js'
 
 const NICHE_RULES = `You turn a beginner's free-text niche into a structured niche profile for FirstRevenue, an app that coaches people to their first online income.
 The profile is shared by every screen and by the coach, so it must be precise, neutral and safe.
@@ -27,8 +26,7 @@ const NicheProfileSchema = z.object({
 
 export async function POST(req: Request): Promise<Response> {
   if (!sameOrigin(req)) return json({ error: 'forbidden' }, 403)
-  const client = getClient()
-  if (!client) return json({ error: 'ai_not_configured' }, 503)
+  if (!llmConfigured()) return json({ error: 'ai_not_configured' }, 503)
 
   const body = (await req.json().catch(() => null)) as { journeyId?: unknown; niche?: unknown; detail?: unknown; version?: unknown; ai?: unknown } | null
   const ai = readAiObservability(body?.ai)
@@ -40,21 +38,19 @@ export async function POST(req: Request): Promise<Response> {
 
   const startedAt = Date.now()
   try {
-    const response = await client.beta.messages.parse({
-      model: MODEL,
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      max_tokens: 4000,
-      output_config: { effort: 'low', format: zodOutputFormat(NicheProfileSchema) },
-      system: [{ type: 'text', text: NICHE_RULES, cache_control: { type: 'ephemeral' } }],
+    const response = await complete({
+      model: MODELS.fast,
+      maxTokens: 4000,
+      schema: { name: 'niche_profile', zod: NicheProfileSchema },
+      system: [{ text: NICHE_RULES, cache: true }],
       messages: [{
         role: 'user',
-        content: `Earning method: ${journey.label}${journey.sellsServices ? ' (sells a service to clients)' : ' (owns the channel; no clients)'}\nNiche as typed: ${niche}${detail ? `\nFollow-up answer: ${detail}` : ''}`,
+        content: `Earning method: ${journey.label}${journey.sellsServices ? ' (sells a service to clients)' : ' (builds their own audience or product; no clients)'}\nNiche as typed: ${niche}${detail ? `\nFollow-up answer: ${detail}` : ''}`,
       }],
+      timeoutMs: 55_000,
     })
     trackGeneration(ai, 'niche', response, startedAt)
-    if (response.stop_reason === 'refusal') return json({ error: 'refused' }, 422)
-    const profile = response.parsed_output
+    const profile = response.parsed
     if (!profile) return json({ error: 'bad_output' }, 502)
     return json({
       nicheProfile: {
@@ -65,8 +61,10 @@ export async function POST(req: Request): Promise<Response> {
       },
     })
   } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) return json({ error: 'busy' }, 429)
-    if (error instanceof Anthropic.APIError) return json({ error: 'upstream', status: error.status }, 502)
+    if (error instanceof LlmError) {
+      const r = llmErrorResponse(error)
+      return json(r.body, r.status)
+    }
     throw error
   } finally {
     await flushPostHog()

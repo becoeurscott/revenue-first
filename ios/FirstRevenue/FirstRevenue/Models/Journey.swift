@@ -216,7 +216,7 @@ struct JourneyQuestion: Codable, Hashable {
     let icon: String
     let title: String
     let subtitle: String
-    /// text | single | multi | goal
+    /// text | single | multi | goal | info (no answer) | slider (single choice on a slider)
     let kind: String
     let options: [JourneyQuestionOption]?
     let placeholder: String?
@@ -228,12 +228,14 @@ struct JourneyQuestion: Codable, Hashable {
     var variants: [EarningMethod: Variant]? = nil
     /// Short label for the "Your setup" summary (nil = not summarized).
     var summary: String? = nil
+    /// For `info` steps: which built-in illustration to show ("hello", "missions", "coach").
+    var illustration: String? = nil
 
     func resolved(for method: EarningMethod?) -> JourneyQuestion {
         guard let method, let v = variants?[method] else { return self }
         var q = JourneyQuestion(key: key, icon: icon, title: v.title ?? title, subtitle: v.subtitle ?? subtitle, kind: kind,
                                 options: v.options ?? options, placeholder: v.placeholder ?? placeholder, required: required, mascotLine: mascotLine)
-        q.methods = methods; q.showIf = showIf; q.summary = summary
+        q.methods = methods; q.showIf = showIf; q.summary = summary; q.illustration = illustration
         return q
     }
 
@@ -310,6 +312,16 @@ struct JourneyEnrollment: Codable, Hashable, Identifiable {
     var monetizationStage: String
     var contentItems: [ContentItem] = []
     var metricEvents: [MetricEvent] = []
+    /// The personal program: Week 1 on the free plan, all 30 days with Premium. Nil in saves from before programs.
+    var program: GeneratedProgram? = nil
+    /// The unlock animation already played for this enrollment, so later rewrites complete quietly.
+    var programUnlocked: Bool? = nil
+    /// Which month of the journey this is (nil = Month 1). Each month is a new 30-day plan.
+    var month: Int? = nil
+    /// What this month's plan is aimed at, from the last month's review (nil in Month 1).
+    var focus: String? = nil
+    /// Finished months, oldest first.
+    var reviews: [MonthReview]? = nil
 
     var niche: NicheContext { nicheHistory[nicheHistory.count - 1] }
 

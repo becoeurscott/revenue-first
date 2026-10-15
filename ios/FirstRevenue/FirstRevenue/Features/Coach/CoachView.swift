@@ -7,13 +7,11 @@ struct CoachView: View {
 
     var body: some View {
         Screen(title: store.journey.sellsServices ? "Your Business Coach" : "Your Channel Coach", subtitle: store.journey.sellsServices ? "Ask me anything about your clients, offer and outreach." : "Ask me anything about your channel.", large: true) {
-            PremiumGate(feature: "AI Coach", message: store.journey.coachGateMessage) {
-                content
-            }
+            if store.canUseCoach { content } else { LockedView(feature: "AI Coach", message: store.journey.coachGateMessage) }
         }
         .safeAreaInset(edge: .bottom) {
-            if store.isPremium {
-                CoachComposerBar { send($0) }
+            if store.canUseCoach {
+                CoachInputArea { send($0) }
             }
         }
         .task {

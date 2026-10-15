@@ -50,7 +50,7 @@ struct MissionCompleteView: View {
 
     private var hero: some View {
         VStack(spacing: 0) {
-            MascotView(mood: .excited, size: 170, tapLines: ["We did it!", "That is how first clients happen.", "Same time tomorrow?"])
+            MascotView(mood: .excited, size: 170, tapLines: ["We did it!", "That is how first clients happen.", "Same time tomorrow?"], entrance: .celebrate)
             headline.padding(.top, Space.xl)
             Text("Day \(plan.day) completed.")
                 .font(.body).foregroundStyle(Theme.muted)

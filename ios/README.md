@@ -23,7 +23,7 @@ xcodebuild -project ios/FirstRevenue/FirstRevenue.xcodeproj -scheme FirstRevenue
 | `App/` | App entry, root flow (splash → auth → onboarding → tabs), tab/sidebar navigation, route table |
 | `Design/Theme.swift` | Design tokens: colors (dark + light), spacing, radius, type scale, motion |
 | `Components/` | Reusable UI: buttons, cards, badges, progress, inputs, toasts, skeletons, confetti, paywall, symbol tiles, domain cards, mock video player |
-| `Mascot/` | Penny, the interactive brain mascot (SwiftUI drawing, 8 moods, eye tracking, blink, tap reactions) |
+| `Mascot/` | Vault, the interactive brain mascot (SwiftUI drawing, 8 moods, eye tracking, blink, tap reactions) |
 | `Models/` | Codable domain models |
 | `Services/` | `MockData` loader, mock engines (path recommendation, pricing, outreach generator, coach), date helpers, haptics |
 | `Store/` | `AppStore` (single source of truth, persisted to Application Support), selectors, routes |

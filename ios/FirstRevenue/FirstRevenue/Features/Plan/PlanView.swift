@@ -11,8 +11,13 @@ struct PlanView: View {
         ScrollViewReader { proxy in
             Screen(title: "Your 30-Day Plan", subtitle: program.path.name, large: true) {
                 VStack(alignment: .leading, spacing: Space.xl) {
+                    if let written = store.generatedProgram { ProgramHeaderCard(program: written, compact: true).fadeUp(0) }
                     PlanSummaryCard(program: program).fadeUp(0)
                     weeks(program)
+                    // Free plan: Weeks 2–4 aren't written yet, so they show as one locked, blurred block.
+                    if !store.isPremium {
+                        ProgramLockedWeeks { store.paywallFeature = "the full 30-day plan" }
+                    }
                 }
             }
             .toolbar {
@@ -42,7 +47,7 @@ struct PlanView: View {
     }
 
     @ViewBuilder private func weeks(_ program: Program) -> some View {
-        let sections = program.path.weeks
+        let sections = program.path.weeks.filter { store.isPremium || $0.week == 1 }
         if hSize == .regular {
             VStack(alignment: .leading, spacing: Space.xl) {
                 ForEach(Array(stride(from: 0, to: sections.count, by: 2)), id: \.self) { i in
@@ -142,9 +147,11 @@ private struct PlanDayRow: View {
 
     static func anchor(_ day: Int) -> String { "plan-day-\(day)" }
     private var lockReason: String { store.lockReason(plan.day) }
-    /// The first days are always readable as a preview; later locked days stay blurred.
-    static let previewDays = 6
+    /// Week 1 is always readable as a preview; later locked days stay blurred.
+    static let previewDays = GeneratedProgram.freeDays
     private var hidden: Bool { plan.day > Self.previewDays || store.isDayPremiumLocked(plan.day) }
+    /// The day's title from the user's written program, or the plan's own theme.
+    private var title: String { store.generatedProgram?.day(plan.day)?.title ?? plan.theme }
 
     private var active: Bool { status == .today || status == .inProgress }
 
@@ -165,7 +172,7 @@ private struct PlanDayRow: View {
             } label: { card }
                 .buttonStyle(.pressable)
                 .padding(.bottom, Space.m)
-                .accessibilityLabel(status == .locked && hidden ? "Day \(plan.day), locked" : "Day \(plan.day): \(plan.theme), \(statusText)")
+                .accessibilityLabel(status == .locked && hidden ? "Day \(plan.day), locked" : "Day \(plan.day): \(title), \(statusText)")
                 .accessibilityHint(status == .locked ? "Finish the previous day to unlock it" : "Opens the day")
                 .contextMenu { if status != .locked { menu } }
         }
@@ -199,7 +206,7 @@ private struct PlanDayRow: View {
                 Image(systemName: "lock.fill").font(.caption).foregroundStyle(Theme.faint)
             }
             VStack(alignment: .leading, spacing: 6) {
-                Text(plan.theme).font(.headline).foregroundStyle(Theme.ink).lineLimit(1)
+                Text(title).font(.headline).foregroundStyle(Theme.ink).lineLimit(1)
                 Text("\(plan.minutes) min · \(plan.difficulty) · +\(plan.xp) XP").font(.caption).foregroundStyle(Theme.faint)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -228,7 +235,7 @@ private struct PlanDayRow: View {
                 badge
             }
             HStack(spacing: Space.s) {
-                Text(plan.theme).font(.headline).foregroundStyle(Theme.ink).lineLimit(1)
+                Text(title).font(.headline).foregroundStyle(Theme.ink).lineLimit(1)
                 Spacer(minLength: 4)
                 Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.faint)
             }

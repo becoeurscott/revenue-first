@@ -10,10 +10,10 @@ private struct CompleteResult: Hashable {
 
 struct CompleteView: View {
     @Environment(AppStore.self) private var store
-    @State private var showAdvanced = false
     @ScaledMetric(relativeTo: .largeTitle) private var headlineSize: CGFloat = 46
 
     private var firstName: String { store.s.user.firstName }
+    private var earned: Bool { MonthCoach.diagnose(journey: store.journey, stats: store.stats) == .earned }
 
     /// The active journey's own numbers. Before finishing, fictitious sample results preview the screen.
     private var results: [CompleteResult] {
@@ -47,6 +47,9 @@ struct CompleteView: View {
                 VStack(spacing: Space.xxl) {
                     hero
                     stats
+                    if store.program.finished {
+                        MonthReviewSection { startNextMonth() }
+                    }
                     nextSteps
                     Button("Back to home") { finish(toast: nil) }.buttonStyle(.fr(.ghost))
                 }
@@ -62,7 +65,6 @@ struct CompleteView: View {
             IconButton(systemImage: "xmark", label: "Close") { store.cover = nil }
                 .padding(.horizontal, Space.gutter).padding(.top, Space.s)
         }
-        .sheet(isPresented: $showAdvanced) { CompleteAdvancedSheet() }
         .onAppear { Haptics.notify(.success) }
     }
 
@@ -70,16 +72,18 @@ struct CompleteView: View {
 
     private var hero: some View {
         VStack(spacing: Space.l) {
-            MascotView(mood: .excited, size: 176, say: firstName.isEmpty ? "You did it!" : "You did it, \(firstName)!")
+            MascotView(mood: .excited, size: 176, say: firstName.isEmpty ? "You did it!" : "You did it, \(firstName)!", entrance: .celebrate)
                 .padding(.top, 40)
-            Text("30 DAYS COMPLETE")
+            Text("MONTH \(store.month) COMPLETE")
                 .font(.system(size: headlineSize, weight: .heavy))
                 .foregroundStyle(Theme.textGradient)
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.6)
                 .fadeUp(1)
                 .accessibilityAddTraits(.isHeader)
-            Text("\(firstName.isEmpty ? "You" : "\(firstName), you") showed up for 30 days and built \(store.journey.sellsServices ? "a real skill people pay for" : "a channel and a publishing habit"). Most people never get past day three.")
+            Text(earned
+                 ? "\(firstName.isEmpty ? "You" : "\(firstName), you") showed up for 30 days and earned real money. Most people never get past day three."
+                 : "\(firstName.isEmpty ? "You" : "\(firstName), you") showed up for 30 days. No income yet is normal this early, and below is exactly what to change next.")
                 .font(.body).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 440)
                 .fadeUp(2)
             if !store.program.finished {
@@ -91,7 +95,7 @@ struct CompleteView: View {
 
     private var shareText: String {
         let parts = results.map { "\($0.isMoney ? money($0.value) : $0.value.formatted()) \($0.label.lowercased())" }
-        return "I just finished the Vaulten 30-day \(store.program.path.name) program: \(parts.joined(separator: ", "))."
+        return "I just finished month \(store.month) of my Vaulten \(store.program.path.name) journey: \(parts.joined(separator: ", "))."
     }
 
     private var stats: some View {
@@ -110,15 +114,15 @@ struct CompleteView: View {
         VStack(alignment: .leading, spacing: Space.l) {
             VStack(alignment: .leading, spacing: 4) {
                 Text("What happens next?").font(.title2).foregroundStyle(Theme.ink).accessibilityAddTraits(.isHeader)
-                Text("Pick a direction. You can change your mind later.").font(.callout).foregroundStyle(Theme.muted)
+                Text("Or pick another direction. You can change your mind later.").font(.callout).foregroundStyle(Theme.muted)
             }
             LazyVGrid(columns: adaptiveColumns(min: 220), spacing: Space.m) {
                 if store.journey.sellsServices {
-                    CompleteOptionCard(icon: "play.fill", title: "Continue Your Journey", detail: "Keep working your \(store.program.path.name) pipeline and grow the clients you have.", featured: true) {
+                    CompleteOptionCard(icon: "play.fill", title: "Continue Your Journey", detail: "Keep working your \(store.program.path.name) pipeline and grow the clients you have.") {
                         finish(toast: "Your journey stays open. Keep the momentum going.")
                     }
                 } else {
-                    CompleteOptionCard(icon: "play.fill", title: "Keep Publishing", detail: "Plan your next month of videos on your content board and keep your schedule.", featured: true) {
+                    CompleteOptionCard(icon: "play.fill", title: "Keep Publishing", detail: "Plan your next month on your board and keep your schedule.") {
                         store.cover = nil
                         store.push(.channel(.content), on: .home)
                     }
@@ -127,11 +131,7 @@ struct CompleteView: View {
                     store.cover = nil
                     store.push(.paths, on: .home)
                 }
-                if store.journey.sellsServices {
-                    CompleteOptionCard(icon: "chart.line.uptrend.xyaxis", title: "Start Advanced Program", detail: "Scale from first revenue to a steady $2K/month.") {
-                        showAdvanced = true
-                    }
-                } else {
+                if !store.journey.sellsServices {
                     CompleteOptionCard(icon: "dollarsign.circle", title: "Next Monetization Step", detail: "See which income source fits your channel's stage now.") {
                         store.cover = nil
                         store.push(.channel(.monetization), on: .home)
@@ -139,6 +139,12 @@ struct CompleteView: View {
                 }
             }
         }
+    }
+
+    private func startNextMonth() {
+        store.startNextMonth()
+        Task { await store.syncProgram() }
+        finish(toast: "Month \(store.month) starts today. Day 1 is ready.")
     }
 
     private func finish(toast: String?) {
@@ -216,69 +222,5 @@ private struct CompleteOptionCard: View {
             .card(featured ? .selected : .plain, padding: Space.l)
         }
         .buttonStyle(.pressable)
-    }
-}
-
-// MARK: - Advanced program sheet (fictitious)
-
-private struct CompleteAdvancedSheet: View {
-    @Environment(AppStore.self) private var store
-    @Environment(\.dismiss) private var dismiss
-
-    private let weeks: [(title: String, body: String)] = [
-        ("Productize your offer", "Turn one-off jobs into two fixed packages with clear scope and pricing."),
-        ("Build a referral engine", "Testimonials, case studies and a simple ask that brings warm leads every week."),
-        ("Retainers, not projects", "Convert your best clients to monthly plans so revenue stops resetting to zero."),
-        ("Systems and leverage", "Templates, batching and your first subcontractor so you can take on more work."),
-    ]
-
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Space.l) {
-                VStack(alignment: .leading, spacing: Space.s) {
-                    Text("Advanced: Scale to $2K/month").font(.title2).foregroundStyle(Theme.ink).accessibilityAddTraits(.isHeader)
-                    Text("A second 30-day program for people who already have their first client.").font(.callout).foregroundStyle(Theme.muted)
-                    HStack(spacing: 6) {
-                        Badge("30 days", tone: .brand)
-                        Badge("Intermediate", tone: .warning)
-                        Badge("Waitlist open")
-                    }
-                    .padding(.top, 4)
-                }
-                ForEach(Array(weeks.enumerated()), id: \.offset) { i, w in weekRow(i, w.title, w.body) }
-            }
-            .padding(.horizontal, Space.xl)
-            .padding(.top, Space.xl)
-        }
-        .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 6) {
-                Button {
-                    dismiss()
-                    store.showToast("You’re on the waitlist. We’ll notify you first.")
-                } label: { Label("Join the waitlist", systemImage: "chart.line.uptrend.xyaxis") }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
-                Text("Free to join. Opens to 30-day finishers first.").font(.caption).foregroundStyle(Theme.faint)
-            }
-            .padding(.horizontal, Space.xl).padding(.top, Space.m)
-            .background(Theme.bgSunken)
-        }
-        .background(Theme.bgSunken.ignoresSafeArea())
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-    }
-
-    private func weekRow(_ i: Int, _ title: String, _ body: String) -> some View {
-        HStack(alignment: .top, spacing: Space.m) {
-            Text("\(i + 1)").font(.footnote.weight(.bold)).monospacedDigit().foregroundStyle(.white)
-                .frame(width: 32, height: 32).background(Circle().fill(Theme.brandGradient))
-            VStack(alignment: .leading, spacing: 2) {
-                Text("WEEK \(i + 1)").font(.eyebrow).tracking(0.6).foregroundStyle(Theme.faint)
-                Text(title).font(.body.weight(.semibold)).foregroundStyle(Theme.ink)
-                Text(body).font(.footnote).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
-            }
-            Spacer(minLength: 0)
-        }
-        .card(padding: Space.m + 2)
-        .accessibilityElement(children: .combine)
     }
 }

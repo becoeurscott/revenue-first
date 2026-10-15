@@ -1,4 +1,5 @@
 import SwiftUI
+import RevenueCatUI
 
 struct PlanPicker: View {
     @Binding var selection: String
@@ -41,49 +42,23 @@ func mockCheckout(store: AppStore, plan: String, loading: Binding<Bool>, done: @
     }
 }
 
-/// Presented app-wide whenever `store.paywallFeature` is set.
+/// Presented app-wide whenever `store.paywallFeature` is set. Closing it hands over to the gift offers
+/// (OfferCenter), which appear a second later on the screen the user came back to.
 struct PaywallSheet: View {
     let feature: String
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
-    @State private var plan = "yearly"
-    @State private var loading = false
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: Space.l) {
-                MascotView(mood: .love, size: 104).padding(.top, Space.l)
-                VStack(spacing: 6) {
-                    Text("Unlock with Premium").font(.title2).foregroundStyle(Theme.ink)
-                    Text("\(feature.prefix(1).uppercased() + feature.dropFirst()) is part of your complete Vaulten journey.").font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
-                }
-                PlanPicker(selection: $plan).padding(.top, 6)
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(MockData.shared.subscription.benefits.prefix(4), id: \.title) { b in
-                        HStack(spacing: 10) { SymbolTile(icon: b.icon, size: 28); Text(b.title).font(.subheadline.weight(.medium)).foregroundStyle(Theme.inkSoft) }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(.horizontal, Space.xl)
-        }
-        .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 6) {
-                Button {
-                    mockCheckout(store: store, plan: plan, loading: $loading) {
-                        dismiss()
-                        store.showToast("Welcome to Premium")
-                    }
-                } label: { LoadingLabel(title: "Start Premium", systemImage: "crown.fill", loading: loading) }
-                .buttonStyle(.fr(.primary, size: .lg, full: true))
-                .disabled(loading)
-                Text("Prototype checkout — no payment is taken.").font(.caption).foregroundStyle(Theme.faint)
-            }
-            .padding(.horizontal, Space.xl).padding(.top, Space.m).background(Theme.bgSunken)
-        }
-        .background(Theme.bgSunken.ignoresSafeArea())
-        .presentationDetents([.large])
-        .presentationDragIndicator(.visible)
+        PlanPaywallView(onUnlocked: {
+            OfferCenter.shared.cancelTimers()
+            dismiss()
+            store.showToast("Welcome to Premium")
+        }, onClose: {
+            dismiss()
+            OfferCenter.shared.paywallClosed(store: store)
+        })
+        .interactiveDismissDisabled()
     }
 }
 
@@ -141,12 +116,10 @@ struct PremiumLock: ViewModifier {
             Image(systemName: "lock.fill").font(.system(size: 22, weight: .semibold)).foregroundStyle(.white)
                 .frame(width: 56, height: 56).background(Circle().fill(Theme.brandGradient)).shadow(color: Theme.brand600.opacity(0.5), radius: 14)
             Text("Unlock \(feature)").font(.title3.weight(.bold)).foregroundStyle(Theme.ink).multilineTextAlignment(.center)
-            Text("Your free plan includes Day 1. Upgrade to unlock the full 30-day program, the AI Coach and every tool.")
+            Text("You're exploring Vaulten. Start your plan to unlock your missions, the AI Coach and every tool.")
                 .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 300)
-            Button { Haptics.tap(); store.paywallFeature = feature } label: { Label("Upgrade to Premium", systemImage: "crown.fill") }
-                .buttonStyle(.fr(.primary, size: .lg)).padding(.top, 4)
-            Button { store.tab = .plan; store.popToRoot(.plan); store.cover = .mission(1) } label: { Text("Continue Day 1") }
-                .font(.subheadline.weight(.semibold)).foregroundStyle(Theme.brand300).frame(minHeight: 44)
+            Button { store.paywallFeature = feature } label: { Text("Start My Plan") }
+                .buttonStyle(.chunky()).padding(.top, 4)
         }
         .padding(Space.xl)
         .background(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).fill(Theme.bgRaised.opacity(0.92)))

@@ -30,9 +30,11 @@ struct SettingsView: View {
                         ListRow(icon: "lifepreserver", title: "Help & support", detail: "FAQ, contact and problem reports") { store.push(.help) }
                     }
                 }
-                Text("Vaulten \(VaultenConfig.appVersion)")
-                    .font(.caption).foregroundStyle(Theme.faint)
-                    .frame(maxWidth: .infinity)
+                VStack(spacing: Space.s) {
+                    LogoMark(size: 36)
+                    Text("Vaulten \(VaultenConfig.appVersion)").font(.caption).foregroundStyle(Theme.faint)
+                }
+                .frame(maxWidth: .infinity)
             }
         }
         .sheet(item: $sheet) { sheetView($0) }
@@ -52,7 +54,7 @@ struct SettingsView: View {
     private var notificationsGroup: some View {
         let settings = store.s.settings
         return ListGroup(title: "Notifications") {
-            FRToggleRow(icon: "bell", title: "Push notifications", detail: "Replies, payments and milestones", isOn: toggle(\.push, "Push notifications"))
+            FRToggleRow(icon: "bell", title: "Push notifications", detail: "Replies, payments and milestones", isOn: pushBinding)
             FRToggleRow(icon: "calendar.badge.clock", title: "Daily reminders", detail: "A nudge to do today's mission", isOn: toggle(\.dailyReminders, "Daily reminders"))
             FRToggleRow(icon: "calendar.badge.checkmark", title: "Weekly check-ins", detail: "A 3-minute review every 7 days", isOn: toggle(\.weeklyCheckins, "Weekly check-ins"))
             FRToggleRow(icon: "bubble.left.and.bubble.right", title: "Coach messages", detail: "Tips and answers from your coach", isOn: toggle(\.coachMessages, "Coach messages"))
@@ -87,17 +89,20 @@ struct SettingsView: View {
         }
     }
 
-    private var subscriptionDetail: String {
-        let sub = store.s.subscription
-        let planName = MockData.shared.subscription.plans.first { $0.id == sub.plan }?.name
-        switch sub.status {
-        case .active: return "Premium\(planName.map { " · \($0)" } ?? "")"
-        case .expired: return "Expired"
-        case .none: return "Free plan"
-        }
-    }
+    private var subscriptionDetail: String { RevenueCatService.shared.planLabel }
 
     // MARK: Bindings
+
+    private var pushBinding: Binding<Bool> {
+        Binding(
+            get: { store.s.settings.push },
+            set: { v in
+                store.s.settings.push = v
+                Push.setOptedIn(v)
+                store.showToast("Push notifications \(v ? "on" : "off")", v ? .success : .info)
+            }
+        )
+    }
 
     private func toggle(_ key: WritableKeyPath<AppSettings, Bool>, _ title: String) -> Binding<Bool> {
         Binding(

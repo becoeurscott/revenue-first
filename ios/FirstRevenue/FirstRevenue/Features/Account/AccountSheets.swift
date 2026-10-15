@@ -141,20 +141,28 @@ enum AccountLegalDoc: String, Identifiable {
     case privacy, terms
     var id: String { rawValue }
 
-    var title: String { self == .privacy ? "Privacy policy" : "Terms of service" }
-    var summary: String { self == .privacy ? "The short version: your data never leaves this device." : "Plain-language terms for Vaulten." }
+    var title: String { self == .privacy ? "Privacy Policy" : "Terms of Use" }
+    var summary: String {
+        self == .privacy
+            ? "The short version: we collect what we need to run your account and build your plan. We never sell your data or track you across apps."
+            : "The short version: Vaulten is an educational coaching tool. We help you work toward your first online income, but we can't guarantee you'll earn money."
+    }
     var sections: [(String, String)] {
         switch self {
         case .privacy:
-            [("What we collect", "Only what you type into the app: your name, email, onboarding answers, prospects, deals and messages. In this prototype none of it is sent to a server."),
-             ("Where it lives", "Everything is stored in a single file on this device. Deleting the app removes it completely."),
-             ("Who we share it with", "Nobody. There are no analytics, no ad trackers and no third-party SDKs in this build."),
-             ("Your choices", "You can export a copy of your data as JSON or wipe it at any time from Settings → Privacy → Your data.")]
+            [("What we collect", "Your account details (name, email), your onboarding answers (how you want to earn, your niche, time, budget, goal), what you track in the app (missions, notes, numbers, prospects, check-ins), and messages you send to the AI Coach or support. We also collect usage data and crash reports to keep the app working. We never receive your card details; Apple handles payment."),
+             ("How we use it", "To run your account, sync your progress, personalise your plan and AI Coach answers, process your subscription, fix bugs and improve the app. We don't make decisions about you with legal or similar effects."),
+             ("AI processing", "To answer the AI Coach and write your plan, we send the relevant details (your question, journey, niche, stage, goal and progress) to our AI provider, Anthropic, which does not use them to train its models. Please don't share passwords, bank details or health information with the coach."),
+             ("Who we share it with", "Only service providers that run the app for us: our hosting and backend, Anthropic (AI), Vercel (AI hosting), RevenueCat (subscriptions), Apple (payments), PostHog (product analytics) and Sentry (crash reports). We do not sell or rent your personal data, and we don't use it for third-party advertising."),
+             ("Your choices", "You can edit your details in the app, export your data and delete your account from Settings. Deleting your account doesn't cancel an App Store subscription; manage that in your Apple ID settings. Depending on where you live you may have more rights, such as access, correction and objection."),
+             ("Children", "Vaulten is for people aged 18 and over.")]
         case .terms:
-            [("A prototype, not a product", "Vaulten is a demonstration. Every person, business, message and payment you see is fictitious. Checkout is simulated and no payment is ever taken."),
-             ("No income guarantee", "The program teaches a process for finding your first clients. Results depend on your effort, your market and your follow-through. We do not promise earnings."),
-             ("Use it responsibly", "When you contact real people, be honest about who you are, respect opt-outs and follow the rules of the platform you are using. No spam."),
-             ("Subscriptions", "In a live version Premium would renew automatically until cancelled, and you would keep access until the end of the paid period. In this prototype plans only change local state.")]
+            [("No income guarantee", "Plans, lessons, templates, numbers and AI answers are educational. They are not financial, legal, tax or other professional advice. Results depend on you, your market and many things outside our control. Many people earn little or nothing at first."),
+             ("AI can be wrong", "AI Coach answers and AI-written plans can be inaccurate or incomplete. Use your own judgment and check important facts before acting on them."),
+             ("Your responsibilities", "When you contact businesses or creators, publish content, sell or use affiliate links, you act for yourself. Follow the law and every platform's rules: no spam, no false claims, disclose affiliate links and sponsorships, and handle your own taxes."),
+             ("Subscriptions", "Premium and Ultimate are auto-renewing subscriptions bought through the App Store. Payment is charged to your Apple ID at confirmation, and the subscription renews unless you turn off auto-renew at least 24 hours before the period ends. Manage or cancel anytime in Settings > your name > Subscriptions. If a free trial is offered, it turns into a paid subscription unless you cancel before it ends. Refunds are handled by Apple."),
+             ("Our content", "You can use the templates and scripts in your own outreach and business. You may not resell or republish our lessons, plans or templates."),
+             ("Limits", "To the extent the law allows, the app is provided as is, and our liability is limited to what you paid us in the last 12 months. Your rights as a consumer are not affected.")]
         }
     }
 }
@@ -171,7 +179,7 @@ struct AccountLegalSheet: View {
                         Text(s.1).font(.subheadline).foregroundStyle(Theme.muted).lineSpacing(2).fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                Text("Last updated for prototype build 0.9.").font(.caption).foregroundStyle(Theme.faint)
+                Text("Last updated October 14, 2026. This is a summary of the full document.").font(.caption).foregroundStyle(Theme.faint)
             }
         }
     }

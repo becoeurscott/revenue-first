@@ -189,7 +189,7 @@ struct CheckInView: View {
 
     private var analysing: some View {
         VStack(spacing: Space.s) {
-            MascotLoader(label: "Penny is putting together your summary.")
+            MascotLoader(label: "Vault is putting together your summary.")
             Text("Reading your week…").font(.title2.weight(.heavy)).foregroundStyle(Theme.ink).padding(.top, Space.s)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

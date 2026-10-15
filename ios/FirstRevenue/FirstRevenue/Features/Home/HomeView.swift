@@ -6,7 +6,7 @@ struct HomeView: View {
     var body: some View {
         let program = store.program
         let stats = store.stats
-        Screen(title: "\(greeting()), \(store.s.user.firstName.isEmpty ? "there" : store.s.user.firstName)", subtitle: "Day \(program.currentDay) of \(program.totalDays) · \(program.path.name)", large: true) {
+        Screen(title: "\(greeting()), \(store.s.user.firstName.isEmpty ? "there" : store.s.user.firstName)", subtitle: "\(store.month > 1 ? "Month \(store.month) · " : "")Day \(program.currentDay) of \(program.totalDays) · \(program.path.name)", large: true) {
             VStack(alignment: .leading, spacing: Space.xl) {
                 Adaptive2Col(spacing: Space.l) {
                     MissionHero().fadeUp(0)
@@ -37,6 +37,7 @@ struct HomeView: View {
                     currentGoal(stats)
                     yourPath(program, stats: stats)
                 } trailing: {
+                    MomentumCard()
                     milestone(stats)
                     recentWins(stats)
                     mentorCheck
@@ -45,6 +46,7 @@ struct HomeView: View {
             }
         }
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) { LogoMark(size: 30) }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button { store.push(.search) } label: { Image(systemName: "magnifyingglass") }.accessibilityLabel("Search")
                 Button { store.push(.notifications) } label: {

@@ -12,23 +12,51 @@ struct RootView: View {
             if !splashDone {
                 SplashView { withAnimation(.easeInOut(duration: 0.4)) { splashDone = true } }
                     .transition(.opacity)
-            } else if !store.s.authed {
-                AuthFlow().transition(.opacity)
-            } else if !store.s.onboarded {
+            } else if !store.s.onboarded && (store.s.authed || store.s.guest == true) {
+                // One branch for guests and accounts, so signing up at the end doesn't reset the flow.
                 // Journey setup for every account; real accounts on a service journey continue into the backend questionnaire.
                 OnboardingFlow()
                 .transition(.move(edge: .trailing).combined(with: .opacity))
+            } else if !store.s.authed {
+                AuthFlow().transition(.opacity)
             } else {
+                // Non-subscribers explore the app; starting anything opens the paywall.
                 MainTabView().transition(.opacity)
             }
         }
         .animation(.easeInOut(duration: 0.35), value: store.s.authed)
         .animation(.easeInOut(duration: 0.35), value: store.s.onboarded)
         .overlay { ToastOverlay() }
-        .sheet(item: Binding(get: { store.paywallFeature.map(IdentifiedString.init) }, set: { store.paywallFeature = $0?.value })) { f in
+        // While a full-screen cover is up, the cover presents the paywall itself (iOS can't show a sheet under it).
+        .paywallPresenter(active: store.cover == nil)
+    }
+}
+
+/// Presents the paywall whenever `store.paywallFeature` is set, from whichever screen is on top.
+private struct PaywallPresenter: ViewModifier {
+    let active: Bool
+    @Environment(AppStore.self) private var store
+
+    func body(content: Content) -> some View {
+        content.sheet(item: Binding(get: { active ? store.paywallFeature.map(IdentifiedString.init) : nil },
+                                    set: { if active { store.paywallFeature = $0?.value } })) { f in
             PaywallSheet(feature: f.value)
+                .environment(store)
+                .preferredColorScheme(store.s.settings.darkMode ? .dark : .light)
+        }
+        // The gift popups (discount offers) float over the current screen.
+        .fullScreenCover(item: Binding(get: { active ? OfferCenter.shared.current : nil },
+                                       set: { if active, $0 == nil { OfferCenter.shared.current = nil } })) { presentation in
+            OfferFlowView(presentation: presentation)
+                .environment(store)
+                .preferredColorScheme(store.s.settings.darkMode ? .dark : .light)
+                .presentationBackground(.clear)
         }
     }
+}
+
+extension View {
+    fileprivate func paywallPresenter(active: Bool) -> some View { modifier(PaywallPresenter(active: active)) }
 }
 
 struct IdentifiedString: Identifiable { let value: String; var id: String { value } }
@@ -42,7 +70,7 @@ struct MainTabView: View {
         TabView(selection: $store.tab) {
             Tab("Home", systemImage: "house.fill", value: AppTab.home) { stack(.home) { HomeView() } }
             Tab("Plan", systemImage: "calendar.badge.checkmark", value: AppTab.plan) { stack(.plan) { PlanView() } }
-            Tab("Coach", systemImage: "sparkles", value: AppTab.coach) { stack(.coach) { CoachView().premiumLocked("the AI Coach") } }
+            Tab("Coach", systemImage: "sparkles", value: AppTab.coach) { stack(.coach) { CoachView().premiumLocked(store.canUseCoach ? nil : "the AI Coach") } }
             Tab("Progress", systemImage: "chart.bar.fill", value: AppTab.progress) { stack(.progress) { ProgressScreen().premiumLocked("your progress") } }
             Tab("Profile", systemImage: "person.fill", value: AppTab.profile) { stack(.profile) { ProfileView() } }
                 .badge(store.unreadCount)
@@ -75,13 +103,25 @@ struct MainTabView: View {
                 case .mission(let day): MissionView(day: day).premiumLocked(store.isDayPremiumLocked(day) ? "the full 30-day plan" : nil)
                 case .checkIn: CheckInView()
                 case .complete: CompleteView()
+                case .programUnlock: InAppProgramUnlock()
                 }
             }
             .environment(store)
             .preferredColorScheme(store.s.settings.darkMode ? .dark : .light)
             .overlay { ToastOverlay() }
+            .paywallPresenter(active: true)
         }
         .overlay(alignment: .top) { OfflineBanner() }
+        // Week 1 is written for everyone; when Premium arrives (here or during onboarding) the unlock
+        // animation plays once and the rest of the program is written. Re-checked when a cover closes.
+        .task(id: "\(store.journey.id.rawValue)-\(store.isPremium)-\(store.cover == nil)") {
+            guard store.cover == nil else { return }
+            if store.shouldCelebrateUnlock {
+                store.cover = .programUnlock
+            } else {
+                await store.syncProgram()
+            }
+        }
     }
 
     private func sidebarTab<Root: View>(_ title: String, _ icon: String, _ tab: AppTab, @ViewBuilder root: @escaping () -> Root) -> some TabContent<AppTab> {
@@ -134,11 +174,11 @@ struct RouteView: View {
         }
     }
 
-    /// On the free plan only Day 1, its lesson, and account screens stay open.
+    /// On the free plan only Week 1, its lessons, and account screens stay open.
     private var lockedFeature: String? {
         switch route {
         case .day, .notifications, .settings, .subscription, .help: nil
-        case .lesson(let id): MockData.day(store.s.pathId, 1)?.lessonId == id ? nil : "all lessons"
+        case .lesson(let id): MockData.plan(store.s.pathId).contains { !store.isDayPremiumLocked($0.day) && $0.lessonId == id } ? nil : "all lessons"
         case .lessons: "all lessons"
         case .coachConversation: "the AI Coach"
         case .outreach, .prospect, .generate: "prospects & outreach"
