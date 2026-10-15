@@ -21,6 +21,8 @@ struct PlanPaywallView: View {
     @State private var failure: String?
     @State private var shakes: CGFloat = 0
     @State private var legal: AccountLegalDoc?
+    /// True once a load attempt has finished, so an empty result shows a message instead of spinning forever.
+    @State private var loaded = false
 
     private var revenueCat: RevenueCatService { RevenueCatService.shared }
     private var packages: [Package] {
@@ -69,10 +71,7 @@ struct PlanPaywallView: View {
             footer
         }
         .background(Theme.bg.ignoresSafeArea())
-        .task {
-            if revenueCat.offerings == nil { await revenueCat.load() }
-            await checkEligibility()
-        }
+        .task { await reload(force: false) }
         .onChange(of: tier) { _, _ in selectedId = nil; failure = nil }
         // A purchase that was waiting for approval went through: unlock right away.
         .onChange(of: revenueCat.isPro) { _, pro in if pro { onUnlocked() } }
@@ -140,11 +139,13 @@ struct PlanPaywallView: View {
     }
 
     @ViewBuilder private var loadingOrError: some View {
-        if let error = revenueCat.errorMessage {
+        if loaded && !revenueCat.isLoading {
             VStack(spacing: Space.m) {
-                Label(error, systemImage: "exclamationmark.circle.fill").font(.footnote).foregroundStyle(Theme.danger)
-                Button("Try again") { Task { await revenueCat.load(); await checkEligibility() } }.buttonStyle(.fr(.secondary))
+                Label(revenueCat.errorMessage ?? "The plans couldn't be loaded from the App Store right now.", systemImage: "exclamationmark.circle.fill")
+                    .font(.footnote).foregroundStyle(Theme.danger).multilineTextAlignment(.center)
+                Button("Try again") { Task { await reload(force: true) } }.buttonStyle(.fr(.secondary))
             }
+            .padding(.vertical, Space.l)
         } else {
             ProgressView().controlSize(.large).tint(Theme.brand300).padding(.vertical, Space.xl)
         }
@@ -225,6 +226,24 @@ struct PlanPaywallView: View {
     }
 
     // MARK: Actions
+
+    /// Loads the plans (again if forced or if the cached offering is empty), at most ~15 s, then checks trials.
+    private func reload(force: Bool) async {
+        loaded = false
+        if force || packages.isEmpty {
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { @MainActor in await RevenueCatService.shared.load() }
+                group.addTask { try? await Task.sleep(for: .seconds(15)) }
+                await group.next()
+                group.cancelAll()
+            }
+        }
+        if packages.isEmpty {
+            Monitoring.track("paywall_no_packages", ["offering": revenueCat.offerings?.current?.identifier ?? "none", "error": revenueCat.errorMessage ?? ""])
+        }
+        loaded = true
+        await checkEligibility()
+    }
 
     private func checkEligibility() async {
         let all = revenueCat.offerings?.current?.availablePackages.map(\.storeProduct) ?? []
