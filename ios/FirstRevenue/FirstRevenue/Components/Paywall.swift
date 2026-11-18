@@ -97,6 +97,8 @@ struct PremiumGate<Content: View>: View {
 /// Pass `nil` to leave a screen open on the free plan.
 struct PremiumLock: ViewModifier {
     let feature: String?
+    /// Set for full-screen covers: the blurred screen's own close button can't be tapped, so the lock adds one.
+    var onClose: (() -> Void)? = nil
     @Environment(AppStore.self) private var store
 
     func body(content: Content) -> some View {
@@ -106,6 +108,17 @@ struct PremiumLock: ViewModifier {
                 .allowsHitTesting(false)
                 .accessibilityHidden(true)
                 .overlay { upsell(feature) }
+                .overlay(alignment: .topLeading) {
+                    if let onClose {
+                        Button { Haptics.tap(); onClose() } label: {
+                            Image(systemName: "xmark").font(.system(size: 17, weight: .bold)).foregroundStyle(Theme.ink)
+                                .frame(width: 44, height: 44)
+                                .background(Circle().fill(Theme.bgRaised))
+                        }
+                        .accessibilityLabel("Close")
+                        .padding(.leading, Space.m).padding(.top, Space.s)
+                    }
+                }
         } else {
             content
         }
@@ -120,6 +133,10 @@ struct PremiumLock: ViewModifier {
                 .font(.subheadline).foregroundStyle(Theme.muted).multilineTextAlignment(.center).frame(maxWidth: 300)
             Button { store.paywallFeature = feature } label: { Text("Start My Plan") }
                 .buttonStyle(.chunky()).padding(.top, 4)
+            if let onClose {
+                Button("Not now") { onClose() }
+                    .font(.subheadline.weight(.semibold)).foregroundStyle(Theme.muted)
+            }
         }
         .padding(Space.xl)
         .background(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).fill(Theme.bgRaised.opacity(0.92)))
@@ -130,5 +147,5 @@ struct PremiumLock: ViewModifier {
 }
 
 extension View {
-    func premiumLocked(_ feature: String?) -> some View { modifier(PremiumLock(feature: feature)) }
+    func premiumLocked(_ feature: String?, onClose: (() -> Void)? = nil) -> some View { modifier(PremiumLock(feature: feature, onClose: onClose)) }
 }

@@ -135,42 +135,45 @@ struct BiometricLockView: View {
     }
 }
 
-/// Shown once, right after the account is created.
+/// Shown once after the account is created, as a card over the home screen. It waits until the paywall
+/// and gift popups are closed (RootView decides), so it never fights another sheet.
 struct BiometricOfferView: View {
-    @Environment(\.dismiss) private var dismiss
     private let lock = BiometricLock.shared
     @State private var working = false
 
     var body: some View {
-        VStack(spacing: Space.l) {
-            Image(systemName: lock.icon)
-                .font(.system(size: 56))
-                .foregroundStyle(Theme.brand500)
-                .padding(.top, Space.xl)
-            Text("Sign in with \(lock.name)?").font(.title2.weight(.bold)).multilineTextAlignment(.center)
-            Text("Open Vaulten with a glance instead of typing your password. You can change this anytime in Settings.")
-                .font(.body).foregroundStyle(Theme.faint).multilineTextAlignment(.center)
-            Spacer(minLength: 0)
-            Button {
-                working = true
-                Task {
-                    let ok = await lock.enable()
-                    working = false
-                    if ok { Haptics.notify(.success); dismiss() }
+        ZStack {
+            Color.black.opacity(0.55).ignoresSafeArea()
+            VStack(spacing: Space.l) {
+                Image(systemName: lock.icon)
+                    .font(.system(size: 52))
+                    .foregroundStyle(Theme.brand500)
+                Text("Sign in with \(lock.name)?").font(.title2.weight(.bold)).multilineTextAlignment(.center)
+                Text("Open Vaulten with a glance instead of typing your password. You can change this anytime in Settings.")
+                    .font(.body).foregroundStyle(Theme.faint).multilineTextAlignment(.center)
+                Button {
+                    working = true
+                    Task {
+                        let ok = await lock.enable()
+                        working = false
+                        if ok { Haptics.notify(.success) }
+                        withAnimation { lock.offerPending = false }
+                    }
+                } label: { Text("Turn on \(lock.name)") }
+                    .buttonStyle(.chunky())
+                    .disabled(working)
+                Button("Not now") {
+                    Monitoring.track("biometric_declined")
+                    withAnimation { lock.offerPending = false }
                 }
-            } label: { Text("Turn on \(lock.name)") }
-                .buttonStyle(.chunky())
-                .disabled(working)
-            Button("Not now") {
-                Monitoring.track("biometric_declined")
-                dismiss()
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Theme.faint)
             }
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(Theme.faint)
-            .padding(.bottom, Space.l)
+            .padding(Space.xl)
+            .background(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).fill(Theme.bgRaised))
+            .padding(.horizontal, Space.xl)
+            .frame(maxWidth: 460)
         }
-        .padding(.horizontal, Space.xl)
-        .presentationDetents([.medium])
-        .presentationDragIndicator(.visible)
+        .transition(.opacity)
     }
 }

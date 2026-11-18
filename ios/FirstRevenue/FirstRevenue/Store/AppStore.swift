@@ -260,6 +260,7 @@ final class AppStore {
     /// a different account starts fresh (the server is the source of truth for identity).
     func signedIn(_ user: AuthUser, enrollment: Enrollment? = nil) {
         Task { await RevenueCatService.shared.identify(appUserID: user.id) }
+        BackendSync.ensureEnglish()
         let name = [user.firstName, user.lastName].compactMap { $0 }.joined(separator: " ")
         if s.account == nil, s.guest == true {
             // A guest finishing onboarding: keep everything they answered and attach the new account.

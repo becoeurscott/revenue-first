@@ -31,7 +31,8 @@ private struct LoginResponse: Decodable {
     let user: AuthUser?
 }
 
-private struct RegisterBody: Encodable { let email, password, timeZone: String; let firstName, lastName: String? }
+/// `locale` is always "en": the app is English-only, and the API writes the AI program and emails in this language (default fr).
+private struct RegisterBody: Encodable { let email, password, timeZone: String; let firstName, lastName: String?; var locale = "en" }
 private struct VerifyBody: Encodable { let email, code, deviceLabel: String }
 private struct LoginBody: Encodable { let email, password, deviceLabel: String }
 private struct EmailBody: Encodable { let email: String }

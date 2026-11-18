@@ -35,7 +35,13 @@ struct RootView: View {
             }
         }
         .overlay { ToastOverlay() }
-        .sheet(isPresented: Bindable(BiometricLock.shared).offerPending) { BiometricOfferView() }
+        .overlay {
+            // After sign-up: wait for the onboarding paywall and the gift popups to close first.
+            if BiometricLock.shared.offerPending, store.s.authed, store.s.onboarded, !BiometricLock.shared.locked,
+               store.paywallFeature == nil, OfferCenter.shared.current == nil {
+                BiometricOfferView()
+            }
+        }
         // While a full-screen cover is up, the cover presents the paywall itself (iOS can't show a sheet under it).
         .paywallPresenter(active: store.cover == nil)
     }
@@ -109,7 +115,8 @@ struct MainTabView: View {
         .fullScreenCover(item: $store.cover) { cover in
             Group {
                 switch cover {
-                case .mission(let day): MissionView(day: day).premiumLocked(store.isDayPremiumLocked(day) ? "the full 30-day plan" : nil)
+                case .mission(let day): MissionView(day: day).premiumLocked(store.isDayPremiumLocked(day) ? "the full 30-day plan" : nil,
+                                                                       onClose: { store.cover = nil })
                 case .checkIn: CheckInView()
                 case .complete: CompleteView()
                 case .programUnlock: InAppProgramUnlock()

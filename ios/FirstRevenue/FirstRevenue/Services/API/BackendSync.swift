@@ -4,6 +4,15 @@ import Foundation
 /// AI program, the goal and per-journey data. Every call is best effort: on failure the app keeps working
 /// on the device.
 enum BackendSync {
+    /// Accounts created before sign-up sent `locale` default to French on the API, which then writes the AI program,
+    /// coach replies and emails in French. The app is English-only, so align it on every sign-in.
+    static func ensureEnglish() {
+        struct Body: Encodable { let locale = "en" }
+        Task {
+            let _: Empty? = try? await VaultenAPI.shared.send("PATCH", "users/me", body: Body())
+        }
+    }
+
     private struct Enrollment: Decodable { let id: String; let journeyId: String; let status: String? }
     private struct CreateBody: Encodable {
         let id: String?

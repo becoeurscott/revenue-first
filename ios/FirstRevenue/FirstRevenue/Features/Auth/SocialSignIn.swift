@@ -6,7 +6,8 @@ import CryptoKit
 /// iOS client ID is set.
 enum AuthProviders {
     /// Needs the "Sign in with Apple" capability (FirstRevenue.entitlements) and APPLE_CLIENT_IDS=com.vaulten.app on the API.
-    static let appleEnabled = true
+    /// Off until the API answers /auth/social/apple (it returns 503 SOCIAL_LOGIN_UNAVAILABLE while APPLE_BUNDLE_ID / APPLE_TEAM_ID are missing).
+    static let appleEnabled = false
     /// The iOS OAuth client ID from Google Cloud ("….apps.googleusercontent.com"). Nil hides the button.
     static let googleClientID: String? = nil
 
