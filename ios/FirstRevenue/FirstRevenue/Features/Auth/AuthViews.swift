@@ -158,9 +158,13 @@ private struct AuthScaffold<Content: View, Footer: View>: View {
                 .frame(maxWidth: .infinity)
         }
         .scrollDismissesKeyboard(.interactively)
+        // The footer link stays at the bottom (behind the keyboard while typing) on a solid strip,
+        // so it never floats over the fields or the terms checkbox.
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: Space.s) { footer }.frame(maxWidth: 440).padding(.horizontal, Space.xl).padding(.bottom, Space.s).frame(maxWidth: .infinity)
+            VStack(spacing: Space.s) { footer }.frame(maxWidth: 440).padding(.horizontal, Space.xl).padding(.vertical, Space.s).frame(maxWidth: .infinity)
+                .background(Theme.bg.ignoresSafeArea())
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .background {
             ZStack(alignment: .top) {
                 Theme.bg

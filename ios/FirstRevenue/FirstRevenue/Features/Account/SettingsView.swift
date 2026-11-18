@@ -13,6 +13,9 @@ struct SettingsView: View {
     @State private var exportPassword = ""
     @State private var exportFile: ExportFile?
     @State private var exporting = false
+    @State private var askDelete = false
+    @State private var deletePassword = ""
+    @State private var deleting = false
 
     private static let reminderTimes = ["7:00 AM", "8:00 AM", "9:00 AM", "12:00 PM", "6:00 PM", "8:00 PM", "9:00 PM"]
     private static let languages = ["English", "Español", "Français", "Deutsch", "Português"]
@@ -48,6 +51,13 @@ struct SettingsView: View {
             Button("Download") { Task { await runExport() } }
         } message: {
             Text("Enter your password to download everything stored on your Vaulten account.")
+        }
+        .alert("Delete your account?", isPresented: $askDelete) {
+            SecureField("Password", text: $deletePassword)
+            Button("Cancel", role: .cancel) { deletePassword = "" }
+            Button("Delete account", role: .destructive) { Task { await runDelete() } }
+        } message: {
+            Text("This permanently deletes your Vaulten account, plan and progress. It can't be undone. An App Store subscription isn't cancelled automatically; manage it in your Apple ID settings. Enter your password to confirm.")
         }
         .sheet(item: $exportFile) { file in
             VStack(spacing: Space.l) {
@@ -113,9 +123,26 @@ struct SettingsView: View {
         exporting = true
         defer { exporting = false }
         do { exportFile = ExportFile(url: try await BackendSync.exportAccount(password: password)) }
-        catch BackendSync.ExportFailure.wrongPassword { store.showToast("Wrong password") }
-        catch BackendSync.ExportFailure.tooMany { store.showToast("Too many exports. Try again in an hour.") }
-        catch { store.showToast("Couldn't download your data. Try again later.") }
+        catch BackendSync.ExportFailure.wrongPassword { store.showToast("Wrong password", .error) }
+        catch BackendSync.ExportFailure.tooMany { store.showToast("Too many exports. Try again in an hour.", .error) }
+        catch { store.showToast("Couldn't download your data. Try again later.", .error) }
+    }
+
+    private func runDelete() async {
+        let password = deletePassword
+        deletePassword = ""
+        guard !password.isEmpty else { return }
+        deleting = true
+        defer { deleting = false }
+        do {
+            try await AuthAPI.deleteAccount(password: password)
+            Monitoring.track("account_deleted")
+            store.logout()
+            store.showToast("Your account was deleted")
+        }
+        catch AuthAPI.DeleteFailure.wrongPassword { store.showToast("Wrong password", .error) }
+        catch AuthAPI.DeleteFailure.tooMany { store.showToast("Too many attempts. Try again later.", .error) }
+        catch { store.showToast("Couldn't delete your account. Try again or contact support.", .error) }
     }
 
     private var securityGroup: some View {
@@ -126,6 +153,9 @@ struct SettingsView: View {
             }
             FRToggleRow(icon: "lock.shield", title: "Two-factor authentication", detail: twoFactor ? "On · Code sent by email" : "Off", isOn: twoFactorBinding)
             ListRow(icon: "laptopcomputer.and.iphone", title: "Active sessions", detail: "Manage signed-in devices") { sheet = .sessions }
+            if store.s.authed {
+                ListRow(icon: "trash", title: "Delete account", detail: deleting ? "Deleting…" : "Permanently remove your account and data") { askDelete = true }
+            }
         }
     }
 

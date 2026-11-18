@@ -33,10 +33,13 @@ struct Screen<Content: View>: View {
             .frame(maxWidth: .infinity)
         }
         .scrollDismissesKeyboard(.interactively)
+        .hardScrollEdges()
         .background(Theme.bg.ignoresSafeArea())
         .navigationTitle(large ? "" : title)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Theme.bg.opacity(0.9), for: .navigationBar)
+        // Solid bar behind the title and toolbar buttons, so scrolled content never shows through them.
+        .toolbarBackground(Theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
@@ -94,4 +97,11 @@ struct FadeUp: ViewModifier {
 extension View {
     /// Card-entrance animation. Pass an index to stagger lists.
     func fadeUp(_ index: Int = 0) -> some View { modifier(FadeUp(delay: min(Double(index), 6) * 0.05)) }
+}
+
+extension View {
+    /// iOS 26: a hard edge under the floating tab bar and nav bar, so scrolled text doesn't show through the glass.
+    @ViewBuilder func hardScrollEdges() -> some View {
+        if #available(iOS 26.0, *) { self.scrollEdgeEffectStyle(.hard, for: .all) } else { self }
+    }
 }

@@ -41,6 +41,22 @@ private struct ResetBody: Encodable { let email, code, newPassword: String }
 private struct SocialBody: Encodable { let idToken: String; let nonce: String?; let timeZone: String; let firstName, lastName: String?; let deviceLabel: String }
 
 enum AuthAPI {
+    enum DeleteFailure: Error { case wrongPassword, tooMany, other }
+
+    /// DELETE /users/me: irreversible. Needs the current password; all sessions are revoked afterwards.
+    static func deleteAccount(password: String) async throws {
+        struct Body: Encodable { let password: String }
+        do {
+            let _: Empty? = try await VaultenAPI.shared.send("DELETE", "users/me", body: Body(password: password))
+        } catch let e as APIError {
+            switch e.code {
+            case "REAUTHENTICATION_REQUIRED", "INVALID_CREDENTIALS", "INVALID_PASSWORD", "WRONG_PASSWORD": throw DeleteFailure.wrongPassword
+            case "RATE_LIMITED", "TOO_MANY_REQUESTS": throw DeleteFailure.tooMany
+            default: throw DeleteFailure.other
+            }
+        }
+    }
+
     private static var deviceLabel: String { "Vaulten iOS" }
 
     static func register(name: String, email: String, password: String) async throws -> RegisteredAccount {
