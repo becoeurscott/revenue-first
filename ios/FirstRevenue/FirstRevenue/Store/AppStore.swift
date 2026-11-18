@@ -112,6 +112,13 @@ final class AppStore {
     var cover: Cover?
     var toast: Toast?
     var paywallFeature: String?
+    /// Someone answered "Under 18" in onboarding. Kept outside the snapshot so logging out or starting over
+    /// doesn't lift it on this phone.
+    /// Debug builds (Xcode, simulator) start unblocked on every launch so the flow can be tested again;
+    /// TestFlight and App Store builds keep the block.
+    var ageBlocked = AppStore.debugBuild ? false : UserDefaults.standard.bool(forKey: "vaulten.ageBlocked") {
+        didSet { UserDefaults.standard.set(ageBlocked, forKey: "vaulten.ageBlocked") }
+    }
     /// The program write in flight, so the plan tab and the unlock screen share one run.
     var programTask: Task<Void, Never>?
 
@@ -148,6 +155,7 @@ final class AppStore {
     // MARK: Persistence
 
     private func scheduleSave() {
+        syncReminders()
         saveTask?.cancel()
         let snapshot = s
         let url = fileURL
@@ -157,6 +165,12 @@ final class AppStore {
             try? data.write(to: url, options: .atomic)
         }
     }
+
+    #if DEBUG
+    static let debugBuild = true
+    #else
+    static let debugBuild = false
+    #endif
 
     static func fresh() -> Snapshot {
         var user = MockData.shared.user
@@ -297,6 +311,14 @@ final class AppStore {
 
     /// "Get started" on the welcome screen: onboarding first, account at the end.
     func startGuest() {
+        // Signed out but still holding a previous account's finished onboarding (saves from before logout cleared
+        // them): start the new guest from a clean slate, or onboarding would be skipped and nothing would happen.
+        if !s.authed, s.onboarded {
+            let settings = s.settings
+            s = AppStore.fresh()
+            s.settings = settings
+            paths = [:]
+        }
         s.guest = true
         Monitoring.track("onboarding_started", ["as": "guest"])
     }
@@ -307,10 +329,19 @@ final class AppStore {
     func logout() {
         if s.account != nil { Task { await AuthAPI.logout() } }
         Task { try? await Purchases.shared.logOut() }
+        RevenueCatService.shared.clearBackendEntitlement()
         Monitoring.track("signed_out")
+        BiometricLock.shared.reset()
         Monitoring.reset()
         Push.reset()
-        s.authed = false; paths = [:]; cover = nil
+        // Start over clean: the next person on this phone gets the welcome screen and a fresh onboarding,
+        // not the previous account's plan. Display preferences (dark mode, sounds) stay.
+        let settings = s.settings
+        s = AppStore.fresh()
+        s.settings = settings
+        paths = [:]; cover = nil; tab = .home; paywallFeature = nil
+        OfferCenter.shared.cancelTimers()
+        OfferCenter.shared.current = nil
     }
 
     // MARK: Journeys
@@ -538,9 +569,9 @@ final class AppStore {
         s.xp += 25
         Monitoring.track("lesson_completed", ["lesson_id": id])
     }
-    func toggleSavedLesson(_ id: String) { s.savedLessons.toggle(id) }
+    func toggleSavedLesson(_ id: String) { s.savedLessons.toggle(id); BackendSync.setSaved(kind: "lesson", id: id, saved: s.savedLessons.contains(id)) }
     func touchLesson(_ id: String) { s.recentLessons = Array(([id] + s.recentLessons.filter { $0 != id }).prefix(8)) }
-    func toggleSavedResource(_ id: String) { s.savedResources.toggle(id) }
+    func toggleSavedResource(_ id: String) { s.savedResources.toggle(id); BackendSync.setSaved(kind: "resource", id: id, saved: s.savedResources.contains(id)) }
     func toggleChecklistItem(resource: String, item: String) {
         var items = s.checklistState[resource] ?? []
         items.toggle(item)
@@ -627,6 +658,22 @@ final class AppStore {
     }
 
     // MARK: Notifications
+
+    /// Keeps the on-device reminders in step with settings and progress (cheap: replans only on change).
+    func syncReminders(force: Bool = false) {
+        let program = self.program
+        Reminders.sync(force: force, .init(
+            enabled: s.authed && s.onboarded,
+            daily: s.settings.dailyReminders,
+            weekly: s.settings.weeklyCheckins,
+            time: s.settings.reminderTime,
+            currentDay: program.currentDay,
+            todayDone: program.todayDone,
+            finished: program.finished,
+            todayTitle: program.today.missionTitle,
+            lastCheckIn: s.checkins.map(\.date).max()
+        ))
+    }
 
     /// A push the user tapped: keep it in the inbox (already read) and go to its screen.
     func receivePush(_ push: OpenedPush) {

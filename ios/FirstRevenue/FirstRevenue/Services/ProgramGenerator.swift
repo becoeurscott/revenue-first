@@ -121,6 +121,8 @@ enum ProgramAPI {
             /// Month of the journey (1 = first plan) and what this month is aimed at, from the last review.
             let month: Int
             let focus: String
+            /// The route answers ("Video format: Shorts first", "Faceless") and their plan notes, so the missions fit them.
+            let setup: [String]
         }
         struct Day: Encodable { let day, week: Int; let theme, mission, goal: String }
         struct Header: Encodable { let title, summary: String }
@@ -133,6 +135,13 @@ enum ProgramAPI {
     }
 
     static func write(_ scope: Scope, enrollment e: JourneyEnrollment, name: String, plan: [DayPlan], header: GeneratedProgram?) async throws -> Written {
+        // Without the Vercel override, the backend writes the program from its own copy of the journey.
+        if VaultenConfig.aiOverride == nil {
+            if let w = await BackendSync.generateProgram(for: e) {
+                return scope == .preview ? Written(title: w.title, summary: w.summary, weeks: w.weeks.filter { $0.week == 1 }, days: w.days.filter { $0.day <= GeneratedProgram.freeDays }) : w
+            }
+            throw Failure.http(0)
+        }
         guard let base = VaultenConfig.aiBaseURL else { throw Failure.notConfigured }
         guard await VaultenAPI.shared.hasStoredSession else { throw Failure.signedOut }
         let token = try await VaultenAPI.shared.bearerToken()
@@ -148,7 +157,8 @@ enum ProgramAPI {
                 startingStage: e.startingStage.rawValue,
                 constraints: .init(weeklyTime: a.weeklyTime, budget: a.budget, equipment: a.equipment, skills: a.skills, location: a.location),
                 name: name, goal: e.goal.label, currentDay: nil, currentMission: "", metrics: [:],
-                month: e.month ?? 1, focus: e.focus ?? ""),
+                month: e.month ?? 1, focus: e.focus ?? "",
+                setup: Journeys.setupSummary(a, method: e.journeyId).map { "\($0.label): \($0.value)" } + Journeys.planNotes(a, method: e.journeyId)),
             plan: plan.map { .init(day: $0.day, week: $0.week, theme: $0.theme, mission: $0.missionTitle, goal: $0.goal) },
             program: header.map { .init(title: $0.title, summary: $0.summary) },
             ai: .init(distinctId: "enrollment:\(e.id)", sessionId: UUID().uuidString, traceId: UUID().uuidString)

@@ -10,6 +10,7 @@ import { Badge, Btn, Card, DataState, Notice, Toggle, fmtDate } from "@/componen
 
 const GROUPS: [string, string, string][] = [
   ["lessons", "Lessons & video", "How lessons are completed, including the watch-percentage gate."],
+  ["videos", "Lesson videos", "YouTube videos played inside the app, with watch tracking."],
   ["missions", "Missions", "Daily plan behaviour."],
   ["progress", "Progress & XP", "Levels, streaks and milestones."],
   ["xp", "XP rewards", "Points per action."],

@@ -17,7 +17,7 @@ export const TOOLS: Tool[] = ["PROSPECTS", "GBP_AUDITS", "OUTREACH_TEMPLATES", "
 export interface AdminPath { id: string; slug: string; name: string; tagline: string; description: string; position: number; tools: Tool[]; status: ContentStatus; createdAt: string; updatedAt: string }
 export interface PathWeek { id: string; number: number; title: string; objective: string; position: number; createdAt: string; updatedAt: string }
 export interface AdminPathDetail extends AdminPath { weeks: PathWeek[] }
-export interface AdminLesson { id: string; pathId: string; weekId: string; slug: string; title: string; summary: string; content: string; videoUrl: string | null; durationMinutes: number | null; xpReward: number; position: number; status: ContentStatus; createdAt: string; updatedAt: string; minWatchPercent?: number | null; instructor?: string | null; category?: string | null }
+export interface AdminLesson { id: string; pathId: string; weekId: string; slug: string; title: string; summary: string; content: string; videoUrl: string | null; videoSnapshot?: VideoSnapshot | null; durationMinutes: number | null; xpReward: number; position: number; status: ContentStatus; createdAt: string; updatedAt: string; minWatchPercent?: number | null; instructor?: string | null; category?: string | null }
 export type ResourceType = "GUIDE" | "TEMPLATE" | "CHECKLIST" | "VIDEO" | "LINK" | "TOOL";
 export const RESOURCE_TYPES: ResourceType[] = ["GUIDE", "TEMPLATE", "CHECKLIST", "VIDEO", "LINK", "TOOL"];
 export interface AdminResource { id: string; pathId: string; lessonId: string | null; type: ResourceType; title: string; slug: string; position: number; status: ContentStatus; createdAt: string; updatedAt: string; description?: string | null }
@@ -65,3 +65,6 @@ export interface SupportMessage { id: string; ticketNumber: number; kind: Suppor
 export interface SupportUserSummary { id: string; name: string; email: string; plan: string | null; journey: string | null; accountStatus: AccountStatus; createdAt: string }
 export interface SupportMessageDetail extends SupportMessage { replies: SupportReply[]; user: SupportUserSummary | null }
 export interface SupportPage { data: SupportMessage[]; meta: PageMeta & { counts: Record<SupportStatus, number> } }
+
+export interface VideoSnapshot { title: string; channelTitle: string; durationSeconds: number; thumbnailUrl: string; fetchedAt?: string }
+export interface VideoCandidate { videoId: string; title: string; channelTitle: string; durationSeconds: number; thumbnailUrl: string; url: string }

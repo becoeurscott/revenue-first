@@ -16,7 +16,7 @@ export function MissionComplete({ plan, streak, lesson }: { plan: DayPlan; strea
       <div aria-hidden className="pointer-events-none absolute top-1/4 left-1/2 size-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-600/25 blur-[100px]" />
       <div className="safe-top safe-bottom relative flex w-full max-w-md flex-col items-center px-6 text-center">
         <div className="flex flex-1 flex-col items-center justify-center py-10">
-          <Mascot mood="excited" size={170} tapLines={['We did it!', 'That is how first clients happen.', 'Same time tomorrow?']} />
+          <Mascot mood="excited" size={170} tapLines={['We did it!', 'That is how first clients happen.', 'Same time tomorrow?']} entrance="celebrate" />
           <h1 className="mt-6 animate-scale-in text-[34px] leading-none font-extrabold tracking-tight uppercase"><span className="text-brand-gradient">Mission complete</span> 🎉</h1>
           <p className="mt-3 animate-fade-up text-base text-muted [animation-delay:150ms]">Day {plan.day} completed.</p>
 

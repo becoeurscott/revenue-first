@@ -12,6 +12,8 @@ struct RootView: View {
             if !splashDone {
                 SplashView { withAnimation(.easeInOut(duration: 0.4)) { splashDone = true } }
                     .transition(.opacity)
+            } else if store.ageBlocked {
+                AgeBlockedView().transition(.opacity)
             } else if !store.s.onboarded && (store.s.authed || store.s.guest == true) {
                 // One branch for guests and accounts, so signing up at the end doesn't reset the flow.
                 // Journey setup for every account; real accounts on a service journey continue into the backend questionnaire.
@@ -26,7 +28,14 @@ struct RootView: View {
         }
         .animation(.easeInOut(duration: 0.35), value: store.s.authed)
         .animation(.easeInOut(duration: 0.35), value: store.s.onboarded)
+        .animation(.easeInOut(duration: 0.35), value: store.ageBlocked)
+        .overlay {
+            if BiometricLock.shared.locked && store.s.authed && splashDone {
+                BiometricLockView().transition(.opacity)
+            }
+        }
         .overlay { ToastOverlay() }
+        .sheet(isPresented: Bindable(BiometricLock.shared).offerPending) { BiometricOfferView() }
         // While a full-screen cover is up, the cover presents the paywall itself (iOS can't show a sheet under it).
         .paywallPresenter(active: store.cover == nil)
     }

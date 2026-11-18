@@ -9,6 +9,10 @@ struct SettingsView: View {
     @Environment(AppStore.self) private var store
     @State private var sheet: SettingsSheet?
     @State private var twoFactor = false
+    @State private var askExportPassword = false
+    @State private var exportPassword = ""
+    @State private var exportFile: ExportFile?
+    @State private var exporting = false
 
     private static let reminderTimes = ["7:00 AM", "8:00 AM", "9:00 AM", "12:00 PM", "6:00 PM", "8:00 PM", "9:00 PM"]
     private static let languages = ["English", "Español", "Français", "Deutsch", "Português"]
@@ -38,6 +42,23 @@ struct SettingsView: View {
             }
         }
         .sheet(item: $sheet) { sheetView($0) }
+        .alert("Download account data", isPresented: $askExportPassword) {
+            SecureField("Password", text: $exportPassword)
+            Button("Cancel", role: .cancel) { exportPassword = "" }
+            Button("Download") { Task { await runExport() } }
+        } message: {
+            Text("Enter your password to download everything stored on your Vaulten account.")
+        }
+        .sheet(item: $exportFile) { file in
+            VStack(spacing: Space.l) {
+                Image(systemName: "doc.text").font(.system(size: 40)).foregroundStyle(Theme.ink)
+                Text("Your account data is ready").font(.section)
+                ShareLink(item: file.url) { Label("Save or share", systemImage: "square.and.arrow.up") }
+                    .buttonStyle(.fr(.primary, size: .lg, full: true))
+            }
+            .padding(Space.xl)
+            .presentationDetents([.medium])
+        }
     }
 
     // MARK: Groups
@@ -79,11 +100,30 @@ struct SettingsView: View {
                 ListRow(icon: "square.and.arrow.up", title: "Export my data", detail: "JSON · profile, progress, prospects, deals", showChevron: false, action: nil) { EmptyView() }
             }
             .buttonStyle(.pressable)
+            if store.s.authed {
+                ListRow(icon: "icloud.and.arrow.down", title: "Download account data", detail: exporting ? "Preparing…" : "Everything on your Vaulten account") { askExportPassword = true }
+            }
         }
+    }
+
+    private func runExport() async {
+        let password = exportPassword
+        exportPassword = ""
+        guard !password.isEmpty else { return }
+        exporting = true
+        defer { exporting = false }
+        do { exportFile = ExportFile(url: try await BackendSync.exportAccount(password: password)) }
+        catch BackendSync.ExportFailure.wrongPassword { store.showToast("Wrong password") }
+        catch BackendSync.ExportFailure.tooMany { store.showToast("Too many exports. Try again in an hour.") }
+        catch { store.showToast("Couldn't download your data. Try again later.") }
     }
 
     private var securityGroup: some View {
         ListGroup(title: "Security") {
+            if BiometricLock.shared.available {
+                FRToggleRow(icon: BiometricLock.shared.icon, title: "Sign in with \(BiometricLock.shared.name)",
+                            detail: BiometricLock.shared.enabled ? "On · Asked when you open the app" : "Off", isOn: biometricBinding)
+            }
             FRToggleRow(icon: "lock.shield", title: "Two-factor authentication", detail: twoFactor ? "On · Code sent by email" : "Off", isOn: twoFactorBinding)
             ListRow(icon: "laptopcomputer.and.iphone", title: "Active sessions", detail: "Manage signed-in devices") { sheet = .sessions }
         }
@@ -92,6 +132,13 @@ struct SettingsView: View {
     private var subscriptionDetail: String { RevenueCatService.shared.planLabel }
 
     // MARK: Bindings
+
+    private var biometricBinding: Binding<Bool> {
+        Binding(get: { BiometricLock.shared.enabled }, set: { on in
+            if on { Task { if !(await BiometricLock.shared.enable()) { store.showToast("\(BiometricLock.shared.name) wasn't turned on") } } }
+            else { BiometricLock.shared.disable() }
+        })
+    }
 
     private var pushBinding: Binding<Bool> {
         Binding(
@@ -292,3 +339,5 @@ private struct SettingsSessionsSheet: View {
         }
     }
 }
+
+struct ExportFile: Identifiable { let url: URL; var id: String { url.path } }

@@ -28,7 +28,7 @@ export default function Welcome() {
     >
       <Logo />
       <div className="flex flex-1 flex-col items-center justify-center py-4 text-center">
-        <Mascot mood="wink" size={148} say="Tap me. I don't bite." tapLines={['30 days. One mission a day.', 'Less theory. More action.', 'Ready when you are!']} />
+        <Mascot mood="wink" size={148} say="Tap me. I don't bite." tapLines={['30 days. One mission a day.', 'Less theory. More action.', 'Ready when you are!']} entrance="greeting" />
         <h1 className="mt-5 text-[38px] leading-[1.05] font-extrabold tracking-tight">
           Earn your first <span className="text-brand-gradient">money online.</span>
         </h1>

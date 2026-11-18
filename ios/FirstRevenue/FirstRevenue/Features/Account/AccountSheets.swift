@@ -128,6 +128,7 @@ struct AccountEditProfileSheet: View {
         if let option = store.journey.goalOptions.first(where: { $0.label == goal }) {
             store.updateEnrollment { $0.goal = option; $0.answers.goal = option.label }
             store.s.user.goal = option.label
+            if let e = store.enrollment { BackendSync.pushGoal(for: e) }
             if option.metric == .revenue { store.s.user.goalAmount = option.target }
         }
         store.showToast("Profile updated")

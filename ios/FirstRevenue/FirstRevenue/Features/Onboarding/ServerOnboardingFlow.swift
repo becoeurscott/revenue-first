@@ -357,7 +357,7 @@ private struct ServerResultsView: View {
     private var journeyPaywall: some View {
         VStack(spacing: 0) {
             PlanPaywallView(onUnlocked: { paywall = false; store.showToast("Premium unlocked"); enroll() },
-                            onClose: { paywall = false; enroll() })
+                            onClose: { paywall = false; enroll(); OfferCenter.shared.paywallClosed(store: store) })
                 .interactiveDismissDisabled()
         }
         .background(Theme.bgSunken.ignoresSafeArea())

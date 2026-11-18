@@ -60,108 +60,102 @@ enum CoachAPI {
         }
     }
 
-    /// True when real AI answers are possible: the endpoint is configured and the user has an account session.
-    static var isAvailable: Bool { VaultenConfig.aiBaseURL != nil && Keychain.load() != nil }
+    /// True when real AI answers are possible: the user has an account session.
+    static var isAvailable: Bool { Keychain.load() != nil }
 
-    private struct Body: Encodable {
-        struct Context: Encodable {
-            struct Profile: Encodable {
-                let normalizedLabel, audience, problemOrDesire: String
-                let allowedClaims, restrictedTopics, exampleTerms, monetizationOptions: [String]
-            }
-            struct Constraints: Encodable { let weeklyTime, budget: String; let equipment, skills: [String]; let location: String }
-            let journeyId: String
-            let journeyVersion: Int
-            let niche: String
-            let nicheProfile: Profile
-            let startingStage: String
-            let constraints: Constraints
-            let name, goal: String
-            let currentDay: Int?
-            let currentMission: String
-            let metrics: [String: Double]
-            let month: Int
-            let focus: String
-        }
-        struct Message: Encodable { let from, text: String }
-        struct AI: Encodable { let distinctId, sessionId, traceId: String }
-        let context: Context
-        let messages: [Message]
-        let ai: AI
+    private struct StartBody: Encodable { let title: String? }
+    private struct Conversation: Decodable { let id: String }
+    private struct MessageBody: Encodable { let message: String }
+    private struct Sent: Decodable { let content: String }
+    /// GET /coach/usage. Fields are read leniently; the monthly counts are the ones shown.
+    private struct UsageDto: Decodable {
+        let used: Int?
+        let limit: Int?
+        let resetsAt: String?
+        let tier: String?
     }
 
-    private struct Reply: Decodable { let reply: String; let usage: CoachUsage? }
-    private struct LimitBody: Decodable { let usage: CoachUsage }
-    private struct UsageBody: Decodable { let usage: CoachUsage }
+    /// Local conversation id → backend conversation id.
+    private static let mapKey = "coach.remoteConversations"
+    @MainActor private static func remoteId(for local: String) -> String? {
+        (UserDefaults.standard.dictionary(forKey: mapKey) as? [String: String])?[local]
+    }
+    @MainActor private static func setRemoteId(_ remote: String?, for local: String) {
+        var map = (UserDefaults.standard.dictionary(forKey: mapKey) as? [String: String]) ?? [:]
+        map[local] = remote
+        UserDefaults.standard.set(map, forKey: mapKey)
+    }
 
-    private static let decoder: JSONDecoder = {
-        let d = JSONDecoder()
-        d.dateDecodingStrategy = .custom { decoder in
-            let s = try decoder.singleValueContainer().decode(String.self)
-            let f = ISO8601DateFormatter()
-            f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            if let date = f.date(from: s) ?? ISO8601DateFormatter().date(from: s) { return date }
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Bad date \(s)"))
-        }
-        return d
-    }()
-
-    /// Sends the conversation and returns the coach's answer. Counts one message against the user's plan.
+    /// Sends the latest user message (the server builds the context and history itself) and returns the reply.
     @MainActor
     static func reply(to messages: [ChatMessage], conversationId: String, store: AppStore) async throws -> (text: String, usage: CoachUsage?) {
-        guard let e = store.enrollment else { throw Failure.notConfigured }
-        let n = e.niche
-        let a = e.answers
-        let day = store.program.currentDay
-        let body = Body(
-            context: .init(
-                journeyId: e.journeyId.rawValue, journeyVersion: e.journeyVersion, niche: n.normalizedLabel,
-                nicheProfile: .init(normalizedLabel: n.normalizedLabel, audience: n.audience, problemOrDesire: n.problemOrDesire,
-                                    allowedClaims: n.allowedClaims, restrictedTopics: n.restrictedTopics, exampleTerms: n.exampleTerms,
-                                    monetizationOptions: n.monetizationOptions),
-                startingStage: e.startingStage.rawValue,
-                constraints: .init(weeklyTime: a.weeklyTime, budget: a.budget, equipment: a.equipment, skills: a.skills, location: a.location),
-                name: store.s.user.firstName, goal: e.goal.label, currentDay: day,
-                currentMission: MockData.day(store.s.pathId, day)?.missionTitle ?? "",
-                metrics: Dictionary(uniqueKeysWithValues: store.stats.logged.prefix(12).map { ($0.key.rawValue, $0.value) }),
-                month: e.month ?? 1, focus: e.focus ?? ""),
-            messages: messages.suffix(12).map { .init(from: $0.from, text: $0.text) },
-            ai: .init(distinctId: "enrollment:\(e.id)", sessionId: conversationId, traceId: UUID().uuidString)
-        )
-        let (data, status) = try await send(method: "POST", body: try JSONEncoder().encode(body), timeout: 90)
-        if status == 402, let limit = try? decoder.decode(LimitBody.self, from: data) { throw Failure.limitReached(limit.usage) }
-        guard status == 200 else { throw Failure.http(status) }
-        let reply = try decoder.decode(Reply.self, from: data)
-        return (reply.reply, reply.usage)
+        guard Keychain.load() != nil else { throw Failure.signedOut }
+        guard let last = messages.last(where: { $0.from == "user" }) ?? messages.last else { throw Failure.notConfigured }
+        do {
+            let text = try await send(last.text, local: conversationId, retry: true)
+            let usage = try? await Self.usage()
+            return (text, usage)
+        } catch let APIError.problem(p) {
+            throw map(p)
+        } catch APIError.sessionExpired { throw Failure.signedOut }
     }
 
-    /// The current allowance, without spending a message.
+    @MainActor
+    private static func send(_ text: String, local: String, retry: Bool) async throws -> String {
+        let remote: String
+        if let id = remoteId(for: local) { remote = id } else {
+            let c: Conversation = try await VaultenAPI.shared.send("POST", "coach/conversations",
+                                                                  body: StartBody(title: String(text.prefix(80))))
+            setRemoteId(c.id, for: local)
+            remote = c.id
+        }
+        do {
+            let sent: Sent = try await VaultenAPI.shared.send("POST", "coach/conversations/\(remote)/messages",
+                                                             body: MessageBody(message: String(text.prefix(8000))))
+            return sent.content
+        } catch let APIError.problem(p) where p.code == "CONVERSATION_NOT_FOUND" && retry {
+            setRemoteId(nil, for: local)
+            return try await send(text, local: local, retry: false)
+        }
+    }
+
+    @MainActor
+    private static func map(_ p: Problem) -> Failure {
+        switch p.code {
+        case "COACH_USAGE_LIMIT_REACHED":
+            let limit = p.params?["limit"]?.int ?? CoachMeter.shared.usage?.limit ?? 0
+            let used = p.params?["used"]?.int ?? limit
+            let resets = p.params?["resetsAt"]?.string.flatMap(parseDate)
+            return .limitReached(CoachUsage(tier: currentTier, used: used, limit: limit, period: "month", resetsAt: resets))
+        default:
+            return .http(p.status)   // 503 COACH_UNAVAILABLE → built-in answers
+        }
+    }
+
+    @MainActor private static var currentTier: CoachUsage.Tier {
+        RevenueCatService.shared.isUltimate ? .ultimate : .premium
+    }
+
+    private static func parseDate(_ s: String) -> Date? {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return f.date(from: s) ?? ISO8601DateFormatter().date(from: s)
+    }
+
+    /// The current allowance, without spending a message (GET /coach/usage).
     @MainActor
     static func usage() async throws -> CoachUsage {
-        let (data, status) = try await send(method: "GET", body: nil, timeout: 20)
-        guard status == 200 else { throw Failure.http(status) }
-        return try decoder.decode(UsageBody.self, from: data).usage
-    }
-
-    @MainActor
-    private static func send(method: String, body: Data?, timeout: TimeInterval) async throws -> (Data, Int) {
-        guard let base = VaultenConfig.aiBaseURL else { throw Failure.notConfigured }
-        guard Keychain.load() != nil else { throw Failure.signedOut }
-        let token = try await VaultenAPI.shared.bearerToken()
-        var request = URLRequest(url: base.appendingPathComponent(VaultenConfig.aiPath("coach")), timeoutInterval: timeout)
-        request.httpMethod = method
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        if let body {
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = body
-        }
-        let (data, response) = try await URLSession.shared.data(for: request)
-        return (data, (response as? HTTPURLResponse)?.statusCode ?? 0)
+        do {
+            let u: UsageDto = try await VaultenAPI.shared.send("GET", "coach/usage")
+            guard let limit = u.limit else { throw Failure.http(200) }
+            let tier = u.tier.flatMap { CoachUsage.Tier(rawValue: $0.lowercased()) } ?? currentTier
+            return CoachUsage(tier: tier, used: u.used ?? 0, limit: limit, period: "month", resetsAt: u.resetsAt.flatMap(parseDate))
+        } catch let APIError.problem(p) { throw map(p) }
     }
 }
 
 extension AppStore {
     var isUltimate: Bool { RevenueCatService.shared.isUltimate }
-    /// Only subscribers (including free trials) chat with the coach; explorers see it and get the paywall.
-    var canUseCoach: Bool { isPremium }
+    /// Only tiers whose backend features include "coach" chat with it; others see it and get the paywall.
+    var canUseCoach: Bool { RevenueCatService.shared.hasFeature("coach") || s.subscription.status == .active }
 }

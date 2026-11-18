@@ -319,6 +319,7 @@ struct LoginView: View {
             LogoMark(size: 48).padding(.top, Space.l)
             Text("Welcome back").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
             Text("Pick up where you left off. Your streak is waiting.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 6)
+            SocialSignInButtons()
             VStack(spacing: Space.l) {
                 FRTextField(label: "Email", text: $email, systemImage: "envelope", error: errors["email"], keyboard: .emailAddress, contentType: .emailAddress)
                 FRTextField(label: "Password", text: $password, systemImage: "lock", secure: true, error: errors["password"], contentType: .password)
@@ -365,7 +366,7 @@ struct LoginView: View {
 }
 
 /// Error from the server shown above the primary button.
-private struct FormErrorBanner: View {
+struct FormErrorBanner: View {
     let message: String
     var body: some View {
         Label(message, systemImage: "exclamationmark.circle.fill")
@@ -394,6 +395,7 @@ struct SignupView: View {
             LogoMark(size: 48).padding(.top, Space.l)
             Text("Create your account").font(.system(size: 32, weight: .heavy)).foregroundStyle(Theme.ink).padding(.top, Space.m)
             Text("Two minutes from now you'll have a 30-day plan.").font(.callout).foregroundStyle(Theme.muted).padding(.top, 6)
+            SocialSignInButtons()
             VStack(spacing: Space.l) {
                 FRTextField(label: "Name", text: $name, placeholder: "Alex Carter", systemImage: "person", error: errors["name"], contentType: .name)
                 FRTextField(label: "Email", text: $email, placeholder: "you@example.com", systemImage: "envelope", error: errors["email"], keyboard: .emailAddress, contentType: .emailAddress)
@@ -534,6 +536,7 @@ struct VerifyEmailView: View {
                 let enrollment = try? await PathsAPI.myEnrollment()
                 Haptics.notify(.success)
                 store.signedIn(user, enrollment: enrollment ?? nil)
+                BiometricLock.shared.offerAfterSignUp()
             } catch {
                 Haptics.notify(.error)
                 withAnimation { self.error = AuthErrorCopy.message(error) }

@@ -25,21 +25,55 @@ final class RevenueCatService {
     private(set) var offerings: Offerings?
     private(set) var isLoading = false
     private(set) var errorMessage: String?
+    /// The raw error behind the last failed load (code and underlying causes), for diagnostics.
+    private(set) var loadErrorDetail: String?
     /// The last purchase is waiting for approval (Ask to Buy, bank confirmation). It unlocks on its own when approved.
     private(set) var purchasePending = false
     @ObservationIgnored private let updates = CustomerInfoListener()
 
+    /// Paid access from the store or from the backend (webhook mirror, complimentary grants from the dashboard).
     var isPro: Bool {
-        customerInfo?.entitlements[Self.entitlementID]?.isActive == true
+        customerInfo?.entitlements.active.isEmpty == false || backend?.entitlement.active == true
     }
+
+    // MARK: Backend entitlement — GET /subscriptions/me is the source of truth, tiers come from GET /subscriptions/tiers.
+
+    private(set) var backend: BackendSubscription?
+    private(set) var tiers: [SubscriptionTier] = []
+
+    /// Whether the user's tier unlocks a capability (e.g. "coach"). Before the tier list loads, any paid access counts.
+    func hasFeature(_ key: String) -> Bool {
+        guard !tiers.isEmpty else { return isPro }
+        let storeActive = Set(customerInfo?.entitlements.active.keys.map { $0 } ?? [])
+        let held = Set(backend?.entitlement.tiers ?? []).union(tiers.filter { storeActive.contains($0.revenueCatEntitlementId) }.map(\.key))
+        if held.isEmpty { return isPro }
+        return tiers.contains { held.contains($0.key) && $0.features.contains(key) }
+    }
+
+    /// `sync` asks the backend to re-read RevenueCat first (after a purchase or restore, or to recover a missed webhook).
+    func refreshEntitlement(sync: Bool = false) async {
+        guard Keychain.load() != nil else { backend = nil; return }
+        if tiers.isEmpty, let loaded = try? await VaultenAPI.shared.send("GET", "subscriptions/tiers", as: [SubscriptionTier].self) {
+            tiers = loaded
+        }
+        if let mine = try? await VaultenAPI.shared.send(sync ? "POST" : "GET", sync ? "subscriptions/sync" : "subscriptions/me", as: BackendSubscription.self) {
+            backend = mine
+        }
+    }
+
+    func clearBackendEntitlement() { backend = nil }
 
     /// "Free plan", or e.g. "Premium · Monthly · Free trial", from the live entitlements.
     var planLabel: String {
         guard isPro || isUltimate else { return "Free plan" }
-        let entitlement = customerInfo?.entitlements[isUltimate ? Self.ultimateEntitlementID : Self.entitlementID]
+        let backendTier = backend?.tierKey.flatMap { key in tiers.first { $0.key == key } }
+        let entitlement = backendTier.flatMap { customerInfo?.entitlements[$0.revenueCatEntitlementId] }
+            ?? customerInfo?.entitlements[isUltimate ? Self.ultimateEntitlementID : Self.entitlementID]
+            ?? customerInfo?.entitlements.active.values.first
         let period = entitlement.map { $0.productIdentifier.contains("monthly") ? " · Monthly" : " · Yearly" } ?? ""
         let trial = entitlement?.periodType == .trial ? " · Free trial" : ""
-        return (isUltimate ? "Ultimate" : "Premium") + period + trial
+        let name = backendTier?.label ?? (isUltimate ? "Ultimate" : "Premium")
+        return name + period + (backend?.entitlement.source == "complimentary" ? " · Complimentary" : trial)
     }
 
     var isUltimate: Bool {
@@ -48,6 +82,7 @@ final class RevenueCatService {
 
     func update(customerInfo: CustomerInfo) {
         self.customerInfo = customerInfo
+        Task { await refreshEntitlement(sync: true) }
     }
 
     /// Debug builds use RevenueCat's Test Store, so purchases work on the simulator without App Store Connect.
@@ -62,7 +97,7 @@ final class RevenueCatService {
         updates.onUpdate = { [weak self] info in
             Task { @MainActor in
                 self?.customerInfo = info
-                if info.entitlements[Self.entitlementID]?.isActive == true { self?.purchasePending = false }
+                if !info.entitlements.active.isEmpty { self?.purchasePending = false }
             }
         }
     }
@@ -87,11 +122,13 @@ final class RevenueCatService {
         } catch {
             errorMessage = userMessage(for: error)
         }
+        await refreshEntitlement()
     }
 
     func load() async {
         isLoading = true
         errorMessage = nil
+        loadErrorDetail = nil
         defer { isLoading = false }
         do {
             async let info = Purchases.shared.customerInfo()
@@ -100,6 +137,7 @@ final class RevenueCatService {
             offerings = try await available
         } catch {
             errorMessage = userMessage(for: error)
+            loadErrorDetail = "Error \((error as NSError).code): " + ([error.localizedDescription] + Self.underlyingChain(error)).joined(separator: " | ")
             Monitoring.track("revenuecat_load_failed", ["code": (error as NSError).code, "message": errorMessage ?? "", "causes": Self.underlyingChain(error).joined(separator: " | ")])
         }
     }
@@ -112,6 +150,7 @@ final class RevenueCatService {
         do {
             let result = try await Purchases.shared.purchase(package: package)
             customerInfo = result.customerInfo
+            await refreshEntitlement(sync: true)
             return isPro
         } catch {
             let code = revenueCatErrorCode(from: error)
@@ -133,6 +172,7 @@ final class RevenueCatService {
         defer { isLoading = false }
         do {
             customerInfo = try await Purchases.shared.restorePurchases()
+            await refreshEntitlement(sync: true)
             return isPro
         } catch {
             errorMessage = userMessage(for: error)
@@ -190,4 +230,27 @@ final class RevenueCatService {
 private final class CustomerInfoListener: NSObject, PurchasesDelegate {
     var onUpdate: ((CustomerInfo) -> Void)?
     func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) { onUpdate?(customerInfo) }
+}
+
+struct BackendSubscription: Decodable {
+    struct Entitlement: Decodable {
+        let active: Bool
+        let tiers: [String]
+        let source: String?
+        let expiresAt: String?
+    }
+    let entitlement: Entitlement
+    let status: String?
+    let tierKey: String?
+    let expiresAt: String?
+    let willRenew: Bool
+}
+
+struct SubscriptionTier: Decodable {
+    let key: String
+    let label: String
+    let revenueCatEntitlementId: String
+    let displayOrder: Int
+    let features: [String]
+    let coachMonthlyLimit: Int?
 }

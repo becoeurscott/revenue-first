@@ -43,9 +43,23 @@ struct SupportMessage: Codable, Hashable {
     }
 }
 
+/// POST /support/messages → { message: { id, status, ... }, replyPromise }.
 struct SupportTicket: Decodable {
-    let id: String
-    let ticketNumber: String
+    struct Stored: Decodable { let id: String }
+    let message: Stored
+    let replyPromise: String?
+    /// Short reference shown to the user.
+    var ticketNumber: String { String(message.id.suffix(6)).uppercased() }
+}
+
+/// The backend takes only `body` (≤ 5000 chars), so the form fields and device info go into it.
+private struct SupportBody: Encodable {
+    let body: String
+    init(_ m: SupportMessage) {
+        let head = m.kind == .problem ? "Problem report: \(m.category ?? "Other")" : "Support: \(m.category ?? "Question")"
+        let foot = "Reply to: \(m.email) · App \(m.appVersion) · iOS \(m.osVersion) · \(m.device)\(m.diagnostics.map { " · \($0)" } ?? "")"
+        body = String("\(head)\n\n\(m.message)\n\n---\n\(foot)".prefix(5000))
+    }
 }
 
 enum SupportResult {
@@ -86,12 +100,9 @@ enum SupportAPI {
     }
 
     private static func post(_ m: SupportMessage, signedIn: Bool) async throws -> SupportTicket {
-        if signedIn {
-            do {
-                return try await VaultenAPI.shared.send("POST", "support/messages", body: m, idempotencyKey: m.clientId)
-            } catch APIError.sessionExpired {}
-        }
-        return try await VaultenAPI.shared.send("POST", "support/messages", body: m, authenticated: false, idempotencyKey: m.clientId)
+        // The endpoint requires an account; signed-out users get the email fallback.
+        guard signedIn else { throw APIError.problem(Problem(status: 401, code: "UNAUTHENTICATED", title: nil, detail: nil, requestId: nil, errors: nil, params: nil)) }
+        return try await VaultenAPI.shared.send("POST", "support/messages", body: SupportBody(m), idempotencyKey: m.clientId)
     }
 
     private static func loadPending() -> [SupportMessage] {

@@ -13,7 +13,7 @@ enum VaultenConfig {
     /// VAULTEN_AI_URL in the scheme points them at the Vercel functions instead (`/api/coach`, `/api/program`) for
     /// local testing. When an endpoint is missing or not configured, the app falls back to on-device programs and
     /// built-in coach answers.
-    private static let aiOverride = ProcessInfo.processInfo.environment["VAULTEN_AI_URL"].flatMap(URL.init(string:))
+    static let aiOverride = ProcessInfo.processInfo.environment["VAULTEN_AI_URL"].flatMap(URL.init(string:))
     static let aiBaseURL: URL? = aiOverride ?? baseURL
     /// "coach" → `ai/coach` on the backend, `api/coach` on the Vercel override.
     static func aiPath(_ name: String) -> String { (aiOverride == nil ? "ai/" : "api/") + name }
@@ -31,6 +31,19 @@ struct Problem: Decodable, Error {
     let detail: String?
     let requestId: String?
     let errors: [FieldError]?
+    /// Raw values behind `detail` (limits, dates), e.g. COACH_USAGE_LIMIT_REACHED → used, limit, resetsAt.
+    let params: [String: ProblemParam]?
+}
+
+/// A `params` value: the backend sends strings or numbers.
+enum ProblemParam: Decodable, Hashable {
+    case string(String), number(Double)
+    init(from decoder: Decoder) throws {
+        let c = try decoder.singleValueContainer()
+        if let d = try? c.decode(Double.self) { self = .number(d) } else { self = .string(try c.decode(String.self)) }
+    }
+    var int: Int? { if case .number(let d) = self { Int(d) } else if case .string(let s) = self { Int(s) } else { nil } }
+    var string: String? { if case .string(let s) = self { s } else if case .number(let d) = self { String(d) } else { nil } }
 }
 
 enum APIError: Error {
@@ -114,17 +127,20 @@ actor VaultenAPI {
 
     // MARK: Requests
 
-    func send<T: Decodable>(_ method: String, _ path: String, body: (any Encodable)? = nil, authenticated: Bool = true, idempotencyKey: String? = nil, as: T.Type = T.self) async throws -> T {
+    func send<T: Decodable>(_ method: String, _ path: String, query: [URLQueryItem] = [], body: (any Encodable)? = nil, authenticated: Bool = true, idempotencyKey: String? = nil, as: T.Type = T.self) async throws -> T {
         do {
-            return try await perform(method, path, body: body, authenticated: authenticated, idempotencyKey: idempotencyKey)
+            return try await perform(method, path, query: query, body: body, authenticated: authenticated, idempotencyKey: idempotencyKey)
         } catch APIError.problem(let p) where p.status == 401 && authenticated {
             try await refresh()
-            return try await perform(method, path, body: body, authenticated: authenticated, idempotencyKey: idempotencyKey)
+            return try await perform(method, path, query: query, body: body, authenticated: authenticated, idempotencyKey: idempotencyKey)
         }
     }
 
-    private func perform<T: Decodable>(_ method: String, _ path: String, body: (any Encodable)?, authenticated: Bool, idempotencyKey: String?) async throws -> T {
-        var request = URLRequest(url: VaultenConfig.baseURL.appendingPathComponent(path))
+    private func perform<T: Decodable>(_ method: String, _ path: String, query: [URLQueryItem], body: (any Encodable)?, authenticated: Bool, idempotencyKey: String?) async throws -> T {
+        var url = VaultenConfig.baseURL.appendingPathComponent(path)
+        if !query.isEmpty { url.append(queryItems: query) }
+        var request = URLRequest(url: url)
+        request.setValue(Locale.preferredLanguages.first ?? "en", forHTTPHeaderField: "Accept-Language")
         request.httpMethod = method
         request.setValue(VaultenConfig.platform, forHTTPHeaderField: "X-Client-Platform")
         request.setValue(VaultenConfig.appVersion, forHTTPHeaderField: "X-Client-Version")
@@ -150,7 +166,7 @@ actor VaultenAPI {
 
         guard (200..<300).contains(http.statusCode) else {
             if let problem = try? decoder.decode(Problem.self, from: data) { throw APIError.problem(problem) }
-            throw APIError.problem(Problem(status: http.statusCode, code: "HTTP_\(http.statusCode)", title: nil, detail: nil, requestId: nil, errors: nil))
+            throw APIError.problem(Problem(status: http.statusCode, code: "HTTP_\(http.statusCode)", title: nil, detail: nil, requestId: nil, errors: nil, params: nil))
         }
         if http.statusCode == 204 || data.isEmpty {
             if let empty = Empty() as? T { return empty }
@@ -177,7 +193,7 @@ actor VaultenAPI {
     private func performRefresh() async throws {
         guard let token = Keychain.load() else { throw APIError.sessionExpired }
         do {
-            let session: AuthSession = try await perform("POST", "auth/refresh", body: RefreshBody(refreshToken: token), authenticated: false, idempotencyKey: nil)
+            let session: AuthSession = try await perform("POST", "auth/refresh", query: [], body: RefreshBody(refreshToken: token), authenticated: false, idempotencyKey: nil)
             setSession(accessToken: session.accessToken, refreshToken: session.refreshToken)
         } catch APIError.problem(let p) where p.status == 401 || p.status == 403 || p.code == "INVALID_REFRESH_TOKEN" {
             // Expired, revoked, or a reused (stolen) token: the server killed the session.

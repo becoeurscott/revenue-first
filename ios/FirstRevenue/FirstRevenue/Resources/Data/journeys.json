@@ -3288,6 +3288,12 @@
           "label": "More than $200",
           "icon": "banknote.fill",
           "hint": null
+        },
+        {
+          "value": "custom",
+          "label": "A specific amount",
+          "icon": "pencil.circle.fill",
+          "hint": "Type how much you plan to spend"
         }
       ],
       "placeholder": null,
@@ -3365,7 +3371,7 @@
             {
               "value": "Speaking on camera",
               "label": "Speaking on camera",
-              "icon": "person.wave.2.fill",
+              "icon": "video.fill",
               "hint": null
             },
             {
@@ -3375,15 +3381,33 @@
               "hint": null
             },
             {
-              "value": "Writing",
-              "label": "Writing",
-              "icon": "pencil",
+              "value": "Scriptwriting",
+              "label": "Scriptwriting",
+              "icon": "text.alignleft",
               "hint": null
             },
             {
-              "value": "Graphic design",
-              "label": "Graphic design",
-              "icon": "paintbrush.fill",
+              "value": "Storytelling",
+              "label": "Storytelling",
+              "icon": "book.fill",
+              "hint": null
+            },
+            {
+              "value": "Thumbnail design",
+              "label": "Thumbnail design",
+              "icon": "photo.fill",
+              "hint": null
+            },
+            {
+              "value": "Voiceover",
+              "label": "Voiceover",
+              "icon": "mic.fill",
+              "hint": null
+            },
+            {
+              "value": "Short-form video",
+              "label": "Short-form video",
+              "icon": "play.rectangle.fill",
               "hint": null
             },
             {
@@ -3393,9 +3417,39 @@
               "hint": null
             },
             {
-              "value": "Social media",
-              "label": "Social media",
-              "icon": "bubble.left.and.bubble.right.fill",
+              "value": "SEO",
+              "label": "SEO",
+              "icon": "chart.line.uptrend.xyaxis",
+              "hint": null
+            },
+            {
+              "value": "Animation",
+              "label": "Animation",
+              "icon": "sparkles",
+              "hint": null
+            },
+            {
+              "value": "Music and audio",
+              "label": "Music and audio",
+              "icon": "music.note",
+              "hint": null
+            },
+            {
+              "value": "Community building",
+              "label": "Community building",
+              "icon": "person.3.fill",
+              "hint": null
+            },
+            {
+              "value": "Gaming",
+              "label": "Gaming",
+              "icon": "gamecontroller.fill",
+              "hint": null
+            },
+            {
+              "value": "Comedy",
+              "label": "Comedy",
+              "icon": "face.smiling.fill",
               "hint": null
             },
             {
@@ -3415,15 +3469,63 @@
               "hint": null
             },
             {
+              "value": "Short-form video",
+              "label": "Short-form video",
+              "icon": "play.rectangle.fill",
+              "hint": null
+            },
+            {
+              "value": "Thumbnail design",
+              "label": "Thumbnail design",
+              "icon": "photo.fill",
+              "hint": null
+            },
+            {
               "value": "Graphic design",
               "label": "Graphic design",
               "icon": "paintbrush.fill",
               "hint": null
             },
             {
-              "value": "Writing",
-              "label": "Writing",
-              "icon": "pencil",
+              "value": "Scriptwriting",
+              "label": "Scriptwriting",
+              "icon": "text.alignleft",
+              "hint": null
+            },
+            {
+              "value": "Copywriting",
+              "label": "Copywriting",
+              "icon": "text.quote",
+              "hint": null
+            },
+            {
+              "value": "Animation",
+              "label": "Animation",
+              "icon": "sparkles",
+              "hint": null
+            },
+            {
+              "value": "Music and audio",
+              "label": "Music and audio",
+              "icon": "music.note",
+              "hint": null
+            },
+            {
+              "value": "SEO",
+              "label": "SEO",
+              "icon": "chart.line.uptrend.xyaxis",
+              "hint": null
+            },
+            {
+              "value": "Project management",
+              "label": "Project management",
+              "icon": "calendar",
+              "hint": null
+            },
+            {
+              "value": "Cold outreach",
+              "label": "Cold outreach",
+              "icon": "paperplane.fill",
               "hint": null
             },
             {
@@ -3461,6 +3563,12 @@
               "hint": null
             },
             {
+              "value": "Cold outreach",
+              "label": "Cold outreach",
+              "icon": "paperplane.fill",
+              "hint": null
+            },
+            {
               "value": "Customer service",
               "label": "Customer service",
               "icon": "headphones",
@@ -3473,15 +3581,15 @@
               "hint": null
             },
             {
-              "value": "Writing",
-              "label": "Writing",
-              "icon": "pencil",
+              "value": "Social media ads",
+              "label": "Social media ads",
+              "icon": "megaphone",
               "hint": null
             },
             {
-              "value": "Photography",
-              "label": "Photography",
-              "icon": "camera.fill",
+              "value": "Google Business Profile",
+              "label": "Google Business Profile",
+              "icon": "mappin.and.ellipse",
               "hint": null
             },
             {
@@ -3491,9 +3599,45 @@
               "hint": null
             },
             {
-              "value": "Research",
-              "label": "Research",
-              "icon": "magnifyingglass",
+              "value": "Photography",
+              "label": "Photography",
+              "icon": "camera.fill",
+              "hint": null
+            },
+            {
+              "value": "Copywriting",
+              "label": "Copywriting",
+              "icon": "text.quote",
+              "hint": null
+            },
+            {
+              "value": "SEO",
+              "label": "SEO",
+              "icon": "chart.line.uptrend.xyaxis",
+              "hint": null
+            },
+            {
+              "value": "Email marketing",
+              "label": "Email marketing",
+              "icon": "envelope.fill",
+              "hint": null
+            },
+            {
+              "value": "Bookkeeping",
+              "label": "Bookkeeping",
+              "icon": "dollarsign.circle.fill",
+              "hint": null
+            },
+            {
+              "value": "Admin and virtual assistance",
+              "label": "Admin and virtual assistance",
+              "icon": "tray.full.fill",
+              "hint": null
+            },
+            {
+              "value": "Lead generation",
+              "label": "Lead generation",
+              "icon": "scope",
               "hint": null
             },
             {
@@ -3513,27 +3657,69 @@
               "hint": null
             },
             {
+              "value": "Ebook writing",
+              "label": "Ebook writing",
+              "icon": "book.closed.fill",
+              "hint": null
+            },
+            {
+              "value": "Course creation",
+              "label": "Course creation",
+              "icon": "rectangle.stack.fill",
+              "hint": null
+            },
+            {
+              "value": "Teaching",
+              "label": "Teaching",
+              "icon": "graduationcap.fill",
+              "hint": null
+            },
+            {
+              "value": "Canva",
+              "label": "Canva",
+              "icon": "square.on.circle",
+              "hint": null
+            },
+            {
+              "value": "Notion and templates",
+              "label": "Notion and templates",
+              "icon": "square.grid.2x2.fill",
+              "hint": null
+            },
+            {
               "value": "Graphic design",
               "label": "Graphic design",
               "icon": "paintbrush.fill",
               "hint": null
             },
             {
-              "value": "Teaching",
-              "label": "Teaching",
-              "icon": "person.wave.2.fill",
+              "value": "Spreadsheets",
+              "label": "Spreadsheets",
+              "icon": "tablecells",
+              "hint": null
+            },
+            {
+              "value": "Copywriting",
+              "label": "Copywriting",
+              "icon": "text.quote",
+              "hint": null
+            },
+            {
+              "value": "Email marketing",
+              "label": "Email marketing",
+              "icon": "envelope.fill",
               "hint": null
             },
             {
               "value": "Organizing",
               "label": "Organizing",
-              "icon": "list.bullet.clipboard.fill",
+              "icon": "checklist",
               "hint": null
             },
             {
-              "value": "Social media",
-              "label": "Social media",
-              "icon": "bubble.left.and.bubble.right.fill",
+              "value": "Coaching",
+              "label": "Coaching",
+              "icon": "figure.mind.and.body",
               "hint": null
             },
             {
@@ -3543,9 +3729,9 @@
               "hint": null
             },
             {
-              "value": "Research",
-              "label": "Research",
-              "icon": "magnifyingglass",
+              "value": "Social media",
+              "label": "Social media",
+              "icon": "bubble.left.and.bubble.right.fill",
               "hint": null
             },
             {
@@ -3565,9 +3751,39 @@
               "hint": null
             },
             {
-              "value": "Research",
-              "label": "Research",
-              "icon": "magnifyingglass",
+              "value": "Blogging",
+              "label": "Blogging",
+              "icon": "doc.richtext.fill",
+              "hint": null
+            },
+            {
+              "value": "Product reviews",
+              "label": "Product reviews",
+              "icon": "star.fill",
+              "hint": null
+            },
+            {
+              "value": "SEO",
+              "label": "SEO",
+              "icon": "chart.line.uptrend.xyaxis",
+              "hint": null
+            },
+            {
+              "value": "Pinterest",
+              "label": "Pinterest",
+              "icon": "pin.fill",
+              "hint": null
+            },
+            {
+              "value": "Short-form video",
+              "label": "Short-form video",
+              "icon": "play.rectangle.fill",
+              "hint": null
+            },
+            {
+              "value": "Video editing",
+              "label": "Video editing",
+              "icon": "film.fill",
               "hint": null
             },
             {
@@ -3577,9 +3793,27 @@
               "hint": null
             },
             {
-              "value": "Video editing",
-              "label": "Video editing",
-              "icon": "film.fill",
+              "value": "Copywriting",
+              "label": "Copywriting",
+              "icon": "text.quote",
+              "hint": null
+            },
+            {
+              "value": "Email marketing",
+              "label": "Email marketing",
+              "icon": "envelope.fill",
+              "hint": null
+            },
+            {
+              "value": "Research",
+              "label": "Research",
+              "icon": "magnifyingglass",
+              "hint": null
+            },
+            {
+              "value": "Trend spotting",
+              "label": "Trend spotting",
+              "icon": "flame.fill",
               "hint": null
             },
             {
@@ -3607,7 +3841,13 @@
             {
               "value": "Speaking on camera",
               "label": "Speaking on camera",
-              "icon": "person.wave.2.fill",
+              "icon": "video.fill",
+              "hint": null
+            },
+            {
+              "value": "Short-form video",
+              "label": "Short-form video",
+              "icon": "play.rectangle.fill",
               "hint": null
             },
             {
@@ -3617,27 +3857,69 @@
               "hint": null
             },
             {
+              "value": "Storytelling",
+              "label": "Storytelling",
+              "icon": "book.fill",
+              "hint": null
+            },
+            {
               "value": "Photography",
               "label": "Photography",
               "icon": "camera.fill",
               "hint": null
             },
             {
-              "value": "Writing",
-              "label": "Writing",
-              "icon": "pencil",
+              "value": "Fashion and styling",
+              "label": "Fashion and styling",
+              "icon": "tshirt.fill",
               "hint": null
             },
             {
-              "value": "Graphic design",
-              "label": "Graphic design",
-              "icon": "paintbrush.fill",
+              "value": "Makeup",
+              "label": "Makeup",
+              "icon": "wand.and.stars",
               "hint": null
             },
             {
-              "value": "Social media",
-              "label": "Social media",
-              "icon": "bubble.left.and.bubble.right.fill",
+              "value": "Fitness",
+              "label": "Fitness",
+              "icon": "figure.run",
+              "hint": null
+            },
+            {
+              "value": "Cooking",
+              "label": "Cooking",
+              "icon": "fork.knife",
+              "hint": null
+            },
+            {
+              "value": "Comedy",
+              "label": "Comedy",
+              "icon": "face.smiling.fill",
+              "hint": null
+            },
+            {
+              "value": "Trend spotting",
+              "label": "Trend spotting",
+              "icon": "flame.fill",
+              "hint": null
+            },
+            {
+              "value": "Community building",
+              "label": "Community building",
+              "icon": "person.3.fill",
+              "hint": null
+            },
+            {
+              "value": "Public speaking",
+              "label": "Public speaking",
+              "icon": "person.wave.2.fill",
+              "hint": null
+            },
+            {
+              "value": "Coaching",
+              "label": "Coaching",
+              "icon": "figure.mind.and.body",
               "hint": null
             },
             {

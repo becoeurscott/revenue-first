@@ -58,6 +58,7 @@ const refreshTokens = mapLike("rt");
 const settings = [
   { key: "lessons.minWatchPercent", description: "Default share of a lesson video (0–100) a user must watch before the lesson can be completed or its mission step skipped. Lessons can override it.", type: "number", value: 50, defaultValue: 50, updatedAt: null },
   { key: "lessons.requireWatchToComplete", description: "When off, users can complete any lesson without watching the video.", type: "boolean", value: true, defaultValue: true, updatedAt: null },
+  { key: "videos.enabled", description: "Lesson videos from YouTube in the app (lesson player and mission Watch & learn). Off = the app shows no videos.", type: "boolean", value: true, defaultValue: true, updatedAt: null },
   { key: "missions.allowSkipRequiredTasks", description: "Let users skip tasks marked required (they still earn XP for the day).", type: "boolean", value: false, defaultValue: false, updatedAt: null },
   { key: "missions.dayUnlockHourLocal", description: "Local hour at which the next mission day unlocks.", type: "number", value: 5, defaultValue: 5, updatedAt: null },
   { key: "progress.levelThresholds", description: "XP needed to reach each level (level 1 starts at 0).", type: "number[]", value: [0, 200, 500, 1000, 1800, 3000, 5000], defaultValue: [0, 200, 500, 1000, 1800, 3000, 5000], updatedAt: null },
@@ -297,6 +298,51 @@ on("GET", "/admin/learning/lessons", ({ q }) => { let list = lessons; if (q.get(
 on("POST", "/admin/learning/lessons", ({ body, actor }) => { const l = { id: uid(), pathId: body.pathId, weekId: body.weekId, slug: body.slug, title: body.title, summary: body.summary, content: body.content ?? "", videoUrl: body.videoUrl ?? null, durationMinutes: body.durationMinutes ?? null, xpReward: body.xpReward ?? 25, minWatchPercent: body.minWatchPercent ?? null, position: lessons.filter((x) => x.weekId === body.weekId).length, status: "DRAFT", createdAt: now(), updatedAt: now() }; lessons.push(l); logAudit(actor, "lesson.created", "lesson", l.id, {}); return ok(l); }, { minRole: "CONTENT_MANAGER" });
 on("GET", "/admin/learning/lessons/:id", ({ p }) => { const l = lessons.find((x) => x.id === p.id); return l ? ok(lessonOut(l)) : problem(404, "LESSON_NOT_FOUND", "Lesson not found."); });
 on("PATCH", "/admin/learning/lessons/:id", ({ p, body, actor }) => { const l = lessons.find((x) => x.id === p.id); if (!l) return problem(404, "LESSON_NOT_FOUND", "Lesson not found."); if ("videoUrl" in body && body.videoUrl && !/^https?:\/\//.test(body.videoUrl)) return problem(422, "VALIDATION_FAILED", "Video URL must be absolute.", { errors: [{ field: "videoUrl", code: "INVALID_FORMAT", message: "Must start with http(s)://" }] }); return patch(l, body, ["title", "summary", "content", "videoUrl", "durationMinutes", "xpReward", "position", "minWatchPercent", "weekId"], actor, "lesson"); }, { minRole: "CONTENT_MANAGER" });
+// Lesson videos: real YouTube search when YOUTUBE_API_KEY is set, otherwise an empty list.
+const ytId = (u) => String(u ?? "").match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/)?.[1] ?? null;
+const isoDur = (d) => { const m = String(d).match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/) ?? []; return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0); };
+async function ytVideos(ids) {
+  const key = process.env.YOUTUBE_API_KEY; if (!key || !ids.length) return [];
+  const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${ids.join(",")}&key=${key}`); if (!r.ok) return [];
+  return ((await r.json()).items ?? []).map((v) => ({ videoId: v.id, title: v.snippet.title, channelTitle: v.snippet.channelTitle, durationSeconds: isoDur(v.contentDetails.duration), thumbnailUrl: v.snippet.thumbnails?.high?.url ?? `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`, url: `https://www.youtube.com/watch?v=${v.id}` }));
+}
+on("GET", "/admin/videos", async ({ q }) => {
+  const query = String(q.get("q") ?? "").trim(); if (!query || query.length > 200) return problem(400, "INVALID_QUERY", "The search query is missing or malformed.");
+  const key = process.env.YOUTUBE_API_KEY; if (!key) return ok([]);
+  const r = await fetch(`https://www.googleapis.com/youtube/v3/search?part=id&type=video&maxResults=10&safeSearch=strict&videoEmbeddable=true&q=${encodeURIComponent(query)}&key=${key}`); if (!r.ok) return ok([]);
+  return ok((await ytVideos(((await r.json()).items ?? []).map((i) => i.id.videoId))).filter((v) => v.durationSeconds >= 120));
+});
+on("PUT", "/admin/learning/lessons/:id/video", async ({ p, body, actor }) => {
+  const l = lessons.find((x) => x.id === p.id); if (!l) return problem(404, "LESSON_NOT_FOUND", "Lesson not found.");
+  if (body.url == null) { l.videoUrl = null; l.videoSnapshot = null; }
+  else { const id = ytId(body.url); if (!id) return problem(400, "INVALID_VIDEO_URL", "The video must be a valid YouTube video URL.");
+    const [v] = await ytVideos([id]); l.videoUrl = `https://www.youtube.com/watch?v=${id}`;
+    l.videoSnapshot = v ? { title: v.title, channelTitle: v.channelTitle, durationSeconds: v.durationSeconds, thumbnailUrl: v.thumbnailUrl, fetchedAt: new Date().toISOString() } : { title: "YouTube video", channelTitle: "", durationSeconds: 0, thumbnailUrl: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, fetchedAt: new Date().toISOString() }; }
+  l.updatedAt = new Date().toISOString(); return ok(lessonOut(l));
+}, { minRole: "CONTENT_MANAGER" });
+// Stored video per app lesson (docs/api/lesson-videos.md). The mock "AI" takes the first result that passes the filter.
+const lessonVideos = new Map([["clip-01", { lessonKey: "clip-01", videoId: "dQw4w9WgXcQ", title: "Sample stored video", channelTitle: "Mock channel", thumbnailUrl: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg", durationSeconds: 600, source: "ai", reason: "Mock seed row.", pickedAt: new Date().toISOString(), checkedAt: new Date().toISOString() }]]);
+const appVideo = (v) => ({ videoId: v.videoId, title: v.title, channelTitle: v.channelTitle, thumbnailUrl: v.thumbnailUrl, durationSeconds: v.durationSeconds });
+const unfit = (v) => v.durationSeconds < 180 || v.durationSeconds > 1800 || / - topic$|vevo|records|music/i.test(v.channelTitle) || /music|lofi|lo-fi|beats|playlist|\bmix\b|lyrics|official (audio|video)|ambient|relaxing|sleep|song|album|asmr/i.test(v.title);
+on("GET", "/lesson-videos", () => ok(Object.fromEntries([...lessonVideos].map(([k, v]) => [k, appVideo(v)]))));
+on("GET", "/admin/lesson-videos", () => ok([...lessonVideos.values()]), { minRole: "CONTENT_MANAGER" });
+on("PUT", "/admin/lesson-videos/:key", async ({ p, body }) => {
+  const id = ytId(body.url); if (!id) return problem(400, "INVALID_VIDEO_URL", "The video must be a valid YouTube video URL.");
+  const [v] = await ytVideos([id]); const now = new Date().toISOString();
+  const row = { lessonKey: p.key, videoId: id, title: v?.title ?? "YouTube video", channelTitle: v?.channelTitle ?? "", thumbnailUrl: v?.thumbnailUrl ?? `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, durationSeconds: v?.durationSeconds ?? 0, source: "admin", reason: null, pickedAt: now, checkedAt: now };
+  lessonVideos.set(p.key, row); return ok(row);
+}, { minRole: "CONTENT_MANAGER" });
+on("DELETE", "/admin/lesson-videos/:key", ({ p }) => { lessonVideos.delete(p.key); return ok({ deleted: true }); }, { minRole: "CONTENT_MANAGER" });
+on("POST", "/admin/lesson-videos/:key/ai-pick", async ({ p, body }) => {
+  const cur = lessonVideos.get(p.key); const now = new Date().toISOString();
+  if (cur?.source === "admin" && !body.force) return ok({ picked: cur, reason: "Set by an admin; kept.", query: "", considered: 0, replaced: false });
+  const l = body.lesson ?? {}; const query = `${l.title ?? p.key} ${l.category ?? ""} tutorial for beginners`;
+  const key = process.env.YOUTUBE_API_KEY; let found = [];
+  if (key) { const r = await fetch(`https://www.googleapis.com/youtube/v3/search?part=id&type=video&maxResults=10&videoDuration=medium&safeSearch=strict&videoEmbeddable=true&q=${encodeURIComponent(query)}&key=${key}`); if (r.ok) found = (await ytVideos(((await r.json()).items ?? []).map((i) => i.id.videoId))).filter((v) => !unfit(v)); }
+  const v = found[0]; if (!v) return ok({ picked: cur ?? null, reason: key ? "Nothing fitting in the results." : "Mock has no YOUTUBE_API_KEY.", query, considered: found.length, replaced: false });
+  const row = { lessonKey: p.key, videoId: v.videoId, title: v.title, channelTitle: v.channelTitle, thumbnailUrl: v.thumbnailUrl, durationSeconds: v.durationSeconds, source: "ai", reason: "Mock: first result that passed the filter.", pickedAt: now, checkedAt: now };
+  lessonVideos.set(p.key, row); return ok({ picked: row, reason: row.reason, query, considered: found.length, replaced: !!cur && cur.videoId !== v.videoId });
+}, { minRole: "CONTENT_MANAGER" });
 on("POST", "/admin/learning/lessons/:id/publish", ({ p, actor }) => transition(lessons, p.id, "PUBLISHED", actor, "lesson"), { minRole: "CONTENT_MANAGER" });
 on("POST", "/admin/learning/lessons/:id/archive", ({ p, actor }) => transition(lessons, p.id, "ARCHIVED", actor, "lesson"), { minRole: "CONTENT_MANAGER" });
 

@@ -4,7 +4,8 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Topbar from "@/components/Topbar";
 import { useAuth } from "@/lib/auth";
-import { adminApi } from "@/lib/api";
+import { adminApi, localApi } from "@/lib/api";
+import { LessonVideoPicker } from "@/components/video-picker";
 import { useDraft, useLoad, useNotice, num, nz } from "@/lib/hooks";
 import type { AdminLesson, Setting } from "@/lib/types";
 import { Badge, Btn, Card, DataState, Drawer, Field, Modal, Notice, SearchInput, Toggle, fmtDate } from "@/components/ui";
@@ -23,6 +24,19 @@ function LessonsInner() {
   const [status, setStatus] = useState("");
   const [create, setCreate] = useState(false);
   const openId = sp.get("id");
+  const [bulk, setBulk] = useState<{ done: number; total: number; picked: number } | null>(null);
+  const aiPickMissing = async () => {
+    const todo = rows.filter((l) => !l.videoUrl);
+    if (!todo.length || !confirm(`Let the coach AI pick a YouTube video for ${todo.length} lesson(s) without one?`)) return;
+    let picked = 0;
+    setBulk({ done: 0, total: todo.length, picked });
+    for (const [i, l] of todo.entries()) {
+      try { const r = await localApi<{ picked: unknown }>("/video-pick", token, undefined, { method: "POST", body: { lessonId: l.id } }); if (r.picked) picked++; } catch (e) { fail(e); break; }
+      setBulk({ done: i + 1, total: todo.length, picked });
+    }
+    ok(`Coach AI attached videos to ${picked} of ${todo.length} lessons.`);
+    setBulk(null); reload();
+  };
   const editable = can("CONTENT_MANAGER");
 
   const { data: settings } = useLoad(() => adminApi<Setting[]>("/settings", token), [token]);
@@ -44,7 +58,7 @@ function LessonsInner() {
 
   return (
     <>
-      <Topbar title="Lessons" subtitle="Video lessons per week. The watch rule decides when a lesson counts as done." pill={data ? `${data.lessons.length} lessons` : undefined} actions={editable && <Btn solid size="sm" onClick={() => setCreate(true)} disabled={!data?.path?.weeks.length}><Icon name="plus" className="w-3.5 h-3.5" /> New lesson</Btn>} />
+      <Topbar title="Lessons" subtitle="Video lessons per week. The watch rule decides when a lesson counts as done." pill={data ? `${data.lessons.length} lessons` : undefined} actions={editable && <div className="flex gap-2"><Btn size="sm" disabled={!!bulk || !rows.some((l) => !l.videoUrl)} onClick={aiPickMissing}>{bulk ? `AI picking ${bulk.done}/${bulk.total}…` : "AI-pick missing videos"}</Btn><Btn solid size="sm" onClick={() => setCreate(true)} disabled={!data?.path?.weeks.length}><Icon name="plus" className="w-3.5 h-3.5" /> New lesson</Btn></div>} />
       {notice && <div className="mb-4"><Notice kind={notice.kind} onDismiss={clear}>{notice.text}</Notice></div>}
       <div className="rounded-xl border border-line bg-primary-light/50 px-4 py-3 mb-4 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm">
         <span className="font-semibold text-primary-text"><Icon name="video" className="w-4 h-4 inline -mt-0.5 mr-1" />Watch rule</span>
@@ -129,7 +143,9 @@ function LessonDrawer({ id, weeks, defaultWatch, editable, onClose, onChanged, o
             </section>
             <section className="space-y-4">
               <h3 className="text-sm font-bold text-fg">Video & completion</h3>
-              <Field label="Video URL" hint="Absolute http(s) URL. Empty = no video (the lesson is text only)."><div className="flex gap-2"><input className="input" value={d.videoUrl} onChange={(e) => draft.set("videoUrl", e.target.value)} disabled={!editable} placeholder="https://…" />{d.videoUrl && <a href={d.videoUrl} target="_blank" rel="noreferrer" className="shrink-0 inline-flex items-center gap-1 text-xs text-primary-text"><Icon name="external" className="w-3.5 h-3.5" />open</a>}</div></Field>
+              <Field label="Lesson video" hint="Pick the best YouTube video for this lesson. Users must watch the share set below before they can skip the step.">
+                <LessonVideoPicker lessonId={id} token={token} videoUrl={data.videoUrl} snapshot={data.videoSnapshot} defaultQuery={data.title} editable={editable} onChanged={(m) => { onChanged(m); reload(); }} onError={onError} />
+              </Field>
               <div className="grid sm:grid-cols-3 gap-4">
                 <Field label="Duration (min)"><input className="input" type="number" min={0} value={d.durationMinutes} onChange={(e) => draft.set("durationMinutes", e.target.value)} disabled={!editable} /></Field>
                 <Field label="XP reward"><input className="input" type="number" min={0} value={d.xpReward} onChange={(e) => draft.set("xpReward", Number(e.target.value))} disabled={!editable} /></Field>

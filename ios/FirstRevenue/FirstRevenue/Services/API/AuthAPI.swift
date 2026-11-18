@@ -36,6 +36,8 @@ private struct VerifyBody: Encodable { let email, code, deviceLabel: String }
 private struct LoginBody: Encodable { let email, password, deviceLabel: String }
 private struct EmailBody: Encodable { let email: String }
 private struct ResetBody: Encodable { let email, code, newPassword: String }
+/// POST /auth/social/{apple|google}: the ID token from the native sign-in (plus the raw nonce for Apple).
+private struct SocialBody: Encodable { let idToken: String; let nonce: String?; let timeZone: String; let firstName, lastName: String?; let deviceLabel: String }
 
 enum AuthAPI {
     private static var deviceLabel: String { "Vaulten iOS" }
@@ -64,10 +66,28 @@ enum AuthAPI {
         let res: LoginResponse = try await VaultenAPI.shared.send("POST", "auth/login", body: LoginBody(email: email, password: password, deviceLabel: deviceLabel), authenticated: false)
         // MFA is staff-only; customer accounts never get it.
         guard !res.mfaRequired, let access = res.accessToken, let user = res.user else {
-            throw APIError.problem(Problem(status: 403, code: "MFA_ENROLLMENT_REQUIRED", title: nil, detail: nil, requestId: nil, errors: nil))
+            throw APIError.problem(Problem(status: 403, code: "MFA_ENROLLMENT_REQUIRED", title: nil, detail: nil, requestId: nil, errors: nil, params: nil))
         }
         await VaultenAPI.shared.setSession(accessToken: access, refreshToken: res.refreshToken)
         return user
+    }
+
+    /// Sign in with Apple: signs in a known identity, links a verified email to its account, or creates one
+    /// (Apple only sends the name on the first sign-in).
+    static func signInWithApple(identityToken: String, nonce: String, firstName: String?, lastName: String?) async throws -> AuthUser {
+        try await social("apple", SocialBody(idToken: identityToken, nonce: nonce, timeZone: TimeZone.current.identifier,
+                                             firstName: firstName, lastName: lastName, deviceLabel: deviceLabel))
+    }
+
+    static func signInWithGoogle(idToken: String) async throws -> AuthUser {
+        try await social("google", SocialBody(idToken: idToken, nonce: nil, timeZone: TimeZone.current.identifier,
+                                              firstName: nil, lastName: nil, deviceLabel: deviceLabel))
+    }
+
+    private static func social(_ provider: String, _ body: SocialBody) async throws -> AuthUser {
+        let session: AuthSession = try await VaultenAPI.shared.send("POST", "auth/social/\(provider)", body: body, authenticated: false)
+        await VaultenAPI.shared.setSession(accessToken: session.accessToken, refreshToken: session.refreshToken)
+        return session.user
     }
 
     static func forgotPassword(email: String) async throws {

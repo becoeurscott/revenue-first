@@ -64,7 +64,7 @@ export default function Complete() {
 
       <main className="relative z-10 mx-auto w-full max-w-3xl px-4 pb-10 sm:px-6">
         <section className="flex flex-col items-center text-center">
-          <div className="mt-10 animate-scale-in"><Mascot mood="excited" size={184} say={firstName ? `You did it, ${firstName}!` : 'You did it!'} /></div>
+          <div className="mt-10 animate-scale-in"><Mascot mood="excited" size={184} say={firstName ? `You did it, ${firstName}!` : 'You did it!'} entrance="celebrate" /></div>
           <h1 className="text-brand-gradient mt-5 animate-fade-up text-[44px] leading-[1.02] font-extrabold tracking-tight sm:text-7xl">30 DAYS COMPLETE</h1>
           <p className="mt-4 max-w-md animate-fade-up text-[17px] leading-relaxed text-muted">
             {firstName ? `${firstName}, you` : 'You'} showed up for 30 days and built a real skill people pay for. Most people never get past day three.

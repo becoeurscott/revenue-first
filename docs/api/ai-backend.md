@@ -192,3 +192,38 @@ At OpenRouter's list prices plus its ~5.5% fee on credits:
 | Premium month (10 messages) | ~$0.10 |
 | Ultimate month at the 300-message cap | ~$2–3 |
 | Personal plan (Opus 5.5, preview + full) | ~$0.15–0.30, once a month |
+
+## GET /ai/videos (lesson videos)
+
+YouTube videos for a mission, shown in the app's "Watch & learn" section and played inside the app.
+The reference implementation is `api/videos.ts`. Port it to the backend or proxy to it.
+
+- Query: `q` is today's theme plus the user's niche, up to 120 characters. `lang` is a 2-letter language code.
+- Auth: the caller's bearer token.
+- Returns `{ videos: [{ id, title, channel, thumbnail, durationSeconds, views, publishedAt }] }`, at most 6 videos.
+  - Only embeddable videos, safe search on, between 2 and 45 minutes long (no Shorts).
+- Quota: YouTube Data API v3 gives 10,000 units a day. One search costs 101 units (search.list 100 + videos.list 1), so about 99 uncached searches a day.
+  - Results are cached for 7 days per query and language.
+  - Each account is limited to 40 new searches a day (429 `rate_limited`).
+- Errors:
+  - 503 `videos_not_configured` when `YOUTUBE_API_KEY` is missing.
+  - 502 `quota_exceeded` or `youtube_error`.
+  - The app hides the section on any error.
+- Env: `YOUTUBE_API_KEY`, created in Google Cloud Console with the YouTube Data API v3 enabled. Restrict the key to that API.
+
+### Admin settings for videos
+
+Declare these in the backend's settings registry, so they appear in `GET /admin/settings` and can be changed with `PATCH /admin/settings/{key}` from the admin Settings page.
+The endpoint reads them on each request.
+
+| Key | Type | Default | What it controls |
+|---|---|---|---|
+| `videos.enabled` | boolean | `true` | Kill switch. When `false`, `/ai/videos` returns `{ videos: [] }` and the app hides the section. |
+| `videos.maxResults` | number | `6` | Videos returned per mission (1–10). |
+| `videos.dailySearchesPerUser` | number | `40` | New, uncached YouTube searches one account can trigger per day. Beyond it: 429 `rate_limited`. |
+| `videos.cacheDays` | number | `7` | How long a query's results are reused before searching YouTube again. |
+| `videos.minDurationSeconds` | number | `120` | Shorter videos are left out (no Shorts). |
+| `videos.maxDurationSeconds` | number | `2700` | Longer videos are left out. |
+| `videos.blockedChannelIds` | object[] | `[]` | `{ "id": "UC…", "reason": "…" }`. Channels never shown (low quality, get-rich-quick, competitors). |
+
+`YOUTUBE_API_KEY` stays a server environment variable and is never a setting, because settings are visible to admins.

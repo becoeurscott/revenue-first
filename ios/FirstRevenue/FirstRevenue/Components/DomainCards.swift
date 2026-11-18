@@ -5,17 +5,23 @@ import SwiftUI
 struct LessonThumb: View {
     let lesson: Lesson
     var locked = false
+    var video: LessonVideo?
     var body: some View {
         ZStack {
             Theme.hueGradient(lesson.hue)
+            if let video {
+                AsyncImage(url: URL(string: video.thumbnail)) { $0.resizable().scaledToFill() } placeholder: { Color.clear }
+                Color.black.opacity(0.15)
+            } else {
             Circle().strokeBorder(.white.opacity(0.1), lineWidth: 12).frame(width: 96).offset(x: 60, y: -34)
             RoundedRectangle(cornerRadius: 6).strokeBorder(.white.opacity(0.15)).frame(width: 54, height: 30).rotationEffect(.degrees(-6)).offset(x: -46, y: 22)
+            }
             Image(systemName: locked ? "lock.fill" : "play.fill")
                 .font(.system(size: 14, weight: .bold)).foregroundStyle(.white)
                 .frame(width: 40, height: 40).background(Circle().fill(.black.opacity(0.35))).overlay(Circle().strokeBorder(.white.opacity(0.25)))
         }
         .overlay(alignment: .bottomTrailing) {
-            Text(lesson.duration).font(.caption2.weight(.bold)).monospacedDigit().foregroundStyle(.white)
+            Text(video?.durationText ?? lesson.duration).font(.caption2.weight(.bold)).monospacedDigit().foregroundStyle(.white)
                 .padding(.horizontal, 6).padding(.vertical, 2).background(RoundedRectangle(cornerRadius: 6).fill(.black.opacity(0.6))).padding(8)
         }
         .aspectRatio(16 / 9, contentMode: .fit)
@@ -28,6 +34,9 @@ struct LessonCard: View {
     let lesson: Lesson
     var row = false
     @Environment(AppStore.self) private var store
+    @State private var video: LessonVideo?
+    /// Minutes shown on the card: the video's real length once known, else the lesson estimate.
+    private var minutes: Int { video.map { max(1, Int((Double($0.durationSeconds) / 60).rounded())) } ?? lesson.minutes }
 
     var body: some View {
         let done = store.s.completedLessons.contains(lesson.id)
@@ -37,13 +46,13 @@ struct LessonCard: View {
             Group {
                 if row {
                     HStack(spacing: Space.m) {
-                        LessonThumb(lesson: lesson, locked: locked).frame(width: 118)
+                        LessonThumb(lesson: lesson, locked: locked, video: video).frame(width: 118)
                         info(done: done, saved: saved)
                     }
                     .card(padding: 10)
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
-                        LessonThumb(lesson: lesson, locked: locked)
+                        LessonThumb(lesson: lesson, locked: locked, video: video)
                         info(done: done, saved: saved).padding(.horizontal, 4).padding(.bottom, 4)
                     }
                     .card(padding: 10)
@@ -51,7 +60,8 @@ struct LessonCard: View {
             }
         }
         .buttonStyle(.pressable)
-        .accessibilityLabel("\(lesson.title), \(lesson.category), \(lesson.minutes) minutes\(done ? ", completed" : "")\(locked ? ", locked" : "")")
+        .task(id: lesson.id) { video = await VideosAPI.lessonVideo(lesson, niche: store.niche?.normalizedLabel) }
+        .accessibilityLabel("\(lesson.title), \(lesson.category), \(minutes) minutes\(done ? ", completed" : "")\(locked ? ", locked" : "")")
     }
 
     private func info(done: Bool, saved: Bool) -> some View {
@@ -61,7 +71,7 @@ struct LessonCard: View {
                 HStack(spacing: 5) {
                     Text(lesson.category).lineLimit(1)
                     Text("·")
-                    Text("\(lesson.minutes) min").monospacedDigit()
+                    Text("\(minutes) min").monospacedDigit()
                     if saved { Image(systemName: "bookmark.fill").foregroundStyle(Theme.brand300) }
                 }
                 .font(.caption).foregroundStyle(Theme.faint)
@@ -203,98 +213,4 @@ struct HeatmapView: View {
         .accessibilityElement()
         .accessibilityLabel("\(activeDays.count) active days in the last \(weeks) weeks")
     }
-}
-
-// MARK: Mock video player
-
-/// Fake player. Nothing streams — playback is simulated at 40× so a 12-minute lesson finishes in ~20s.
-struct VideoPlayerMock: View {
-    let lesson: Lesson
-    var onProgress: (Double) -> Void = { _ in }
-    var onEnded: () -> Void = {}
-    @State private var playing = false
-    @State private var muted = false
-    @State private var t = 0.0
-    @State private var fullscreen = false
-
-    var body: some View {
-        player.fullScreenCover(isPresented: $fullscreen) {
-            player.frame(maxHeight: .infinity).background(.black).overlay(alignment: .topLeading) {
-                Button { fullscreen = false } label: { Image(systemName: "xmark").font(.headline).foregroundStyle(.white).frame(width: 44, height: 44).background(Circle().fill(.black.opacity(0.5))) }
-                    .padding().accessibilityLabel("Exit fullscreen")
-            }
-        }
-        .task(id: playing) {
-            guard playing else { return }
-            let total = Double(lesson.seconds)
-            while playing && !Task.isCancelled {
-                try? await Task.sleep(for: .milliseconds(100))
-                t = min(t + 4, total)
-                onProgress(t / total)
-                if t >= total { playing = false; onEnded() }
-            }
-        }
-    }
-
-    private var player: some View {
-        let total = Double(lesson.seconds)
-        return ZStack {
-            Theme.hueGradient(lesson.hue)
-            Circle().strokeBorder(.white.opacity(0.1), lineWidth: 24).frame(width: 220).offset(x: 120, y: -70).rotationEffect(.degrees(playing ? 360 : 0)).animation(playing ? .linear(duration: 9).repeatForever(autoreverses: false) : .default, value: playing)
-            if !playing {
-                Text(lesson.title).font(.title2.weight(.heavy)).foregroundStyle(.white).shadow(radius: 4)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading).padding(.horizontal, 20).padding(.bottom, 58)
-            }
-            Button {
-                Haptics.tap()
-                if t >= total { t = 0 }
-                playing.toggle()
-            } label: {
-                Image(systemName: playing ? "pause.fill" : "play.fill").font(.system(size: 26, weight: .bold)).foregroundStyle(.white)
-                    .frame(width: 72, height: 72).background(Circle().fill(.white.opacity(0.15))).overlay(Circle().strokeBorder(.white.opacity(0.3))).background(.ultraThinMaterial, in: Circle())
-                    .opacity(playing ? 0.35 : 1)
-            }
-            .accessibilityLabel(playing ? "Pause lesson" : "Play lesson")
-        }
-        .overlay(alignment: .top) {
-            HStack {
-                Text(lesson.category.uppercased()).font(.caption2.weight(.bold)).tracking(0.6)
-                Spacer()
-                Text("Simulated lesson · 40×").font(.caption2.weight(.semibold))
-            }
-            .foregroundStyle(.white.opacity(0.9)).padding(12)
-        }
-        .overlay(alignment: .bottom) {
-            VStack(spacing: 6) {
-                GeometryReader { g in
-                    ZStack(alignment: .leading) {
-                        Capsule().fill(.white.opacity(0.25))
-                        Capsule().fill(Theme.brandGradient).frame(width: g.size.width * t / total)
-                    }
-                    .frame(height: 4).frame(maxHeight: .infinity)
-                    .contentShape(Rectangle())
-                    .gesture(DragGesture(minimumDistance: 0).onChanged { v in t = min(max(v.location.x / g.size.width, 0), 1) * total; onProgress(t / total) })
-                }
-                .frame(height: 20)
-                .accessibilityElement()
-                .accessibilityLabel("Playback position")
-                .accessibilityValue("\(fmt(t)) of \(lesson.duration)")
-                .accessibilityAdjustableAction { dir in t = dir == .increment ? min(t + 15, total) : max(t - 15, 0) }
-                HStack {
-                    Text("\(fmt(t)) / \(lesson.duration)").font(.caption.weight(.medium)).monospacedDigit()
-                    Spacer()
-                    Button { muted.toggle() } label: { Image(systemName: muted ? "speaker.slash.fill" : "speaker.wave.2.fill").frame(width: 40, height: 36) }.accessibilityLabel(muted ? "Unmute" : "Mute")
-                    Button { fullscreen.toggle() } label: { Image(systemName: "arrow.up.left.and.arrow.down.right").frame(width: 40, height: 36) }.accessibilityLabel("Fullscreen")
-                }
-                .foregroundStyle(.white)
-            }
-            .padding(.horizontal, 12).padding(.bottom, 6)
-            .background(LinearGradient(colors: [.clear, .black.opacity(0.75)], startPoint: .top, endPoint: .bottom))
-        }
-        .aspectRatio(16 / 9, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: fullscreen ? 0 : Radius.xl, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous).strokeBorder(Theme.line))
-    }
-
-    private func fmt(_ s: Double) -> String { String(format: "%d:%02d", Int(s) / 60, Int(s) % 60) }
 }

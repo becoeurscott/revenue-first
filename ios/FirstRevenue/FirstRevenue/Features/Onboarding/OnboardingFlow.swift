@@ -16,6 +16,11 @@ struct OnboardingFlow: View {
     @State private var key = "welcome"
     @State private var forward = true
     @State private var autoAdvance: Task<Void, Never>?
+    /// Budget: "A specific amount" picked, and the amount typed (digits only).
+    @State private var customBudget = false
+    @State private var budgetAmount = ""
+    /// "Add another skill" search text.
+    @State private var skillQuery = ""
     /// Written during the analysis step: Week 1 only until the user pays.
     @State private var program: GeneratedProgram?
 
@@ -76,7 +81,6 @@ struct OnboardingFlow: View {
     // MARK: Questions
 
     private var isValid: Bool {
-        if step.key == "ageRange" && value("ageRange") == "under_18" { return false }
         switch step.kind {
         case "info": return true
         case "multi": return !selectedMulti.isEmpty
@@ -180,6 +184,15 @@ struct OnboardingFlow: View {
         key == "nicheDetail" ? "“\(answers.niche)” is broad. \(step.subtitle)" : step.subtitle
     }
 
+    /// Before typing: niches that fit the route. While typing: every industry that matches what's typed.
+    private var nicheSuggestions: [String] {
+        let typed = answers.niche.trimmingCharacters(in: .whitespaces)
+        if typed.isEmpty { return NicheSuggestions.starters(for: method) }
+        let found = NicheSuggestions.matches(typed)
+        // Once a suggestion is picked exactly, keep the route's set visible instead of a single chip.
+        return found == [typed] ? NicheSuggestions.starters(for: method) : found
+    }
+
     @ViewBuilder private var input: some View {
         switch step.kind {
         case "info":
@@ -191,7 +204,7 @@ struct OnboardingFlow: View {
                 OnboardingTextField(text: binding(step.key), placeholder: step.placeholder ?? "", contentType: step.key == "name" ? .givenName : nil, onSubmit: { if isValid { next() } })
                 if step.key == "niche" {
                     FlowLayout {
-                        ForEach(Journeys.catalog.niches.prefix(12).map(\.label), id: \.self) { label in
+                        ForEach(nicheSuggestions, id: \.self) { label in
                             Button { Haptics.select(); answers.niche = label } label: { Badge(label, tone: answers.niche == label ? .brand : .neutral) }
                                 .buttonStyle(.pressable)
                         }
@@ -204,6 +217,7 @@ struct OnboardingFlow: View {
                     OptionCard(option: o, multi: true, selected: selectedMulti.contains(o.value)) { toggle(o.value) }.fadeUp(i)
                 }
             }
+            if step.key == "skills" { otherSkills.padding(.top, Space.l) }
         case "goal":
             VStack(spacing: 12) {
                 ForEach(Array((config?.goalOptions ?? []).enumerated()), id: \.element.label) { i, g in
@@ -214,17 +228,30 @@ struct OnboardingFlow: View {
         default:
             VStack(spacing: 12) {
                 ForEach(Array((step.options ?? []).enumerated()), id: \.element.value) { i, o in
-                    OptionCard(option: o, multi: false, selected: value(step.key) == o.value) { choose(o.value) }.fadeUp(i)
+                    OptionCard(option: o, multi: false, selected: isSelected(o)) {
+                        if step.key == "budget" && o.value == "custom" {
+                            Haptics.select()
+                            autoAdvance?.cancel()
+                            customBudget = true
+                            answers.budget = budgetAmount.isEmpty ? "" : "$\(budgetAmount)"
+                        } else if step.key == "ageRange" && o.value == "under_18" {
+                            // Under 18: no onboarding, no plan, no paywall. The block screen explains why.
+                            Voice.shared.stop()
+                            Monitoring.track("age_blocked")
+                            withAnimation(.easeInOut(duration: 0.35)) { store.ageBlocked = true }
+                        } else {
+                            if step.key == "budget" { customBudget = false }
+                            choose(o.value)
+                        }
+                    }.fadeUp(i)
+                }
+                if step.key == "budget" && customBudget {
+                    BudgetAmountField(amount: $budgetAmount) { answers.budget = $0.isEmpty ? "" : "$\($0)" }
+                        .onSubmit { if isValid { next() } }
+                        .transition(.opacity.combined(with: .move(edge: .top)))
                 }
             }
-            if step.key == "ageRange" && value("ageRange") == "under_18" {
-                Label("Vaulten is for adults 18 and over, because it involves payments, contracts and selling online. Come back when you're 18. We'd love to have you then.", systemImage: "heart.fill")
-                    .font(.play(15, .medium)).foregroundStyle(Theme.inkSoft)
-                    .padding(Space.l)
-                    .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Theme.surface))
-                    .padding(.top, Space.l)
-                    .transition(.opacity)
-            }
+            .animation(.snappy, value: customBudget)
         }
     }
 
@@ -266,10 +293,10 @@ struct OnboardingFlow: View {
     private func setValue(_ key: String, _ v: String) {
         switch key {
         case "earningMethod":
-            if v != choice { resetMethodAnswers() }
+            if v != choice { resetMethodAnswers(clearNiche: !choice.isEmpty) }
             choice = v
         case "youtubeMode":
-            if v != answers.youtubeMode { resetMethodAnswers() }
+            if v != answers.youtubeMode { resetMethodAnswers(clearNiche: !answers.youtubeMode.isEmpty) }
             answers.youtubeMode = v
         case "weeklyTime": answers.weeklyTime = v
         case "budget": answers.budget = v
@@ -278,16 +305,23 @@ struct OnboardingFlow: View {
             var extra = answers.extra ?? [:]
             extra[key] = [v]
             answers.extra = extra
+            if key == "heardFrom" { Monitoring.track("onboarding_heard_from", ["source": v]) }
+            if key == "ageRange" { Monitoring.track("onboarding_age_range", ["range": v]) }
             // Status questions ("Do you already have a channel?") set where the plan starts.
             if let stage = step.options?.first(where: { $0.value == v })?.stage { answers.startingStage = stage }
         }
     }
 
-    /// Switching methods changes every question after it, so answers given for the old method are dropped.
-    private func resetMethodAnswers() {
+    /// Answers about the person, not the method: they survive a method switch.
+    private static let personalKeys: Set<String> = ["heardFrom", "ageRange"]
+
+    /// Switching methods changes every question after it, so answers given for the old method are dropped
+    /// (and the niche too, once a method had been chosen: "fitness YouTubers" doesn't fit freelance).
+    private func resetMethodAnswers(clearNiche: Bool = true) {
         answers.youtubeMode = ""
         answers.goal = ""
-        answers.extra = nil
+        answers.extra = answers.extra?.filter { Self.personalKeys.contains($0.key) }
+        if clearNiche { answers.niche = ""; answers.nicheDetail = "" }
         answers.startingStage = nil
         answers.skills = []
         answers.equipment = []
@@ -315,6 +349,65 @@ struct OnboardingFlow: View {
             extra[step.key] = list
             answers.extra = extra
         }
+    }
+
+    /// Skills beyond the listed choices: search the full list or type your own, shown as removable chips.
+    private var otherSkills: some View {
+        let listed = Set((step.options ?? []).map(\.value))
+        let custom = answers.skills.filter { !listed.contains($0) }
+        let typed = skillQuery.trimmingCharacters(in: .whitespaces)
+        let found = NicheSuggestions.search(typed, in: NicheSuggestions.skills, limit: 8).filter { !answers.skills.contains($0) && !listed.contains($0) }
+        return VStack(alignment: .leading, spacing: Space.m) {
+            Text("Something else?").font(.play(15, .bold)).foregroundStyle(Theme.muted)
+            if !custom.isEmpty {
+                FlowLayout {
+                    ForEach(custom, id: \.self) { skill in
+                        Button { Haptics.select(); answers.skills.removeAll { $0 == skill } } label: {
+                            Label(skill, systemImage: "xmark").labelStyle(.titleAndIcon)
+                                .font(.subheadline.weight(.semibold)).foregroundStyle(.white)
+                                .padding(.horizontal, 12).padding(.vertical, 8)
+                                .background(Capsule().fill(Theme.brand500))
+                        }
+                        .buttonStyle(.pressable)
+                        .accessibilityLabel("Remove \(skill)")
+                    }
+                }
+            }
+            HStack(spacing: 8) {
+                Image(systemName: "plus.magnifyingglass").foregroundStyle(Theme.muted)
+                TextField("Add another skill", text: $skillQuery)
+                    .submitLabel(.done)
+                    .onSubmit { addSkill(found.first ?? typed) }
+            }
+            .padding(.horizontal, 16).frame(height: 52)
+            .background(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).fill(Theme.surface))
+            .overlay(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).strokeBorder(Theme.line))
+            if !typed.isEmpty {
+                FlowLayout {
+                    ForEach(found, id: \.self) { skill in
+                        Button { addSkill(skill) } label: { Badge(skill, tone: .neutral) }.buttonStyle(.pressable)
+                    }
+                    if !found.contains(where: { $0.caseInsensitiveCompare(typed) == .orderedSame }) && typed.count >= 2 {
+                        Button { addSkill(typed) } label: { Badge("Add “\(typed)”", tone: .brand) }.buttonStyle(.pressable)
+                    }
+                }
+            }
+        }
+        .animation(.snappy, value: answers.skills)
+    }
+
+    private func addSkill(_ raw: String) {
+        let skill = String(raw.trimmingCharacters(in: .whitespaces).prefix(40))
+        guard skill.count >= 2, !answers.skills.contains(where: { $0.caseInsensitiveCompare(skill) == .orderedSame }) else { skillQuery = ""; return }
+        Haptics.select()
+        answers.skills.removeAll { $0 == "None yet" }
+        answers.skills.append(skill)
+        skillQuery = ""
+    }
+
+    private func isSelected(_ o: JourneyQuestionOption) -> Bool {
+        guard step.key == "budget" else { return value(step.key) == o.value }
+        return o.value == "custom" ? customBudget : !customBudget && value(step.key) == o.value
     }
 
     private func choose(_ v: String) {
@@ -353,7 +446,8 @@ struct OnboardingFlow: View {
         forward = false
         let list = steps
         guard let i = list.firstIndex(where: { $0.key == key }), i > 0 else {
-            if store.s.account == nil { store.leaveGuest() } else { store.logout() }
+            // A guest goes back to the welcome screen; a signed-in account stays here (Back never signs anyone out).
+            if store.s.account == nil { store.leaveGuest() }
             return
         }
         withAnimation(.snappy) { key = list[i - 1].key }
@@ -374,7 +468,8 @@ struct OnboardingFlow: View {
         default: choice = m.rawValue
         }
         forward = true
-        key = "niche"
+        // Same order as choosing directly: the "one mission a day" screen, then the niche.
+        key = steps.contains(where: { $0.key == "valueMissions" }) ? "valueMissions" : "niche"
         withAnimation(.snappy) { phase = .questions }
     }
 
@@ -642,7 +737,11 @@ private struct JourneyResultsView: View {
     private var journeyPaywall: some View {
         VStack(spacing: 0) {
             // Closing the paywall still saves the plan: the user explores the app until they start.
-            PlanPaywallView(onUnlocked: { paywall = false; onUnlocked() }, onClose: { paywall = false; onStart() })
+            PlanPaywallView(onUnlocked: { paywall = false; onUnlocked() }, onClose: {
+                paywall = false
+                onStart()
+                OfferCenter.shared.paywallClosed(store: store)
+            })
                 .interactiveDismissDisabled()
         }
         .background(Theme.bgSunken.ignoresSafeArea())
@@ -650,6 +749,33 @@ private struct JourneyResultsView: View {
 }
 
 // MARK: - Shared pieces
+
+/// "$ ___": how much the user plans to spend, digits only.
+private struct BudgetAmountField: View {
+    @Binding var amount: String
+    let onChange: (String) -> Void
+    @FocusState private var focused: Bool
+    var body: some View {
+        HStack(spacing: 6) {
+            Text("$").font(.title2.weight(.bold)).foregroundStyle(Theme.muted)
+            TextField("Amount", text: $amount)
+                .font(.title2.weight(.semibold))
+                .keyboardType(.numberPad)
+                .focused($focused)
+                .onChange(of: amount) { _, v in
+                    let digits = String(v.filter(\.isNumber).prefix(6))
+                    if digits != v { amount = digits }
+                    onChange(digits)
+                }
+        }
+        .padding(.horizontal, 20).frame(height: 64)
+        .background(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).fill(Theme.surface))
+        .overlay(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous).strokeBorder(focused ? Theme.brand500 : Theme.line, lineWidth: focused ? 1.5 : 1))
+        .padding(.top, 4)
+        .onAppear { focused = true }
+        .accessibilityLabel("Amount in dollars")
+    }
+}
 
 private struct OnboardingTextField: View {
     @Binding var text: String

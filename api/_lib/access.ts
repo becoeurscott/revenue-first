@@ -86,7 +86,7 @@ function usageKey(userId: string, t: Tier, now = new Date()): { key: string; res
 }
 
 /** Runs Redis commands through Upstash's REST pipeline. Null when the store isn't configured or fails. */
-async function redis(commands: (string | number)[][]): Promise<unknown[] | null> {
+export async function redis(commands: (string | number)[][]): Promise<unknown[] | null> {
   const url = process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.UPSTASH_REDIS_REST_TOKEN
   if (!url || !token) return null

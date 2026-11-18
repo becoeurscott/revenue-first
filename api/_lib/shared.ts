@@ -190,6 +190,8 @@ export interface JourneyContext {
   /** Month of the journey (1 = the first 30-day plan) and what this month is aimed at, from the last review. */
   month: number
   focus: string
+  /** Route answers from onboarding ("Video format: Shorts first") and the plan notes they imply. */
+  setup: string[]
 }
 
 const strings = (v: unknown, max: number, n = 8) => (Array.isArray(v) ? v.slice(0, n).map((x) => clip(x, max).trim()).filter(Boolean) : [])
@@ -245,6 +247,7 @@ export function readContext(raw: unknown): JourneyContext | 'unsupported' | null
     metrics,
     month: Number.isInteger(Number(c.month)) && Number(c.month) >= 1 ? Math.min(Number(c.month), 120) : 1,
     focus: clip(c.focus, 200),
+    setup: strings(c.setup, 200, 16),
   }
 }
 
@@ -265,6 +268,7 @@ export const describeContext = (c: JourneyContext) => {
     c.constraints.skills.length ? `Skills: ${c.constraints.skills.join(', ')}` : '',
     c.constraints.equipment.length ? `Equipment: ${c.constraints.equipment.join(', ')}` : '',
     c.constraints.location && `Location: ${c.constraints.location}`,
+    c.setup.length ? `Their setup (shape the missions to it, e.g. no on-camera tasks for a faceless creator):\n- ${c.setup.join('\n- ')}` : '',
     c.goal && `First goal: ${c.goal}`,
     c.month > 1 && `This is month ${c.month} of their journey; earlier months are done. Build on what they already did instead of repeating Month 1 basics.`,
     c.focus && `This month's focus, from their last monthly review: ${c.focus}. Aim every day of the plan at it.`,

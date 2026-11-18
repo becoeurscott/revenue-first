@@ -1,5 +1,6 @@
 import SwiftUI
 import RevenueCat
+import StoreKit
 
 /// Vaulten's own paywall, built on the current RevenueCat offering: a Premium / Ultimate switch, the plans
 /// of that tier, and one big button. Free trials show only to people who are eligible, and the full price
@@ -23,6 +24,8 @@ struct PlanPaywallView: View {
     @State private var legal: AccountLegalDoc?
     /// True once a load attempt has finished, so an empty result shows a message instead of spinning forever.
     @State private var loaded = false
+    /// Why no plans showed, for support and TestFlight debugging (e.g. "timed out", "offering default: 0 of 4 plans").
+    @State private var diagnostic: String?
 
     private var revenueCat: RevenueCatService { RevenueCatService.shared }
     private var packages: [Package] {
@@ -139,10 +142,13 @@ struct PlanPaywallView: View {
     }
 
     @ViewBuilder private var loadingOrError: some View {
-        if loaded && !revenueCat.isLoading {
+        if loaded {
             VStack(spacing: Space.m) {
                 Label(revenueCat.errorMessage ?? "The plans couldn't be loaded from the App Store right now.", systemImage: "exclamationmark.circle.fill")
                     .font(.footnote).foregroundStyle(Theme.danger).multilineTextAlignment(.center)
+                if let diagnostic {
+                    Text(diagnostic).font(.caption2.monospaced()).foregroundStyle(Theme.faint).multilineTextAlignment(.center).textSelection(.enabled)
+                }
                 Button("Try again") { Task { await reload(force: true) } }.buttonStyle(.fr(.secondary))
             }
             .padding(.vertical, Space.l)
@@ -184,7 +190,7 @@ struct PlanPaywallView: View {
         return intro
     }
 
-    private func periodText(_ period: SubscriptionPeriod) -> String {
+    private func periodText(_ period: RevenueCat.SubscriptionPeriod) -> String {
         let unit: String
         switch period.unit {
         case .day: unit = period.value == 7 ? "week" : "day"
@@ -230,19 +236,43 @@ struct PlanPaywallView: View {
     /// Loads the plans (again if forced or if the cached offering is empty), at most ~15 s, then checks trials.
     private func reload(force: Bool) async {
         loaded = false
+        diagnostic = nil
+        var timedOut = false
         if force || packages.isEmpty {
-            await withTaskGroup(of: Void.self) { group in
-                group.addTask { @MainActor in await RevenueCatService.shared.load() }
-                group.addTask { try? await Task.sleep(for: .seconds(15)) }
-                await group.next()
+            timedOut = await withTaskGroup(of: Bool.self) { group in
+                group.addTask { @MainActor in await RevenueCatService.shared.load(); return false }
+                group.addTask { try? await Task.sleep(for: .seconds(30)); return true }
+                let first = await group.next() ?? false
                 group.cancelAll()
+                return first
             }
         }
         if packages.isEmpty {
-            Monitoring.track("paywall_no_packages", ["offering": revenueCat.offerings?.current?.identifier ?? "none", "error": revenueCat.errorMessage ?? ""])
+            diagnostic = Self.diagnose(timedOut: timedOut, revenueCat: revenueCat) + "\n" + (await Self.storeKitCheck())
+            Monitoring.track("paywall_no_packages", ["diagnostic": diagnostic ?? "", "error": revenueCat.errorMessage ?? ""])
         }
         loaded = true
         await checkEligibility()
+    }
+
+    /// Asks the App Store directly (StoreKit 2, no RevenueCat) which plan IDs it knows, to tell a store-side problem
+    /// from a RevenueCat one.
+    private static func storeKitCheck() async -> String {
+        let ids = ["com.vaulten.app.premium.monthly", "com.vaulten.app.premium.yearly", "com.vaulten.app.ultimate.monthly",
+                   "com.vaulten.app.ultimate.yearly", "com.vaulten.app.premium.yearly.offer25"]
+        do {
+            let found = Set(try await StoreKit.Product.products(for: ids).map(\.id))
+            return "App Store: " + ids.map { "\($0.replacingOccurrences(of: "com.vaulten.app.", with: "")) \(found.contains($0) ? "OK" : "MISSING")" }.joined(separator: ", ")
+        } catch {
+            return "App Store check failed: \(error.localizedDescription)"
+        }
+    }
+
+    private static func diagnose(timedOut: Bool, revenueCat: RevenueCatService) -> String {
+        if timedOut { return "Timed out after 30 s waiting for the App Store." }
+        guard let offerings = revenueCat.offerings else { return "No offerings returned. \(revenueCat.loadErrorDetail ?? "")" }
+        guard let current = offerings.current else { return "No current offering (\(offerings.all.count) offerings)." }
+        return "Offering \(current.identifier): \(current.availablePackages.count) plans from the App Store. \(revenueCat.loadErrorDetail ?? "")"
     }
 
     private func checkEligibility() async {

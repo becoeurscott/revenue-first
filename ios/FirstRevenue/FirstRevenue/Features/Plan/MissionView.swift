@@ -94,6 +94,9 @@ private struct MissionFlow: View {
         }
     }
 
+    /// Today's topic in the user's niche, e.g. "Find your first clients fitness YouTubers".
+    private var videoQuery: String { [plan.theme, store.niche?.normalizedLabel].compactMap { $0 }.joined(separator: " ") }
+
     private var skipTitle: String {
         "Complete with \(skippedCount) skipped task\(skippedCount == 1 ? "" : "s")?"
     }
@@ -103,6 +106,7 @@ private struct MissionFlow: View {
             VStack(alignment: .leading, spacing: 0) {
                 intro
                 taskList
+                LessonVideosSection(query: videoQuery)
             }
             .frame(maxWidth: 680, alignment: .leading)
             .padding(.horizontal, Space.gutter)

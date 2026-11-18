@@ -24,17 +24,33 @@ final class OfferCenter {
     var current: OfferPresentation?
 
     @ObservationIgnored private var lastChanceTimer: Task<Void, Never>?
+    /// Why the last offer couldn't be shown (for test builds and logs).
+    @ObservationIgnored private var lastSkipReason: String?
     private init() {}
 
     /// The paywall was just closed: show the next gift a second later, back on the screen the user came from.
     func paywallClosed(store: AppStore) {
         lastChanceTimer?.cancel()
         Task { @MainActor in
-            guard let next = store.discountOfferAfterClose(), let presentation = await resolve(next) else { return }
+            guard let next = store.discountOfferAfterClose() else {
+                explainSkip(store.isPremium ? "already subscribed" : "both gifts were already shown on this phone", store: store)
+                return
+            }
+            guard let presentation = await resolve(next) else {
+                explainSkip(lastSkipReason ?? "unknown", store: store)
+                return
+            }
             try? await Task.sleep(for: .seconds(1))
             guard !store.isPremium, store.paywallFeature == nil, current == nil else { return }
             current = presentation
         }
+    }
+
+    /// TestFlight and Xcode builds say why no gift appeared (App Store builds stay silent).
+    private func explainSkip(_ reason: String, store: AppStore) {
+        offerLog.notice("gift skipped: \(reason)")
+        guard Purchases.isConfigured, Purchases.shared.isSandbox else { return }
+        store.showToast("Test build: no gift, \(reason).", .info)
     }
 
     /// The 25% offer was closed: if the user is still here in 3 minutes, bring the last chance.
@@ -62,6 +78,7 @@ final class OfferCenter {
         if revenueCat.offerings?.offering(identifier: offer.rawValue) == nil { await revenueCat.load() }
         guard let package = revenueCat.offerings?.offering(identifier: offer.rawValue)?.availablePackages.first else {
             offerLog.notice("offer \(offer.rawValue) skipped: not configured")
+            lastSkipReason = "the \(offer.rawValue) offering didn't load"
             Monitoring.track("discount_offer_skipped", ["offer": offer.rawValue, "reason": "not_configured"])
             return nil
         }
@@ -72,6 +89,7 @@ final class OfferCenter {
             // intro price. Only someone who already used an intro offer is skipped.
             let eligibility = await Purchases.shared.checkTrialOrIntroDiscountEligibility(product: product)
             guard eligibility != .ineligible else {
+                lastSkipReason = "this Apple ID already had a trial or subscription, so Apple won't give it an intro price"
                 Monitoring.track("discount_offer_skipped", ["offer": offer.rawValue, "reason": "ineligible"])
                 return nil
             }
@@ -79,6 +97,7 @@ final class OfferCenter {
             // Test Store: the offer is a product priced below the regular yearly plan.
         } else {
             offerLog.notice("offer \(offer.rawValue) skipped: no discount")
+            lastSkipReason = "the offer has no intro price and isn't cheaper than the yearly plan"
             Monitoring.track("discount_offer_skipped", ["offer": offer.rawValue, "reason": "no_discount"])
             return nil
         }

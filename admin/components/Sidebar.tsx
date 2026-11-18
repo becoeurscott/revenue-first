@@ -21,6 +21,7 @@ const GROUPS: { title?: string; items: NavItem[] }[] = [
     items: [
       { href: "/paths", label: "Paths & weeks", icon: "layers" },
       { href: "/lessons", label: "Lessons", icon: "play" },
+      { href: "/lesson-videos", label: "Lesson videos", icon: "video" },
       { href: "/resources", label: "Resources", icon: "book" },
       { href: "/missions", label: "Mission plans", icon: "calendar" },
       { href: "/journeys", label: "Journeys", icon: "route" },

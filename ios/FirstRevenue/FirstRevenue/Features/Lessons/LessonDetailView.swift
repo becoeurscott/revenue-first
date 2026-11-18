@@ -22,6 +22,7 @@ private struct LessonDetailContent: View {
     let lesson: Lesson
     @Environment(AppStore.self) private var store
     @State private var watched = 0.0
+    @State private var video: LessonVideo?
 
     private var locked: Bool { store.isLessonLocked(lesson) }
     private var done: Bool { store.s.completedLessons.contains(lesson.id) }
@@ -79,10 +80,11 @@ private struct LessonDetailContent: View {
         if locked {
             lockedPlayer
         } else {
-            VideoPlayerMock(
+            LessonYouTubePlayer(
                 lesson: lesson,
-                onProgress: { f in if f > watched { watched = f } },
-                onEnded: { store.showToast("Lesson finished — mark it complete to earn XP", .info) }
+                onProgress: { f in if f > watched { withAnimation { watched = f } } },
+                onEnded: { store.showToast("Lesson finished — mark it complete to earn XP", .info) },
+                onVideo: { video = $0 }
             )
             .id(lesson.id)
         }
@@ -147,10 +149,10 @@ private struct LessonDetailContent: View {
 
     private var instructorRow: some View {
         HStack(spacing: 10) {
-            AvatarView(name: lesson.instructor, size: 28)
-            Text(lesson.instructor)
+            AvatarView(name: video?.channel ?? lesson.instructor, size: 28)
+            Text(video?.channel ?? lesson.instructor).lineLimit(1)
             Text("·").accessibilityHidden(true)
-            Text(lesson.duration).monospacedDigit()
+            Text(video?.durationText ?? lesson.duration).monospacedDigit()
         }
         .font(.footnote).foregroundStyle(Theme.muted)
         .accessibilityElement(children: .combine)
