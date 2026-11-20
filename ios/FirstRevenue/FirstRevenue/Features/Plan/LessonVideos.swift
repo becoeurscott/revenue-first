@@ -1,10 +1,10 @@
 import SwiftUI
 import WebKit
 
-/// "Watch & learn": YouTube videos picked for today's topic and the user's niche, played inside the app.
-/// Hidden when the video service isn't available or finds nothing.
+/// "Watch & learn": the stored YouTube video for today's lesson, played inside the app.
+/// Hidden when the lesson has no video yet or videos are unavailable.
 struct LessonVideosSection: View {
-    let query: String
+    let lessonId: String
     @State private var videos: [LessonVideo] = []
     @State private var playing: LessonVideo?
     @State private var loaded = false
@@ -30,8 +30,8 @@ struct LessonVideosSection: View {
                 .transition(.opacity)
             }
         }
-        .task(id: query) {
-            let found = await VideosAPI.search(query)
+        .task(id: lessonId) {
+            let found = await VideosAPI.video(forLessonId: lessonId).map { [$0] } ?? []
             withAnimation(.snappy) { videos = found; loaded = true }
             if !found.isEmpty { Monitoring.track("lesson_videos_shown", ["count": found.count]) }
         }
