@@ -51,10 +51,17 @@ enum CoachAPI {
         /// The plan's allowance is spent; carries the usage to show.
         case limitReached(CoachUsage)
         case http(Int)
+        /// The server says this plan has no AI coach (COACH_TIER_REQUIRED). The app has already checked the
+        /// subscription, so this is a server-side tier mapping gap: answer with the built-in coach, never an error.
+        case tierRequired
+        /// The API doesn't see the subscription yet (SUBSCRIPTION_REQUIRED) while the app does.
+        case subscriptionNotSynced
 
         /// The AI server isn't deployed or set up yet (missing route, no API key, no usage store):
         /// the app answers with its built-in coach instead of showing an error.
         var meansUnavailable: Bool {
+            if case .tierRequired = self { return true }
+            if case .subscriptionNotSynced = self { return true }
             if case .http(let status) = self { return status == 404 || status == 405 || status == 501 || status == 503 }
             return false
         }
@@ -127,6 +134,11 @@ enum CoachAPI {
             let used = p.params?["used"]?.int ?? limit
             let resets = p.params?["resetsAt"]?.string.flatMap(parseDate)
             return .limitReached(CoachUsage(tier: currentTier, used: used, limit: limit, period: "month", resetsAt: resets))
+        case "SUBSCRIPTION_REQUIRED":
+            return .subscriptionNotSynced
+        case "COACH_TIER_REQUIRED":
+            Monitoring.track("coach_tier_required", ["tier": "\(currentTier)"])
+            return .tierRequired
         default:
             return .http(p.status)   // 503 COACH_UNAVAILABLE → built-in answers
         }

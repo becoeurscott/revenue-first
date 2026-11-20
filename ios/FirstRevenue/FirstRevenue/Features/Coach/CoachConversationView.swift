@@ -63,6 +63,8 @@ struct CoachConversationView: View {
                 Haptics.notify(.warning)
             } catch let failure as CoachAPI.Failure where failure.meansUnavailable {
                 guard !Task.isCancelled else { return }
+                // The API hadn't caught up with the subscription: re-sync so the next message reaches the AI coach.
+                if case .subscriptionNotSynced = failure { Task { await RevenueCatService.shared.refreshEntitlement(sync: true) } }
                 let reply = CoachEngine.reply(to: last.text, path: store.s.pathId).text
                 withAnimation(.snappy) { store.addChatMessage(id, from: "coach", reply) }
                 Haptics.soft()

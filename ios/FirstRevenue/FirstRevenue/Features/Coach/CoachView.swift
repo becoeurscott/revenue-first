@@ -5,8 +5,20 @@ struct CoachView: View {
     @State private var loading = true
     @State private var pendingDelete: CoachConversation?
 
+    /// Title and subtitle that match the user's journey (a product seller doesn't have a "channel").
+    private var coachCopy: (title: String, subtitle: String) {
+        switch store.journey.track {
+        case .digitalProducts: ("Your Product Coach", "Ask me anything about your product, pricing and sales.")
+        case .affiliateContent: ("Your Affiliate Coach", "Ask me anything about your content, programs and commissions.")
+        case .creatorBrand: ("Your Creator Coach", "Ask me anything about your posts, audience and brand deals.")
+        case .youtubeOwned: ("Your Channel Coach", "Ask me anything about your channel.")
+        case .clipping, .gbp: ("Your Business Coach", "Ask me anything about your clients, offer and outreach.")
+        case nil: ("Your Coach", "Ask me anything about your plan.")
+        }
+    }
+
     var body: some View {
-        Screen(title: store.journey.sellsServices ? "Your Business Coach" : "Your Channel Coach", subtitle: store.journey.sellsServices ? "Ask me anything about your clients, offer and outreach." : "Ask me anything about your channel.", large: true) {
+        Screen(title: coachCopy.title, subtitle: coachCopy.subtitle, large: true) {
             if store.canUseCoach { content } else { LockedView(feature: "AI Coach", message: store.journey.coachGateMessage) }
         }
         .safeAreaInset(edge: .bottom) {

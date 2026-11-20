@@ -159,7 +159,7 @@ For each product (`com.vaulten.app.premium.*`, `com.vaulten.app.ultimate.*`, the
 ## 7. Screenshots
 
 iPhone 6.9" (1260 x 2736, iPhone Air) in `screenshots/appstore/`, in this order:
-1. Welcome
+1. Welcome (`01-welcome.png`)
 2. Pick how you want to earn
 3. Your plan is ready
 4. Today's mission

@@ -122,7 +122,9 @@ final class RevenueCatService {
         } catch {
             errorMessage = userMessage(for: error)
         }
-        await refreshEntitlement()
+        // RevenueCat already shows a plan (bought on another device, restored, or a promotional grant):
+        // ask the API to re-read RevenueCat, or it keeps answering SUBSCRIPTION_REQUIRED until a webhook arrives.
+        await refreshEntitlement(sync: isPro || isUltimate)
     }
 
     func load() async {
