@@ -368,6 +368,8 @@ final class AppStore {
         notify("paperplane.fill", "Your 30-day plan is ready", "\(isPremium ? "Day 1" : "Week 1") is unlocked: \(journey.primaryAction.lowercased()) starts here. Begin while the motivation is fresh.", "/plan/day/1")
         tab = .home; paths = [:]
         if s.settings.push { Push.requestPermission() }
+        // Signed-in accounts: create the matching enrollment on the API now (best effort; subscribers only).
+        if s.account != nil { Task { _ = await BackendSync.enrollmentId(for: e) } }
         Monitoring.track("onboarding_completed", ["journey": a.earningMethod.rawValue, "starting_stage": e.startingStage.rawValue, "niche_source": e.niche.source.rawValue, "weekly_time": a.weeklyTime, "goal": e.goal.label])
     }
 

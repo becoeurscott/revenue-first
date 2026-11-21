@@ -476,11 +476,10 @@ struct OnboardingFlow: View {
     private func start(unlocked: Bool = false) {
         guard let config else { return }
         answers.earningMethod = config.id
-        if store.s.account != nil && config.sellsServices {
-            withAnimation(.easeInOut) { phase = .server }
-        } else {
-            store.startJourney(answers, program: program, programUnlocked: unlocked)
-        }
+        // Every journey starts straight from these answers. The old generic backend questionnaire (.server) re-asked
+        // questions that don't match the journey and failed at the end; the backend enrollment is created from these
+        // answers instead (BackendSync.enrollmentId).
+        store.startJourney(answers, program: program, programUnlocked: unlocked)
     }
 
     // MARK: Program
