@@ -36,8 +36,11 @@ enum VideosAPI {
         if !refresh, let t = cache[lesson.id] { return await t.value }
         let t = Task { @MainActor () -> LessonVideo? in
             if let stored = await storedPicks(refresh: refresh)[lesson.id] { return stored }
+            // Every lesson gets a video: best fit for the lesson, else any clean result, else a broader category search.
             let q = [lesson.title, niche, lesson.category, "tutorial for beginners"].compactMap { $0 }.joined(separator: " ")
-            return await search(q).first { isLessonFit($0, lesson: lesson) }
+            let found = await search(q)
+            if let v = found.first(where: { isLessonFit($0, lesson: lesson) }) ?? found.first(where: isClean) { return v }
+            return await search("\(lesson.category) for beginners how to start").first(where: isClean)
         }
         cache[lesson.id] = t
         let v = await t.value
@@ -48,7 +51,8 @@ enum VideosAPI {
     @MainActor
     static func video(forLessonId id: String, refresh: Bool = false) async -> LessonVideo? {
         if let lesson = MockData.lesson(id) { return await lessonVideo(lesson, refresh: refresh) }
-        return await storedPicks(refresh: refresh)[id]
+        if let stored = await storedPicks(refresh: refresh)[id] { return stored }
+        return nil
     }
 
     /// YouTube search through `GET /videos`, or [] when signed out, disabled by the admin, or failing.
@@ -70,6 +74,15 @@ enum VideosAPI {
 
     /// Keeps only videos that can stand in for a lesson: no music or ambient tracks, 3-30 min, and a title
     /// that shares at least one real word with the lesson.
+    /// Not music or ambient, and lesson-sized (2-40 min).
+    static func isClean(_ v: LessonVideo) -> Bool {
+        guard (120...2400).contains(v.durationSeconds) else { return false }
+        let title = v.title.lowercased(), channel = v.channel.lowercased()
+        if channel.hasSuffix(" - topic") || channel.contains("vevo") || channel.contains("records") { return false }
+        return !["lofi", "lo-fi", "playlist", "lyrics", "official audio", "official video", "ambient", "relaxing", "sleep", "asmr", "song", "album"]
+            .contains(where: { title.contains($0) })
+    }
+
     static func isLessonFit(_ v: LessonVideo, lesson: Lesson) -> Bool {
         guard (180...1800).contains(v.durationSeconds) else { return false }
         let title = v.title.lowercased(), channel = v.channel.lowercased()
