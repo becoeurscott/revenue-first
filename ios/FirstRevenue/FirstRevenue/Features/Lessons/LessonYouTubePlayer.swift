@@ -27,6 +27,8 @@ struct LessonYouTubePlayer: View {
                 VStack(spacing: Space.s) {
                     Image(systemName: "play.slash.fill").font(.system(size: 28)).foregroundStyle(Theme.muted)
                     Text("Video unavailable right now").font(.headline).foregroundStyle(.white)
+                    Text(VideosAPI.lastFailure ?? "No video stored for lesson \(lesson.id) yet")
+                        .font(.caption).foregroundStyle(.white.opacity(0.7)).multilineTextAlignment(.center)
                     Button { Task { await load() } } label: { Label("Try again", systemImage: "arrow.clockwise") }
                         .buttonStyle(.fr(.secondary, size: .sm))
                 }
@@ -99,27 +101,27 @@ struct YouTubeIFramePlayer: UIViewRepresentable {
         web.isOpaque = false
         web.backgroundColor = .black
         web.scrollView.isScrollEnabled = false
-        let origin = "https://vaulten.app"
-        let html = """
-        <!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
-        <style>html,body{margin:0;height:100%;background:#000}#p{width:100%;height:100%}</style></head><body><div id="p"></div>
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script>
-        var player, best = 0;
-        function post(m){ window.webkit.messageHandlers.yt.postMessage(m); }
-        function onYouTubeIframeAPIReady(){
-          player = new YT.Player('p', { videoId: '\(videoID)', host: 'https://www.youtube-nocookie.com',
-            playerVars: { playsinline: 1, rel: 0, modestbranding: 1, autoplay: 1, origin: '\(origin)' },
-            events: { onReady: function(e){ e.target.playVideo(); }, onStateChange: function(e){ if (e.data === YT.PlayerState.ENDED) post({ended: true}); } } });
+        // Load YouTube's own embed page with a Referer: an iframe inside loadHTMLString gets refused on devices
+        // ("Error 153") because YouTube now requires an identifiable embedding site.
+        let script = """
+        (function(){ var best = 0, ended = false;
+          function post(m){ try { window.webkit.messageHandlers.yt.postMessage(m); } catch(e){} }
           setInterval(function(){
-            if (!player || !player.getDuration) return;
-            var d = player.getDuration(), t = player.getCurrentTime();
-            if (d > 0 && player.getPlayerState() === YT.PlayerState.PLAYING) { var f = Math.min(1, t / d); if (f > best) { best = f; post({progress: f}); } }
+            var v = document.querySelector('video'); if (!v || !(v.duration > 0)) return;
+            if (v.paused && v.currentTime === 0) { v.play && v.play().catch(function(){}); }
+            var f = Math.min(1, v.currentTime / v.duration);
+            if (f > best + 0.005) { best = f; post({progress: f}); }
+            if (v.ended && !ended) { ended = true; post({ended: true}); }
           }, 1000);
-        }
-        </script></body></html>
+        })();
         """
-        web.loadHTMLString(html, baseURL: URL(string: origin))
+        config.userContentController.addUserScript(WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+        var url = URLComponents(string: "https://www.youtube.com/embed/\(videoID)")!
+        url.queryItems = [.init(name: "playsinline", value: "1"), .init(name: "autoplay", value: "1"), .init(name: "rel", value: "0"),
+                          .init(name: "modestbranding", value: "1"), .init(name: "origin", value: "https://vaulten.app")]
+        var req = URLRequest(url: url.url!)
+        req.setValue("https://vaulten.app/", forHTTPHeaderField: "Referer")
+        web.load(req)
         return web
     }
 
